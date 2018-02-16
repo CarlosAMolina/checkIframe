@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Check iframe automatically",
+  "name": "Check iframe",
   "version": "1.1",
   
-  "description": "Change the add-on icon if the current page has an iframe. Resources: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_first_WebExtension, https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_second_WebExtension, https://github.com/mdn/webextensions-examples (bookmark-it, find-across-tabs...)",
+  "description": "Firefox add-on that indicates if the current website uses an iframe by changing the color of the add-on icon. Resources: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_first_WebExtension, https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_second_WebExtension, https://github.com/mdn/webextensions-examples (bookmark-it, find-across-tabs...)",
   "homepage_url": "https://github.com/CarlosAMolina/checkIframe",
 
   "icons": {
