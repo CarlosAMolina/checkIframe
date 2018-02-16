@@ -27,7 +27,7 @@ function borderify(){
 
 // show pop-up
 function showpopup(what2show){
-  eval (alert(what2show));
+  alert(what2show);
   console.log("checkAndBorder) pop-up");
 }
 
