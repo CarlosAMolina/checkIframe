@@ -151,7 +151,7 @@ function sendAmessage(){
 console.log("background) main");
 
 // listen to click the button
-//browser.browserAction.onClicked.addListener(updateActiveTab);
+browser.browserAction.onClicked.addListener(updateActiveTab);
 
 // listen to tab URL changes
 browser.tabs.onUpdated.addListener(updateActiveTab);
