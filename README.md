@@ -9,3 +9,7 @@ Place the mouse over the icon to see the result. Click icon to recheck.
 - Blue icon: not checked
 - Yellow icon: iframe
 - Empty icon: no iframe
+
+Download link:
+
+- https://addons.mozilla.org/es/firefox/addon/check-iframe/
