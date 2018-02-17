@@ -7,7 +7,7 @@ A background script will listen for tab, window and url events and update the ad
 Place the mouse over the icon to see the result. Click icon to recheck.
 
 - Blue icon: not checked
-- Yellow icon: iframe
+- Yellow icon: the website may have an iframe
 - Empty icon: no iframe
 
 Download link:
