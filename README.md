@@ -10,7 +10,7 @@ Place the mouse over the icon to see the result. Click icon to recheck.
 - Yellow icon: the website may have an iframe
 - Empty icon: no iframe
 
-The addon can scrolls to the iframe element and highlights it with a red border (you must uncomment these lines).
+The addon can scroll the window to the iframe element and highlight it with a red border (you must uncomment these lines).
 
 To see what the add-on is doing, check the consoles' logs
 
