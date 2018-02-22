@@ -1,15 +1,15 @@
-var iframeExistsBackground;
-var tittleDefault = 'CheckIframe';
-var tittleIframeYES = 'iframeYES';
-var tittleIframeNO = 'iframeNO';
-var iconTitle;
 var currentTab;
 var currentTabId;
-var tabUrlElement
-var tabUrl;
-var tabUrlProtocol;
+var iconTitle;
+var iframeExistsBackground;
+var info2send = "exampleText";
 var supportedProtocol;
-var supportedProtocols = ["https:", "http:"];
+var supportedProtocols = ["https:", "http:", "file:"];
+var tabUrl;
+var tabUrlElement
+var tabUrlProtocol;
+var tittleDefault = 'CheckIframe';
+var titleIcon;
 
 function updateActiveTab(tabs) {
 
@@ -22,10 +22,10 @@ function updateActiveTab(tabs) {
 
   function checkSupportedProtocol() {
     if (supportedProtocols.indexOf(tabUrlProtocol) != -1){
-      console.log("background) url and protocol: correct");
+      console.log("background) supported url and protocol: ", tabUrl);
       supportedProtocol = 1;
     } else {
-      console.log('This addon does not support the URL:', tabUrl);
+      console.log('background) this addon does not support the URL:', tabUrl);
       supportedProtocol = 0;
     }
   }
@@ -38,18 +38,21 @@ function updateActiveTab(tabs) {
       getTabInfo();
       checkSupportedProtocol();
       if (supportedProtocol == 1){
+        info2send = "protocolok";
         sendAmessage();
+      } else {
+        updateTitle();  
       }
     }
   }
-
+  console.log();
   var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
   gettingActiveTab.then(updateTab);
 }
 
 //update the browserAction icon to reflect if the current page has an iframe
 function updateIcon(title) {
-  if (title == tittleIframeYES){
+  if (title == "iframeYES"){
     change2iconOn();
   } else {
     change2iconOff();
@@ -78,32 +81,27 @@ function change2iconOff(){
   console.log("background) icon updated: off");
 }
 
-function change2titleOff(){
+function changeTitle(){
   browser.browserAction.setTitle({
     // screen readers can see the title
-    title: tittleIframeNO,
+    title: titleIcon,
     tabId: currentTabId
   });	
-  console.log("background) title updated: off");
-}
-
-function change2titleOn(){
-  browser.browserAction.setTitle({
-    // screen readers can see the title
-    title: tittleIframeYES,
-    tabId: currentTabId
-  });
-  console.log("background) title updated: on");
+  console.log("background) title updated: ", titleIcon);
 }
 
 // update addon title
 function updateTitle() {
-  if (iframeExistsBackground == 1){
-    change2titleOn();   
+  if (supportedProtocol == 0){
+    titleIcon = "notSupportedWebsite"
+  }
+  else if (iframeExistsBackground == 1){
+    titleIcon = "iframeYES";
   }
   else if (iframeExistsBackground == 0){
-    change2titleOff();
+    titleIcon = "iframeNO";
   }
+  changeTitle();
 }
 
 // get icon state of the current tab, looking tittle value, in order to actualice the icon correctly (avoid errors when select another tab)
@@ -120,16 +118,16 @@ function saveMessageAndUpdateTittle(message) {
   if (supportedProtocol == 1){
     iframeExistsBackground = message.value;
     console.log("background) save message: ", iframeExistsBackground);
-    updateTitle();
-    getIconTitleAndUpdateIcon();
   }
+  updateTitle();
+  getIconTitleAndUpdateIcon();
 }
 
 // send a message to the content script in the active tab.
 function sendValue(tabs) {
   browser.tabs.sendMessage(currentTabId, {
     command: "recheckIframe",
-    info: "exampleText"
+    info: info2send
   });
   console.log("background) send message");
 }
