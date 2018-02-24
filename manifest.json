@@ -7,7 +7,7 @@
   "homepage_url": "https://github.com/CarlosAMolina/checkIframe",
 
   "icons": {
-    "512": "icons/addonIcon-i.png"
+    "512": "icons/addonIcon.png"
   },
 
   "permissions": [
