@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css"/>
+  </head>
+
+<body>
+  <div  id="popup-content">
+    <div >
+      <button class="button menuButton recheck" title="Recheck" style="width:33%"><img src="/icons/recheck.png"/></button>
+      <button class="button menuButton scroll" title="Scroll to iframe" style="width:33%"><img src="/icons/locate.png"/></button>
+      <button class="button menuButton clean" title="Clean border" style="width:33%"><img src="/icons/noHighlight.png"/></button>
+    </div>
+    <button class="button menuButton showSources" style="width:100%"><b>Show iframes sources</b></button>
+    <p id="showInfo">...</p>
+  </div>
+  <div id="error-content" class="hidden">
+    <p>Can't check this web page.</p><p>Try a different page.</p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

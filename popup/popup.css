@@ -1,0 +1,22 @@
+html, body {
+  width: 250px;
+}
+
+.hidden {
+  display: none;
+}
+
+.button {
+  text-align: center;
+  margin: 4% auto;
+  padding: 4px;
+  cursor: pointer;
+  float: left; /* Float the buttons side by side */
+}
+
+.button:hover {
+  background-color: #CFF2F2;
+}
+.button {
+  background-color: #E5F2F2;
+}

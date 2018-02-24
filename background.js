@@ -2,7 +2,7 @@ var currentTab;
 var currentTabId;
 var iconTitle;
 var iframeExistsBackground;
-var info2send = "exampleText";
+var info2send = "";
 var supportedProtocol;
 var supportedProtocols = ["https:", "http:", "file:"];
 var tabUrl;
@@ -61,10 +61,7 @@ function updateIcon(title) {
 
 function change2iconOn(){
   browser.browserAction.setIcon({
-    path: {
-      19: "icons/star-filled-19.png",
-      38: "icons/star-filled-38.png"
-    },
+    path: "icons/i_orange.png",
     tabId: currentTabId
   });
   console.log("background) icon updated: on");
@@ -72,10 +69,7 @@ function change2iconOn(){
 
 function change2iconOff(){
   browser.browserAction.setIcon({
-    path: {
-      19: "icons/star-empty-19.png",
-      38: "icons/star-empty-38.png"
-    },
+    path: "icons/i_green.png",
     tabId: currentTabId
   });
   console.log("background) icon updated: off");
@@ -119,7 +113,7 @@ function saveMessageAndUpdateTittle(message) {
     iframeExistsBackground = message.value;
     console.log("background) save message: ", iframeExistsBackground);
   }
-  updateTitle();
+  updateTitle(); // used twice in this .js to avoid bad behaviour
   getIconTitleAndUpdateIcon();
 }
 
@@ -143,13 +137,13 @@ function sendAmessage(){
     .catch(reportError);
 }
 
-
 // main
 
 console.log("background) main");
 
 // listen to click the button
-browser.browserAction.onClicked.addListener(updateActiveTab);
+// it is not necessary, use the popup button to recheck
+//browser.browserAction.onClicked.addListener(updateActiveTab);
 
 // listen to tab URL changes
 browser.tabs.onUpdated.addListener(updateActiveTab);

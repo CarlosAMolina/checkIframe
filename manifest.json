@@ -1,32 +1,35 @@
 {
   "manifest_version": 2,
   "name": "Check iframe",
-  "version": "1.1",
+  "version": "1.1.2",
   
-  "description": "Firefox add-on that indicates if the current website uses an iframe by changing the color of the add-on icon. Resources: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_first_WebExtension, https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_second_WebExtension, https://github.com/mdn/webextensions-examples (bookmark-it, find-across-tabs...)",
+  "description": "Firefox add-on that indicates if the current website uses iframes and allows you to browse through them.",
   "homepage_url": "https://github.com/CarlosAMolina/checkIframe",
 
   "icons": {
-    "48": "icons/addonIcon-48.png",
-    "96": "icons/addonIcon-96.png"
+    "512": "icons/addonIcon-i.png"
   },
 
   "permissions": [
-    "tabs"
+    "tabs",
+    "activeTab"
   ],
 
   "browser_action": {
-    "default_icon": "icons/star-blue-38.png",
-    "default_title": "CheckIframe"
+    "default_icon": "icons/i_blue.png",
+    "default_title": "CheckIframe",
+    "default_popup": "popup/popup.html"
   },
 
   "content_scripts": [
     {
+      "all_frames" : false,
+      "run_at" : "document_end",
       "matches": ["https://*/*","http://*/*","file:///*"],
       "js": ["checkAndBorder.js"]
     }
   ],
-	
+
   "background": {
     "scripts": ["background.js"]
   }
