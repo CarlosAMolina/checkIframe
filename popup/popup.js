@@ -6,7 +6,7 @@ var info2sendFromPopup;
 function listenForClicks() {
   document.addEventListener("click", (e) => {
 
-    function sendValueSaveAnswer(tabs) {
+    function sendValueSaveAnswerShowIframes(tabs) {
       for (let tab of tabs) {
         browser.tabs.sendMessage(
           tab.id,
@@ -14,6 +14,7 @@ function listenForClicks() {
         ).then(response => {
           elementsIframeSources = response.response;
           console.log("pop-up) send message to the content script and save the reponse: ", response.response);
+          changeParagraph(elementsIframeSources);
         }).catch(reportError);
       }
     }
@@ -34,7 +35,7 @@ function listenForClicks() {
 
     function changeParagraph(whatShow) {
       console.log('pop-up) show iframes sources: ', whatShow);
-      if (typeof whatShow != 'undefined'){
+      if (typeof whatShow != 'undefined'){ // check if information was received from the content script
         document.getElementById("showInfo").innerHTML = whatShow;
       } else {
         document.getElementById("showInfo").innerHTML = 'Click again';
@@ -64,10 +65,9 @@ function listenForClicks() {
       console.log('pop-up) showSources');
       info2sendFromPopup = 'showSources';
       browser.tabs.query({active: true, currentWindow: true})
-        .then(sendValueSaveAnswer)
+        .then(sendValueSaveAnswerShowIframes)
         .catch(reportError);
-      changeParagraph(elementsIframeSources);
-    }	
+    }
 
   });
 }
