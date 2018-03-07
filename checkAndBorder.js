@@ -48,8 +48,8 @@ var iframesSourcesStr='';
   function identifyIframe() {
     if (iframeExists == 1){
       for (i=0; i<elementsIframe.length; i++){
-        console.log('checkAndBorder) iframe ',i,' :',elementsIframe[i]);
-        console.log('checkAndBorder) iframe num. ',i,' src:', elementsIframe[i].src);
+        console.log('checkAndBorder) iframe ',i+1,' :',elementsIframe[i]);
+        console.log('checkAndBorder) iframe num. ',i+1,' src:', elementsIframe[i].src);
       }
     }
   }
