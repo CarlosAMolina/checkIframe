@@ -1,5 +1,6 @@
 html, body {
   width: 250px;
+  background-color: white;
 }
 
 .hidden {
@@ -8,15 +9,11 @@ html, body {
 
 .button {
   text-align: center;
-  margin: 4% auto;
-  padding: 4px;
+  margin: 4% auto; /* upper and lower space */
+  padding: 4px; /* padding area on all four sides of an element */
   cursor: pointer;
-  float: left; /* Float the buttons side by side */
+  background-color: #E5F2F2;
 }
-
 .button:hover {
   background-color: #CFF2F2;
-}
-.button {
-  background-color: #E5F2F2;
 }

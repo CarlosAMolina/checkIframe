@@ -1,14 +1,16 @@
 # checkIframe
 
-Firefox add-on that indicates if the current website uses one or more iframes by changing the color of the add-on icon.
+Firefox add-on that indicates if the current web page uses iframe and frame tags by changing the color of the add-on icon.
+
+Tags are checked with the JavaScript function document.getElementsByTagName().
 
 Place the mouse over the icon to see the result. Icon colors: 
 
 - Blue icon: not checked
-- Orange icon: the website has an iframe
-- Green icon: no iframe
+- Orange icon: tag detected
+- Green icon: no tag detected
 
-Click on the icon to work with a pop-up window that allows you to recheck or scroll the window to the iframe elements and highlight them with a red border.
+Click on the add-on icon to work with a pop-up window that allows you to recheck or scroll the window to the elements with tags and highlight them with a red border.
 
 A background script will listen for tab, window and url events and update the add-on icon.
 

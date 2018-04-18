@@ -7,19 +7,20 @@
   </head>
 
 <body>
-  <div  id="popup-content">
-    <div >
-      <button class="button menuButton recheck" title="Recheck" style="width:33%"><img src="/icons/recheck.png"/></button>
-      <button class="button menuButton scroll" title="Scroll to iframe" style="width:33%"><img src="/icons/locate.png"/></button>
-      <button class="button menuButton clean" title="Clean border" style="width:33%"><img src="/icons/noHighlight.png"/></button>
-    </div>
-    <button class="button menuButton showSources" style="width:100%"><b>Show iframes sources</b></button>
-    <p id="showInfo">...</p>
+  <div id="popup-content">
+    <button title="Recheck" class="button menuButton recheck" style="width:32%"><img src="/icons/recheck.png"/></button>
+    <button title="Scroll to element" class="button menuButton scroll" style="width:32%"><img src="/icons/locate.png"/></button>
+    <button title="Clean border" class="button menuButton clean" style="width:32%"><img src="/icons/noHighlight.png"/></button>
+    <p id="infoScroll" class="hidden" ><br/>
+    </p>
+    <button class="button menuButton showSources" style="width:100%"><b>Show tags info</b>
+    </button>
+    <p id="infoTags" class="hidden"><br/>
+    </p>
   </div>
   <div id="error-content" class="hidden">
-    <p>Can't check this web page.</p><p>Try a different page.</p>
+    <p>Can't check this web page.</p><p>Try another.</p>
   </div>
   <script src="popup.js"></script>
 </body>
-
 </html>

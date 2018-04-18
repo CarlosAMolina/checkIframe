@@ -1,14 +1,14 @@
 var currentTab;
 var currentTabId;
 var iconTitle;
-var iframeExistsBackground;
+var tagsExist;
 var info2send = "";
 var supportedProtocol;
 var supportedProtocols = ["https:", "http:", "file:"];
 var tabUrl;
 var tabUrlElement
 var tabUrlProtocol;
-var tittleDefault = 'CheckIframe';
+var tittleDefault = 'CheckTags';
 var titleIcon;
 
 function updateActiveTab(tabs) {
@@ -50,9 +50,9 @@ function updateActiveTab(tabs) {
   gettingActiveTab.then(updateTab);
 }
 
-//update the browserAction icon to reflect if the current page has an iframe
+// update browserAction icon to reflect if the current web page has any of the searched tags
 function updateIcon(title) {
-  if (title == "iframeYES"){
+  if (title == "resultsYES"){
     change2iconOn();
   } else {
     change2iconOff();
@@ -87,13 +87,13 @@ function changeTitle(){
 // update addon title
 function updateTitle() {
   if (supportedProtocol == 0){
-    titleIcon = "notSupportedWebsite"
+    titleIcon = "notSupportedWebPage"
   }
-  else if (iframeExistsBackground == 1){
-    titleIcon = "iframeYES";
+  else if (tagsExist == 1){
+    titleIcon = "resultsYES";
   }
-  else if (iframeExistsBackground == 0){
-    titleIcon = "iframeNO";
+  else if (tagsExist == 0){
+    titleIcon = "resultsNO";
   }
   changeTitle();
 }
@@ -110,8 +110,8 @@ function getIconTitleAndUpdateIcon(){
 // get message form content script
 function saveMessageAndUpdateTittle(message) {
   if (supportedProtocol == 1){
-    iframeExistsBackground = message.value;
-    console.log("background) save message: ", iframeExistsBackground);
+    tagsExist = message.value;
+    console.log("background) save message: ", tagsExist);
   }
   updateTitle(); // used twice in this .js to avoid bad behaviour
   getIconTitleAndUpdateIcon();
@@ -120,7 +120,7 @@ function saveMessageAndUpdateTittle(message) {
 // send a message to the content script in the active tab.
 function sendValue(tabs) {
   browser.tabs.sendMessage(currentTabId, {
-    command: "recheckIframe",
+    command: "recheck",
     info: info2send
   });
   console.log("background) send message");
