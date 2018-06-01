@@ -1,19 +1,96 @@
+/* pop-up box */
 html, body {
-  width: 250px;
+  width: 260px;
   background-color: white;
-}
-
-.hidden {
-  display: none;
+  overflow-x:hidden; /* no x-axis scroll */
 }
 
 .button {
   text-align: center;
-  margin: 4% auto; /* upper and lower space */
+  margin: 3% auto; /* upper and lower space */
   padding: 4px; /* padding area on all four sides of an element */
   cursor: pointer;
   background-color: #E5F2F2;
 }
 .button:hover {
   background-color: #CFF2F2;
+}
+
+/* Toggle Switch */
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 11px;
+  left: 0px;
+}
+.switch input {display:none;}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s; /* speed */
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 6px;
+  width: 6px;
+  left: 4px;
+  bottom: 2.5px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* other */
+
+.hidden {
+  display: none;
+}
+
+.input {
+    width: 100px;
+}
+
+.backGroundGrey {
+  background: rgb(240,240,240);
+}
+
+.floatLeft {
+  float: left;
+}
+.floatRight {
+  float: right;
+}
+
+p {
+  margin: 0;
+}
+
+.clearfix {
+  clear: both;
 }

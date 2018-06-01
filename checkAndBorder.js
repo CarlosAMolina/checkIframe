@@ -1,4 +1,4 @@
-function element(info, tag) {
+function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
@@ -11,8 +11,52 @@ var elements = [];
 var elementsValidSrc = [];
 var elementsValidSrcIndex;
 var elementsValidSrcIndex2QuitBorder;
-var invalidSources=['about:blank',''];
+var invalidSources=[];
+var notifySources=[];
+var showLogs = 0;
 var tags2Search = ['iframe','frame'];
+var urlTypeBlacklist = 'blacklist';
+var urlTypeNotify = 'notify';
+
+// initialize
+function initializeContentScript() {
+  function reportErrorContentScript(error) {
+    console.error(`Error: ${error}`);
+  }
+  getElementsByTags();
+  var gettingAllStorageItems = browser.storage.local.get(null);
+  gettingAllStorageItems.then((results) => {
+    if (typeof(results.idShowLogs) != 'undefined'){ // 'show log' option has never been used
+      showLogs = results.idShowLogs;
+    }
+    invalidSources = Object.keys(results).filter(key => key.includes(urlTypeBlacklist+'_')); //array
+    invalidSources = invalidSources.map(invalidSources => results[invalidSources]); // array
+    notifySources = Object.keys(results).filter(key => key.includes(urlTypeNotify+'_')); //array
+    notifySources = notifySources.map(invalidSources => results[invalidSources]); // array
+    logs();
+  }, reportErrorContentScript);
+}
+
+// get elements
+function getElementsByTags() {
+  elements = []; // initialize
+  tags2Search.forEach(function(tag2search){
+    var elementsByTag = document.getElementsByTagName(tag2search);
+    for (elementIndex=0; elementIndex < elementsByTag.length; elementIndex++){
+      var result = new element(tag2search,elementsByTag[elementIndex]);
+      elements.push(result);
+    }
+  });
+}
+
+// logs
+function logs(){
+  if (showLogs == 1) {
+    console.log('checkIframe) checkAndBorder) tags info: ',elements);
+  }
+}
+
+initializeContentScript();
 
 (function() {
 
@@ -25,28 +69,30 @@ var tags2Search = ['iframe','frame'];
   }
   window.hasRun = true;
 
-  // get elements
-  function getElementsByTags() {
-    elements = []; // initialize
-    for (tagIndex=0; tagIndex < tags2Search.length; tagIndex++){
-      console.log('checkAndborder) getElementsByTags) searching elements with tag:', tags2Search[tagIndex]);
-      var elementsByTag = document.getElementsByTagName(tags2Search[tagIndex]);
-      for (elementIndex=0; elementIndex < elementsByTag.length; elementIndex++){
-        var result = new element(elementsByTag[elementIndex], tags2Search[tagIndex]);      
-        elements.push(result);
+  // check if any source should be notified
+  function checkSrcInList(){
+    var srcInlist = 0;
+    if (elements.length != 0 && notifySources.length != 0){
+      var allSourcesStr = String(elements.map(function(sourcesFunc) {return sourcesFunc.source})).toLowerCase();
+      for (i=0; i < notifySources.length; i++){
+        var notifySource = notifySources[i].toLowerCase();
+	    if (allSourcesStr.indexOf(notifySource) != -1){
+          i = i + notifySources.length; // finish loop
+          srcInlist = 1;
+        }
       }
     }
-    console.log('checkAndborder) getElementsByTags) elements (',elements.length,'):', elements);
+    return srcInlist;
   }
 
   // check elements
   function checkTags() {
     getElementsByTags();
-    if (elements.length != 0){
-      console.log("checkAndBorder) checkTags) tags were found");
+    if (checkSrcInList() == 1){
+      return 2;
+    } else if (elements.length != 0){
       return 1;
     } else{
-      console.log("checkAndBorder) checkTags) no tags");
       return 0;
     }
   }
@@ -73,21 +119,16 @@ var tags2Search = ['iframe','frame'];
         var tagElementsValidSrc = tagElements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} ); // object
         var tagValidSources = tagElementsValidSrc.map(function(sourcesFunc) {return sourcesFunc.source}); // array
         sourcesStr = sources2Str();
-        console.log('checkAndBorder) getSources) ',tagElements.length,' elements with tag ',tags2Search[tagIndex],':', tagElements);
-        console.log('checkAndBorder) getSources) ', tagValidSources.length, ' sources for elements with tag ',tags2Search[tagIndex],':', tagValidSources);
       }
     } else {
       sourcesStr = 'Web page without tags: ' + tags2Search.toString() + '.';
     }
-    console.log('checkAndBorder) getSources) sources: ', sourcesStr);
     return sourcesStr;
   }
 
   // get elements with valid sources
   function getElementsValidSrc (){
-    if (elementsValidSrc.length == 0){
-      elementsValidSrc = elements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} );
-    }
+    elementsValidSrc = elements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} );
   }
 
   // show element
@@ -111,7 +152,6 @@ var tags2Search = ['iframe','frame'];
       } else {
         var tagElementsIndex = elementsValidSrcIndex;
       }
-      console.log('checkAndBorder) getIndexInfo) actual source for tag ', elementsValidSrc[elementsValidSrcIndex].tag, ':', (tagElementsIndex+1), '/', tagElements.length);
       return 'tag ' + elementsValidSrc[elementsValidSrcIndex].tag + ', source ' + (tagElementsIndex+1) + '/' +  tagElements.length;
     }
     function scrollAndBorder(){
@@ -134,7 +174,7 @@ var tags2Search = ['iframe','frame'];
 
   // quit border
   function quitBorder(){
-    if (typeof elementsValidSrcIndex2QuitBorder != 'undefined'){
+    if (typeof(elementsValidSrcIndex2QuitBorder) != 'undefined' && typeof(elementsValidSrc[elementsValidSrcIndex2QuitBorder]) != 'undefined'){ // elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
       (elementsValidSrc[elementsValidSrcIndex2QuitBorder].info).style.border = '';     
     }
   }
@@ -142,46 +182,47 @@ var tags2Search = ['iframe','frame'];
   // send message to the background script
   function sendValue2Background(value2send) {
     browser.runtime.sendMessage({"value": value2send});
-    console.log("checkAndBorder) sendValue2Background) send message to the background script: ", value2send);
   }
 
   // check iframe and send results
   function checkAndSend(){
     sendValue2Background(checkTags());
   }
-  
+
   //main
-  
-  console.log("\ncheckAndBorder) main");
-  
+
   // listen for messages from the background script
   browser.runtime.onMessage.addListener((message) => { 
-    console.log("checkAndBorder) save message: ", message);
-    console.log("checkAndBorder) save message: ", message.info);
     if (message.info === 'protocolok'){
-      console.log("checkAndBorder) supported protocol");
       checkAndSend();
     } else if (message.info === 'recheck'){
-      console.log("checkAndBorder) recheck");
       checkAndSend();
+      logs();
     } else if (message.info === 'scroll'){
-      console.log('checkAndBorder) scroll) scroll and border');
       checkTags();
       var scrollInfo = showElement();
+      logs();
       return Promise.resolve({response: scrollInfo});
     } else if (message.info === 'clean'){
-      console.log('checkAndBorder) clean)');
       checkTags(); // when the pop-up is closed, this info is lost
-      getElementsValidSrc();  // when the pop-up is closed, this info is lost
+      getElementsValidSrc(); // when the pop-up is closed, this info is lost
       quitBorder();
       elementsValidSrcIndex = undefined;
       elementsValidSrcIndex2QuitBorder = undefined;
     } else if (message.info === 'showSources'){
-      console.log('checkAndBorder) showSources)');
       checkTags();
       var sourcesStr = getSources();
+      logs();
       return Promise.resolve({response: sourcesStr});
+    } else if (message.info === 'showLogs'){
+      showLogs = message.values;
+      logs();
+    } else if (message.info === 'urls'){
+      invalidSources = message.values.filter (values => values.type.includes(urlTypeBlacklist))[0].values; //array
+      notifySources = message.values.filter (values => values.type.includes(urlTypeNotify))[0].values; //array
+      checkAndSend();
+      logs();
     }
   });
-
+  
 })();

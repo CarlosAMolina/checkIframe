@@ -7,16 +7,36 @@
   </head>
 
 <body>
-  <div id="popup-content">
+  <div id="popup-content" style="width:250px">
     <button title="Recheck" class="button menuButton recheck" style="width:32%"><img src="/icons/recheck.png"/></button>
-    <button title="Scroll to element" class="button menuButton scroll" style="width:32%"><img src="/icons/locate.png"/></button>
+    <button title="Scroll to element" class="button menuButton scroll" style="width:32.5%"><img src="/icons/locate.png"/></button>
     <button title="Clean border" class="button menuButton clean" style="width:32%"><img src="/icons/noHighlight.png"/></button>
-    <p id="infoScroll" class="hidden" ><br/>
+    <p id="infoScroll" class="hidden"><br/>
     </p>
-    <button class="button menuButton showSources" style="width:100%"><b>Show tags info</b>
+    <button class="button menuButton showSources" style="width:100%">Show tags info
     </button>
     <p id="infoTags" class="hidden"><br/>
     </p>
+    <button class="button menuButton showConfig" style="width:100%">Configuration
+    </button>
+    <div id="menuConfig" class="backGroundGrey hidden">
+      <p><u>Show logs in the console</u></p>
+      <label class="switch">
+        <input id="boxLogs" class="showLogs" type="checkbox"> 
+        <span class="slider round"></span> 
+      </label>
+      <p><u>Sources options</u></p>
+      <input id="buttonUrlsNotify" type="radio" name="urlType" class="buttonUrlsNotify">Sources to notify when are detected</p>
+      <input id="buttonUrlsBlacklist" type="radio" name="urlType" class="buttonUrlsBlacklist">Sources to avoid listing</p>
+      <p id="pInput">New values</p>
+      <textarea id="inputUrl" class="input" type="text" style="width:97%;resize:vertical" rows="2" disabled></textarea>
+      <button id="buttonAdd" class="button menuButton addUrl" style="width:49%" disabled>Add</button>
+      <button id="buttonClearAll" class="button menuButton clearAllInfo" style="width:49%" disabled>Clear all</button>
+      <div class="clearfix">
+      </div>
+      <div class="info-container">
+      </div>
+    </div>
   </div>
   <div id="error-content" class="hidden">
     <p>Can't check this web page.</p><p>Try another.</p>
