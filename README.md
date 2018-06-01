@@ -15,7 +15,7 @@ Click on the add-on icon to work with a pop-up window that allows you to:
 - Scroll the window to the elements with tags and highlight them with a red border.
 - Enable or disable logs in the web browser console.
 - Create and modify a list with terms to search in the sources of the elements and notify with the add-on icon. No case sensitive.
-- Create and modify a blacklist of sources that should not be displayed.
+- Create and modify a blacklist of sources that should not be listed / bordered.
 
 A background script will listen for tab, window and url events and update the add-on icon.
 
