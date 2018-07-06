@@ -172,7 +172,7 @@ function popupMain() {
     var updateBtn = document.createElement('button');
     var cancelBtn = document.createElement('button');
     entryEditInput.setAttribute('class','input');
-    entryEditInput.setAttribute('style','width:75%');
+    entryEditInput.setAttribute('style','width:70%');
     updateBtn.innerHTML = '<img src="/icons/ok.png"/>';
     updateBtn.setAttribute('title','Update');
     updateBtn.setAttribute('class','button');
