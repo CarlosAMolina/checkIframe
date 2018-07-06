@@ -191,7 +191,7 @@ initializeContentScript();
 
   //main
 
-  // listen for messages from the background script
+  // listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => { 
     if (message.info === 'protocolok'){
       checkAndSend();
