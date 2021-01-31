@@ -134,20 +134,44 @@ function sendAmessage(){
     .catch(reportError);
 }
 
+//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated
+function handleUpdatedTabUrl(tabId, changeInfo) {
+  if (changeInfo.url) {
+    console.log("Init newly tab url. Tab id: " + tabId + ". New url: " + changeInfo.url);
+  }
+}
+
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
+function handleUpdatedWindow(windowId) {
+  notBrowserWindowId = -1
+  if (windowId != notBrowserWindowId) {
+    console.log("Init newly focused window. Window id: " + windowId);
+  }
+}
+
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
+function handleActivatedTab(activeInfo) {
+    console.log("Init newly active tab. Tab id: " + activeInfo.tabId);
+}
+
+
 // main
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
 //browser.browserAction.onClicked.addListener(updateActiveTab);
 
-// listen to tab URL changes
-browser.tabs.onUpdated.addListener(updateActiveTab);
+//// listen to tab URL changes
+//TODO browser.tabs.onUpdated.addListener(updateActiveTab);
+browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
 
-// listen to window switching
-browser.windows.onFocusChanged.addListener(updateActiveTab);
+//// listen to window switching
+//TODO browser.windows.onFocusChanged.addListener(updateActiveTab);
+browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
 
 // listen to tab switching
-browser.tabs.onActivated.addListener(updateActiveTab);
+//TODO browser.tabs.onActivated.addListener(updateActiveTab);
+browser.tabs.onActivated.addListener(handleActivatedTab);
 
 // update when the extension loads initially
 updateActiveTab();
