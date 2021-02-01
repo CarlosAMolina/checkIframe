@@ -10,26 +10,15 @@ var tabUrlElement
 var tabUrlProtocol;
 var titleIcon;
 
-function updateActiveTab(tabs) {
+function updateActiveTab() {
 
-  function getTabInfo(){
-    tabUrlElement = document.createElement('a');
-    tabUrlElement.href = currentTab.url; // add href value, necessary to get the protocol (e.g.: the protocol of the url 'about:debugging' is 'about:'
-    tabUrl = currentTab.url;
-    tabUrlProtocol = tabUrlElement.protocol;
-  }
-
-  function checkSupportedProtocol() {
-    if (supportedProtocols.indexOf(tabUrlProtocol) != -1){
-      supportedProtocol = 1;
-    } else {
-      supportedProtocol = 0;
-    }
-  }
+  var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
+  gettingActiveTab.then(updateTab);
 
   function updateTab(tabs) {
-    if (tabs[0]) {
-      currentTab = tabs[0];
+    currentTab = tabs[0];
+    if (currentTab) {
+      console.log('Init updateActiveTab');
       currentTabId = currentTab.id;
       getTabInfo();
       checkSupportedProtocol();
@@ -41,8 +30,23 @@ function updateActiveTab(tabs) {
       }
     }
   }
-  var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
-  gettingActiveTab.then(updateTab);
+
+  function getTabInfo(){
+    tabUrlElement = document.createElement('a');
+    tabUrlElement.href = currentTab.url; // add href value, necessary to get the protocol (e.g.: the protocol of the url 'about:debugging' is 'about:'
+    tabUrl = currentTab.url;
+    console.log('Tab url: ' + tabUrl);
+    tabUrlProtocol = tabUrlElement.protocol;
+  }
+
+  function checkSupportedProtocol() {
+    if (supportedProtocols.indexOf(tabUrlProtocol) != -1){
+      supportedProtocol = 1;
+    } else {
+      supportedProtocol = 0;
+    }
+  }
+
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
@@ -118,6 +122,7 @@ function saveMessageAndUpdateTittle(message) {
 
 // send a message to the content script in the active tab.
 function sendValue(tabs) {
+  console.log('Init sendValue to tab id: ' + currentTabId);
   browser.tabs.sendMessage(currentTabId, {
     command: 'recheck',
     info: info2send
@@ -136,8 +141,9 @@ function sendAmessage(){
 
 //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated
 function handleUpdatedTabUrl(tabId, changeInfo) {
-  if (changeInfo.url) {
-    console.log("Init newly tab url. Tab id: " + tabId + ". New url: " + changeInfo.url);
+  if (changeInfo.status === 'complete') {
+    console.log("Init newly tab url loaded. Tab id: " + tabId);
+    updateActiveTab();
   }
 }
 
@@ -146,12 +152,14 @@ function handleUpdatedWindow(windowId) {
   notBrowserWindowId = -1
   if (windowId != notBrowserWindowId) {
     console.log("Init newly focused window. Window id: " + windowId);
+    updateActiveTab();
   }
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
 function handleActivatedTab(activeInfo) {
     console.log("Init newly active tab. Tab id: " + activeInfo.tabId);
+    updateActiveTab();
 }
 
 
@@ -161,19 +169,19 @@ function handleActivatedTab(activeInfo) {
 // it is not necessary, use the popup button to recheck
 //browser.browserAction.onClicked.addListener(updateActiveTab);
 
-//// listen to tab URL changes
-//TODO browser.tabs.onUpdated.addListener(updateActiveTab);
-browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
+// TODO fix if I click a new tab in a new browser window, the updateActiveTab is called twice.
 
-//// listen to window switching
-//TODO browser.windows.onFocusChanged.addListener(updateActiveTab);
+// listen to window switching. Important to set before listen to tab URL changes.
 browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
 
+// listen to tab URL changes
+browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
+
 // listen to tab switching
-//TODO browser.tabs.onActivated.addListener(updateActiveTab);
 browser.tabs.onActivated.addListener(handleActivatedTab);
 
 // update when the extension loads initially
+console.log('Extension initialized');
 updateActiveTab();
 
 // assign 'saveMessageAndUpdateTittle()' as a listener to messages from the content script
