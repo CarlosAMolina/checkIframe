@@ -10,6 +10,7 @@ var tabUrlElement
 var tabUrlProtocol;
 var titleIcon;
 
+
 function updateActiveTab() {
 
   var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
@@ -46,11 +47,12 @@ function updateActiveTab() {
       supportedProtocol = 0;
     }
   }
-
+  
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
 function updateIcon(title) {
+  console.log('Init updateIcon');
   if (title == 'resultsYES'){
     change2iconOn();
   } else if (title == 'resultsYESsourceInList'){
@@ -139,6 +141,20 @@ function sendAmessage(){
     .catch(reportError);
 }
 
+
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
+function handleUpdatedWindow(windowId) {
+  // Avoid updateIcon twice when a tab is clicked or new url loaded in a new window.
+  browser.tabs.onActivated.removeListener(handleActivatedTab);
+  notBrowserWindowId = -1
+  if (windowId != notBrowserWindowId) {
+    console.log("Init newly focused window. Window id: " + windowId);
+    updateActiveTab();
+  }
+  browser.tabs.onActivated.addListener(handleActivatedTab);
+}
+
+
 //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated
 function handleUpdatedTabUrl(tabId, changeInfo) {
   if (changeInfo.status === 'complete') {
@@ -147,19 +163,14 @@ function handleUpdatedTabUrl(tabId, changeInfo) {
   }
 }
 
-// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
-function handleUpdatedWindow(windowId) {
-  notBrowserWindowId = -1
-  if (windowId != notBrowserWindowId) {
-    console.log("Init newly focused window. Window id: " + windowId);
-    updateActiveTab();
-  }
-}
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
 function handleActivatedTab(activeInfo) {
-    console.log("Init newly active tab. Tab id: " + activeInfo.tabId);
-    updateActiveTab();
+  // Avoid updateIcon twice when a tab is moved to a new window.
+  browser.tabs.onActivated.removeListener(handleActivatedTab);
+  console.log("Init newly active tab. Tab id: " + activeInfo.tabId);
+  updateActiveTab();
+  browser.tabs.onActivated.addListener(handleActivatedTab);
 }
 
 
@@ -169,9 +180,7 @@ function handleActivatedTab(activeInfo) {
 // it is not necessary, use the popup button to recheck
 //browser.browserAction.onClicked.addListener(updateActiveTab);
 
-// TODO fix if I click a new tab in a new browser window, the updateActiveTab is called twice.
-
-// listen to window switching. Important to set before listen to tab URL changes.
+// listen to window switching
 browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
 
 // listen to tab URL changes
