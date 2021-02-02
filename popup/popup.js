@@ -15,20 +15,8 @@ var urlTypes = [urlTypeBlacklist,urlTypeNotify];
 var values2sendFromPopup;
 
 
-// TODO function for tests, must be replaced to the correct part of the program.
-function changeTabUrlIfRequired(urlLocation) {
-  var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
-  gettingActiveTab.then((tabs) => {
-    console.log(`Current tab url: ${tabs[0].url}`);
-    browser.tabs.update({url: urlLocation});
-  });
-};
-
-
 function popupMain() {
   
-  //changeTabUrlIfRequired('https://www.duckduckgo.com'); // TODO only for tests
-
   // display previously saved stored info on start-up
   initializePopup();
   

@@ -11,6 +11,33 @@ var tabUrlProtocol;
 var titleIcon;
 
 
+const urlsReferer = ['github.com', 'youtube.com']; // TODO use stored values.
+
+function changeTabUrlIfRequired(urlLocation) {
+
+  function isStringInUrl(element, index, array){
+    return tabUrl.includes(element);
+  }
+
+  // Avoid infinite loops that sometimes are raised.
+  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
+  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
+  browser.tabs.onActivated.removeListener(handleActivatedTab);
+  var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
+  gettingActiveTab.then((tabs) => {
+    tabUrl = tabs[0].url;
+    console.log(`Current tab url: ${tabUrl}`);
+    if (urlsReferer.some(isStringInUrl)){
+      console.log('Init redirecting');
+      browser.tabs.update({url: urlLocation});
+    }
+    browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
+    browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
+    browser.tabs.onActivated.addListener(handleActivatedTab);
+  });
+};
+
+
 function updateActiveTab() {
 
   var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
@@ -60,6 +87,8 @@ function updateIcon(title) {
   } else {
     change2iconOff();
   }
+  // TODO function for tests, must be replaced to the correct part of the program.
+  changeTabUrlIfRequired('https://duckduckgo.com');
 }
 
 function change2iconOnInList(){
