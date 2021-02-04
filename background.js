@@ -12,12 +12,9 @@ var titleIcon;
 
 
 const urlsReferer = ['github.com', 'youtube.com']; // TODO use stored values.
+var flagOnlyOneRun = false; //TODO delete
 
-function changeTabUrlIfRequired(urlLocation) {
-
-  function isStringInUrl(element, index, array){
-    return tabUrl.includes(element);
-  }
+function redirectTo(urlLocation) {
 
   // Avoid infinite loops that sometimes are raised.
   browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
@@ -27,10 +24,8 @@ function changeTabUrlIfRequired(urlLocation) {
   gettingActiveTab.then((tabs) => {
     tabUrl = tabs[0].url;
     console.log(`Current tab url: ${tabUrl}`);
-    if (urlsReferer.some(isStringInUrl)){
-      console.log('Init redirecting');
-      browser.tabs.update({url: urlLocation});
-    }
+    console.log('Init redirecting');
+    browser.tabs.update({url: urlLocation});
     browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
     browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
     browser.tabs.onActivated.addListener(handleActivatedTab);
@@ -87,8 +82,6 @@ function updateIcon(title) {
   } else {
     change2iconOff();
   }
-  // TODO function for tests, must be replaced to the correct part of the program.
-  changeTabUrlIfRequired('https://duckduckgo.com');
 }
 
 function change2iconOnInList(){
@@ -144,11 +137,20 @@ function getIconTitleAndUpdateIcon(){
 
 // get message from content script
 function saveMessageAndUpdateTittle(message) {
+  console.log('Message received from content-script'); // TODO
+  console.log(message); // TODO
+  runRedirect = message.runRedirect;
   if (supportedProtocol == 1){
-    tagsExist = message.value;
+    if (runRedirect) {
+      if (!flagOnlyOneRun) { // TODO delete
+        redirectTo('https://duckduckgo.com');
+        flagOnlyOneRun = true;
+      }
+    }
+  // TODO   tagsExist = message.value;
   }
-  updateTitle(); // used twice in this .js to avoid bad behaviour
-  getIconTitleAndUpdateIcon();
+  // TODO updateTitle(); // used twice in this .js to avoid bad behaviour
+  // TODO getIconTitleAndUpdateIcon();
 }
 
 // send a message to the content script in the active tab.
