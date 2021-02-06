@@ -9,28 +9,7 @@ var tabUrl;
 var tabUrlElement
 var tabUrlProtocol;
 var titleIcon;
-
-
-const urlsReferer = ['github.com', 'youtube.com']; // TODO use stored values.
-var flagOnlyOneRun = false; //TODO delete
-
-function redirectTo(urlLocation) {
-
-  // Avoid infinite loops that sometimes are raised.
-  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.removeListener(handleActivatedTab);
-  var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
-  gettingActiveTab.then((tabs) => {
-    tabUrl = tabs[0].url;
-    console.log(`Current tab url: ${tabUrl}`);
-    console.log('Init redirecting');
-    browser.tabs.update({url: urlLocation});
-    browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
-    browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
-    browser.tabs.onActivated.addListener(handleActivatedTab);
-  });
-};
+var referers;
 
 
 function updateActiveTab() {
@@ -58,7 +37,7 @@ function updateActiveTab() {
     tabUrlElement = document.createElement('a');
     tabUrlElement.href = currentTab.url; // add href value, necessary to get the protocol (e.g.: the protocol of the url 'about:debugging' is 'about:'
     tabUrl = currentTab.url;
-    console.log('Tab url: ' + tabUrl);
+    console.log(`Tab url: ${tabUrl}`);
     tabUrlProtocol = tabUrlElement.protocol;
   }
 
@@ -139,18 +118,34 @@ function getIconTitleAndUpdateIcon(){
 function saveMessageAndUpdateTittle(message) {
   console.log('Message received from content-script'); // TODO
   console.log(message); // TODO
+  referers = message.referers;
+  tagsExist = message.tagsExist;
   if (supportedProtocol == 1){
-    if (message.runRedirect) {
-      if (!flagOnlyOneRun) { // TODO delete
-        redirectTo(message.urlLocation);
-        flagOnlyOneRun = true;
+    var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
+    gettingActiveTab.then((tabs) => {
+      tabUrl = tabs[0].url;
+      console.log(`Current tab url: ${tabUrl}`);
+      if (checkRunRedirect() && message.locationUrl) {
+        redirectTo(message.locationUrl);
       }
-    }
-  // TODO   tagsExist = message.value;
+    });
   }
-  // TODO updateTitle(); // used twice in this .js to avoid bad behaviour
-  // TODO getIconTitleAndUpdateIcon();
+  updateTitle(); // used twice in this .js to avoid bad behaviour
+  getIconTitleAndUpdateIcon();
 }
+
+function checkRunRedirect(){
+  return referers.some(isStringInUrl);
+
+  function isStringInUrl(element, index, array){
+    return tabUrl.includes(element);
+  }
+}
+
+function redirectTo(locationUrl) {
+  console.log(`Init redirect to ${locationUrl}`);
+  browser.tabs.update({url: locationUrl});
+};
 
 // send a message to the content script in the active tab.
 function sendValue(tabs) {

@@ -11,14 +11,15 @@ var elements = [];
 var elementsValidSrc = [];
 var elementsValidSrcIndex;
 var elementsValidSrcIndex2QuitBorder;
-var invalidSources=[];
-var notifySources=[];
+var invalidSources = [];
+var notifySources = [];
+var refererSources = [];
 var showLogs = 0;
 var tags2Search = ['iframe','frame'];
 var urlTypeBlacklist = 'blacklist';
 var urlTypeNotify = 'notify';
+var urlTypeRefer = 'referer';
 
-var urlReferersMocked = ['github.com', 'youtube.com']; // TODO use stored values.
 var tabUrlMocked = 'https://github.com/carlosamolina'; //TODO receive url from background.
 
 // initialize
@@ -36,6 +37,9 @@ function initializeContentScript() {
     invalidSources = invalidSources.map(invalidSources => results[invalidSources]); // array
     notifySources = Object.keys(results).filter(key => key.includes(urlTypeNotify+'_')); //array
     notifySources = notifySources.map(invalidSources => results[invalidSources]); // array
+    refererSources = Object.keys(results).filter(key => key.includes(urlTypeReferer+'_')); //array
+    refererSources = refererSources.map(refererSources => results[refererSources]); // array
+    refererSources = ["html.com"]; //TODO 
     logs();
   }, reportErrorContentScript);
 }
@@ -182,14 +186,20 @@ initializeContentScript();
     }
   }
 
-  // send message to the background script
-  function sendValue2Background(value2send) {
-    browser.runtime.sendMessage({"value": value2send});
+  // check page required infromation and send results
+  function checkAndSend(){
+    browser.runtime.sendMessage(
+      {"tagsExist": checkTags(),
+       "referers": refererSources,
+       "locationUrl": getLocationUrl()
+      }
+    );
   }
 
-  // check iframe and send results
-  function checkAndSend(){
-    sendValue2Background(checkTags());
+  function getLocationUrl() {
+    getElementsByTags();
+    return (elements.length > 0) ? elements[0].source : false
+    //return "https://duckduckgo.com" // TODO
   }
 
   //main
@@ -197,8 +207,8 @@ initializeContentScript();
   // listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => { 
     if (message.info === 'protocolok'){
-      checkRunRedirectAndSend(); // TODO set in correct place.
-      //TODO checkAndSend();
+      //checkRunRedirectAndSend(); // TODO set in correct place.
+      checkAndSend();
     } else if (message.info === 'recheck'){
       checkAndSend();
       logs();
@@ -229,30 +239,5 @@ initializeContentScript();
     }
   });
 
-  function checkRunRedirectAndSend(){
-
-    sendRunRedirectToBackground();
-
-    function sendRunRedirectToBackground() {
-      browser.runtime.sendMessage(
-        {"runRedirect": getRunRedirect(),
-         "urlLocation": getUrlLocation()
-        });
-    }
-
-    function getRunRedirect(){
-      return urlReferersMocked.some(isStringInUrl);
-    }
-
-    function isStringInUrl(element, index, array){
-      return tabUrlMocked.includes(element);
-    }
-
-    function getUrlLocation() {
-      getElementsByTags();
-      return elements[0].source;
-    }
-
-  }
   
 })();
