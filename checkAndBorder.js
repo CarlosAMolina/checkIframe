@@ -20,8 +20,6 @@ var urlTypeBlacklist = 'blacklist';
 var urlTypeNotify = 'notify';
 var urlTypeReferer = 'referer';
 
-var tabUrlMocked = 'https://github.com/carlosamolina'; //TODO receive url from background.
-
 // initialize
 function initializeContentScript() {
   function reportErrorContentScript(error) {
@@ -201,7 +199,6 @@ initializeContentScript();
   // listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => { 
     if (message.info === 'protocolok'){
-      //checkRunRedirectAndSend(); // TODO set in correct place.
       checkAndSend();
     } else if (message.info === 'recheck'){
       checkAndSend();
