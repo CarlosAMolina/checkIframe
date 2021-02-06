@@ -11,9 +11,9 @@
   },
 
   "permissions": [
-    "tabs",
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
 
   "browser_action": {

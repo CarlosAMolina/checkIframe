@@ -138,7 +138,7 @@ function checkRunRedirect(){
   return referers.some(isStringInUrl);
 
   function isStringInUrl(element, index, array){
-    return tabUrl.includes(element);
+    return tabUrl.toLowerCase().includes(element.toLowerCase());
   }
 }
 
