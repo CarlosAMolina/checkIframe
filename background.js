@@ -139,11 +139,10 @@ function getIconTitleAndUpdateIcon(){
 function saveMessageAndUpdateTittle(message) {
   console.log('Message received from content-script'); // TODO
   console.log(message); // TODO
-  runRedirect = message.runRedirect;
   if (supportedProtocol == 1){
-    if (runRedirect) {
+    if (message.runRedirect) {
       if (!flagOnlyOneRun) { // TODO delete
-        redirectTo('https://duckduckgo.com');
+        redirectTo(message.urlLocation);
         flagOnlyOneRun = true;
       }
     }

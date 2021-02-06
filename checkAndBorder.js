@@ -19,7 +19,7 @@ var urlTypeBlacklist = 'blacklist';
 var urlTypeNotify = 'notify';
 
 var urlReferersMocked = ['github.com', 'youtube.com']; // TODO use stored values.
-let tabUrlMocked = 'https://github.com/carlosamolina'; //TODO receive url from background.
+var tabUrlMocked = 'https://github.com/carlosamolina'; //TODO receive url from background.
 
 // initialize
 function initializeContentScript() {
@@ -231,18 +231,26 @@ initializeContentScript();
 
   function checkRunRedirectAndSend(){
 
-    sendRunRedirectToBackground(checkRunRedirect());
+    sendRunRedirectToBackground();
 
-    function sendRunRedirectToBackground(runRedirect) {
-      browser.runtime.sendMessage({"runRedirect": runRedirect});
+    function sendRunRedirectToBackground() {
+      browser.runtime.sendMessage(
+        {"runRedirect": getRunRedirect(),
+         "urlLocation": getUrlLocation()
+        });
     }
 
-    function checkRunRedirect(){
+    function getRunRedirect(){
       return urlReferersMocked.some(isStringInUrl);
     }
 
     function isStringInUrl(element, index, array){
       return tabUrlMocked.includes(element);
+    }
+
+    function getUrlLocation() {
+      getElementsByTags();
+      return elements[0].source;
     }
 
   }
