@@ -132,11 +132,6 @@ initializeContentScript();
     return sourcesStr;
   }
 
-  // get elements with valid sources
-  function getElementsValidSrc (){
-    elementsValidSrc = elements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} );
-  }
-
   // show element
   function showElement(){
     function getIndex2Show(){
@@ -197,8 +192,8 @@ initializeContentScript();
 
   function getLocationUrl() {
     getElementsByTags();
-    return (elements.length > 0) ? elements[0].source : false
-    //return "https://duckduckgo.com" // TODO
+    getElementsValidSrc();
+    return (elementsValidSrc.length > 0) ? elementsValidSrc[0].source : false;
   }
 
   //main
@@ -237,6 +232,11 @@ initializeContentScript();
       logs();
     }
   });
+
+  // get elements with valid sources
+  function getElementsValidSrc (){
+    elementsValidSrc = elements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} );
+  }
 
   
 })();
