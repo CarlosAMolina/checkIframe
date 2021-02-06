@@ -34,11 +34,11 @@ function initializeContentScript() {
       showLogs = results.idShowLogs;
     }
     invalidSources = Object.keys(results).filter(key => key.includes(urlTypeBlacklist+'_')); //array
-    invalidSources = invalidSources.map(invalidSources => results[invalidSources]); // array
+    invalidSources = invalidSources.map(source => results[source]); // array
     notifySources = Object.keys(results).filter(key => key.includes(urlTypeNotify+'_')); //array
-    notifySources = notifySources.map(invalidSources => results[invalidSources]); // array
+    notifySources = notifySources.map(source => results[source]); // array
     refererSources = Object.keys(results).filter(key => key.includes(urlTypeReferer+'_')); //array
-    refererSources = refererSources.map(refererSources => results[refererSources]); // array
+    refererSources = refererSources.map(source => results[source]); // array
     logs();
   }, reportErrorContentScript);
 }
