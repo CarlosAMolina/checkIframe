@@ -45,7 +45,7 @@ Only URLs that match exactly what you specified will be blacklisted.
 
 ### Redirection
 
-The user can specify a list of sources where the addon will apply a redirection automatically.
+The user can specify a list of sites where the addon will apply a redirection automatically to the first iframe/frame source.
 
 If the current tab URL contains any term in the list, it will be redirected to the first iframe/frame URL of the page.
 
