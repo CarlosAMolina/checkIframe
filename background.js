@@ -125,7 +125,7 @@ function saveMessageAndUpdateTittle(message) {
     gettingActiveTab.then((tabs) => {
       tabUrl = tabs[0].url;
       console.log(`Current tab url: ${tabUrl}`);
-      if (checkRunRedirect() && message.locationUrl) {
+      if (checkRunRedirect() && message.locationUrl !== false) {
         redirectTo(message.locationUrl);
       }
     });
