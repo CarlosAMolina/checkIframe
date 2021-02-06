@@ -11,7 +11,8 @@ var urls = [];
 var urlType = '';
 var urlTypeBlacklist = 'blacklist';
 var urlTypeNotify = 'notify';
-var urlTypes = [urlTypeBlacklist,urlTypeNotify];
+var urlTypeReferer = 'referer';
+var urlTypes = [urlTypeBlacklist,urlTypeNotify, urlTypeReferer];
 var values2sendFromPopup;
 
 
@@ -353,12 +354,17 @@ function popupMain() {
       urlType = urlTypeNotify;
       notShowStoredUrls();
       showStoredUrlsType(urlType+'_');
-      enableElements(['pInput','inputUrl','buttonAdd','buttonClearAll']);
+      enableElementsConfiguration();
     } else if (e.target.classList.contains('buttonUrlsBlacklist')){
       urlType = urlTypeBlacklist;
       notShowStoredUrls();
       showStoredUrlsType(urlType+'_');
-      enableElements(['pInput','inputUrl','buttonAdd','buttonClearAll']);
+      enableElementsConfiguration();
+    } else if (e.target.classList.contains('buttonUrlsReferer')){
+      urlType = urlTypeReferer;
+      notShowStoredUrls();
+      showStoredUrlsType(urlType+'_');
+      enableElementsConfiguration();
     } else if (e.target.classList.contains('addUrl')){
       saveUrl();
     } else if (e.target.classList.contains('clearAllInfo')){
@@ -366,7 +372,12 @@ function popupMain() {
         .then(clearStorageInfo)
         .catch(reportError)
     }
+
+    function enableElementsConfiguration(){
+        enableElements(['pInput','inputUrl','buttonAdd','buttonClearAll']);
+    }
   });
+
 
   // set up listener for the input box
   document.getElementById('inputUrl').addEventListener('keyup', function(event) {

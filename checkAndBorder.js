@@ -18,7 +18,7 @@ var showLogs = 0;
 var tags2Search = ['iframe','frame'];
 var urlTypeBlacklist = 'blacklist';
 var urlTypeNotify = 'notify';
-var urlTypeRefer = 'referer';
+var urlTypeReferer = 'referer';
 
 var tabUrlMocked = 'https://github.com/carlosamolina'; //TODO receive url from background.
 
@@ -39,7 +39,6 @@ function initializeContentScript() {
     notifySources = notifySources.map(invalidSources => results[invalidSources]); // array
     refererSources = Object.keys(results).filter(key => key.includes(urlTypeReferer+'_')); //array
     refererSources = refererSources.map(refererSources => results[refererSources]); // array
-    refererSources = ["html.com"]; //TODO 
     logs();
   }, reportErrorContentScript);
 }
