@@ -2,10 +2,7 @@ function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
-  this.sourceIsValid=0;
-  if (invalidSources.indexOf(this.source) == -1){
-    this.sourceIsValid=1;
-  }
+  this.sourceIsValid = (invalidSources.indexOf(this.source)) == -1 ? 1 : 0;
 }
 var elements = [];
 var elementsValidSrc = [];
@@ -209,10 +206,10 @@ initializeContentScript();
     return  {
       iframe: {
         sourcesAllNumber: getElementsWithTag('iframe').length,
-        sourcesValid: getElementsSourceWithTag('iframe')
+        sourcesValid: getValidSourcesOfElements(getElementsWithTag('iframe'))
       }, frame: {
         sourcesAllNumber: getElementsWithTag('frame').length,
-        sourcesValid: getElementsSourceWithTag('frame')
+        sourcesValid: getValidSourcesOfElements(getElementsWithTag('frame'))
       }
     }
 
@@ -220,8 +217,10 @@ initializeContentScript();
       return elements.filter(element => element.tag == tag);
     }
 
-    function getElementsSourceWithTag(tag) {
-      return getElementsWithTag(tag).map(element => element.source);
+    function getValidSourcesOfElements(elementsWithTag) {
+      return elementsWithTag
+        .filter(element => element.sourceIsValid === 1)
+        .map(element => element.source);
     }
   }
 

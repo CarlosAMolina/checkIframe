@@ -269,6 +269,7 @@ function popupMain() {
       });
 
       function changeParagraph(sourcesSummary) {
+        cleanShowSources();
         if (typeof sourcesSummary != 'undefined'){ // check if the content-script response has been received
           for (sourceTag in sourcesSummary) {
             listSourceTagSummary(sourceTag, sourcesSummary[sourceTag]);
@@ -402,12 +403,19 @@ function popupMain() {
 
 }
 
+function cleanShowSources() {
+  while (sourcesContainer.firstChild) {
+    sourcesContainer.removeChild(sourcesContainer.firstChild);
+  }
+}
+
 function listSourceTagSummary(tag, sourceTagSummary) {
+
   showSummaryText(sourceTagSummary.sourcesAllNumber, tag, getExtraText());
   listSources();
 
   function getExtraText() {
-    return (sourceTagSummary.sourcesAllNumber === 0) ? '' : (sourceTagSummary.sourcesValid === 0) ? 'Without not blacklisted sources.' : 'Sources (not blacklisted):';
+    return (sourceTagSummary.sourcesAllNumber === 0) ? '' : (sourceTagSummary.sourcesValid.length === 0) ? 'Without not blacklisted sources.' : 'Sources (not blacklisted):';
   }
 
   function showSummaryText(numberOfElements, tag, text) {
