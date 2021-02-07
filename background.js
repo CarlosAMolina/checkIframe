@@ -169,7 +169,7 @@ function sendValue(tabs) {
   browser.tabs.sendMessage(currentTabId, {
     command: 'recheck',
     info: info2send
-  });
+  }).catch(console.error);
 }
 
 function reportError(error) {
