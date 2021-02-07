@@ -101,35 +101,6 @@ initializeContentScript();
     }
   }
 
-  // save sources
-  function getSources(){
-    let sourcesStr = ''; // initialize
-    function sources2Str(){
-      if (tagValidSources.length == 0){
-        sourcesStr += '<u>' + tagElements.length + ' elements with tag <b>' + tags2Search[tagIndex] + '</b></u>. Without sources.<br/><br/>';
-      } else if (tagValidSources.length == 1){
-        sourcesStr += '<u>' + tagElements.length + ' element with tag <b>' + tags2Search[tagIndex] + '</b></u>. ' + tagValidSources.length + ' source:<br/><br/>';
-      } else {
-        sourcesStr += '<u>' + tagElements.length + ' elements with tag <b>' + tags2Search[tagIndex] + '</b></u>. ' + tagValidSources.length + ' sources:<br/><br/>';
-      }
-      for (i=0; i<tagValidSources.length; i++){
-        sourcesStr += (i+1) + ' - <a href="' + tagValidSources[i] + '">' + tagValidSources[i] + '</a><br/><br/>'; 
-      }
-      return sourcesStr;
-    }
-    if (elements.length != 0){
-      for (tagIndex=0; tagIndex < tags2Search.length; tagIndex++){
-        var tagElements = elements.filter(function (element) {return element.tag == tags2Search[tagIndex]} );
-        var tagElementsValidSrc = tagElements.filter(function (element) {return element.sourceIsValid == 1} ); // object
-        var tagValidSources = tagElementsValidSrc.map(function(element) {return element.source}); // array
-        sourcesStr = sources2Str();
-      }
-    } else {
-      sourcesStr = 'Web page without tags: ' + tags2Search.toString() + '.';
-    }
-    return sourcesStr;
-  }
-
   // show element
   function showElement(){
     function getIndex2Show(){
@@ -217,7 +188,6 @@ initializeContentScript();
     } else if (message.info === 'showSources'){
       checkTags();
       logs();
-      //return Promise.resolve({response: getSources()}); // TODO
       return Promise.resolve({sourcesSummary: getSourcesSummary()});
     } else if (message.info === 'showLogs'){
       showLogs = message.values;

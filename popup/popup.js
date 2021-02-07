@@ -269,16 +269,10 @@ function popupMain() {
       });
 
       function changeParagraph(sourcesSummary) {
-        console.log('sourcesSummary'); //TODO
-        console.log(sourcesSummary); //TODO
         if (typeof sourcesSummary != 'undefined'){ // check if the content-script response has been received
-          //document.getElementById(idElement2Change).innerHTML = String(sourcesSummary); //TODO delete
           for (sourceTag in sourcesSummary) {
-            console.log('source tab' + sourceTag); // TODO
-            console.log(sourcesSummary[sourceTag]); // TODO
             listSourceTagSummary(sourceTag, sourcesSummary[sourceTag]);
           }
-          //listNewSource(1, 'test.com'); // TODO
         } else {
           document.getElementById(idElement2Change).textContent = 'No info received from the content script.';
         }
@@ -409,20 +403,25 @@ function popupMain() {
 }
 
 function listSourceTagSummary(tag, sourceTagSummary) {
-  if (sourceTagSummary.sourcesAllNumber === 0) {
-    showSummaryText(`Web page without tags: ${tag}.`);
-  } else {
-    if (sourceTagSummary.sourcesValid === 0) {
-      showSummaryText(`<u> ${sourceTagSummary.sourcesAllNumber} elements with tag <b> ${tag}</b></u>. Without not blacklisted sources.`);
-    } else {
-      showSummaryText(`<u> ${sourceTagSummary.sourcesAllNumber} elements with tag <b> ${tag}</b></u>. Sources (not blacklisted):`);
-    }
-    listSources();
+  showSummaryText(sourceTagSummary.sourcesAllNumber, tag, getExtraText());
+  listSources();
+
+  function getExtraText() {
+    return (sourceTagSummary.sourcesAllNumber === 0) ? '' : (sourceTagSummary.sourcesValid === 0) ? 'Without not blacklisted sources.' : 'Sources (not blacklisted):';
   }
 
-  function showSummaryText(text) {
+  function showSummaryText(numberOfElements, tag, text) {
     let entry = document.createElement('p');
-    entry.textContent = text;
+    let extraText = document.createElement('p');
+    let underlined = document.createElement('u');
+    let bold = document.createElement('b');
+    const underlined_text = (numberOfElements === 1) ? 'element' : 'elements';
+    bold.textContent = tag;
+    extraText.textContent = text;
+    underlined.textContent = `${numberOfElements} ${underlined_text} with tag `;
+    underlined.appendChild(bold);
+    entry.appendChild(underlined);
+    entry.appendChild(extraText);
     sourcesContainer.appendChild(entry);
   }
 
@@ -438,7 +437,7 @@ function listSourceTagSummary(tag, sourceTagSummary) {
     var info = document.createElement('p');
     hyperlink.href = url;
     hyperlink.textContent = url;
-    info.textContent = index + ' - ';
+    info.textContent = `${index} - `;
     info.appendChild(hyperlink);
     entry.appendChild(info);
     sourcesContainer.appendChild(entry);
