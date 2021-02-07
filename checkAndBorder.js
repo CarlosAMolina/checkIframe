@@ -103,7 +103,7 @@ initializeContentScript();
 
   // save sources
   function getSources(){
-    var sourcesStr = ''; // initialize
+    let sourcesStr = ''; // initialize
     function sources2Str(){
       if (tagValidSources.length == 0){
         sourcesStr += '<u>' + tagElements.length + ' elements with tag <b>' + tags2Search[tagIndex] + '</b></u>. Without sources.<br/><br/>';
@@ -119,9 +119,9 @@ initializeContentScript();
     }
     if (elements.length != 0){
       for (tagIndex=0; tagIndex < tags2Search.length; tagIndex++){
-        var tagElements = elements.filter(function (elementsFunc) {return elementsFunc.tag == tags2Search[tagIndex]} );
-        var tagElementsValidSrc = tagElements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} ); // object
-        var tagValidSources = tagElementsValidSrc.map(function(sourcesFunc) {return sourcesFunc.source}); // array
+        var tagElements = elements.filter(function (element) {return element.tag == tags2Search[tagIndex]} );
+        var tagElementsValidSrc = tagElements.filter(function (element) {return element.sourceIsValid == 1} ); // object
+        var tagValidSources = tagElementsValidSrc.map(function(element) {return element.source}); // array
         sourcesStr = sources2Str();
       }
     } else {
@@ -216,9 +216,9 @@ initializeContentScript();
       elementsValidSrcIndex2QuitBorder = undefined;
     } else if (message.info === 'showSources'){
       checkTags();
-      var sourcesStr = getSources();
       logs();
-      return Promise.resolve({response: sourcesStr});
+      //return Promise.resolve({response: getSources()}); // TODO
+      return Promise.resolve({sourcesSummary: getSourcesSummary()});
     } else if (message.info === 'showLogs'){
       showLogs = message.values;
       logs();
@@ -233,6 +233,26 @@ initializeContentScript();
   // get elements with valid sources
   function getElementsValidSrc (){
     elementsValidSrc = elements.filter(function (elementsFunc) {return elementsFunc.sourceIsValid == 1} );
+  }
+
+  function getSourcesSummary(){
+    return  {
+      iframe: {
+        sourcesAllNumber: getElementsWithTag('iframe').length,
+        sourcesValid: getElementsSourceWithTag('iframe')
+      }, frame: {
+        sourcesAllNumber: getElementsWithTag('frame').length,
+        sourcesValid: getElementsSourceWithTag('frame')
+      }
+    }
+
+    function getElementsWithTag(tag) {
+      return elements.filter(element => element.tag == tag);
+    }
+
+    function getElementsSourceWithTag(tag) {
+      return getElementsWithTag(tag).map(element => element.source);
+    }
   }
 
   

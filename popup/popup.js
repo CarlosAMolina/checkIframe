@@ -2,6 +2,7 @@ var idElement2Change;
 var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector('.info-container');
+var sourcesContainer = document.querySelector('.sources-container');
 var showLogs = 0;
 function url(type, values) {
   this.type = type;
@@ -256,25 +257,32 @@ function popupMain() {
   // the content script in the web page.
   document.addEventListener('click', (e) => {
 
-    // send value, save and show the answer
     function sendInfoSaveAndShowAnswer(tabs) {
-      var answer;
-      function changeParagraph() {
-        if (typeof answer != 'undefined'){ // check if the answer has been received
-          document.getElementById(idElement2Change).innerHTML = String(answer);
-        } else {
-          document.getElementById(idElement2Change).innerHTML = 'No info received from the content script.';
-        }
-      }
+
       tabs.forEach(function(arrayValues){
         browser.tabs.sendMessage(
           arrayValues.id,
           {info: info2sendFromPopup}
         ).then(response => {
-          answer = response.response;
-          changeParagraph(answer);
+          changeParagraph(response.sourcesSummary);
         }).catch(reportError);
       });
+
+      function changeParagraph(sourcesSummary) {
+        console.log('sourcesSummary'); //TODO
+        console.log(sourcesSummary); //TODO
+        if (typeof sourcesSummary != 'undefined'){ // check if the content-script response has been received
+          //document.getElementById(idElement2Change).innerHTML = String(sourcesSummary); //TODO delete
+          for (sourceTag in sourcesSummary) {
+            console.log('source tab' + sourceTag); // TODO
+            console.log(sourcesSummary[sourceTag]); // TODO
+            listSourceTagSummary(sourceTag, sourcesSummary[sourceTag]);
+          }
+          //listNewSource(1, 'test.com'); // TODO
+        } else {
+          document.getElementById(idElement2Change).textContent = 'No info received from the content script.';
+        }
+      }
     }
 
     // show or hide info
@@ -396,6 +404,44 @@ function popupMain() {
     browser.tabs.query({active: true, currentWindow: true})
       .then(storeInfo)
       .catch(reportError)
+  }
+
+}
+
+function listSourceTagSummary(tag, sourceTagSummary) {
+  if (sourceTagSummary.sourcesAllNumber === 0) {
+    showSummaryText(`Web page without tags: ${tag}.`);
+  } else {
+    if (sourceTagSummary.sourcesValid === 0) {
+      showSummaryText(`<u> ${sourceTagSummary.sourcesAllNumber} elements with tag <b> ${tag}</b></u>. Without not blacklisted sources.`);
+    } else {
+      showSummaryText(`<u> ${sourceTagSummary.sourcesAllNumber} elements with tag <b> ${tag}</b></u>. Sources (not blacklisted):`);
+    }
+    listSources();
+  }
+
+  function showSummaryText(text) {
+    let entry = document.createElement('p');
+    entry.textContent = text;
+    sourcesContainer.appendChild(entry);
+  }
+
+  function listSources(){
+    for (index = 0; index < sourceTagSummary.sourcesValid.length; index++){
+      listNewSource(index + 1, sourceTagSummary.sourcesValid[index]);
+    }
+  }
+
+  function listNewSource(index, url){
+    var entry = document.createElement('div');
+    var hyperlink = document.createElement('a');
+    var info = document.createElement('p');
+    hyperlink.href = url;
+    hyperlink.textContent = url;
+    info.textContent = index + ' - ';
+    info.appendChild(hyperlink);
+    entry.appendChild(info);
+    sourcesContainer.appendChild(entry);
   }
 
 }
