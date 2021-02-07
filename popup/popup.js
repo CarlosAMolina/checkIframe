@@ -258,21 +258,24 @@ function popupMain() {
   document.addEventListener('click', (e) => {
 
     function sendInfoSaveAndShowAnswer(tabs) {
-
       tabs.forEach(function(arrayValues){
         browser.tabs.sendMessage(
           arrayValues.id,
           {info: info2sendFromPopup}
         ).then(response => {
-          changeParagraph(response.sourcesSummary);
+          changeParagraph(response.response);
         }).catch(reportError);
       });
 
-      function changeParagraph(sourcesSummary) {
-        cleanShowSources();
-        if (typeof sourcesSummary != 'undefined'){ // check if the content-script response has been received
-          for (sourceTag in sourcesSummary) {
-            listSourceTagSummary(sourceTag, sourcesSummary[sourceTag]);
+      function changeParagraph(response) {
+        if (typeof response !== 'undefined'){ // check if the content-script response has been received
+          if (info2sendFromPopup === 'scroll') {
+            document.getElementById(idElement2Change).textContent = response;
+          } else if (info2sendFromPopup === 'showSources') {
+            cleanShowSources();
+            for (sourceTag in response) {
+              listSourceTagSummary(sourceTag, response[sourceTag]);
+            }
           }
         } else {
           document.getElementById(idElement2Change).textContent = 'No info received from the content script.';

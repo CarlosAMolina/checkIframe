@@ -119,7 +119,7 @@ initializeContentScript();
       } else {
         var tagElementsIndex = elementsValidSrcIndex;
       }
-      return 'tag ' + elementsValidSrc[elementsValidSrcIndex].tag + ', source ' + (tagElementsIndex+1) + '/' +  tagElements.length;
+      return 'Tag ' + elementsValidSrc[elementsValidSrcIndex].tag + ': source ' + (tagElementsIndex+1) + '/' +  tagElements.length;
     }
     function scrollAndBorder(){
       (elementsValidSrc[elementsValidSrcIndex].info).scrollIntoView(false); //false: element in the lower part of the window
@@ -185,7 +185,7 @@ initializeContentScript();
     } else if (message.info === 'showSources'){
       checkTags();
       logs();
-      return Promise.resolve({sourcesSummary: getSourcesSummary()});
+      return Promise.resolve({response: getSourcesSummary()});
     } else if (message.info === 'showLogs'){
       showLogs = message.values;
       logs();
