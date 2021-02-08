@@ -37,7 +37,7 @@ Create and modify a list with terms to search in the sources of the elements and
 
 All urls that contains the specified terms will be notified.
 
-### Blacklisted URLS
+### Blacklisted URLs
 
 Create and modify a blacklist of sources that should not be listed / bordered.
 
