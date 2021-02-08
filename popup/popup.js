@@ -115,7 +115,7 @@ function popupMain() {
     }, reportError);
   }
   function saveShowLogs(){
-    if (document.getElementById('boxLogs').checked == true){
+    if (document.getElementById('buttonShowLogs').checked == true){
       showLogs = 1;
     } else {
       showLogs = 0;
@@ -130,11 +130,11 @@ function popupMain() {
   // enable/disable logs
   function changeStateBoxLog(results){
     if(results.idShowLogs == 1) {
-      document.getElementById('boxLogs').checked = true;
+      document.getElementById('buttonShowLogs').checked = true;
     } else {
-      document.getElementById('boxLogs').checked = false;
+      document.getElementById('buttonShowLogs').checked = false;
 	}
-	sendInfoAndValue('showLogs',results.idShowLogs);
+	sendInfoAndValue('buttonShowLogs',results.idShowLogs);
   }
 
   // display info
@@ -269,9 +269,9 @@ function popupMain() {
 
       function changeParagraph(response) {
         if (typeof response !== 'undefined'){ // check if the content-script response has been received
-          if (info2sendFromPopup === 'scroll') {
+          if (info2sendFromPopup === 'buttonScroll') {
             document.getElementById(idElement2Change).textContent = response;
-          } else if (info2sendFromPopup === 'showSources') {
+          } else if (info2sendFromPopup === 'buttonShowSources') {
             cleanShowSources();
             for (sourceTag in response) {
               listSourceTagSummary(sourceTag, response[sourceTag]);
@@ -319,68 +319,81 @@ function popupMain() {
       }, reportError);
     }
 	
+    const buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
+
     // get the active tab, then call the appropriate function
-    if (e.target.classList.contains('recheck')){
+    if (buttonIdHtml === 'buttonRecheck'){
+      console.log(`Init ${buttonIdHtml}`);
       idElement2Change='infoTags';
       hideInfo();
-      info2sendFromPopup = 'recheck';
+      info2sendFromPopup = buttonIdHtml;
       browser.tabs.query({active: true, currentWindow: true})
         .then(sendInfo)
         .catch(reportError);
-    } else if (e.target.classList.contains('clean')) {
+    } else if (buttonIdHtml === 'buttonClean') {
+      console.log(`Init ${buttonIdHtml}`);
       idElement2Change = 'infoScroll';
-      info2sendFromPopup = 'clean';
+      info2sendFromPopup = buttonIdHtml;
       hideInfo();
       browser.tabs.query({active: true, currentWindow: true})
         .then(sendInfo)
         .catch(reportError);
-    } else if (e.target.classList.contains('scroll')){
+    } else if (buttonIdHtml === 'buttonScroll') {
+      console.log(`Init ${buttonIdHtml}`);
       idElement2Change = 'infoScroll';
-      info2sendFromPopup = 'scroll';
+      info2sendFromPopup = buttonIdHtml;
       showTagsInfo();
       browser.tabs.query({active: true, currentWindow: true})
         .then(sendInfoSaveAndShowAnswer)
         .catch(reportError);
-    } else if (e.target.classList.contains('showSources')){
+    } else if (buttonIdHtml === 'buttonShowSources') {
+      console.log(`Init ${buttonIdHtml}`);
       idElement2Change='infoTags';
-      info2sendFromPopup = 'showSources';
+      info2sendFromPopup = buttonIdHtml;
       showOrHideInfo();
       browser.tabs.query({active: true, currentWindow: true})
         .then(sendInfoSaveAndShowAnswer)
         .catch(reportError);
-    } else if (e.target.classList.contains('showConfig')){
+    } else if (buttonIdHtml === 'buttonShowConfig'){
+      console.log(`Init ${buttonIdHtml}`);
       idElement2Change='menuConfig';
       showOrHideInfo();
-    } else if (e.target.classList.contains('showLogs')){
+    } else if (buttonIdHtml === 'buttonShowLogs'){
+      console.log(`Init ${buttonIdHtml}`);
       saveShowLogs();
       values2sendFromPopup = showLogs;
-      info2sendFromPopup = 'showLogs';
+      info2sendFromPopup = buttonIdHtml;
       sendInfoAndValue(info2sendFromPopup,values2sendFromPopup);
-    } else if (e.target.classList.contains('buttonUrlsNotify')){
+    } else if (buttonIdHtml === 'buttonUrlsNotify'){
+      console.log(`Init ${buttonIdHtml}`);
       urlType = urlTypeNotify;
       notShowStoredUrls();
       showStoredUrlsType(urlType+'_');
       enableElementsConfiguration();
-    } else if (e.target.classList.contains('buttonUrlsBlacklist')){
+    } else if (buttonIdHtml === 'buttonUrlsBlacklist'){
+      console.log(`Init ${buttonIdHtml}`);
       urlType = urlTypeBlacklist;
       notShowStoredUrls();
       showStoredUrlsType(urlType+'_');
       enableElementsConfiguration();
-    } else if (e.target.classList.contains('buttonUrlsReferer')){
+    } else if (buttonIdHtml === 'buttonUrlsReferer'){
+      console.log(`Init ${buttonIdHtml}`);
       urlType = urlTypeReferer;
       notShowStoredUrls();
       showStoredUrlsType(urlType+'_');
       enableElementsConfiguration();
-    } else if (e.target.classList.contains('addUrl')){
+    } else if (buttonIdHtml === 'buttonAddUrl'){
+      console.log(`Init ${buttonIdHtml}`);
       saveUrl();
-    } else if (e.target.classList.contains('clearAllInfo')){
+    } else if (buttonIdHtml === 'buttonClearAll'){
+      console.log(`Init ${buttonIdHtml}`);
       browser.tabs.query({active: true, currentWindow: true})
         .then(clearStorageInfo)
         .catch(reportError)
     }
 
     function enableElementsConfiguration(){
-        enableElements(['pInput','inputUrl','buttonAdd','buttonClearAll']);
+        enableElements(['pInput','inputUrl','buttonAddUrl','buttonClearAll']);
     }
   });
 
@@ -404,6 +417,10 @@ function popupMain() {
       .catch(reportError)
   }
 
+}
+
+function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick){
+  return eventClick.target.id || eventClick.target.parentElement.id;
 }
 
 function cleanShowSources() {

@@ -168,25 +168,25 @@ initializeContentScript();
   browser.runtime.onMessage.addListener((message) => { 
     if (message.info === 'protocolok'){
       checkAndSend();
-    } else if (message.info === 'recheck'){
+    } else if (message.info === 'buttonRecheck'){
       checkAndSend();
       logs();
-    } else if (message.info === 'scroll'){
+    } else if (message.info === 'buttonScroll'){
       checkTags();
       var scrollInfo = showElement();
       logs();
       return Promise.resolve({response: scrollInfo});
-    } else if (message.info === 'clean'){
+    } else if (message.info === 'buttonClean'){
       checkTags(); // when the pop-up is closed, this info is lost
       getElementsValidSrc(); // when the pop-up is closed, this info is lost
       quitBorder();
       elementsValidSrcIndex = undefined;
       elementsValidSrcIndex2QuitBorder = undefined;
-    } else if (message.info === 'showSources'){
+    } else if (message.info === 'buttonShowSources'){
       checkTags();
       logs();
       return Promise.resolve({response: getSourcesSummary()});
-    } else if (message.info === 'showLogs'){
+    } else if (message.info === 'buttonShowLogs'){
       showLogs = message.values;
       logs();
     } else if (message.info === 'urls'){

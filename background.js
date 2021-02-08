@@ -167,7 +167,7 @@ async function redirectTo(locationUrl) {
 function sendValue(tabs) {
   console.log('Init sendValue to tab id: ' + currentTabId);
   browser.tabs.sendMessage(currentTabId, {
-    command: 'recheck',
+    command: 'buttonRecheck',
     info: info2send
   }).catch(console.error);
 }

@@ -8,31 +8,31 @@
 
 <body>
   <div id="popup-content" style="width:250px">
-    <button title="Recheck" class="button menuButton recheck" style="width:32%"><img src="/icons/recheck.png"/></button>
-    <button title="Scroll to element" class="button menuButton scroll" style="width:31%"><img src="/icons/locate.png"/></button>
-    <button title="Clean border" class="button menuButton clean" style="width:32%"><img src="/icons/noHighlight.png"/></button>
+    <button id="buttonRecheck" title="Recheck" class="button menuButton" style="width:32%"><img src="/icons/recheck.png"/></button>
+    <button id="buttonScroll" title="Scroll to element" class="button menuButton" style="width:31%"><img src="/icons/locate.png"/></button>
+    <button id="buttonClean" title="Clean border" class="button menuButton" style="width:32%"><img src="/icons/noHighlight.png"/></button>
     <p id="infoScroll" class="hidden"><br/>
     </p>
-    <button class="button menuButton showSources" style="width:100%">Show tags info
+    <button id="buttonShowSources" class="button menuButton" style="width:100%">Show tags info
     </button>
     <div id="infoTags" class="sources-container hidden"></div>
     </p>
-    <button class="button menuButton showConfig" style="width:100%">Configuration
+    <button id="buttonShowConfig" class="button menuButton" style="width:100%">Configuration
     </button>
     <div id="menuConfig" class="backGroundGrey hidden">
       <p><u>Show logs in the console</u></p>
       <label class="switch">
-        <input id="boxLogs" class="showLogs" type="checkbox"> 
+        <input id="buttonShowLogs" type="checkbox"> 
         <span class="slider round"></span> 
       </label>
       <p><u>Sources options</u></p>
-      <input id="buttonUrlsNotify" type="radio" name="urlType" class="buttonUrlsNotify">Sources to notify when are detected</p>
-      <input id="buttonUrlsBlacklist" type="radio" name="urlType" class="buttonUrlsBlacklist">Sources to avoid listing (exact match)</p>
-      <input id="buttonUrlsReferer" type="radio" name="urlType" class="buttonUrlsReferer">Sites where first source opens automatically</p>
+      <input id="buttonUrlsNotify" type="radio" name="urlType">Sources to notify when are detected</p>
+      <input id="buttonUrlsBlacklist" type="radio" name="urlType">Sources to avoid listing (exact match)</p>
+      <input id="buttonUrlsReferer" type="radio" name="urlType">Sites where first source opens automatically</p>
       <p id="pInput">New values</p>
       <textarea id="inputUrl" class="input" type="text" style="width:97%;resize:vertical" rows="2" disabled></textarea>
-      <button id="buttonAdd" class="button menuButton addUrl" style="width:49%" disabled>Add</button>
-      <button id="buttonClearAll" class="button menuButton clearAllInfo" style="width:49%" disabled>Clear all</button>
+      <button id="buttonAddUrl" class="button menuButton" style="width:49%" disabled>Add</button>
+      <button id="buttonClearAll" class="button menuButton" style="width:49%" disabled>Clear all</button>
       <div class="clearfix">
       </div>
       <div class="info-container">
