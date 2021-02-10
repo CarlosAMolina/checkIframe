@@ -29,29 +29,40 @@ function popupMain() {
 
     buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
 
-    // get the active tab, then call the appropriate function
-    if (buttonIdHtml === 'buttonRecheck'){
-      buttonRecheckRun();
-    } else if (buttonIdHtml === 'buttonClean') {
-      buttonCleanRun();
-    } else if (buttonIdHtml === 'buttonScroll') {
-      buttonScrollRun();
-    } else if (buttonIdHtml === 'buttonShowSources') {
-      buttonShowSourcesRun();
-    } else if (buttonIdHtml === 'buttonShowConfig'){
-      buttonShowConfigRun();
-    } else if (buttonIdHtml === 'buttonShowLogs'){
-      buttonShowLogsRun()
-    } else if (buttonIdHtml === 'buttonUrlsNotify'){
-      buttonUrlsNotifyRun();
-    } else if (buttonIdHtml === 'buttonUrlsBlacklist'){
-      buttonUrlsBlacklistRun();
-    } else if (buttonIdHtml === 'buttonUrlsReferer'){
-      buttonUrlsRefererRun();
-    } else if (buttonIdHtml === 'buttonAddUrl'){
-      buttonAddUrlRun();
-    } else if (buttonIdHtml === 'buttonClearAll'){
-      buttonClearAllRun();
+    switch (buttonIdHtml) {
+      case 'buttonRecheck':
+        buttonRecheckRun();
+        break;
+      case 'buttonClean':
+        buttonCleanRun();
+        break;
+      case 'buttonScroll':
+        buttonScrollRun();
+        break;
+      case 'buttonShowSources':
+        buttonShowSourcesRun();
+        break;
+      case 'buttonShowConfig':
+        buttonShowConfigRun();
+        break;
+      case 'buttonShowLogs':
+        buttonShowLogsRun()
+        break;
+      case 'buttonUrlsNotify':
+        buttonUrlsNotifyRun();
+        break;
+      case 'buttonUrlsBlacklist':
+        buttonUrlsBlacklistRun();
+        break;
+      case 'buttonUrlsReferer':
+        buttonUrlsRefererRun();
+        break;
+      case 'buttonAddUrl':
+        buttonAddUrlRun();
+        break;
+      case 'buttonClearAll':
+        buttonClearAllRun();
+        break;
     }
 
   });
