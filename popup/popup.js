@@ -26,45 +26,11 @@ function popupMain() {
   // listen to clicks on the buttons, and send the appropriate message to
   // the content script in the web page.
   document.addEventListener('click', (e) => {
-
     buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
-
-    switch (buttonIdHtml) {
-      case 'buttonRecheck':
-        buttonRecheckRun();
-        break;
-      case 'buttonClean':
-        buttonCleanRun();
-        break;
-      case 'buttonScroll':
-        buttonScrollRun();
-        break;
-      case 'buttonShowSources':
-        buttonShowSourcesRun();
-        break;
-      case 'buttonShowConfig':
-        buttonShowConfigRun();
-        break;
-      case 'buttonShowLogs':
-        buttonShowLogsRun()
-        break;
-      case 'buttonUrlsNotify':
-        buttonUrlsNotifyRun();
-        break;
-      case 'buttonUrlsBlacklist':
-        buttonUrlsBlacklistRun();
-        break;
-      case 'buttonUrlsReferer':
-        buttonUrlsRefererRun();
-        break;
-      case 'buttonAddUrl':
-        buttonAddUrlRun();
-        break;
-      case 'buttonClearAll':
-        buttonClearAllRun();
-        break;
+    let button = createButton(buttonIdHtml);
+    if (button) {
+      button.run;
     }
-
   });
 
   // set up listener for the input box
@@ -96,94 +62,231 @@ function getUrls(results){ // results: object of keys and values
   });
 }
 
-function buttonRecheckRun(){
-  console.log(`Init ${buttonIdHtml}`);
-  idElement2Change='infoTags';
-  hideInfo();
-  info2sendFromPopup = buttonIdHtml;
-  browser.tabs.query({active: true, currentWindow: true})
-    .then(sendInfo)
-    .catch(reportError);
+function createButton(buttonIdHtml) {
+  switch (buttonIdHtml) {
+    case new ButtonRecheck().buttonIdHtml:
+      return new ButtonRecheck();
+    case new ButtonClean().buttonIdHtml:
+      return new ButtonClean();
+    case new ButtonScroll().buttonIdHtml:
+      return new ButtonScroll();
+    case new ButtonShowSources().buttonIdHtml:
+      return new ButtonShowSources();
+    case new ButtonShowConfig().buttonIdHtml:
+      return new ButtonShowConfig();
+    case new ButtonShowLogs().buttonIdHtml:
+      return new ButtonShowLogs();
+    case new ButtonUrlsNotify().buttonIdHtml:
+      return new ButtonUrlsNotify();
+    case new ButtonUrlsBlacklist().buttonIdHtml:
+      return new ButtonUrlsBlacklist();
+    case new ButtonUrlsReferer().buttonIdHtml:
+      return new ButtonUrlsReferer();
+    case new ButtonAddUrl().buttonIdHtml:
+      return new ButtonAddUrl();
+    case new ButtonClearAll().buttonIdHtml:
+      return new ButtonClearAll();
+    default:
+      return false;
+  }
 }
 
-function buttonCleanRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  idElement2Change = 'infoScroll';
-  info2sendFromPopup = buttonIdHtml;
-  hideInfo();
-  browser.tabs.query({active: true, currentWindow: true})
-    .then(sendInfo)
-    .catch(reportError);
+class ButtonClicked {
+
+  constructor(buttonIdHtml) {
+    this._buttonIdHtml = buttonIdHtml;
+  }
+
+  get buttonIdHtml() {
+    return this._buttonIdHtml;
+  }
+
+  get run() {
+    throw TypeError("Not implemented: method run")
+  }
+
+  get logButtonName() {
+    console.log(`Clicked button ID Html: ${this.buttonIdHtml}`);
+  }
+
 }
 
-function buttonScrollRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  idElement2Change = 'infoScroll';
-  info2sendFromPopup = buttonIdHtml;
-  showTagsInfo();
-  browser.tabs.query({active: true, currentWindow: true})
-    .then(sendInfoSaveAndShowAnswer)
-    .catch(reportError);
+class ButtonRecheck extends ButtonClicked {
+
+  constructor() {
+    super('buttonRecheck');
+  } 
+
+  get run() {
+    this.logButtonName;
+    idElement2Change='infoTags';
+    hideInfo();
+    info2sendFromPopup = this.buttonIdHtml;
+    browser.tabs.query({active: true, currentWindow: true})
+      .then(sendInfo)
+      .catch(reportError);
+  }
+
 }
 
-function buttonShowSourcesRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  idElement2Change='infoTags';
-  info2sendFromPopup = buttonIdHtml;
-  showOrHideInfo();
-  browser.tabs.query({active: true, currentWindow: true})
-    .then(sendInfoSaveAndShowAnswer)
-    .catch(reportError);
+class ButtonClean extends ButtonClicked {
+
+  constructor() {
+    super('buttonClean');
+  } 
+
+  get run() {
+    this.logButtonName;
+    idElement2Change = 'infoScroll';
+    info2sendFromPopup = this.buttonIdHtml;
+    hideInfo();
+    browser.tabs.query({active: true, currentWindow: true})
+      .then(sendInfo)
+      .catch(reportError);
+  }
+
 }
 
-function buttonShowConfigRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  idElement2Change='menuConfig';
-  showOrHideInfo();
+class ButtonScroll extends ButtonClicked {
+
+  constructor() {
+    super('buttonScroll');
+  } 
+
+  get run() {
+    this.logButtonName;
+    idElement2Change = 'infoScroll';
+    info2sendFromPopup = this.buttonIdHtml;
+    showTagsInfo();
+    browser.tabs.query({active: true, currentWindow: true})
+      .then(sendInfoSaveAndShowAnswer)
+      .catch(reportError);
+  }
+
 }
 
-function buttonShowLogsRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  saveShowLogs();
-  values2sendFromPopup = showLogs;
-  info2sendFromPopup = buttonIdHtml;
-  sendInfoAndValue(info2sendFromPopup,values2sendFromPopup);
+class ButtonShowSources extends ButtonClicked {
+
+  constructor() {
+    super('buttonShowSources');
+  } 
+
+  get run() {
+    this.logButtonName;
+    idElement2Change='infoTags';
+    info2sendFromPopup = this.buttonIdHtml;
+    showOrHideInfo();
+    browser.tabs.query({active: true, currentWindow: true})
+      .then(sendInfoSaveAndShowAnswer)
+      .catch(reportError);
+  }
+
 }
 
-function buttonUrlsNotifyRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  urlType = urlTypeNotify;
-  removeShownStoredUrls();
-  showStoredUrlsType(urlType+'_');
-  enableElementsConfiguration();
+class ButtonShowConfig extends ButtonClicked {
+
+  constructor() {
+    super('buttonShowConfig');
+  } 
+
+  get run() {
+    this.logButtonName;
+    idElement2Change='menuConfig';
+    showOrHideInfo();
+  }
+
 }
 
-function buttonUrlsBlacklistRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  urlType = urlTypeBlacklist;
-  removeShownStoredUrls();
-  showStoredUrlsType(urlType+'_');
-  enableElementsConfiguration();
+class ButtonShowLogs extends ButtonClicked {
+
+  constructor() {
+    super('buttonShowLogs');
+  } 
+
+  get run() {
+    this.logButtonName;
+    saveShowLogs();
+    values2sendFromPopup = showLogs;
+    info2sendFromPopup = buttonIdHtml;
+    sendInfoAndValue(info2sendFromPopup,values2sendFromPopup);
+  }
+
 }
 
-function buttonUrlsRefererRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  urlType = urlTypeReferer;
-  removeShownStoredUrls();
-  showStoredUrlsType(urlType+'_');
-  enableElementsConfiguration();
+class ButtonUrlsNotify extends ButtonClicked {
+
+  constructor() {
+    super('buttonUrlsNotify');
+  } 
+
+  get run() {
+    this.logButtonName;
+    urlType = urlTypeNotify;
+    removeShownStoredUrls();
+    showStoredUrlsType(urlType+'_');
+    enableElementsConfiguration();
+  }
+
 }
 
-function buttonAddUrlRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  saveUrl();
+class ButtonUrlsBlacklist extends ButtonClicked {
+
+  constructor() {
+    super('buttonUrlsBlacklist');
+  } 
+
+  get run() {
+    this.logButtonName;
+    urlType = urlTypeBlacklist;
+    removeShownStoredUrls();
+    showStoredUrlsType(urlType+'_');
+    enableElementsConfiguration();
+  }
+
 }
 
-function buttonClearAllRun() {
-  console.log(`Init ${buttonIdHtml}`);
-  browser.tabs.query({active: true, currentWindow: true})
-    .then(clearStorageInfo)
-    .catch(reportError)
+class ButtonUrlsReferer extends ButtonClicked {
+
+  constructor() {
+    super('buttonUrlsReferer');
+  } 
+
+  get run() {
+    this.logButtonName;
+    urlType = urlTypeReferer;
+    removeShownStoredUrls();
+    showStoredUrlsType(urlType+'_');
+    enableElementsConfiguration();
+  }
+
+}
+    
+class ButtonAddUrl extends ButtonClicked {
+
+  constructor() {
+    super('buttonAddUrl');
+  } 
+
+  get run() {
+    this.logButtonName;
+    saveUrl();
+  }
+
+}
+
+class ButtonClearAll extends ButtonClicked {
+
+  constructor() {
+    super('buttonClearAll');
+  } 
+
+  get run() {
+    this.logButtonName;
+    browser.tabs.query({active: true, currentWindow: true})
+      .then(clearStorageInfo)
+      .catch(reportError)
+  }
+
 }
 
 function getShowLogs(){
