@@ -116,7 +116,7 @@ function getIconTitleAndUpdateIcon(){
 
 // get message from content script
 function saveMessageAndUpdateTittle(message) {
-  console.log('Message received from content-script');
+  console.log('Message received from content-script:');
   console.log(message);
   referers = message.referers;
   tagsExist = message.tagsExist;
