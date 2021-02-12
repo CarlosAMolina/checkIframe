@@ -119,8 +119,7 @@ class ButtonRecheck extends ButtonClicked {
 
   get run() {
     this.logButtonName;
-    idElement2Change='infoTags';
-    hideInfo();
+    hideInfo('infoTags');
     info2sendFromPopup = this.buttonIdHtml;
     browser.tabs.query({active: true, currentWindow: true})
       .then(sendInfo)
@@ -137,9 +136,8 @@ class ButtonClean extends ButtonClicked {
 
   get run() {
     this.logButtonName;
-    idElement2Change = 'infoScroll';
     info2sendFromPopup = this.buttonIdHtml;
-    hideInfo();
+    hideInfo('infoScroll');
     browser.tabs.query({active: true, currentWindow: true})
       .then(sendInfo)
       .catch(reportError);
@@ -157,7 +155,7 @@ class ButtonScroll extends ButtonClicked {
     this.logButtonName;
     idElement2Change = 'infoScroll';
     info2sendFromPopup = this.buttonIdHtml;
-    showTagsInfo();
+    showTagsInfo('infoScroll');
     browser.tabs.query({active: true, currentWindow: true})
       .then(sendInfoSaveAndShowAnswer)
       .catch(reportError);
@@ -175,7 +173,7 @@ class ButtonShowSources extends ButtonClicked {
     this.logButtonName;
     idElement2Change='infoTags';
     info2sendFromPopup = this.buttonIdHtml;
-    showOrHideInfo();
+    showOrHideInfo('infoTags');
     browser.tabs.query({active: true, currentWindow: true})
       .then(sendInfoSaveAndShowAnswer)
       .catch(reportError);
@@ -191,8 +189,7 @@ class ButtonShowConfig extends ButtonClicked {
 
   get run() {
     this.logButtonName;
-    idElement2Change='menuConfig';
-    showOrHideInfo();
+    showOrHideInfo('menuConfig');
   }
 
 }
@@ -437,12 +434,12 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick){
   return eventClick.target.id || eventClick.target.parentElement.id;
 }
 
-function hideInfo(){
-  document.querySelector('#'+idElement2Change).classList.add('hidden');
+function hideInfo(htmlId){
+  document.querySelector('#'+htmlId).classList.add('hidden');
 }
 
-function showTagsInfo(){
-  document.querySelector('#'+idElement2Change).classList.remove('hidden');
+function showTagsInfo(htmlId){
+  document.querySelector('#'+htmlId).classList.remove('hidden');
 }
 
 function sendInfo(tabs) {
@@ -452,11 +449,11 @@ function sendInfo(tabs) {
   });
 }
 
-function showOrHideInfo(){
-  if (document.getElementById(idElement2Change).classList.contains('hidden')){
-    showTagsInfo();
+function showOrHideInfo(htmlId){
+  if (document.getElementById(htmlId).classList.contains('hidden')){
+    showTagsInfo(htmlId);
   } else {
-    hideInfo();
+    hideInfo(htmlId);
   }
 }
 
@@ -486,15 +483,15 @@ function sendInfoSaveAndShowAnswer(tabs) {
       arrayValues.id,
       {info: info2sendFromPopup}
     ).then(response => {
-      changeParagraph(response.response);
+      changeParagraph(response.response, idElement2Change);
     }).catch(reportError);
   });
 }
 
-function changeParagraph(response) {
+function changeParagraph(response, htmlId) {
   if (typeof response !== 'undefined'){ // check if the content-script response has been received
     if (info2sendFromPopup === 'buttonScroll') {
-      document.getElementById(idElement2Change).textContent = response;
+      document.getElementById(htmlId).textContent = response;
     } else if (info2sendFromPopup === 'buttonShowSources') {
       cleanShowSources();
       for (sourceTag in response) {
@@ -502,7 +499,7 @@ function changeParagraph(response) {
       }
     }
   } else {
-    document.getElementById(idElement2Change).textContent = 'No info received from the content script.';
+    document.getElementById(htmlId).textContent = 'No info received from the content script.';
   }
 }
 
