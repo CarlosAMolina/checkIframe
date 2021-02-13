@@ -1,5 +1,5 @@
 var buttonIdHtml; 
-var idElement2Change;
+let htmlIdToChange;
 var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector('.info-container');
@@ -153,7 +153,7 @@ class ButtonScroll extends ButtonClicked {
 
   get run() {
     this.logButtonName;
-    idElement2Change = 'infoScroll';
+    htmlIdToChange = 'infoScroll';
     info2sendFromPopup = this.buttonIdHtml;
     showTagsInfo('infoScroll');
     browser.tabs.query({active: true, currentWindow: true})
@@ -171,7 +171,7 @@ class ButtonShowSources extends ButtonClicked {
 
   get run() {
     this.logButtonName;
-    idElement2Change='infoTags';
+    htmlIdToChange='infoTags';
     info2sendFromPopup = this.buttonIdHtml;
     showOrHideInfo('infoTags');
     browser.tabs.query({active: true, currentWindow: true})
@@ -483,7 +483,7 @@ function sendInfoSaveAndShowAnswer(tabs) {
       arrayValues.id,
       {info: info2sendFromPopup}
     ).then(response => {
-      changeParagraph(response.response, idElement2Change);
+      changeParagraph(response.response, htmlIdToChange);
     }).catch(reportError);
   });
 }
@@ -503,8 +503,8 @@ function changeParagraph(response, htmlId) {
   }
 }
 
-function enableElements(idElements2Change){
-  idElements2Change.forEach(function(arrayValue){
+function enableElements(htmlIdsToChange){
+  htmlIdsToChange.forEach(function(arrayValue){
     document.getElementById(arrayValue).disabled = false;
   });
 }
