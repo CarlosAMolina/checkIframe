@@ -6,7 +6,7 @@ Firefox add-on to work with iframe and frame tags:
 
 - Indicate if the current web page uses iframe and frame tags by changing the colour of the add-on icon.
 - Scroll the window to the elements with tags and highlight them with a red border.
-- Redirection. A list of sites where the addon will apply a redirection automatically to the first iframe/frame source can be configured.
+- Redirection. A list of sites where the add-on will apply a redirection automatically to the first iframe/frame source can be configured.
 
 ### Addon notifications
 
@@ -25,6 +25,6 @@ You can install the Firefox add-on at:
 
 ## Documentation
 
-Please, read the docs to know how to configure the addon, work with it and more information:
+Please, read the docs to know how to configure the add-on, work with it and more information:
 
 <https://carlosamolina.github.io/projects/check-iframe/introduction.html>
