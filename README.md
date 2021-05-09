@@ -8,7 +8,7 @@ Firefox add-on to work with iframe and frame tags:
 - Scroll the window to the elements with tags and highlight them with a red border.
 - Redirection. A list of sites where the add-on will apply a redirection automatically to the first iframe/frame source can be configured.
 
-### Addon notifications
+### Add-on notifications
 
 Set the mouse over the icon to see a description of the result. Icon colours: 
 
