@@ -27,4 +27,4 @@ You can install the Firefox add-on at:
 
 Please, read the docs to know how to configure the add-on, work with it and more information:
 
-<https://carlosamolina.github.io/projects/check-iframe/introduction.html>
+<https://cmoli.es/projects/check-iframe/introduction.html>
