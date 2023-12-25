@@ -86,7 +86,6 @@ describe("Check module import", () => {
         buttonType = ModulePopup.__get__('ButtonClicked');
         const buttonIdHtml = "idTest";
         button = new buttonType(buttonIdHtml);
-
     });
     it("Check buttonIdHtml returns expected result", function() {
         const result = button.buttonIdHtml;
@@ -106,4 +105,17 @@ describe("Check module import", () => {
         expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
     });
   });
+  describe("Check ButtonRecheck", () => {
+    beforeAll(() => {
+        buttonType = ModulePopup.__get__('ButtonRecheck');
+        button = new buttonType();
+    });
+    it("Check run does not throw error", function() {
+        button.run
+    });
+  });
+
+
+
+
 });
