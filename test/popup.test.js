@@ -1,28 +1,49 @@
-import "puppeteer";
+import { runMockDom } from './mockDom.js';
 
-const timeout = 5000;
-describe("Google", () => {
-  beforeAll(async () => {
-  // TODO delete
-  //  const browser = await puppeteer.launch({headless: false});
-  //  const page = await browser.newPage();
-    await page.goto("https://google.com");
-  }, timeout);
+function mockBrowser() {
+    return {
+        storage: mockLocalStorage(),
+        tabs: mockTabs()
+    }
+    // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
+    function mockLocalStorage() {
+        function mockGetLocalStorage() {
+          return {
+            get: newPromise
+          };
+        }
+        return {
+            local: mockGetLocalStorage()
+        }
+    }
+    function mockTabs() {
+        return {
+            executeScript: newPromise,
+            query: newPromise,
+            sendMessage: newPromise
+        }
+    }
+    function newPromise(args) {
+       return new Promise(function(resolve, reject) {
+           resolve('Start of new Promise');
+       });
+    }
+}
 
-  // TODO the browser is closed?
-  //afterEach(async () => {
-  //  console.log('init close browser');
-  //  await browser.close();
-  //}, timeout);
+describe("Check module import", () => {
+  beforeAll(() => {
+      const htmlPathName = 'popup/popup.html';
+      runMockDom(htmlPathName);
+      global.browser = mockBrowser();
+  });
 
-  it('should display "google" text on page', async () => {
+  it('The module should be imported without errors', function() {
     console.log('init');
-    let page_title = await page.title();
-    console.log(`Page title: '${page_title}'`);
-    await expect(page.title()).resolves.toMatch('Google');
-    // TODO const ModulePopup = require('../popup/popup.js');
+    const ModulePopup = require('../popup/popup.js');
+    console.log(`popup.js urls: '${ModulePopup.urls}'`);
+    console.log(document.getElementById('inputUrl'));
+    ModulePopup.add_url('foo.com');
+    console.log(`popup.js urls: '${ModulePopup.urls}'`);
     console.log('end');
-  }, timeout);
-
+  });
 });
-

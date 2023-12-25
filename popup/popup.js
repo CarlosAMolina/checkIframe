@@ -646,3 +646,10 @@ function reportExecuteScriptError(error) {
 browser.tabs.executeScript({file: '/checkAndBorder.js'})
 .then(popupMain)
 .catch(reportExecuteScriptError);
+
+// TODO delete
+export function add_url(url) {
+    console.log(urls);
+    urls.push(url);
+    console.log(urls);
+}

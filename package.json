@@ -4,7 +4,7 @@
   "description": "Tests for the project",
   "main": "background.js",
   "scripts": {
-    "test": "jest --all --verbose -config=jest.config.json ./test"
+    "test": "jest --all --verbose ./test"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,6 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "jest": "^29.7.0",
-    "jest-puppeteer": "^9.0.2"
+    "jsdom": "^16.4.0"
   }
 }
