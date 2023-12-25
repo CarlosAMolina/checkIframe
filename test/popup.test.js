@@ -92,4 +92,12 @@ describe("Check module import", () => {
           expect(e.message).toBe("Not implemented: method run");
       }
   });
+  it("Check ButtonClicked logButtonName() logs expected message", function() {
+      const buttonClickedType = ModulePopup.__get__('ButtonClicked');
+      const buttonIdHtml = "idTest";
+      const buttonClicked = new buttonClickedType(buttonIdHtml);
+      console.log = jest.fn();
+      buttonClicked.logButtonName;
+      expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
+  });
 });
