@@ -30,29 +30,31 @@ function mockBrowser() {
     }
 }
 
+// https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
+let ModulePopup;
+
 describe("Check module import", () => {
   beforeAll(() => {
       const htmlPathName = 'popup/popup.html';
       runMockDom(htmlPathName);
       global.browser = mockBrowser();
+      const popupJsPathName = '../popup/popup.js';
+      ModulePopup = require(popupJsPathName);
   });
   it('The DOM has expected values', function() {
     expect(document.getElementById('pInput').textContent).toBe('New values');
   });
   it('The module should be imported without errors and has expected values', function() {
-    const ModulePopup = require('../popup/popup.js');
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
 
   it("Check createButton if invalid button ID: ", function() {
-      const ModulePopup = require('../popup/popup.js');
       const function_ = ModulePopup.__get__('createButton');
       const buttonIdHtml = "nonexistent";
       const result = function_(buttonIdHtml);
       expect(result).toBe(false);
   });
   it("Check createButton if valid button ID: ", function() {
-      const ModulePopup = require('../popup/popup.js');
       const function_ = ModulePopup.__get__('createButton');
       const buttonIdHtml = "buttonRecheck";
       const result = function_(buttonIdHtml)._buttonIdHtml;
