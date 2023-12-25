@@ -43,4 +43,19 @@ describe("Check module import", () => {
     const ModulePopup = require('../popup/popup.js');
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+
+  it("Check createButton if invalid button ID: ", function() {
+      const ModulePopup = require('../popup/popup.js');
+      const function_ = ModulePopup.__get__('createButton');
+      const buttonIdHtml = "nonexistent";
+      const result = function_(buttonIdHtml);
+      expect(result).toBe(false);
+  });
+  it("Check createButton if valid button ID: ", function() {
+      const ModulePopup = require('../popup/popup.js');
+      const function_ = ModulePopup.__get__('createButton');
+      const buttonIdHtml = "buttonRecheck";
+      const result = function_(buttonIdHtml)._buttonIdHtml;
+      expect(result).toBe("buttonRecheck");
+  });
 });
