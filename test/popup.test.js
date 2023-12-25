@@ -35,6 +35,19 @@ let ModulePopup;
 let buttonType;
 let button;
 let function_;
+const buttonIdsHtml = [
+    'buttonRecheck',
+    'buttonClean',
+    'buttonScroll',
+    'buttonShowSources',
+    'buttonShowConfig',
+    'buttonShowLogs',
+    'buttonUrlsNotify',
+    'buttonUrlsBlacklist',
+    'buttonUrlsReferer',
+    'buttonAddUrl',
+    'buttonClearAll'
+]
 
 describe("Check module import", () => {
   beforeAll(() => {
@@ -57,21 +70,7 @@ describe("Check module import", () => {
       });
 
       // Parametrized test.
-      it.each(
-          [
-            'buttonRecheck',
-            'buttonClean',
-            'buttonScroll',
-            'buttonShowSources',
-            'buttonShowConfig',
-            'buttonShowLogs',
-            'buttonUrlsNotify',
-            'buttonUrlsBlacklist',
-            'buttonUrlsReferer',
-            'buttonAddUrl',
-            'buttonClearAll'
-          ]
-      )('Check if valid button ID: %p', (buttonIdHtml) => {
+      it.each(buttonIdsHtml)('Check if valid button ID: %p', (buttonIdHtml) => {
           const result = function_(buttonIdHtml)._buttonIdHtml;
           expect(result).toBe(buttonIdHtml);
       });
