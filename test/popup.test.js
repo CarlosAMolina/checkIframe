@@ -48,16 +48,37 @@ describe("Check module import", () => {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
 
-  it("Check createButton if invalid button ID: ", function() {
+  // Parametrized test.
+  it.each(
+      [
+        'buttonRecheck',
+        'buttonClean',
+        'buttonScroll',
+        'buttonShowSources',
+        'buttonShowConfig',
+        'buttonShowLogs',
+        'buttonUrlsNotify',
+        'buttonUrlsBlacklist',
+        'buttonUrlsReferer',
+        'buttonAddUrl',
+        'buttonClearAll'
+      ]
+  )('Check createButton if valid button ID: %p', (buttonIdHtml) => {
+      const function_ = ModulePopup.__get__('createButton');
+      const result = function_(buttonIdHtml)._buttonIdHtml;
+      expect(result).toBe(buttonIdHtml);
+  });
+  it("Check createButton if invalid button ID", function() {
       const function_ = ModulePopup.__get__('createButton');
       const buttonIdHtml = "nonexistent";
       const result = function_(buttonIdHtml);
       expect(result).toBe(false);
   });
-  it("Check createButton if valid button ID: ", function() {
-      const function_ = ModulePopup.__get__('createButton');
-      const buttonIdHtml = "buttonRecheck";
-      const result = function_(buttonIdHtml)._buttonIdHtml;
-      expect(result).toBe("buttonRecheck");
+  it("Check ButtonClicked buttonIdHtml()", function() {
+      const buttonClickedType = ModulePopup.__get__('ButtonClicked');
+      const buttonIdHtml = "idTest";
+      const buttonClicked = new buttonClickedType(buttonIdHtml);
+      const result = buttonClicked.buttonIdHtml;
+      expect(result).toBe(buttonIdHtml);
   });
 });
