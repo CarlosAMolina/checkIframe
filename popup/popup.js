@@ -101,10 +101,12 @@ class ButtonClicked {
     return this._buttonIdHtml;
   }
 
+  // TODO change attribute to function
   get run() {
     throw TypeError("Not implemented: method run")
   }
 
+  // TODO change attribute to function
   get logButtonName() {
     console.log(`Clicked button ID Html: ${this.buttonIdHtml}`);
   }

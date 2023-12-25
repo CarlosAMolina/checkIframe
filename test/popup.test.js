@@ -74,11 +74,22 @@ describe("Check module import", () => {
       const result = function_(buttonIdHtml);
       expect(result).toBe(false);
   });
-  it("Check ButtonClicked buttonIdHtml()", function() {
+  it("Check ButtonClicked buttonIdHtml() returns expected result", function() {
       const buttonClickedType = ModulePopup.__get__('ButtonClicked');
       const buttonIdHtml = "idTest";
       const buttonClicked = new buttonClickedType(buttonIdHtml);
       const result = buttonClicked.buttonIdHtml;
       expect(result).toBe(buttonIdHtml);
+  });
+  it("Check ButtonClicked run() throws error", function() {
+      const buttonClickedType = ModulePopup.__get__('ButtonClicked');
+      const buttonIdHtml = "idTest";
+      const buttonClicked = new buttonClickedType(buttonIdHtml);
+      try {
+          buttonClicked.run
+          expect(true).toBe(false);
+      } catch (e) {
+          expect(e.message).toBe("Not implemented: method run");
+      }
   });
 });
