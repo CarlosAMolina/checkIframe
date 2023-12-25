@@ -32,6 +32,8 @@ function mockBrowser() {
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let ModulePopup;
+let buttonClickedType;
+let buttonClicked;
 
 describe("Check module import", () => {
   beforeAll(() => {
@@ -74,30 +76,30 @@ describe("Check module import", () => {
       const result = function_(buttonIdHtml);
       expect(result).toBe(false);
   });
-  it("Check ButtonClicked buttonIdHtml() returns expected result", function() {
-      const buttonClickedType = ModulePopup.__get__('ButtonClicked');
-      const buttonIdHtml = "idTest";
-      const buttonClicked = new buttonClickedType(buttonIdHtml);
-      const result = buttonClicked.buttonIdHtml;
-      expect(result).toBe(buttonIdHtml);
-  });
-  it("Check ButtonClicked run() throws error", function() {
-      const buttonClickedType = ModulePopup.__get__('ButtonClicked');
-      const buttonIdHtml = "idTest";
-      const buttonClicked = new buttonClickedType(buttonIdHtml);
-      try {
-          buttonClicked.run
-          expect(true).toBe(false);
-      } catch (e) {
-          expect(e.message).toBe("Not implemented: method run");
-      }
-  });
-  it("Check ButtonClicked logButtonName() logs expected message", function() {
-      const buttonClickedType = ModulePopup.__get__('ButtonClicked');
-      const buttonIdHtml = "idTest";
-      const buttonClicked = new buttonClickedType(buttonIdHtml);
-      console.log = jest.fn();
-      buttonClicked.logButtonName;
-      expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
+
+  describe("Check ButtonClicked", () => {
+    beforeAll(() => {
+        buttonClickedType = ModulePopup.__get__('ButtonClicked');
+        const buttonClickedIdHtml = "idTest";
+        buttonClicked = new buttonClickedType(buttonClickedIdHtml);
+
+    });
+    it("Check buttonIdHtml returns expected result", function() {
+        const result = buttonClicked.buttonIdHtml;
+        expect(result).toBe("idTest");
+    });
+    it("Check run throws error", function() {
+        try {
+            buttonClicked.run
+            expect(true).toBe(false);
+        } catch (e) {
+            expect(e.message).toBe("Not implemented: method run");
+        }
+    });
+    it("Check logButtonName logs expected message", function() {
+        console.log = jest.fn();
+        buttonClicked.logButtonName;
+        expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
+    });
   });
 });
