@@ -104,16 +104,11 @@ describe("Check module import", () => {
         expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
     });
   });
-  describe("Check ButtonRecheck", () => {
+  describe("Check buttons", () => {
     it.each(buttonIdsHtml)('Check if button ID %p run does not throw error', (buttonIdHtml) => {
         const createButton = ModulePopup.__get__('createButton');
         const button = createButton(buttonIdHtml);
         button.run;
     });
-
   });
-
-
-
-
 });
