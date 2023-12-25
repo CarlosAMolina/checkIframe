@@ -32,8 +32,8 @@ function mockBrowser() {
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let ModulePopup;
-let buttonClickedType;
-let buttonClicked;
+let buttonType;
+let button;
 let function_;
 
 describe("Check module import", () => {
@@ -83,18 +83,18 @@ describe("Check module import", () => {
   });
   describe("Check ButtonClicked", () => {
     beforeAll(() => {
-        buttonClickedType = ModulePopup.__get__('ButtonClicked');
-        const buttonClickedIdHtml = "idTest";
-        buttonClicked = new buttonClickedType(buttonClickedIdHtml);
+        buttonType = ModulePopup.__get__('ButtonClicked');
+        const buttonIdHtml = "idTest";
+        button = new buttonType(buttonIdHtml);
 
     });
     it("Check buttonIdHtml returns expected result", function() {
-        const result = buttonClicked.buttonIdHtml;
+        const result = button.buttonIdHtml;
         expect(result).toBe("idTest");
     });
     it("Check run throws error", function() {
         try {
-            buttonClicked.run
+            button.run
             expect(true).toBe(false);
         } catch (e) {
             expect(e.message).toBe("Not implemented: method run");
@@ -102,7 +102,7 @@ describe("Check module import", () => {
     });
     it("Check logButtonName logs expected message", function() {
         console.log = jest.fn();
-        buttonClicked.logButtonName;
+        button.logButtonName;
         expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
     });
   });
