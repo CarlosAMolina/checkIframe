@@ -36,14 +36,11 @@ describe("Check module import", () => {
       runMockDom(htmlPathName);
       global.browser = mockBrowser();
   });
-
-  it('The module should be imported without errors', function() {
-    console.log('init');
+  it('The DOM has expected values', function() {
+    expect(document.getElementById('pInput').textContent).toBe('New values');
+  });
+  it('The module should be imported without errors and has expected values', function() {
     const ModulePopup = require('../popup/popup.js');
-    console.log(`popup.js urls: '${ModulePopup.urls}'`);
-    console.log(document.getElementById('inputUrl'));
-    ModulePopup.add_url('foo.com');
-    console.log(`popup.js urls: '${ModulePopup.urls}'`);
-    console.log('end');
+    expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
 });
