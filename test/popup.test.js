@@ -9,7 +9,8 @@ function mockBrowser() {
     function mockLocalStorage() {
         function mockGetLocalStorage() {
           return {
-            get: newPromise
+            get: newPromise,
+            set: newPromise
           };
         }
         return {
@@ -68,7 +69,6 @@ describe("Check module import", () => {
       beforeAll(() => {
           function_ = ModulePopup.__get__('createButton');
       });
-
       // Parametrized test.
       it.each(buttonIdsHtml)('Check if valid button ID: %p', (buttonIdHtml) => {
           const result = function_(buttonIdHtml)._buttonIdHtml;
@@ -105,13 +105,12 @@ describe("Check module import", () => {
     });
   });
   describe("Check ButtonRecheck", () => {
-    beforeAll(() => {
-        buttonType = ModulePopup.__get__('ButtonRecheck');
-        button = new buttonType();
+    it.each(buttonIdsHtml)('Check if button ID %p run does not throw error', (buttonIdHtml) => {
+        const createButton = ModulePopup.__get__('createButton');
+        const button = createButton(buttonIdHtml);
+        button.run;
     });
-    it("Check run does not throw error", function() {
-        button.run
-    });
+
   });
 
 
