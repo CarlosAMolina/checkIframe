@@ -34,6 +34,7 @@ function mockBrowser() {
 let ModulePopup;
 let buttonClickedType;
 let buttonClicked;
+let function_;
 
 describe("Check module import", () => {
   beforeAll(() => {
@@ -51,6 +52,10 @@ describe("Check module import", () => {
   });
 
   describe("Check createButton", () => {
+      beforeAll(() => {
+          function_ = ModulePopup.__get__('createButton');
+      });
+
       // Parametrized test.
       it.each(
           [
@@ -67,12 +72,10 @@ describe("Check module import", () => {
             'buttonClearAll'
           ]
       )('Check if valid button ID: %p', (buttonIdHtml) => {
-          const function_ = ModulePopup.__get__('createButton');
           const result = function_(buttonIdHtml)._buttonIdHtml;
           expect(result).toBe(buttonIdHtml);
       });
       it("Check if invalid button ID", function() {
-          const function_ = ModulePopup.__get__('createButton');
           const buttonIdHtml = "nonexistent";
           const result = function_(buttonIdHtml);
           expect(result).toBe(false);
