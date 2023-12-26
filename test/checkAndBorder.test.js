@@ -37,4 +37,8 @@ describe("Check module import", () => {
       function_ = checkAndBorderModule.__get__('element');
       const element = new function_("foo", "bar");
   });
+  it('initializeContentScript runs without error', function() {
+      function_ = checkAndBorderModule.__get__('initializeContentScript');
+      function_();
+  });
 });
