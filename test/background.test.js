@@ -9,6 +9,7 @@ function mockBrowser() {
     }
     function mockBrowserAction() {
         return {
+            setIcon: jest.fn(),
             setTitle: jest.fn()
         }
     }
@@ -57,5 +58,13 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     const result = backgroundModule.__get__('supportedProtocols');
     expect(result).toEqual(['https:', 'http:', 'file:']);
+  });
+  it('updateActiveTab runs without error', function() {
+      function_ = backgroundModule.__get__('updateActiveTab');
+      function_();
+  });
+  it('updateIcon runs without error', function() {
+      function_ = backgroundModule.__get__('updateIcon');
+      function_();
   });
 });
