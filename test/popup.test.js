@@ -69,9 +69,14 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  //it('changeParagraph runs without error', function() {
+  //    function_ = ModulePopup.__get__('changeParagraph');
+  //    function_();
+  //});
   it('enableElements runs without error', function() {
       function_ = ModulePopup.__get__('enableElements');
-      function_();
+      const htmlIdsToChange = ["pInput"];
+      function_(htmlIdsToChange);
   });
   it('listSourceTagSummary runs without error', function() {
       function_ = ModulePopup.__get__('listSourceTagSummary');
