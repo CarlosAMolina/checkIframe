@@ -67,7 +67,7 @@ describe("Check module import", () => {
     expect(document.getElementById('pInput').textContent).toBe('New values');
   });
   it('The module should be imported without errors and has expected values', function() {
-    expect(popupModule.__get__('urlTypeBlacklist')).toBe('blacklist');
+    expect(popupModule.__get__('urlTypeBlacklist')).toEqual('blacklist');
   });
   it('popupMain runs without error', function() {
       function_ = popupModule.__get__('popupMain');
