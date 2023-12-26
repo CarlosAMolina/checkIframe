@@ -69,6 +69,11 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('getUrls runs without error', function() {
+      const results = {}
+      function_ = ModulePopup.__get__('getUrls');
+      function_(results);
+  });
   describe("Check buttons", () => {
       describe("Check createButton", () => {
           beforeAll(() => {
