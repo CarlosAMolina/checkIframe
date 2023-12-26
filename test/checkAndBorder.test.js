@@ -33,8 +33,8 @@ describe("Check module import", () => {
     const result = checkAndBorderModule.__get__('urlTypeBlacklist');
     expect(result).toEqual('blacklist');
   });
-  // TODO it('updateActiveTab runs without error', function() {
-  // TODO     function_ = checkAndBorderModule.__get__('updateActiveTab');
-  // TODO     function_();
-  // TODO });
+  it('element runs without error', function() {
+      function_ = checkAndBorderModule.__get__('element');
+      const element = new function_("foo", "bar");
+  });
 });
