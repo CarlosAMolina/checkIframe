@@ -2,26 +2,16 @@ import { runNoHtmlMockDom } from './mockDom.js';
 
 function mockBrowser() {
     return {
-        browserAction: mockBrowserAction(),
-        runtime: mockRuntime(),
-        tabs: mockTabs(),
-        windows: mockWindows(),
-    }
-    function mockBrowserAction() {
-        return {
+        browserAction: {
             setIcon: jest.fn(),
             setTitle: jest.fn()
-        }
-    }
-    function mockRuntime() {
-        return {
+        },
+        runtime: {
             onMessage: {
                 addListener: jest.fn()
             }
-        }
-    }
-    function mockTabs() {
-        return {
+        },
+        tabs: {
             query: getNewPromise,
             onActivated: {
                 addListener: jest.fn()
@@ -30,19 +20,17 @@ function mockBrowser() {
                 addListener: jest.fn()
             },
             sendMessage: getNewPromise,
+        },
+        windows: {
+            onFocusChanged: {
+                addListener: jest.fn()
+            }
         }
     }
     function getNewPromise(args) {
        return new Promise(function(resolve, reject) {
            resolve('Start of new Promise');
        });
-    }
-    function mockWindows() {
-        return {
-            onFocusChanged: {
-                addListener: jest.fn()
-            }
-        }
     }
 }
 
