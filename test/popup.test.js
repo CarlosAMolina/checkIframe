@@ -69,6 +69,11 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('deleteAllUrlType runs without error', function() {
+      function_ = ModulePopup.__get__('deleteAllUrlType');
+      const results = {}
+      function_(results);
+  });
   it('enableElementsConfiguration runs without error', function() {
       function_ = ModulePopup.__get__('enableElementsConfiguration');
       function_();
