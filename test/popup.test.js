@@ -97,6 +97,7 @@ describe("Check module import", () => {
       describe('Check buttons run without error', () => {
           it.each(buttonIdsHtml)('Check button ID %p ', (buttonIdHtml) => {
               console.log = jest.fn(); // Avoid lot of logs on the screen.
+              console.error = jest.fn(); // Avoid lot of logs on the screen.
               const createButton = ModulePopup.__get__('createButton');
               const button = createButton(buttonIdHtml);
               button.run;
