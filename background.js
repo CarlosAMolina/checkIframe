@@ -187,7 +187,7 @@ function sendAmessage(){
 function handleUpdatedWindow(windowId) {
   // Avoid updateIcon twice when a tab is clicked or new url loaded in a new window.
   browser.tabs.onActivated.removeListener(handleActivatedTab);
-  notBrowserWindowId = -1
+  const notBrowserWindowId = -1;
   if (windowId != notBrowserWindowId) {
     console.log("Init newly focused window. Window id: " + windowId);
     updateActiveTab();
