@@ -13,3 +13,9 @@ export function runMockDom(htmlPathName) {
     global.window = dom.window;
 }
 
+export function runNoHtmlMockDom() {
+    const dom = new JSDOM();
+    global.document = dom.window.document;
+    global.window = dom.window;
+}
+
