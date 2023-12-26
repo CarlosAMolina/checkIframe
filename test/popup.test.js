@@ -9,8 +9,8 @@ function mockBrowser() {
     function mockLocalStorage() {
         function mockGetLocalStorage() {
           return {
-            get: newPromise,
-            set: newPromise
+            get: getEmptyNewPromise, // Required to run all storeInfo() if-else code.
+            set: getNewPromise
           };
         }
         return {
@@ -19,14 +19,19 @@ function mockBrowser() {
     }
     function mockTabs() {
         return {
-            executeScript: newPromise,
-            query: newPromise,
-            sendMessage: newPromise
+            executeScript: getNewPromise,
+            query: getNewPromise,
+            sendMessage: getNewPromise
         }
     }
-    function newPromise(args) {
+    function getNewPromise(args) {
        return new Promise(function(resolve, reject) {
            resolve('Start of new Promise');
+       });
+    }
+    function getEmptyNewPromise(args) {
+       return new Promise(function(resolve, reject) {
+           resolve({});
        });
     }
 }
@@ -63,6 +68,11 @@ describe("Check module import", () => {
   });
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
+  });
+  it('storeInfo runs without error', function() {
+      ModulePopup.__set__('info2save', ["value_1"]);
+      function_ = ModulePopup.__get__('storeInfo');
+      function_();
   });
   it('reportError logs expected message', function() {
       function_ = ModulePopup.__get__('reportError');
