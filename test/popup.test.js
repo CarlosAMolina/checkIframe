@@ -69,6 +69,10 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('getShowLogs runs without error', function() {
+      function_ = ModulePopup.__get__('getShowLogs');
+      function_();
+  });
   it('clearStorageInfo runs without error', function() {
       function_ = ModulePopup.__get__('clearStorageInfo');
       function_();
