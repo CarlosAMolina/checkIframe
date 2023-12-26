@@ -47,6 +47,8 @@ describe("Check module import", () => {
       runNoHtmlMockDom();
       const jsPathName = '../background.js';
       backgroundModule = require(jsPathName);
+      console.error = jest.fn();
+      console.log = jest.fn();
   });
   it('The module should be imported without errors and has expected values', function() {
     const result = backgroundModule.__get__('supportedProtocols');
