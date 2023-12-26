@@ -37,7 +37,7 @@ function mockBrowser() {
 }
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
-let ModulePopup;
+let PopupModule;
 let buttonType;
 let button;
 let function_;
@@ -61,31 +61,31 @@ describe("Check module import", () => {
       runMockDom(htmlPathName);
       global.browser = mockBrowser();
       const popupJsPathName = '../popup/popup.js';
-      ModulePopup = require(popupJsPathName);
+      PopupModule = require(popupJsPathName);
   });
   it('The DOM has expected values', function() {
     expect(document.getElementById('pInput').textContent).toBe('New values');
   });
   it('The module should be imported without errors and has expected values', function() {
-    expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
+    expect(PopupModule.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
   it('popupMain runs without error', function() {
-      function_ = ModulePopup.__get__('popupMain');
+      function_ = PopupModule.__get__('popupMain');
       function_();
   });
   it('initializePopup runs without error', function() {
-      function_ = ModulePopup.__get__('initializePopup');
+      function_ = PopupModule.__get__('initializePopup');
       function_();
   });
   it('getUrls runs without error', function() {
       const results = {}
-      function_ = ModulePopup.__get__('getUrls');
+      function_ = PopupModule.__get__('getUrls');
       function_(results);
   });
   describe("Check buttons", () => {
       describe("Check createButton", () => {
           beforeAll(() => {
-              function_ = ModulePopup.__get__('createButton');
+              function_ = PopupModule.__get__('createButton');
           });
           // Parametrized test.
           it.each(buttonIdsHtml)('Check if valid button ID: %p', (buttonIdHtml) => {
@@ -102,14 +102,14 @@ describe("Check module import", () => {
           it.each(buttonIdsHtml)('Check button ID %p ', (buttonIdHtml) => {
               console.log = jest.fn(); // Avoid lot of logs on the screen.
               console.error = jest.fn(); // Avoid lot of logs on the screen.
-              const createButton = ModulePopup.__get__('createButton');
+              const createButton = PopupModule.__get__('createButton');
               const button = createButton(buttonIdHtml);
               button.run;
           });
       });
       describe("Check ButtonClicked", () => {
         beforeAll(() => {
-            buttonType = ModulePopup.__get__('ButtonClicked');
+            buttonType = PopupModule.__get__('ButtonClicked');
             const buttonIdHtml = "idTest";
             button = new buttonType(buttonIdHtml);
         });
@@ -133,62 +133,62 @@ describe("Check module import", () => {
       });
   });
   it('getShowLogs runs without error', function() {
-      function_ = ModulePopup.__get__('getShowLogs');
+      function_ = PopupModule.__get__('getShowLogs');
       function_();
   });
   it('clearStorageInfo runs without error', function() {
-      function_ = ModulePopup.__get__('clearStorageInfo');
+      function_ = PopupModule.__get__('clearStorageInfo');
       function_();
   });
   it('deleteAllUrlType runs without error', function() {
-      function_ = ModulePopup.__get__('deleteAllUrlType');
+      function_ = PopupModule.__get__('deleteAllUrlType');
       const results = {}
       function_(results);
   });
   it('enableElementsConfiguration runs without error', function() {
-      function_ = ModulePopup.__get__('enableElementsConfiguration');
+      function_ = PopupModule.__get__('enableElementsConfiguration');
       function_();
   });
   it('showStoredInfo runs without error', function() {
-      function_ = ModulePopup.__get__('showStoredInfo');
+      function_ = PopupModule.__get__('showStoredInfo');
       function_();
   });
   it('getIdHtmlOfClickedButtonOrImageFromEventClick runs without error', function() {
-      function_ = ModulePopup.__get__('getIdHtmlOfClickedButtonOrImageFromEventClick');
+      function_ = PopupModule.__get__('getIdHtmlOfClickedButtonOrImageFromEventClick');
       const eventClick = {'target': {'id': 1}};
       function_(eventClick);
   });
   it('hideInfo runs without error', function() {
-      function_ = ModulePopup.__get__('hideInfo');
+      function_ = PopupModule.__get__('hideInfo');
       const htmlId = 'infoScroll';
       function_(htmlId);
   });
   it('showTagsInfo runs without error', function() {
-      function_ = ModulePopup.__get__('showTagsInfo');
+      function_ = PopupModule.__get__('showTagsInfo');
       const htmlId = 'infoScroll';
       function_(htmlId);
   });
   it('sendInfo runs without error', function() {
-      function_ = ModulePopup.__get__('sendInfo');
+      function_ = PopupModule.__get__('sendInfo');
       const tabs = [{"id": "a"}];
       function_(tabs);
   });
   it('showOrHideInfo runs without error', function() {
-      function_ = ModulePopup.__get__('showOrHideInfo');
+      function_ = PopupModule.__get__('showOrHideInfo');
       const htmlId = 'infoScroll';
       function_(htmlId);
   });
   it('showStoredUrlsType runs without error', function() {
-      function_ = ModulePopup.__get__('showStoredUrlsType');
+      function_ = PopupModule.__get__('showStoredUrlsType');
       function_();
   });
   it('sendInfoAndValue runs without error', function() {
-      function_ = ModulePopup.__get__('sendInfoAndValue');
+      function_ = PopupModule.__get__('sendInfoAndValue');
       function_();
   });
   it('sendInfoSaveAndShowAnswer runs without error', function() {
       console.error = jest.fn();
-      function_ = ModulePopup.__get__('sendInfoSaveAndShowAnswer');
+      function_ = PopupModule.__get__('sendInfoSaveAndShowAnswer');
       const tabs = [{"id": "a"}];
       function_(tabs);
   });
@@ -199,18 +199,18 @@ describe("Check module import", () => {
       }
       const response = {'foo': sourceTagSummary};
       const htmlId='infoTags';
-      ModulePopup.__set__('info2sendFromPopup', 'buttonShowSources');
-      function_ = ModulePopup.__get__('changeParagraph');
+      PopupModule.__set__('info2sendFromPopup', 'buttonShowSources');
+      function_ = PopupModule.__get__('changeParagraph');
       function_(response, htmlId);
-      ModulePopup.__set__('info2sendFromPopup', '');
+      PopupModule.__set__('info2sendFromPopup', '');
   });
   it('enableElements runs without error', function() {
-      function_ = ModulePopup.__get__('enableElements');
+      function_ = PopupModule.__get__('enableElements');
       const htmlIdsToChange = ["pInput"];
       function_(htmlIdsToChange);
   });
   it('listSourceTagSummary runs without error', function() {
-      function_ = ModulePopup.__get__('listSourceTagSummary');
+      function_ = PopupModule.__get__('listSourceTagSummary');
       const sourceTagSummary = {
           sourcesAllNumber : 0,
           sourcesValid: []
@@ -218,55 +218,55 @@ describe("Check module import", () => {
       function_("foo", sourceTagSummary);
   });
   it('cleanShowSources runs without error', function() {
-      const valueToSet = ModulePopup.__get__('infoContainer');
+      const valueToSet = PopupModule.__get__('infoContainer');
       // Required to run all code.
-      ModulePopup.__set__('sourcesContainer', valueToSet);
-      function_ = ModulePopup.__get__('cleanShowSources');
+      PopupModule.__set__('sourcesContainer', valueToSet);
+      function_ = PopupModule.__get__('cleanShowSources');
       function_();
   });
   it('removeShownStoredUrls runs without error', function() {
-      function_ = ModulePopup.__get__('removeShownStoredUrls');
+      function_ = PopupModule.__get__('removeShownStoredUrls');
       function_();
   });
   it('saveShowLogs runs without error', function() {
-      function_ = ModulePopup.__get__('saveShowLogs');
+      function_ = PopupModule.__get__('saveShowLogs');
       function_();
   });
   describe("Check modify urls", () => {
       beforeAll(() => {
-          ModulePopup.__set__('urlType', 'blacklist');
+          PopupModule.__set__('urlType', 'blacklist');
       });
       afterEach(() => {
-          ModulePopup.__set__('urlType', '');
+          PopupModule.__set__('urlType', '');
       });
       it('deleteUrl runs without error', function() {
-          function_ = ModulePopup.__get__('deleteUrl');
+          function_ = PopupModule.__get__('deleteUrl');
           const eKey = 'blacklist_foo';
           function_(eKey);
       });
       it('addUrl runs without error', function() {
-          function_ = ModulePopup.__get__('addUrl');
+          function_ = PopupModule.__get__('addUrl');
           const eKey = 'blacklist_foo';
           function_(eKey);
       });
   });
   it('saveUrl runs without error', function() {
-      function_ = ModulePopup.__get__('saveUrl');
+      function_ = PopupModule.__get__('saveUrl');
       function_();
   });
   it('storeInfo runs without error', function() {
-      ModulePopup.__set__('info2save', ["value_1"]);
-      function_ = ModulePopup.__get__('storeInfo');
+      PopupModule.__set__('info2save', ["value_1"]);
+      function_ = PopupModule.__get__('storeInfo');
       function_();
   });
   it('reportError logs expected message', function() {
-      function_ = ModulePopup.__get__('reportError');
+      function_ = PopupModule.__get__('reportError');
       console.error = jest.fn();
       function_('foo message');
       expect(console.error).toHaveBeenCalledWith('Error: foo message');
   });
   it('reportExecuteScriptError runs without error', function() {
-      function_ = ModulePopup.__get__('reportExecuteScriptError');
+      function_ = PopupModule.__get__('reportExecuteScriptError');
       const error = {};
       function_(error);
   });
