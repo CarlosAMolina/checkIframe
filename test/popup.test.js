@@ -69,6 +69,11 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('getIdHtmlOfClickedButtonOrImageFromEventClick runs without error', function() {
+      function_ = ModulePopup.__get__('getIdHtmlOfClickedButtonOrImageFromEventClick');
+      const eventClick = {'target': {'id': 1}};
+      function_(eventClick);
+  });
   it('hideInfo runs without error', function() {
       function_ = ModulePopup.__get__('hideInfo');
       const htmlId = 'infoScroll';
