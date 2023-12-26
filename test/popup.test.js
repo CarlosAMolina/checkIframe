@@ -69,9 +69,19 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('deleteUrl runs without error', function() {
+      ModulePopup.__set__('urlType', 'blacklist');
+      function_ = ModulePopup.__get__('deleteUrl');
+      const eKey = 'blacklist_foo';
+      function_(eKey);
+      ModulePopup.__set__('urlType', '');
+  });
   it('addUrl runs without error', function() {
+      ModulePopup.__set__('urlType', 'blacklist');
       function_ = ModulePopup.__get__('addUrl');
-      function_();
+      const eKey = 'blacklist_foo';
+      function_(eKey);
+      ModulePopup.__set__('urlType', '');
   });
   it('saveUrl runs without error', function() {
       function_ = ModulePopup.__get__('saveUrl');
