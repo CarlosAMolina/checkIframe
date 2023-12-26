@@ -69,6 +69,13 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('cleanShowSources runs without error', function() {
+      const valueToSet = ModulePopup.__get__('infoContainer');
+      // Required to run all code.
+      ModulePopup.__set__('sourcesContainer', valueToSet);
+      function_ = ModulePopup.__get__('cleanShowSources');
+      function_();
+  });
   it('removeShownStoredUrls runs without error', function() {
       function_ = ModulePopup.__get__('removeShownStoredUrls');
       function_();
