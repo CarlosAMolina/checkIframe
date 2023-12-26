@@ -69,6 +69,16 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('hideInfo runs without error', function() {
+      function_ = ModulePopup.__get__('hideInfo');
+      const htmlId = 'infoScroll';
+      function_(htmlId);
+  });
+  it('showTagsInfo runs without error', function() {
+      function_ = ModulePopup.__get__('showTagsInfo');
+      const htmlId = 'infoScroll';
+      function_(htmlId);
+  });
   it('sendInfo runs without error', function() {
       function_ = ModulePopup.__get__('sendInfo');
       const tabs = [{"id": "a"}];
