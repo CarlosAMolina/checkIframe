@@ -496,7 +496,7 @@ function changeParagraph(response, htmlId) {
       document.getElementById(htmlId).textContent = response;
     } else if (info2sendFromPopup === 'buttonShowSources') {
       cleanShowSources();
-      for (sourceTag in response) {
+      for (const sourceTag in response) {
         listSourceTagSummary(sourceTag, response[sourceTag]);
       }
     }

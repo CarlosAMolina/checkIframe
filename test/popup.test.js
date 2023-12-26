@@ -69,10 +69,18 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
-  //it('changeParagraph runs without error', function() {
-  //    function_ = ModulePopup.__get__('changeParagraph');
-  //    function_();
-  //});
+  it('changeParagraph runs without error', function() {
+      const sourceTagSummary = {
+          sourcesAllNumber : 0,
+          sourcesValid: []
+      }
+      const response = {'foo': sourceTagSummary};
+      const htmlId='infoTags';
+      ModulePopup.__set__('info2sendFromPopup', 'buttonShowSources');
+      function_ = ModulePopup.__get__('changeParagraph');
+      function_(response, htmlId);
+      ModulePopup.__set__('info2sendFromPopup', '');
+  });
   it('enableElements runs without error', function() {
       function_ = ModulePopup.__get__('enableElements');
       const htmlIdsToChange = ["pInput"];
@@ -82,7 +90,7 @@ describe("Check module import", () => {
       function_ = ModulePopup.__get__('listSourceTagSummary');
       const sourceTagSummary = {
           sourcesAllNumber : 0,
-          sourcesValid: [],
+          sourcesValid: []
       }
       function_("foo", sourceTagSummary);
   });
