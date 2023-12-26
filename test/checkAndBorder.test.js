@@ -35,10 +35,18 @@ describe("Check module import", () => {
   });
   it('element runs without error', function() {
       function_ = checkAndBorderModule.__get__('element');
-      const element = new function_("foo", "bar");
+      new function_("foo", "bar");
   });
   it('initializeContentScript runs without error', function() {
       function_ = checkAndBorderModule.__get__('initializeContentScript');
+      function_();
+  });
+  it('getElementsByTags runs without error', function() {
+      function_ = checkAndBorderModule.__get__('getElementsByTags');
+      function_();
+  });
+  it('logs runs without error', function() {
+      function_ = checkAndBorderModule.__get__('logs');
       function_();
   });
 });
