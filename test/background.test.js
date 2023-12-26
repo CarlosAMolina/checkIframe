@@ -49,6 +49,11 @@ describe("Check module import", () => {
       backgroundModule = require(jsPathName);
       console.error = jest.fn();
       console.log = jest.fn();
+      // https://marek-rozmus.medium.com/mocking-settimeout-with-jest-3fd6b8fa6307
+      jest.useFakeTimers();
+  });
+  afterAll(() => {
+      jest.useRealTimers();
   });
   it('The module should be imported without errors and has expected values', function() {
     const result = backgroundModule.__get__('supportedProtocols');
