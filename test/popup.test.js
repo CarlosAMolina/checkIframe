@@ -64,7 +64,12 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
-
+  it('reportError logs expected message', function() {
+      function_ = ModulePopup.__get__('reportError');
+      console.error = jest.fn();
+      function_('foo message');
+      expect(console.error).toHaveBeenCalledWith('Error: foo message');
+  });
   describe("Check buttons", () => {
       describe("Check createButton", () => {
           beforeAll(() => {
