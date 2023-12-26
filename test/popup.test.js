@@ -69,6 +69,10 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('initializePopup runs without error', function() {
+      function_ = ModulePopup.__get__('initializePopup');
+      function_();
+  });
   it('getUrls runs without error', function() {
       const results = {}
       function_ = ModulePopup.__get__('getUrls');
