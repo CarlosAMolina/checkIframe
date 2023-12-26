@@ -69,6 +69,12 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  it('sendInfoSaveAndShowAnswer runs without error', function() {
+      console.error = jest.fn();
+      function_ = ModulePopup.__get__('sendInfoSaveAndShowAnswer');
+      const tabs = [{"id": "a"}];
+      function_(tabs);
+  });
   it('changeParagraph runs without error', function() {
       const sourceTagSummary = {
           sourcesAllNumber : 0,
