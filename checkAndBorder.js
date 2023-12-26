@@ -43,7 +43,7 @@ function getElementsByTags() {
   elements = []; // initialize
   tags2Search.forEach(function(tag2search){
     var elementsByTag = document.getElementsByTagName(tag2search);
-    for (elementIndex=0; elementIndex < elementsByTag.length; elementIndex++){
+    for (let elementIndex=0; elementIndex < elementsByTag.length; elementIndex++){
       var result = new element(tag2search,elementsByTag[elementIndex]);
       elements.push(result);
     }
