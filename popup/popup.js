@@ -639,6 +639,7 @@ function reportError(error) {
 function reportExecuteScriptError(error) {
   document.querySelector('#popup-content').classList.add('hidden');
   document.querySelector('#error-content').classList.remove('hidden');
+  // TODO replace with reportError
   console.error(`Failed to check this web page: ${error.message}`);
 }
 

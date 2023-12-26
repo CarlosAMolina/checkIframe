@@ -70,6 +70,11 @@ describe("Check module import", () => {
       function_('foo message');
       expect(console.error).toHaveBeenCalledWith('Error: foo message');
   });
+  it('reportExecuteScriptError runs without error', function() {
+      function_ = ModulePopup.__get__('reportExecuteScriptError');
+      const error = {};
+      function_(error);
+  });
   describe("Check buttons", () => {
       describe("Check createButton", () => {
           beforeAll(() => {
