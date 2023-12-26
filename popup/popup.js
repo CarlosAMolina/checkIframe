@@ -536,7 +536,7 @@ function listSourceTagSummary(tag, sourceTagSummary) {
   }
 
   function listSources(){
-    for (index = 0; index < sourceTagSummary.sourcesValid.length; index++){
+    for (let index = 0; index < sourceTagSummary.sourcesValid.length; index++){
       listNewSource(index + 1, sourceTagSummary.sourcesValid[index]);
     }
   }
