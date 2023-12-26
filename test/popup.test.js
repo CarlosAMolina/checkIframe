@@ -69,6 +69,55 @@ describe("Check module import", () => {
   it('The module should be imported without errors and has expected values', function() {
     expect(ModulePopup.__get__('urlTypeBlacklist')).toBe('blacklist');
   });
+  describe("Check buttons", () => {
+      describe("Check createButton", () => {
+          beforeAll(() => {
+              function_ = ModulePopup.__get__('createButton');
+          });
+          // Parametrized test.
+          it.each(buttonIdsHtml)('Check if valid button ID: %p', (buttonIdHtml) => {
+              const result = function_(buttonIdHtml)._buttonIdHtml;
+              expect(result).toBe(buttonIdHtml);
+          });
+          it("Check if invalid button ID", function() {
+              const buttonIdHtml = "nonexistent";
+              const result = function_(buttonIdHtml);
+              expect(result).toBe(false);
+          });
+      });
+      describe('Check buttons run without error', () => {
+          it.each(buttonIdsHtml)('Check button ID %p ', (buttonIdHtml) => {
+              console.log = jest.fn(); // Avoid lot of logs on the screen.
+              const createButton = ModulePopup.__get__('createButton');
+              const button = createButton(buttonIdHtml);
+              button.run;
+          });
+      });
+      describe("Check ButtonClicked", () => {
+        beforeAll(() => {
+            buttonType = ModulePopup.__get__('ButtonClicked');
+            const buttonIdHtml = "idTest";
+            button = new buttonType(buttonIdHtml);
+        });
+        it("Check buttonIdHtml returns expected result", function() {
+            const result = button.buttonIdHtml;
+            expect(result).toBe("idTest");
+        });
+        it("Check run throws error", function() {
+            try {
+                button.run
+                expect(true).toBe(false);
+            } catch (e) {
+                expect(e.message).toBe("Not implemented: method run");
+            }
+        });
+        it("Check logButtonName logs expected message", function() {
+            console.log = jest.fn();
+            button.logButtonName;
+            expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
+        });
+      });
+  });
   it('getShowLogs runs without error', function() {
       function_ = ModulePopup.__get__('getShowLogs');
       function_();
@@ -206,54 +255,5 @@ describe("Check module import", () => {
       function_ = ModulePopup.__get__('reportExecuteScriptError');
       const error = {};
       function_(error);
-  });
-  describe("Check buttons", () => {
-      describe("Check createButton", () => {
-          beforeAll(() => {
-              function_ = ModulePopup.__get__('createButton');
-          });
-          // Parametrized test.
-          it.each(buttonIdsHtml)('Check if valid button ID: %p', (buttonIdHtml) => {
-              const result = function_(buttonIdHtml)._buttonIdHtml;
-              expect(result).toBe(buttonIdHtml);
-          });
-          it("Check if invalid button ID", function() {
-              const buttonIdHtml = "nonexistent";
-              const result = function_(buttonIdHtml);
-              expect(result).toBe(false);
-          });
-      });
-      describe('Check buttons run without error', () => {
-          it.each(buttonIdsHtml)('Check button ID %p ', (buttonIdHtml) => {
-              console.log = jest.fn(); // Avoid lot of logs on the screen.
-              const createButton = ModulePopup.__get__('createButton');
-              const button = createButton(buttonIdHtml);
-              button.run;
-          });
-      });
-      describe("Check ButtonClicked", () => {
-        beforeAll(() => {
-            buttonType = ModulePopup.__get__('ButtonClicked');
-            const buttonIdHtml = "idTest";
-            button = new buttonType(buttonIdHtml);
-        });
-        it("Check buttonIdHtml returns expected result", function() {
-            const result = button.buttonIdHtml;
-            expect(result).toBe("idTest");
-        });
-        it("Check run throws error", function() {
-            try {
-                button.run
-                expect(true).toBe(false);
-            } catch (e) {
-                expect(e.message).toBe("Not implemented: method run");
-            }
-        });
-        it("Check logButtonName logs expected message", function() {
-            console.log = jest.fn();
-            button.logButtonName;
-            expect(console.log).toHaveBeenCalledWith('Clicked button ID Html: idTest');
-        });
-      });
   });
 });
