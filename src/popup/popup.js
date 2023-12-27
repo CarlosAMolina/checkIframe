@@ -11,10 +11,10 @@ function url(type, values) {
 }
 var urls = [];
 var urlType = '';
-var urlTypeBlacklist = 'blacklist';
-var urlTypeNotify = 'notify';
-var urlTypeReferer = 'referer';
-var urlTypes = [urlTypeBlacklist,urlTypeNotify, urlTypeReferer];
+const urlTypeBlacklist = 'blacklist';
+const urlTypeNotify = 'notify';
+const urlTypeReferer = 'referer';
+const urlTypes = [urlTypeBlacklist,urlTypeNotify, urlTypeReferer];
 var values2sendFromPopup;
 
 
