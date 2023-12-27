@@ -1,49 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html>
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="popup.css"/>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
 
-<body>
-  <div id="popup-content" style="width:250px">
-    <button id="buttonRecheck" title="Recheck" class="button menuButton" style="width:32%"><img src="/icons/recheck.png"/></button>
-    <button id="buttonScroll" title="Scroll to element" class="button menuButton" style="width:31%"><img src="/icons/locate.png"/></button>
-    <button id="buttonClean" title="Clean border" class="button menuButton" style="width:32%"><img src="/icons/noHighlight.png"/></button>
-    <p id="infoScroll" class="hidden"><br/>
-    </p>
-    <button id="buttonShowSources" class="button menuButton" style="width:100%">Show tags info
-    </button>
-    <div id="infoTags" class="sources-container hidden"></div>
-    <button id="buttonShowConfig" class="button menuButton" style="width:100%">Configuration
-    </button>
-    <div id="menuConfig" class="backGroundGrey hidden">
-      <p><u>Show logs in the console</u></p>
-      <label class="switch">
-        <input id="buttonShowLogs" type="checkbox"> 
-        <span class="slider round"></span> 
-      </label>
-      <p><u>Sources options</u></p>
-      <input id="buttonUrlsNotify" type="radio" name="urlType">
-      <label for="buttonUrlsNotify">Sources to notify when are detected</label><br>
-      <input id="buttonUrlsBlacklist" type="radio" name="urlType">
-      <label for="buttonUrlsBlacklist">Sources to avoid listing (exact match)</label><br>
-      <input id="buttonUrlsReferer" type="radio" name="urlType">
-      <label for="buttonUrlsReferer">Sites where first source opens automatically</label><br>
-      <p id="pInput">New values</p>
-      <textarea id="inputUrl" class="input" type="text" style="width:97%;resize:vertical" rows="2" disabled></textarea>
-      <button id="buttonAddUrl" class="button menuButton" style="width:49%" disabled>Add</button>
-      <button id="buttonClearAll" class="button menuButton" style="width:49%" disabled>Clear all</button>
-      <div class="clearfix">
-      </div>
-      <div class="info-container">
+  <body>
+    <div id="popup-content" style="width: 250px">
+      <button
+        id="buttonRecheck"
+        title="Recheck"
+        class="button menuButton"
+        style="width: 32%"
+      >
+        <img src="/icons/recheck.png" />
+      </button>
+      <button
+        id="buttonScroll"
+        title="Scroll to element"
+        class="button menuButton"
+        style="width: 31%"
+      >
+        <img src="/icons/locate.png" />
+      </button>
+      <button
+        id="buttonClean"
+        title="Clean border"
+        class="button menuButton"
+        style="width: 32%"
+      >
+        <img src="/icons/noHighlight.png" />
+      </button>
+      <p id="infoScroll" class="hidden"><br /></p>
+      <button
+        id="buttonShowSources"
+        class="button menuButton"
+        style="width: 100%"
+      >
+        Show tags info
+      </button>
+      <div id="infoTags" class="sources-container hidden"></div>
+      <button
+        id="buttonShowConfig"
+        class="button menuButton"
+        style="width: 100%"
+      >
+        Configuration
+      </button>
+      <div id="menuConfig" class="backGroundGrey hidden">
+        <p><u>Show logs in the console</u></p>
+        <label class="switch">
+          <input id="buttonShowLogs" type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+        <p><u>Sources options</u></p>
+        <input id="buttonUrlsNotify" type="radio" name="urlType" />
+        <label for="buttonUrlsNotify">Sources to notify when are detected</label
+        ><br />
+        <input id="buttonUrlsBlacklist" type="radio" name="urlType" />
+        <label for="buttonUrlsBlacklist"
+          >Sources to avoid listing (exact match)</label
+        ><br />
+        <input id="buttonUrlsReferer" type="radio" name="urlType" />
+        <label for="buttonUrlsReferer"
+          >Sites where first source opens automatically</label
+        ><br />
+        <p id="pInput">New values</p>
+        <textarea
+          id="inputUrl"
+          class="input"
+          type="text"
+          style="width: 97%; resize: vertical"
+          rows="2"
+          disabled
+        ></textarea>
+        <button
+          id="buttonAddUrl"
+          class="button menuButton"
+          style="width: 49%"
+          disabled
+        >
+          Add
+        </button>
+        <button
+          id="buttonClearAll"
+          class="button menuButton"
+          style="width: 49%"
+          disabled
+        >
+          Clear all
+        </button>
+        <div class="clearfix"></div>
+        <div class="info-container"></div>
       </div>
     </div>
-  </div>
-  <div id="error-content" class="hidden">
-    <p>Can't check this web page.</p><p>Try another.</p>
-  </div>
-  <script src="popup.js"></script>
-</body>
+    <div id="error-content" class="hidden">
+      <p>Can't check this web page.</p>
+      <p>Try another.</p>
+    </div>
+    <script src="popup.js"></script>
+  </body>
 </html>
