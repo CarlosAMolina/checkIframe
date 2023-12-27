@@ -36,8 +36,8 @@ function popupMain() {
     .getElementById("inputUrl")
     .addEventListener("keyup", function (event) {
       event.preventDefault();
+      // enter key
       if (event.keyCode === 13) {
-        // enter key
         saveUrl(1);
       }
     });
