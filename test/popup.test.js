@@ -54,12 +54,6 @@ describe("Check module import", () => {
     global.browser = mockBrowser();
     const popupJsPathName = "../src/popup/popup.js";
     popupModule = require(popupJsPathName);
-    const url = popupModule.__get__("url");
-    popupModule.__set__("values2sendFromPopup", [
-      new url("blacklist", []),
-      new url("notify", []),
-      new url("referer", []),
-    ]);
   });
   it("The DOM has expected values", function () {
     expect(document.getElementById("pInput").textContent).toBe("New values");
@@ -205,6 +199,12 @@ describe("Check module import", () => {
   describe("Check sendInfo", () => {
     beforeEach(() => {
       global.browser.tabs.sendMessage = jest.fn();
+      const url = popupModule.__get__("url");
+      popupModule.__set__("values2sendFromPopup", [
+        new url("blacklist", []),
+        new url("notify", []),
+        new url("referer", []),
+      ]);
     });
     it("sendInfo has expected calls", function () {
       function_ = popupModule.__get__("sendInfo");
