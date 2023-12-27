@@ -200,6 +200,7 @@ describe("Check module import", () => {
     beforeEach(() => {
       global.browser.tabs.sendMessage = jest.fn();
       const url = popupModule.__get__("url");
+      // The first time the popup is initialized I think it has these values.
       popupModule.__set__("values2sendFromPopup", [
         new url("blacklist", []),
         new url("notify", []),
