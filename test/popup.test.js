@@ -57,10 +57,10 @@ const buttonIdsHtml = [
 
 describe("Check module import", () => {
   beforeAll(() => {
-      const htmlPathName = 'popup/popup.html';
+      const htmlPathName = 'src/popup/popup.html';
       runMockDom(htmlPathName);
       global.browser = mockBrowser();
-      const popupJsPathName = '../popup/popup.js';
+      const popupJsPathName = '../src/popup/popup.js';
       popupModule = require(popupJsPathName);
   });
   it('The DOM has expected values', function() {

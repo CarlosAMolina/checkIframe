@@ -1,8 +1,3 @@
 # Create .zip package to publish.
 # https://extensionworkshop.com/documentation/publish/package-your-extension/
-zip -r -FS ../checkIframe.zip * \
--x 'create_zip' \
--x '*.git*' \
--x '.gitignore' \
--x 'TODO.md' \
--x '*node_modules*'
+cd src && zip -r -FS ../checkIframe.zip *

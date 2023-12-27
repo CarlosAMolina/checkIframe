@@ -2,7 +2,7 @@
   "name": "check_iframe",
   "version": "1.0.0",
   "description": "Tests for the project",
-  "main": "background.js",
+  "main": "src/background.js",
   "scripts": {
     "test": "jest --all --verbose ./test"
   },

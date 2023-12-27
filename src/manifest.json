@@ -27,7 +27,7 @@
       "all_frames" : false,
       "run_at" : "document_end",
       "matches": ["https://*/*","http://*/*","file:///*"],
-      "js": ["src/checkAndBorder.js"]
+      "js": ["checkAndBorder.js"]
     }
   ],
 

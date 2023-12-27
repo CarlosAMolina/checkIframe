@@ -45,7 +45,7 @@ describe("Check module import", () => {
   beforeAll(() => {
       global.browser = mockBrowser();
       runNoHtmlMockDom();
-      const jsPathName = '../background.js';
+      const jsPathName = '../src/background.js';
       backgroundModule = require(jsPathName);
       console.error = jest.fn();
       console.log = jest.fn();
