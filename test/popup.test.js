@@ -206,9 +206,6 @@ describe("Check module import", () => {
     beforeEach(() => {
       global.browser.tabs.sendMessage = jest.fn();
     });
-    afterEach(() => {
-      global.browser = mockBrowser();
-    });
     it("sendInfo has expected calls", function () {
       function_ = popupModule.__get__("sendInfo");
       const tabs = [{ id: 1234 }]; // TODO check if this is a real value.
