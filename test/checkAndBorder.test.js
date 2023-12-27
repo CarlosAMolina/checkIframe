@@ -26,7 +26,7 @@ describe("Check module import", () => {
   beforeAll(() => {
       global.browser = mockBrowser();
       runNoHtmlMockDom();
-      const jsPathName = '../checkAndBorder.js';
+      const jsPathName = '../src/checkAndBorder.js';
       checkAndBorderModule = require(jsPathName);
   });
   it('The module should be imported without errors and has expected values', function() {
