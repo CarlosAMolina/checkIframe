@@ -32,12 +32,10 @@
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jsdom": "^16.4.0",
-    "lint-staged": "^15.2.0",
     "prettier": "3.1.1"
   },
   "devDependenciesComments": {
     "babel-plugin-rewire": "Allow test not exported code. https://www.samanthaming.com/journal/2-testing-non-exported-functions/",
-    "eslint, prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
-    "lib-staged": "https://github.com/lint-staged/lint-staged#configuration"
+    "eslint, prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/"
   }
 }

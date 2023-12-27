@@ -16,7 +16,6 @@
     <button id="buttonShowSources" class="button menuButton" style="width:100%">Show tags info
     </button>
     <div id="infoTags" class="sources-container hidden"></div>
-    </p>
     <button id="buttonShowConfig" class="button menuButton" style="width:100%">Configuration
     </button>
     <div id="menuConfig" class="backGroundGrey hidden">
@@ -26,9 +25,12 @@
         <span class="slider round"></span> 
       </label>
       <p><u>Sources options</u></p>
-      <input id="buttonUrlsNotify" type="radio" name="urlType">Sources to notify when are detected</p>
-      <input id="buttonUrlsBlacklist" type="radio" name="urlType">Sources to avoid listing (exact match)</p>
-      <input id="buttonUrlsReferer" type="radio" name="urlType">Sites where first source opens automatically</p>
+      <input id="buttonUrlsNotify" type="radio" name="urlType">
+      <label for="buttonUrlsNotify">Sources to notify when are detected</label><br>
+      <input id="buttonUrlsBlacklist" type="radio" name="urlType">
+      <label for="buttonUrlsBlacklist">Sources to avoid listing (exact match)</label><br>
+      <input id="buttonUrlsReferer" type="radio" name="urlType">
+      <label for="buttonUrlsReferer">Sites where first source opens automatically</label><br>
       <p id="pInput">New values</p>
       <textarea id="inputUrl" class="input" type="text" style="width:97%;resize:vertical" rows="2" disabled></textarea>
       <button id="buttonAddUrl" class="button menuButton" style="width:49%" disabled>Add</button>
