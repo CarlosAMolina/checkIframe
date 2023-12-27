@@ -77,6 +77,13 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("popupMain");
     function_();
   });
+  it("getIdHtmlOfClickedButtonOrImageFromEventClick runs without error", function () {
+    function_ = popupModule.__get__(
+      "getIdHtmlOfClickedButtonOrImageFromEventClick",
+    );
+    const eventClick = { target: { id: 1 } };
+    function_(eventClick);
+  });
   it("initializePopup runs without error", function () {
     function_ = popupModule.__get__("initializePopup");
     function_();
@@ -158,13 +165,6 @@ describe("Check module import", () => {
   it("showStoredInfo runs without error", function () {
     function_ = popupModule.__get__("showStoredInfo");
     function_();
-  });
-  it("getIdHtmlOfClickedButtonOrImageFromEventClick runs without error", function () {
-    function_ = popupModule.__get__(
-      "getIdHtmlOfClickedButtonOrImageFromEventClick",
-    );
-    const eventClick = { target: { id: 1 } };
-    function_(eventClick);
   });
   it("hideInfo runs without error", function () {
     function_ = popupModule.__get__("hideInfo");
