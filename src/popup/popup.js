@@ -43,16 +43,16 @@ function popupMain() {
     });
 }
 
-function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
-  return eventClick.target.id || eventClick.target.parentElement.id;
-}
-
 function initializePopup() {
   getShowLogs();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     getUrls(results);
   }, reportError);
+}
+
+function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
+  return eventClick.target.id || eventClick.target.parentElement.id;
 }
 
 // get saved urls

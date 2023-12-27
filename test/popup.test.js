@@ -77,16 +77,16 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("popupMain");
     function_();
   });
+  it("initializePopup runs without error", function () {
+    function_ = popupModule.__get__("initializePopup");
+    function_();
+  });
   it("getIdHtmlOfClickedButtonOrImageFromEventClick runs without error", function () {
     function_ = popupModule.__get__(
       "getIdHtmlOfClickedButtonOrImageFromEventClick",
     );
     const eventClick = { target: { id: 1 } };
     function_(eventClick);
-  });
-  it("initializePopup runs without error", function () {
-    function_ = popupModule.__get__("initializePopup");
-    function_();
   });
   it("getUrls runs without error", function () {
     const results = {};
