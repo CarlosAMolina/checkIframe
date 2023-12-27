@@ -278,10 +278,10 @@ class ButtonClearAll extends ButtonClicked {
 
 function getShowLogs() {
   var gettingItem = browser.storage.local.get("idShowLogs");
+  // result: empty object if the searched value is not stored
   gettingItem.then((result) => {
-    // result: empty object if the searched value is not stored
+    // show log option has never been used
     if (typeof result.idShowLogs != "undefined") {
-      // show log option has never been used
       changeStateBoxLog(result);
     }
   }, reportError);
