@@ -1,39 +1,31 @@
 import { runMockDom } from "./mockDom.js";
 
 function mockBrowser() {
-  return {
-    storage: mockLocalStorage(),
-    tabs: mockTabs(),
-  };
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  function mockLocalStorage() {
-    function mockGetLocalStorage() {
-      return {
+  return {
+    storage: {
+      local: {
         get: getEmptyNewPromise, // Required to run all storeInfo() if-else code.
         set: getNewPromise,
-      };
-    }
-    return {
-      local: mockGetLocalStorage(),
-    };
-  }
-  function mockTabs() {
-    return {
+      },
+    },
+    tabs: {
       executeScript: getNewPromise,
       query: getNewPromise,
       sendMessage: getNewPromise,
-    };
-  }
-  function getNewPromise(args) {
-    return new Promise(function (resolve, reject) {
-      resolve("Start of new Promise");
-    });
-  }
-  function getEmptyNewPromise(args) {
-    return new Promise(function (resolve, reject) {
-      resolve({});
-    });
-  }
+    },
+  };
+}
+
+function getNewPromise(args) {
+  return new Promise(function (resolve, reject) {
+    resolve("Start of new Promise");
+  });
+}
+function getEmptyNewPromise(args) {
+  return new Promise(function (resolve, reject) {
+    resolve({});
+  });
 }
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
@@ -56,12 +48,18 @@ const buttonIdsHtml = [
 ];
 
 describe("Check module import", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     const htmlPathName = "src/popup/popup.html";
     runMockDom(htmlPathName);
     global.browser = mockBrowser();
     const popupJsPathName = "../src/popup/popup.js";
     popupModule = require(popupJsPathName);
+    const url = popupModule.__get__("url");
+    popupModule.__set__("values2sendFromPopup", [
+      new url("blacklist", []),
+      new url("notify", []),
+      new url("referer", []),
+    ]);
   });
   it("The DOM has expected values", function () {
     expect(document.getElementById("pInput").textContent).toBe("New values");
@@ -154,6 +152,28 @@ describe("Check module import", () => {
       function_ = popupModule.__get__("getShowLogs");
       function_();
     });
+    // TODO
+    //it("Runs ok if show log option has never been used", async () => {
+    //console.log('test init');
+    //function_ = popupModule.__get__("getShowLogs");
+    //console.log('test sendInfo) browser.tabs.sendMessage.calls');
+    //console.log(browser.tabs.sendMessage.mock.calls);
+    //await function_();
+    //console.log(document.getElementById("buttonShowLogs").checked);
+    //console.log(popupModule.__get__("info2sendFromPopup"));
+    //console.log(popupModule.__get__("values2sendFromPopup"));
+    //console.log(browser.tabs.sendMessage);
+    //console.log(browser.tabs.sendMessage.mock.calls);
+    //expect(browser.tabs.sendMessage.mock.calls[0][1]).toBe('second arg');
+    //console.log('test sendInfo) browser.tabs.sendMessage.mock.calls[0][3]');
+    //console.log(browser.tabs.sendMessage.mock.calls[0][3]);
+    //console.log('test sendInfo) browser.tabs.sendMessage.mock.calls[x]');
+    //console.log(browser.tabs.sendMessage.mock.calls[4]);
+    //console.log('test sendInfo) browser.tabs.sendMessage.mock.calls[x][y]');
+    //console.log(browser.tabs.sendMessage.mock.calls[4][1]);
+    //global.browser = mockBrowser();
+    //console.log('test end');
+    //});
   });
   it("clearStorageInfo runs without error", function () {
     function_ = popupModule.__get__("clearStorageInfo");
@@ -182,10 +202,32 @@ describe("Check module import", () => {
     const htmlId = "infoScroll";
     function_(htmlId);
   });
-  it("sendInfo runs without error", function () {
-    function_ = popupModule.__get__("sendInfo");
-    const tabs = [{ id: "a" }];
-    function_(tabs);
+  describe("Check sendInfo", () => {
+    beforeEach(() => {
+      global.browser.tabs.sendMessage = jest.fn();
+    });
+    afterEach(() => {
+      global.browser = mockBrowser();
+    });
+    it("sendInfo has expected calls", function () {
+      function_ = popupModule.__get__("sendInfo");
+      const tabs = [{ id: 1234 }]; // TODO check if this is a real value.
+      function_(tabs);
+      const browser_last_call = browser.tabs.sendMessage.mock.calls[0];
+      const url = popupModule.__get__("url");
+      const expectedResult = [
+        1234,
+        {
+          info: "urls",
+          values: [
+            new url("blacklist", []),
+            new url("notify", []),
+            new url("referer", []),
+          ],
+        },
+      ];
+      expect(browser_last_call).toStrictEqual(expectedResult);
+    });
   });
   it("showOrHideInfo runs without error", function () {
     function_ = popupModule.__get__("showOrHideInfo");
