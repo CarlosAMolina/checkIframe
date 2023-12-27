@@ -4,11 +4,12 @@
   "description": "Tests for the project",
   "main": "src/background.js",
   "scripts": {
-    "test": "jest --all --verbose ./test",
     "lint": "npx eslint src test",
     "lint:fix": "npm run lint -- --fix",
+    "precommit": "lint-staged",
     "prettier": "npx prettier src test --check",
-    "prettier:fix": "npm run prettier -- --write"
+    "prettier:fix": "npm run prettier -- --write",
+    "test": "jest --all --verbose ./test"
   },
   "lint-staged": {
     "*": "npm run prettier:fix"
