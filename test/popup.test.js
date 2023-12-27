@@ -198,7 +198,9 @@ describe("Check module import", () => {
   });
   describe("Check sendInfo", () => {
     beforeEach(() => {
-      global.browser.tabs.sendMessage = jest.fn();
+      global.browser.tabs.sendMessage = jest.fn(() =>
+        Promise.resolve({ data: "foo" }),
+      );
       const url = popupModule.__get__("url");
       // The first time the popup is initialized I think it has these values.
       popupModule.__set__("values2sendFromPopup", [
@@ -207,13 +209,13 @@ describe("Check module import", () => {
         new url("referer", []),
       ]);
     });
-    it("sendInfo has expected calls", function () {
+    // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
+    it("sendInfo has expected calls and values", async () => {
       function_ = popupModule.__get__("sendInfo");
       const tabs = [{ id: 1234 }]; // TODO check if this is a real value.
       function_(tabs);
-      const browser_last_call = browser.tabs.sendMessage.mock.calls[0];
       const url = popupModule.__get__("url");
-      const expectedResult = [
+      await expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
         1234,
         {
           info: "urls",
@@ -223,8 +225,10 @@ describe("Check module import", () => {
             new url("referer", []),
           ],
         },
-      ];
-      expect(browser_last_call).toStrictEqual(expectedResult);
+      ]);
+      await expect(
+        browser.tabs.sendMessage.mock.results[0].value,
+      ).resolves.toEqual({ data: "foo" });
     });
   });
   it("showOrHideInfo runs without error", function () {
