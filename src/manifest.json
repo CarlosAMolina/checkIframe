@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Check iframe",
   "version": "1.4.1",
-  
+
   "description": "Firefox add-on that indicates if the current web page uses iframes or frames and allows you to browse through them.",
   "homepage_url": "https://github.com/CarlosAMolina/checkIframe",
 
@@ -10,11 +10,7 @@
     "123": "icons/addonIcon.png"
   },
 
-  "permissions": [
-    "activeTab",
-    "storage",
-    "tabs"
-  ],
+  "permissions": ["activeTab", "storage", "tabs"],
 
   "browser_action": {
     "default_icon": "icons/i_blue.png",
@@ -24,9 +20,9 @@
 
   "content_scripts": [
     {
-      "all_frames" : false,
-      "run_at" : "document_end",
-      "matches": ["https://*/*","http://*/*","file:///*"],
+      "all_frames": false,
+      "run_at": "document_end",
+      "matches": ["https://*/*", "http://*/*", "file:///*"],
       "js": ["checkAndBorder.js"]
     }
   ],
@@ -34,5 +30,4 @@
   "background": {
     "scripts": ["background.js"]
   }
-
 }

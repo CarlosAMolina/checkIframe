@@ -1,8 +1,9 @@
 /* pop-up box */
-html, body {
+html,
+body {
   width: 260px;
   background-color: white;
-  overflow-x:hidden; /* no x-axis scroll */
+  overflow-x: hidden; /* no x-axis scroll */
 }
 
 .button {
@@ -10,10 +11,10 @@ html, body {
   margin: 3% auto; /* upper and lower space */
   padding: 4px; /* padding area on all four sides of an element */
   cursor: pointer;
-  background-color: #E5F2F2;
+  background-color: #e5f2f2;
 }
 .button:hover {
-  background-color: #CFF2F2;
+  background-color: #cff2f2;
 }
 
 /* Toggle Switch */
@@ -25,7 +26,9 @@ html, body {
   height: 11px;
   left: 0px;
 }
-.switch input {display:none;}
+.switch input {
+  display: none;
+}
 .slider {
   position: absolute;
   cursor: pointer;
@@ -34,8 +37,8 @@ html, body {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s; /* speed */
-  transition: .4s;
+  -webkit-transition: 0.4s; /* speed */
+  transition: 0.4s;
 }
 .slider:before {
   position: absolute;
@@ -45,14 +48,14 @@ html, body {
   left: 4px;
   bottom: 2.5px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 input:checked + .slider:before {
   -webkit-transform: translateX(20px);
@@ -73,11 +76,11 @@ input:checked + .slider:before {
 }
 
 .input {
-    width: 100px;
+  width: 100px;
 }
 
 .backGroundGrey {
-  background: rgb(240,240,240);
+  background: rgb(240, 240, 240);
 }
 
 .floatLeft {
