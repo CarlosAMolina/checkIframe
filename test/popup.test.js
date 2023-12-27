@@ -149,9 +149,11 @@ describe("Check module import", () => {
       });
     });
   });
-  it("getShowLogs runs without error", function () {
-    function_ = popupModule.__get__("getShowLogs");
-    function_();
+  describe("Check getShowLogs", () => {
+    it("Runs without error", function () {
+      function_ = popupModule.__get__("getShowLogs");
+      function_();
+    });
   });
   it("clearStorageInfo runs without error", function () {
     function_ = popupModule.__get__("clearStorageInfo");
