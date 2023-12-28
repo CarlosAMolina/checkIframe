@@ -158,7 +158,9 @@ describe("Check module import", () => {
       // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'used once'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
       const idShowLogs = 1;
-      browser.storage.local.get = jest.fn(() => Promise.resolve({ idShowLogs: idShowLogs })),
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idShowLogs: idShowLogs }),
+      );
       // sendInfoAndValue calls browser.tabs.query
       expect(browser.tabs.query.mock.calls.length).toBe(0);
       expect(document.getElementById("buttonShowLogs").checked).toBe(false);
@@ -166,10 +168,11 @@ describe("Check module import", () => {
       await Promise.all([function_()]);
       expect(document.getElementById("buttonShowLogs").checked).toBe(true);
       expect(browser.tabs.query.mock.calls.length).toBe(1);
-      expect(browser.tabs.sendMessage.mock.lastCall).toEqual(
-          [ tabId, { info: 'buttonShowLogs', values: idShowLogs } ]
-      );
-    })
+      expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+        tabId,
+        { info: "buttonShowLogs", values: idShowLogs },
+      ]);
+    });
     // TODO
     //console.log('**********************************')
     //console.log('Test init')
