@@ -5,7 +5,7 @@ function mockBrowser() {
   return {
     storage: {
       local: {
-        get: jest.fn(() => Promise.resolve({})), // Required to run all storeInfo() if-else code.
+        get: jest.fn(() => Promise.resolve({})),
         set: getNewPromise,
       },
     },
@@ -145,6 +145,7 @@ describe("Check module import", () => {
   });
   describe("Check getShowLogs", () => {
     it("Runs ok if show log option has never been used", async () => {
+      browser.storage.local.get = jest.fn(() => Promise.resolve({}));
       // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'getShowLogs'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: 1 }]));
       function_ = popupModule.__get__("getShowLogs");
