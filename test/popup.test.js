@@ -189,10 +189,14 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("showStoredInfo");
     function_();
   });
-  it("hideInfo runs without error", function () {
+  it("hideInfo adds class", function () {
     function_ = popupModule.__get__("hideInfo");
-    const htmlId = "infoScroll";
+    const htmlId = "buttonRecheck";
+    expect(document.getElementById(htmlId).className).toBe("button menuButton");
     function_(htmlId);
+    expect(document.getElementById(htmlId).className).toBe(
+      "button menuButton hidden",
+    );
   });
   it("showTagsInfo removes class", function () {
     function_ = popupModule.__get__("showTagsInfo");
