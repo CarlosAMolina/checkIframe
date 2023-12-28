@@ -48,6 +48,7 @@ const buttonIdsHtml = [
   "buttonAddUrl",
   "buttonClearAll",
 ];
+const tabId = 1;
 
 describe("Check module import", () => {
   beforeEach(() => {
@@ -157,7 +158,6 @@ describe("Check module import", () => {
       expect(browser.tabs.query.mock.calls.length).toBe(0);
     });
     it("Runs ok if show log option has been activated", async () => {
-      const tabId = 1;
       // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'been activated'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
       const idShowLogs = 1;
@@ -177,7 +177,6 @@ describe("Check module import", () => {
       ]);
     });
     it("Runs ok if show log option has been deactivated", async () => {
-      const tabId = 1;
       document.getElementById("buttonShowLogs").checked = true;
       // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'been deactivated'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
