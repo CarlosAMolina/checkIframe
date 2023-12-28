@@ -148,7 +148,9 @@ describe("Check module import", () => {
       // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'getShowLogs'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: 1 }]));
       function_ = popupModule.__get__("getShowLogs");
+      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
       await function_();
+      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
       // sendInfoAndValue calls browser.tabs.query
       expect(browser.tabs.query.mock.calls.length).toBe(0);
     });
