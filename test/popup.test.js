@@ -176,31 +176,27 @@ describe("Check module import", () => {
         { info: "buttonShowLogs", values: idShowLogs },
       ]);
     });
-    // TODO
-    //console.log('**********************************')
-    //console.log('Test init')
-    //it("Runs ok if show log option has never been used", async () => {
-    //function_ = popupModule.__get__("getShowLogs");
-    //console.log('test sendInfo) browser.tabs.sendMessage.calls');
-    //console.log(browser.tabs.sendMessage.mock.calls);
-    //await function_();
-    //console.log(document.getElementById("buttonShowLogs").checked);
-    //console.log(popupModule.__get__("info2sendFromPopup"));
-    //console.log(popupModule.__get__("values2sendFromPopup"));
-    //console.log(browser.tabs.sendMessage);
-    //console.log(browser.tabs.sendMessage.mock.calls);
-    //expect(browser.tabs.sendMessage.mock.calls[0][1]).toBe('second arg');
-    //console.log('test sendInfo) browser.tabs.sendMessage.mock.calls[0][3]');
-    //console.log(browser.tabs.sendMessage.mock.calls[0][3]);
-    //console.log('test sendInfo) browser.tabs.sendMessage.mock.calls[x]');
-    //console.log(browser.tabs.sendMessage.mock.calls[4]);
-    //console.log('test sendInfo) browser.tabs.sendMessage.mock.calls[x][y]');
-    //console.log(browser.tabs.sendMessage.mock.calls[4][1]);
-    //global.browser = mockBrowser();
-    //console.log('test end');
-    //console.log('Test end')
-    //console.log('**********************************')
-    //});
+    it("Runs ok if show log option has been deactivated", async () => {
+      const tabId = 1;
+      document.getElementById("buttonShowLogs").checked = true;
+      // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'been deactivated'
+      browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
+      const idShowLogs = 0;
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idShowLogs: idShowLogs }),
+      );
+      // sendInfoAndValue calls browser.tabs.query
+      expect(browser.tabs.query.mock.calls.length).toBe(0);
+      expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+      function_ = popupModule.__get__("getShowLogs");
+      await Promise.all([function_()]);
+      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+      expect(browser.tabs.query.mock.calls.length).toBe(1);
+      expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+        tabId,
+        { info: "buttonShowLogs", values: idShowLogs },
+      ]);
+    });
   });
   it("clearStorageInfo runs without error", function () {
     function_ = popupModule.__get__("clearStorageInfo");
