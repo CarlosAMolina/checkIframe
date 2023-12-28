@@ -5,7 +5,7 @@ function mockBrowser() {
   return {
     storage: {
       local: {
-        get: getEmptyNewPromise, // Required to run all storeInfo() if-else code.
+        get: jest.fn(() => Promise.resolve({})), // Required to run all storeInfo() if-else code.
         set: getNewPromise,
       },
     },
@@ -145,14 +145,35 @@ describe("Check module import", () => {
   });
   describe("Check getShowLogs", () => {
     it("Runs ok if show log option has never been used", async () => {
+      // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'getShowLogs'
+      browser.tabs.query = jest.fn(() => Promise.resolve([{ id: 1 }]));
       function_ = popupModule.__get__("getShowLogs");
       await function_();
       // sendInfoAndValue calls browser.tabs.query
       expect(browser.tabs.query.mock.calls.length).toBe(0);
     });
+    it("Runs ok if show log option has been used once", async () => {
+      // TODO extract initial config to a beforeEach block
+      const tabId = 1;
+      // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'used once'
+      browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
+      const idShowLogs = 1;
+      browser.storage.local.get = jest.fn(() => Promise.resolve({ idShowLogs: idShowLogs })),
+      // sendInfoAndValue calls browser.tabs.query
+      expect(browser.tabs.query.mock.calls.length).toBe(0);
+      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+      function_ = popupModule.__get__("getShowLogs");
+      await Promise.all([function_()]);
+      expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+      expect(browser.tabs.query.mock.calls.length).toBe(1);
+      expect(browser.tabs.sendMessage.mock.lastCall).toEqual(
+          [ tabId, { info: 'buttonShowLogs', values: idShowLogs } ]
+      );
+    })
     // TODO
+    //console.log('**********************************')
+    //console.log('Test init')
     //it("Runs ok if show log option has never been used", async () => {
-    //console.log('test init');
     //function_ = popupModule.__get__("getShowLogs");
     //console.log('test sendInfo) browser.tabs.sendMessage.calls');
     //console.log(browser.tabs.sendMessage.mock.calls);
@@ -171,6 +192,8 @@ describe("Check module import", () => {
     //console.log(browser.tabs.sendMessage.mock.calls[4][1]);
     //global.browser = mockBrowser();
     //console.log('test end');
+    //console.log('Test end')
+    //console.log('**********************************')
     //});
   });
   it("clearStorageInfo runs without error", function () {
