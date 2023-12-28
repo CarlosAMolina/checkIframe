@@ -11,8 +11,9 @@ function mockBrowser() {
     },
     tabs: {
       executeScript: getNewPromise,
-      query: getNewPromise,
       // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
+      // TODO check if this is a real value.
+      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
       sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
     },
   };
@@ -211,9 +212,9 @@ describe("Check module import", () => {
     it("sendInfo has expected calls and values", async () => {
       function_ = popupModule.__get__("sendInfo");
       const tabs = [{ id: 1234 }]; // TODO check if this is a real value.
-      function_(tabs);
+      await function_(tabs);
       const url = popupModule.__get__("url");
-      await expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+      expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
         1234,
         {
           info: "urls",
@@ -224,9 +225,9 @@ describe("Check module import", () => {
           ],
         },
       ]);
-      await expect(
-        browser.tabs.sendMessage.mock.results[0].value,
-      ).resolves.toEqual({ data: "done sendMessage" });
+      expect(browser.tabs.sendMessage.mock.results[0].value).resolves.toEqual({
+        data: "done sendMessage",
+      });
     });
   });
   it("showOrHideInfo runs without error", function () {
@@ -238,9 +239,18 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("showStoredUrlsType");
     function_();
   });
-  it("sendInfoAndValue runs without error", function () {
+  it("sendInfoAndValue has expected calls and values", async () => {
+    const info2send = "info 2 send";
+    const values2send = "value 2 send";
     function_ = popupModule.__get__("sendInfoAndValue");
-    function_();
+    await function_(info2send, values2send);
+    expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+      1,
+      {
+        info: "info 2 send",
+        values: "value 2 send",
+      },
+    ]);
   });
   it("sendInfoSaveAndShowAnswer runs without error", function () {
     console.error = jest.fn();
