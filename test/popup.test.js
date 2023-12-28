@@ -12,7 +12,6 @@ function mockBrowser() {
     tabs: {
       executeScript: getNewPromise,
       // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
-      // TODO check if this is a real value.
       query: jest.fn(() => Promise.resolve([{ id: 1 }])),
       sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
     },
@@ -217,7 +216,7 @@ describe("Check module import", () => {
     });
     it("sendInfo has expected calls and values", async () => {
       function_ = popupModule.__get__("sendInfo");
-      const tabs = [{ id: 1234 }]; // TODO check if this is a real value.
+      const tabs = [{ id: 1234 }];
       await function_(tabs);
       const url = popupModule.__get__("url");
       expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
