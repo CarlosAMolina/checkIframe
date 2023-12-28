@@ -149,15 +149,18 @@ describe("Check module import", () => {
       // required reset to avoid errors if only one test is run by filtering with: node_modules/.bin/jest -t '...'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
     });
-    // TODO extract initial config to a beforeEach block
-    it("Runs ok if show log option has never been used", async () => {
-      browser.storage.local.get = jest.fn(() => Promise.resolve({}));
-      function_ = popupModule.__get__("getShowLogs");
-      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-      await function_();
-      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-      // sendInfoAndValue calls browser.tabs.query
-      expect(browser.tabs.query.mock.calls.length).toBe(0);
+    describe("Check if the show log option has never been used", () => {
+      beforeEach(() => {
+        browser.storage.local.get = jest.fn(() => Promise.resolve({}));
+      });
+      it("Check expected values", async () => {
+        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        function_ = popupModule.__get__("getShowLogs");
+        await function_();
+        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        // sendInfoAndValue calls browser.tabs.query
+        expect(browser.tabs.query.mock.calls.length).toBe(0);
+      });
     });
     it("Runs ok if show log option has been activated", async () => {
       const idShowLogs = 1;
