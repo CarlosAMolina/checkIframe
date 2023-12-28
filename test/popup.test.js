@@ -162,40 +162,48 @@ describe("Check module import", () => {
         expect(browser.tabs.query.mock.calls.length).toBe(0);
       });
     });
-    it("Runs ok if show log option has been activated", async () => {
-      const idShowLogs = 1;
-      browser.storage.local.get = jest.fn(() =>
-        Promise.resolve({ idShowLogs: idShowLogs }),
-      );
-      // sendInfoAndValue calls browser.tabs.query
-      expect(browser.tabs.query.mock.calls.length).toBe(0);
-      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-      function_ = popupModule.__get__("getShowLogs");
-      await Promise.all([function_()]);
-      expect(document.getElementById("buttonShowLogs").checked).toBe(true);
-      expect(browser.tabs.query.mock.calls.length).toBe(1);
-      expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-        tabId,
-        { info: "buttonShowLogs", values: idShowLogs },
-      ]);
+    describe("Check if the show log option has been activated", () => {
+      beforeEach(() => {
+        browser.storage.local.get = jest.fn(() =>
+          Promise.resolve({ idShowLogs: 1 }),
+        );
+      });
+      it("Check expected values", async () => {
+        // sendInfoAndValue calls browser.tabs.query
+        expect(browser.tabs.query.mock.calls.length).toBe(0);
+        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        function_ = popupModule.__get__("getShowLogs");
+        await Promise.all([function_()]);
+        expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+        expect(browser.tabs.query.mock.calls.length).toBe(1);
+        const idShowLogs = 1;
+        expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+          tabId,
+          { info: "buttonShowLogs", values: idShowLogs },
+        ]);
+      });
     });
-    it("Runs ok if show log option has been deactivated", async () => {
-      document.getElementById("buttonShowLogs").checked = true;
-      const idShowLogs = 0;
-      browser.storage.local.get = jest.fn(() =>
-        Promise.resolve({ idShowLogs: idShowLogs }),
-      );
-      // sendInfoAndValue calls browser.tabs.query
-      expect(browser.tabs.query.mock.calls.length).toBe(0);
-      expect(document.getElementById("buttonShowLogs").checked).toBe(true);
-      function_ = popupModule.__get__("getShowLogs");
-      await Promise.all([function_()]);
-      expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-      expect(browser.tabs.query.mock.calls.length).toBe(1);
-      expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-        tabId,
-        { info: "buttonShowLogs", values: idShowLogs },
-      ]);
+    describe("Check if the show log option has been deactivated", () => {
+      beforeEach(() => {
+        document.getElementById("buttonShowLogs").checked = true;
+        browser.storage.local.get = jest.fn(() =>
+          Promise.resolve({ idShowLogs: 0 }),
+        );
+      });
+      it("Check expected values", async () => {
+        // sendInfoAndValue calls browser.tabs.query
+        expect(browser.tabs.query.mock.calls.length).toBe(0);
+        expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+        function_ = popupModule.__get__("getShowLogs");
+        await Promise.all([function_()]);
+        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        expect(browser.tabs.query.mock.calls.length).toBe(1);
+        const idShowLogs = 0;
+        expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+          tabId,
+          { info: "buttonShowLogs", values: idShowLogs },
+        ]);
+      });
     });
   });
   it("clearStorageInfo runs without error", function () {
