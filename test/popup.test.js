@@ -144,6 +144,7 @@ describe("Check module import", () => {
     });
   });
   describe("Check getShowLogs", () => {
+    // TODO extract initial config to a beforeEach block
     it("Runs ok if show log option has never been used", async () => {
       browser.storage.local.get = jest.fn(() => Promise.resolve({}));
       // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'getShowLogs'
@@ -155,10 +156,9 @@ describe("Check module import", () => {
       // sendInfoAndValue calls browser.tabs.query
       expect(browser.tabs.query.mock.calls.length).toBe(0);
     });
-    it("Runs ok if show log option has been used once", async () => {
-      // TODO extract initial config to a beforeEach block
+    it("Runs ok if show log option has been activated", async () => {
       const tabId = 1;
-      // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'used once'
+      // required reset to avoid errors if the test is run as: node_modules/.bin/jest -t 'been activated'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
       const idShowLogs = 1;
       browser.storage.local.get = jest.fn(() =>
