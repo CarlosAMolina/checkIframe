@@ -144,9 +144,11 @@ describe("Check module import", () => {
     });
   });
   describe("Check getShowLogs", () => {
-    it("Runs without error", function () {
+    it("Runs ok if show log option has never been used", async () => {
       function_ = popupModule.__get__("getShowLogs");
-      function_();
+      await function_();
+      // sendInfoAndValue calls browser.tabs.query
+      expect(browser.tabs.query.mock.calls.length).toBe(0);
     });
     // TODO
     //it("Runs ok if show log option has never been used", async () => {
