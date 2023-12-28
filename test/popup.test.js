@@ -194,10 +194,12 @@ describe("Check module import", () => {
     const htmlId = "infoScroll";
     function_(htmlId);
   });
-  it("showTagsInfo runs without error", function () {
+  it("showTagsInfo removes class", function () {
     function_ = popupModule.__get__("showTagsInfo");
     const htmlId = "infoScroll";
+    expect(document.getElementById(htmlId).className).toBe("hidden");
     function_(htmlId);
+    expect(document.getElementById(htmlId).className).toBe("");
   });
   describe("Check sendInfo", () => {
     beforeEach(() => {
