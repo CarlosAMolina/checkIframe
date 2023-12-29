@@ -165,6 +165,7 @@ describe("Check module import", () => {
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall[0]).toBe(tabId);
         expect(lastCall[1].info).toBe(buttonIdHtml);
+        // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
       });
     });
   });
