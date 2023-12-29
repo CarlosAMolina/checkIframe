@@ -12,9 +12,6 @@
     "test": "jest --all --verbose ./test",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "*": "npm run prettier:fix"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CarlosAMolina/checkIframe.git"
