@@ -93,6 +93,13 @@ describe("Check module import", () => {
     function_(results);
   });
   describe("Check buttons", () => {
+    beforeAll(() => {
+      const htmlPathName = "src/popup/popup.html";
+      runMockDom(htmlPathName);
+      global.browser = mockBrowser();
+      const popupJsPathName = "../src/popup/popup.js";
+      popupModule = require(popupJsPathName);
+    });
     describe("Check createButton", () => {
       beforeAll(() => {
         function_ = popupModule.__get__("createButton");
