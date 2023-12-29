@@ -150,6 +150,31 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonRecheck");
       });
+      it("Check run has expected calls and values", async () => {
+        document.querySelector("#infoTags").classList.remove("hidden");
+        expect(document.getElementById("infoTags").className).toBe(
+          "sources-container",
+        );
+        await button.run;
+        const buttonIdHtml = "buttonRecheck";
+        expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
+        expect(document.getElementById("infoTags").className).toBe(
+          "sources-container hidden",
+        );
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+        const url = popupModule.__get__("url");
+        expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+          tabId,
+          {
+            info: buttonIdHtml,
+            values: [
+              new url("blacklist", []),
+              new url("notify", []),
+              new url("referer", []),
+            ],
+          },
+        ]);
+      });
     });
   });
   describe("Check getShowLogs", () => {
