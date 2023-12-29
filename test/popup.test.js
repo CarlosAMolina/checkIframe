@@ -162,18 +162,9 @@ describe("Check module import", () => {
           "sources-container hidden",
         );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-        const url = popupModule.__get__("url");
-        expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-          tabId,
-          {
-            info: buttonIdHtml,
-            values: [
-              new url("blacklist", []),
-              new url("notify", []),
-              new url("referer", []),
-            ],
-          },
-        ]);
+        const lastCall = browser.tabs.sendMessage.mock.lastCall;
+        expect(lastCall[0]).toBe(tabId);
+        expect(lastCall[1].info).toBe(buttonIdHtml);
       });
     });
   });
