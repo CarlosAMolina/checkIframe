@@ -142,6 +142,15 @@ describe("Check module import", () => {
         );
       });
     });
+    describe("Check ButtonRecheck", () => {
+      beforeAll(() => {
+        const classType = popupModule.__get__("ButtonRecheck");
+        button = new classType();
+      });
+      it("Check it has correct button ID value", function () {
+        expect(button.buttonIdHtml).toBe("buttonRecheck");
+      });
+    });
   });
   describe("Check getShowLogs", () => {
     beforeEach(() => {
