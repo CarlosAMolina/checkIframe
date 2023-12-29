@@ -52,11 +52,7 @@ const tabId = 1;
 
 describe("Check module import", () => {
   beforeEach(() => {
-    const htmlPathName = "src/popup/popup.html";
-    runMockDom(htmlPathName);
-    global.browser = mockBrowser();
-    const popupJsPathName = "../src/popup/popup.js";
-    popupModule = require(popupJsPathName);
+    initializeMocks();
   });
   it("The DOM has expected values", function () {
     expect(document.getElementById("pInput").textContent).toBe("New values");
@@ -94,11 +90,7 @@ describe("Check module import", () => {
   });
   describe("Check buttons", () => {
     beforeAll(() => {
-      const htmlPathName = "src/popup/popup.html";
-      runMockDom(htmlPathName);
-      global.browser = mockBrowser();
-      const popupJsPathName = "../src/popup/popup.js";
-      popupModule = require(popupJsPathName);
+      initializeMocks();
     });
     describe("Check createButton", () => {
       beforeAll(() => {
@@ -384,3 +376,11 @@ describe("Check module import", () => {
     function_(error);
   });
 });
+
+function initializeMocks() {
+  const htmlPathName = "src/popup/popup.html";
+  runMockDom(htmlPathName);
+  global.browser = mockBrowser();
+  const popupJsPathName = "../src/popup/popup.js";
+  popupModule = require(popupJsPathName);
+}
