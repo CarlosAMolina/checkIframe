@@ -47,6 +47,7 @@ function initializePopup() {
   getShowLogs();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
+    console.log("initializePopup) getUrls)"); // TODO rm
     getUrls(results);
   }, reportError);
 }
@@ -58,13 +59,18 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
 // get saved urls
 function getUrls(results) {
   // results: object of keys and values
+  console.log("urlTypes:"); // TODO rm
+  console.log(urlTypes); // TODO rm
   urlTypes.forEach(function (arrayValue) {
+    console.log("arrayValue:"); // TODO rm
+    console.log(arrayValue); // TODO rm
     var keysUrl = Object.keys(results).filter((key) =>
       key.includes(arrayValue + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => results[keysUrl]); // array
     var result = new url(arrayValue, urls2save);
     urls.push(result);
+    console.log("getUrls) sendInfoAndValue"); // TODO rm
     sendInfoAndValue("urls", urls);
   });
 }
@@ -127,6 +133,7 @@ class ButtonRecheck extends ButtonClicked {
     this.logButtonName;
     hideInfo("infoTags");
     info2sendFromPopup = this.buttonIdHtml;
+    console.log("ButtonRecheck) sendInfo)"); // TODO rm
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfo)
@@ -143,6 +150,7 @@ class ButtonClean extends ButtonClicked {
     this.logButtonName;
     info2sendFromPopup = this.buttonIdHtml;
     hideInfo("infoScroll");
+    console.log("ButtonClean) sendInfo)"); // TODO rm
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfo)
@@ -205,6 +213,7 @@ class ButtonShowLogs extends ButtonClicked {
     saveShowLogs();
     values2sendFromPopup = showLogs;
     info2sendFromPopup = buttonIdHtml;
+    console.log("ButtonShowLogs) sendInfoAndValue"); // TODO rm
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
   }
 }
@@ -277,17 +286,29 @@ class ButtonClearAll extends ButtonClicked {
 }
 
 function getShowLogs() {
+  console.log("1. getShowLogs) Init"); // TODO
+  console.log("2. browser.storage.local.get) Then previous line"); // TODO
   var gettingItem = browser.storage.local.get("idShowLogs");
   // result: empty object if the searched value is not stored
   gettingItem.then((result) => {
+    console.log("2. browser.storage.local.get) First line in then"); // TODO
+    console.log("**********************************"); // TODO
+    console.log("browser.storage.local.get) result:"); // TODO
+    console.log(result); // TODO
     // show log option has never been used
     if (typeof result.idShowLogs != "undefined") {
       changeStateBoxLog(result);
     }
+    //console.log(document.getElementById("buttonShowLogs")); // TODO rm
+    //console.log(document.getElementById("buttonShowLogs").checked); // TODO rm
+    //console.log(info2sendFromPopup); // TODO rm
+    //console.log(values2sendFromPopup); // TODO rm
   }, reportError);
+  //console.log("2. browser.storage.local.get) Then out"); // TODO
 
   // enable/disable logs
   function changeStateBoxLog(results) {
+    console.log("3. changeStateBoxLog) Init"); // TODO
     if (results.idShowLogs == 1) {
       document.getElementById("buttonShowLogs").checked = true;
     } else {
@@ -317,6 +338,7 @@ function deleteAllUrlType(results) {
       arrayValue.values = [];
     }
   });
+  console.log("deleteAllUrlType) sendInfoAndValue"); // TODO rm
   sendInfoAndValue("urls", urls);
 }
 
@@ -352,6 +374,7 @@ function showStoredInfo(eKey, eValue) {
     );
     browser.storage.local.remove(eKey);
     deleteUrl(eKey);
+    console.log("showStoredInfo) deleteBtn.addEventListener) sendInfoAndValue"); // TODO rm
     sendInfoAndValue("urls", urls);
   });
 
@@ -424,6 +447,7 @@ function showStoredInfo(eKey, eValue) {
         showStoredInfo(id2save, info2save);
       }, reportError);
     }, reportError);
+    console.log("updateEntry) sendInfoAndValue"); // TODO rm
     sendInfoAndValue("urls", urls);
   }
 }
@@ -436,11 +460,30 @@ function showTagsInfo(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
+// TODO add then-catch?
 function sendInfo(tabs) {
+  console.log("5. browser.tabs.query) First line in then"); // TODO rm
+  console.log("6. sendInfo) Init"); // TODO rm
+  //console.log("sendInfo) browser.tabs.sendMessage.calls"); // TODO rm
+  //console.log('info2sendFromPopup', info2sendFromPopup); // TODO rm
+  //console.log('valuesvalues2sendFromPopup', values2sendFromPopup); // TODO rm
+  console.log("7. browser.tabs.sendMessage) Previous line"); // TODO rm
   browser.tabs.sendMessage(tabs[0].id, {
     info: info2sendFromPopup,
     values: values2sendFromPopup,
   });
+  console.log("7. browser.tabs.sendMessage) End"); // TODO rm
+  console.log("6. sendInfo) End"); // TODO
+  // TODO console.log(browser.tabs.sendMessage.mock.calls); // TODO rm
+  // TODO console.log("sendInfo) browser.tabs.sendMessage.mock.calls[x][y]"); // TODO rm
+  //browser.tabs.sendMessage.mock.calls[0][1] = 'xxxx'; // TODO rm
+  //console.log(browser.tabs.sendMessage.mock.calls[4][1]); // TODO rm
+  //
+  console.log("5. browser.tabs.query) Last line in then"); // TODO rm
+  console.log("4. sendInfoAndValue) End"); // TODO rm
+  console.log("3. changeStateBoxLog) End"); // TODO
+  console.log("2. browser.storage.local.get) Then last line"); // TODO
+  console.log("1. getShowLogs) End"); // TODO
 }
 
 function showOrHideInfo(htmlId) {
@@ -464,8 +507,12 @@ function showStoredUrlsType(type2show) {
 }
 
 function sendInfoAndValue(info2send, value2send) {
+  console.log("4. sendInfoAndValue) Init"); // TODO rm
+  //console.log("sendInfoAndValue) info2send", info2send); // TODO rm
+  //console.log("sendInfoAndValue) value2send", value2send); // TODO rm
   info2sendFromPopup = info2send;
   values2sendFromPopup = value2send;
+  console.log("5. browser.tabs.query) Then previous line"); // TODO rm
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then(sendInfo)
@@ -610,6 +657,7 @@ function saveUrl(enterKey) {
 function storeInfo() {
   function saveInfo(id2save, value2save) {
     addUrl(id2save);
+    console.log("storeInfo) saveInfo) sendInfoAndValue"); // TODO rm
     sendInfoAndValue("urls", urls);
     var storingInfo = browser.storage.local.set({ [id2save]: value2save });
     storingInfo.then(() => {
