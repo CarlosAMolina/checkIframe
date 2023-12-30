@@ -190,6 +190,28 @@ describe("Check module import", () => {
         // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
       });
     });
+    describe("Check ButtonScroll", () => {
+      beforeAll(() => {
+        const classType = popupModule.__get__("ButtonScroll");
+        button = new classType();
+      });
+      it("Check it has correct button ID value", function () {
+        expect(button.buttonIdHtml).toBe("buttonScroll");
+      });
+      it("Check run has expected calls and values", async () => {
+        expect(document.getElementById("infoScroll").className).toBe("hidden");
+        await button.run;
+        const buttonIdHtml = "buttonScroll";
+        expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
+        expect(document.getElementById("infoScroll").className).toBe("");
+        // TODO analyze all calls
+        //  expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+        //  const lastCall = browser.tabs.sendMessage.mock.lastCall;
+        //  expect(lastCall[0]).toBe(tabId);
+        //  expect(lastCall[1].info).toBe(buttonIdHtml);
+        // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+      });
+    });
   });
   describe("Check getShowLogs", () => {
     beforeEach(() => {
