@@ -9,7 +9,7 @@
     "precommit": "lint-staged",
     "prettier": "npx prettier src test --check",
     "prettier:fix": "npm run prettier -- --write",
-    "test": "jest --all --verbose ./test",
+    "test": "jest ./test",
     "prepare": "husky install"
   },
   "repository": {
