@@ -533,6 +533,19 @@ describe("Check module import", () => {
         '<p><u>2 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>',
       );
     });
+    it("Test if values and blacklisted sources", function () {
+      const tag = "iframe";
+      const sourceTagSummary = {
+        sourcesAllNumber: 4,
+        sourcesValid: ["https://test.com", "about:blank"],
+      };
+      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
+      function_ = popupModule.__get__("listSourceTagSummary");
+      function_(tag, sourceTagSummary);
+      expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
+        '<p><u>4 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>',
+      );
+    });
   });
   describe("Check cleanShowSources", () => {
     beforeEach(() => {
