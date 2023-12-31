@@ -192,6 +192,20 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonScroll");
       });
+      function runBeforeRunExpects() {
+        const infoScrollBeforeRun = document.getElementById("infoScroll");
+        expect(infoScrollBeforeRun.className).toBe("hidden");
+        expect(infoScrollBeforeRun.textContent).toBe("");
+        expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+      }
+      function runAfterRunExpects() {
+        expect(popupModule.__get__("info2sendFromPopup")).toBe("buttonScroll");
+        expect(document.getElementById("infoScroll").className).toBe("");
+        expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+        const lastCall = browser.tabs.sendMessage.mock.lastCall;
+        expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
+      }
       describe("Check ButtonScroll run if has all required data", () => {
         beforeEach(() => {
           popupModule.__set__("htmlIdToChange", undefined);
@@ -200,20 +214,12 @@ describe("Check module import", () => {
           );
         });
         it("Check expected calls and values", async () => {
-          const infoScrollBeforeRun = document.getElementById("infoScroll");
-          expect(infoScrollBeforeRun.className).toBe("hidden");
-          expect(infoScrollBeforeRun.textContent).toBe("");
-          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+          runBeforeRunExpects();
           await Promise.all([button.run]);
-          const buttonIdHtml = "buttonScroll";
-          expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
-          const infoScrollAfterRun = document.getElementById("infoScroll");
-          expect(infoScrollAfterRun.className).toBe("");
-          expect(infoScrollAfterRun.textContent).toBe("done sendMessage");
-          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-          const lastCall = browser.tabs.sendMessage.mock.lastCall;
-          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
+          runAfterRunExpects();
+          expect(document.getElementById("infoScroll").textContent).toBe(
+            "done sendMessage",
+          );
         });
       });
       describe("Check ButtonScroll run if undefined response.response", () => {
@@ -222,22 +228,12 @@ describe("Check module import", () => {
           browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
         });
         it("Check expected calls and values", async () => {
-          const infoScrollBeforeRun = document.getElementById("infoScroll");
-          expect(infoScrollBeforeRun.className).toBe("hidden");
-          expect(infoScrollBeforeRun.textContent).toBe("");
-          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+          runBeforeRunExpects();
           await Promise.all([button.run]);
-          const buttonIdHtml = "buttonScroll";
-          expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
-          const infoScrollAfterRun = document.getElementById("infoScroll");
-          expect(infoScrollAfterRun.className).toBe("");
-          expect(infoScrollAfterRun.textContent).toBe(
+          runAfterRunExpects();
+          expect(document.getElementById("infoScroll").textContent).toBe(
             "No info received from the content script.",
           );
-          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-          const lastCall = browser.tabs.sendMessage.mock.lastCall;
-          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
         });
       });
     });
