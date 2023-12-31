@@ -193,22 +193,6 @@ describe("Check module import", () => {
         expect(button.buttonIdHtml).toBe("buttonScroll");
       });
       describe("Check button run", () => {
-        function runBeforeRunExpects() {
-          const infoScrollBeforeRun = document.getElementById("infoScroll");
-          expect(infoScrollBeforeRun.className).toBe("hidden");
-          expect(infoScrollBeforeRun.textContent).toBe("");
-          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
-        }
-        function runAfterRunExpects() {
-          expect(popupModule.__get__("info2sendFromPopup")).toBe(
-            "buttonScroll",
-          );
-          expect(document.getElementById("infoScroll").className).toBe("");
-          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-          const lastCall = browser.tabs.sendMessage.mock.lastCall;
-          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
-        }
         describe("Check if all required data exists", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
@@ -239,6 +223,22 @@ describe("Check module import", () => {
             );
           });
         });
+        function runBeforeRunExpects() {
+          const infoScrollBeforeRun = document.getElementById("infoScroll");
+          expect(infoScrollBeforeRun.className).toBe("hidden");
+          expect(infoScrollBeforeRun.textContent).toBe("");
+          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+        }
+        function runAfterRunExpects() {
+          expect(popupModule.__get__("info2sendFromPopup")).toBe(
+            "buttonScroll",
+          );
+          expect(document.getElementById("infoScroll").className).toBe("");
+          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
+          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+          const lastCall = browser.tabs.sendMessage.mock.lastCall;
+          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
+        }
       });
     });
     describe("Check ButtonShowSources", () => {
