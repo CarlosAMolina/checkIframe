@@ -474,8 +474,7 @@ describe("Check module import", () => {
     const htmlIdsToChange = ["pInput"];
     function_(htmlIdsToChange);
   });
-  // TODO remove only
-  describe.only("Check listSourceTagSummary", () => {
+  describe("Check listSourceTagSummary", () => {
     beforeEach(() => {
       popupModule.__set__(
         "sourcesContainer",
