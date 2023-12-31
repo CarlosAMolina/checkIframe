@@ -198,18 +198,32 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonScroll");
       });
-      it("Check run has expected calls and values", async () => {
-        expect(document.getElementById("infoScroll").className).toBe("hidden");
-        await button.run;
-        const buttonIdHtml = "buttonScroll";
-        expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
-        expect(document.getElementById("infoScroll").className).toBe("");
-        // TODO analyze all calls
-        //  expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-        //  const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        //  expect(lastCall[0]).toBe(tabId);
-        //  expect(lastCall[1].info).toBe(buttonIdHtml);
-        // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+      describe.only("Check ButtonScroll run", () => {
+        beforeEach(() => {
+          browser.tabs.sendMessage = jest.fn(() =>
+            Promise.resolve({ response: "done sendMessage" }),
+          );
+        });
+        afterEach(() => {
+          browser = mockBrowser();
+        });
+        it("Check expected calls and values", async () => {
+          const infoScrollBeforeRun = document.getElementById("infoScroll");
+          expect(infoScrollBeforeRun.className).toBe("hidden");
+          expect(infoScrollBeforeRun.textContent).toBe("");
+          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+          await Promise.all([button.run]);
+          const buttonIdHtml = "buttonScroll";
+          expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
+          const infoScrollAfterRun = document.getElementById("infoScroll");
+          expect(infoScrollAfterRun.className).toBe("");
+          expect(infoScrollAfterRun.textContent).toBe("done sendMessage");
+          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
+          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+          const lastCall = browser.tabs.sendMessage.mock.lastCall;
+          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
+          // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+        });
       });
     });
   });
