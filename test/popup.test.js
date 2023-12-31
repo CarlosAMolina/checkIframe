@@ -471,6 +471,7 @@ describe("Check module import", () => {
     function_(tabs);
   });
   it("changeParagraph runs without error", function () {
+    // Function tested in other buttons' tests.
     const sourceTagSummary = {
       sourcesAllNumber: 0,
       sourcesValid: [],
