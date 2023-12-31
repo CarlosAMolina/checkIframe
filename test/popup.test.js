@@ -24,12 +24,6 @@ function getNewPromise(args) {
   });
 }
 
-function getEmptyNewPromise(args) {
-  return new Promise(function (resolve, reject) {
-    resolve({});
-  });
-}
-
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
 let buttonType;
