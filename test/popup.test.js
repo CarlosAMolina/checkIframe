@@ -241,7 +241,7 @@ describe("Check module import", () => {
         });
       });
     });
-    describe("Check ButtonShowSources", () => {
+    describe.only("Check ButtonShowSources", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonShowSources");
         button = new classType();
@@ -275,7 +275,15 @@ describe("Check module import", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() =>
-              Promise.resolve({ response: "done sendMessage" }),
+              Promise.resolve({
+                response: {
+                  frame: { sourcesAllNumber: 0, sourcesValid: [] },
+                  iframe: {
+                    sourcesAllNumber: 2,
+                    sourcesValid: ["https://test.com", "about:blank"],
+                  },
+                },
+              }),
             );
           });
           it("Check expected calls and values", async () => {
@@ -283,7 +291,9 @@ describe("Check module import", () => {
             await Promise.all([button.run]);
             runAfterRunExpects();
             // TODO untested function in this button: cleanShowSources
-            // TODO untested function in this button: listSourceTagSummary/
+            expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
+              '<p><u>0 elements with tag <b>frame</b></u><p></p></p><p><u>2 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>',
+            );
           });
         });
         describe("Check if undefined response.response", () => {
