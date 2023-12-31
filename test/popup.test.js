@@ -249,28 +249,7 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonShowSources");
       });
-
       describe("Check button run", () => {
-        function runBeforeRunExpects() {
-          const infoScrollBeforeRun = document.getElementById("infoTags");
-          expect(infoScrollBeforeRun.className).toBe(
-            "sources-container hidden",
-          );
-          expect(infoScrollBeforeRun.textContent).toBe("");
-          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
-        }
-        function runAfterRunExpects() {
-          expect(popupModule.__get__("info2sendFromPopup")).toBe(
-            "buttonShowSources",
-          );
-          expect(document.getElementById("infoTags").className).toBe(
-            "sources-container",
-          );
-          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoTags");
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-          const lastCall = browser.tabs.sendMessage.mock.lastCall;
-          expect(lastCall).toEqual([1, { info: "buttonShowSources" }]);
-        }
         describe("Check if all required data exists", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
@@ -314,6 +293,24 @@ describe("Check module import", () => {
           });
         });
       });
+      function runBeforeRunExpects() {
+        const infoScrollBeforeRun = document.getElementById("infoTags");
+        expect(infoScrollBeforeRun.className).toBe("sources-container hidden");
+        expect(infoScrollBeforeRun.textContent).toBe("");
+        expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+      }
+      function runAfterRunExpects() {
+        expect(popupModule.__get__("info2sendFromPopup")).toBe(
+          "buttonShowSources",
+        );
+        expect(document.getElementById("infoTags").className).toBe(
+          "sources-container",
+        );
+        expect(popupModule.__get__("htmlIdToChange")).toEqual("infoTags");
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+        const lastCall = browser.tabs.sendMessage.mock.lastCall;
+        expect(lastCall).toEqual([1, { info: "buttonShowSources" }]);
+      }
     });
   });
   describe("Check getShowLogs", () => {
