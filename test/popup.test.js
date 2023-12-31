@@ -619,20 +619,18 @@ describe("Check module import", () => {
     const error = {};
     function_(error);
   });
+  function initializeMocks() {
+    const htmlPathName = "src/popup/popup.html";
+    runMockDom(htmlPathName);
+    global.browser = mockBrowser();
+    const popupJsPathName = "../src/popup/popup.js";
+    popupModule = require(popupJsPathName);
+  }
+  function mockNotEmtpySourcesContainer() {
+    let entryElement = document.createElement("p");
+    let extraTextElement = document.createElement("p");
+    extraTextElement.textContent = "foo";
+    entryElement.appendChild(extraTextElement);
+    popupModule.__set__("sourcesContainer", entryElement);
+  }
 });
-
-function initializeMocks() {
-  const htmlPathName = "src/popup/popup.html";
-  runMockDom(htmlPathName);
-  global.browser = mockBrowser();
-  const popupJsPathName = "../src/popup/popup.js";
-  popupModule = require(popupJsPathName);
-}
-
-function mockNotEmtpySourcesContainer() {
-  let entryElement = document.createElement("p");
-  let extraTextElement = document.createElement("p");
-  extraTextElement.textContent = "foo";
-  entryElement.appendChild(extraTextElement);
-  popupModule.__set__("sourcesContainer", entryElement);
-}
