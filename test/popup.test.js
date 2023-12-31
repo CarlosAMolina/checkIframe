@@ -241,7 +241,7 @@ describe("Check module import", () => {
         });
       });
     });
-    describe.only("Check ButtonShowSources", () => {
+    describe("Check ButtonShowSources", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonShowSources");
         button = new classType();
