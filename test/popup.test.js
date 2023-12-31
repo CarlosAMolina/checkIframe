@@ -483,11 +483,17 @@ describe("Check module import", () => {
     function_("foo", sourceTagSummary);
   });
   it("cleanShowSources runs without error", function () {
-    const valueToSet = popupModule.__get__("infoContainer");
-    // Required to run all code.
-    popupModule.__set__("sourcesContainer", valueToSet);
+    let entryElement = document.createElement("p");
+    let extraTextElement = document.createElement("p");
+    extraTextElement.textContent = "foo";
+    entryElement.appendChild(extraTextElement);
+    popupModule.__set__("sourcesContainer", entryElement);
+    expect(popupModule.__get__("sourcesContainer").firstChild.textContent).toBe(
+      "foo",
+    );
     function_ = popupModule.__get__("cleanShowSources");
     function_();
+    expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
   });
   it("removeShownStoredUrls runs without error", function () {
     function_ = popupModule.__get__("removeShownStoredUrls");
