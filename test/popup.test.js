@@ -474,7 +474,53 @@ describe("Check module import", () => {
     const htmlIdsToChange = ["pInput"];
     function_(htmlIdsToChange);
   });
+  // TODO remove only
   describe.only("Check listSourceTagSummary", () => {
+    beforeEach(() => {
+      popupModule.__set__(
+        "sourcesContainer",
+        document.querySelector(".sources-container"),
+      );
+    });
+    it("Test if 0 sourcesAllNumber", function () {
+      const tag = "iframe";
+      const sourceTagSummary = {
+        sourcesAllNumber: 0,
+        sourcesValid: [],
+      };
+      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
+      function_ = popupModule.__get__("listSourceTagSummary");
+      function_(tag, sourceTagSummary);
+      expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
+        "<p><u>0 elements with tag <b>iframe</b></u><p></p></p>",
+      );
+    });
+    it("Test if sourcesAllNumber and empty sourcesValid array", function () {
+      const tag = "iframe";
+      const sourceTagSummary = {
+        sourcesAllNumber: 1,
+        sourcesValid: [],
+      };
+      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
+      function_ = popupModule.__get__("listSourceTagSummary");
+      function_(tag, sourceTagSummary);
+      expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
+        "<p><u>1 element with tag <b>iframe</b></u><p>Without not blacklisted sources.</p></p>",
+      );
+    });
+    it("Test if only one value in sourcesValid array", function () {
+      const tag = "iframe";
+      const sourceTagSummary = {
+        sourcesAllNumber: 1,
+        sourcesValid: ["https://test.com"],
+      };
+      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
+      function_ = popupModule.__get__("listSourceTagSummary");
+      function_(tag, sourceTagSummary);
+      expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
+        '<p><u>1 element with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div>',
+      );
+    });
     it("Test if more than one value in sourcesValid array", function () {
       const tag = "iframe";
       const sourceTagSummary = {
@@ -482,7 +528,6 @@ describe("Check module import", () => {
         sourcesValid: ["https://test.com", "about:blank"],
       };
       expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
-
       function_ = popupModule.__get__("listSourceTagSummary");
       function_(tag, sourceTagSummary);
       expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
