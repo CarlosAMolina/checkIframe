@@ -282,10 +282,8 @@ describe("Check module import", () => {
             runBeforeRunExpects();
             await Promise.all([button.run]);
             runAfterRunExpects();
-            // TODO // TODO incorrect test for this button
-            // TODO expect(document.getElementById("infoScroll").textContent).toBe(
-            // TODO    "done sendMessage",
-            // TODO  );
+            // TODO untested function in this button: cleanShowSources
+            // TODO untested function in this button: listSourceTagSummary/
           });
         });
         describe("Check if undefined response.response", () => {
