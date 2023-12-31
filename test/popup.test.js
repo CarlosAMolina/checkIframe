@@ -198,8 +198,9 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonScroll");
       });
-      describe.only("Check ButtonScroll run", () => {
+      describe("Check ButtonScroll run", () => {
         beforeEach(() => {
+          popupModule.__set__("htmlIdToChange", undefined);
           browser.tabs.sendMessage = jest.fn(() =>
             Promise.resolve({ response: "done sendMessage" }),
           );
