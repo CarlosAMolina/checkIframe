@@ -198,7 +198,7 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonScroll");
       });
-      describe("Check ButtonScroll run", () => {
+      describe("Check ButtonScroll run if has all required data", () => {
         beforeEach(() => {
           popupModule.__set__("htmlIdToChange", undefined);
           browser.tabs.sendMessage = jest.fn(() =>
@@ -223,7 +223,33 @@ describe("Check module import", () => {
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           const lastCall = browser.tabs.sendMessage.mock.lastCall;
           expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
-          // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+        });
+      });
+      describe("Check ButtonScroll run if undefined response.response", () => {
+        beforeEach(() => {
+          popupModule.__set__("htmlIdToChange", undefined);
+          browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
+        });
+        afterEach(() => {
+          browser = mockBrowser();
+        });
+        it("Check expected calls and values", async () => {
+          const infoScrollBeforeRun = document.getElementById("infoScroll");
+          expect(infoScrollBeforeRun.className).toBe("hidden");
+          expect(infoScrollBeforeRun.textContent).toBe("");
+          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
+          await Promise.all([button.run]);
+          const buttonIdHtml = "buttonScroll";
+          expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
+          const infoScrollAfterRun = document.getElementById("infoScroll");
+          expect(infoScrollAfterRun.className).toBe("");
+          expect(infoScrollAfterRun.textContent).toBe(
+            "No info received from the content script.",
+          );
+          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
+          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+          const lastCall = browser.tabs.sendMessage.mock.lastCall;
+          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
         });
       });
     });
