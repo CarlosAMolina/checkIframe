@@ -199,9 +199,6 @@ describe("Check module import", () => {
             Promise.resolve({ response: "done sendMessage" }),
           );
         });
-        afterEach(() => {
-          browser = mockBrowser();
-        });
         it("Check expected calls and values", async () => {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
           expect(infoScrollBeforeRun.className).toBe("hidden");
@@ -223,9 +220,6 @@ describe("Check module import", () => {
         beforeEach(() => {
           popupModule.__set__("htmlIdToChange", undefined);
           browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
-        });
-        afterEach(() => {
-          browser = mockBrowser();
         });
         it("Check expected calls and values", async () => {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
