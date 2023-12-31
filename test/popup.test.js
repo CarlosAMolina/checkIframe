@@ -285,12 +285,15 @@ describe("Check module import", () => {
                 },
               }),
             );
+            mockNotEmtpySourcesContainer();
           });
           it("Check expected calls and values", async () => {
             runBeforeRunExpects();
+            expect(
+              popupModule.__get__("sourcesContainer").firstChild.textContent,
+            ).toBe("foo");
             await Promise.all([button.run]);
             runAfterRunExpects();
-            // TODO untested function in this button: cleanShowSources
             expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
               '<p><u>0 elements with tag <b>frame</b></u><p></p></p><p><u>2 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>',
             );
@@ -559,11 +562,7 @@ describe("Check module import", () => {
   });
   describe("Check cleanShowSources", () => {
     beforeEach(() => {
-      let entryElement = document.createElement("p");
-      let extraTextElement = document.createElement("p");
-      extraTextElement.textContent = "foo";
-      entryElement.appendChild(extraTextElement);
-      popupModule.__set__("sourcesContainer", entryElement);
+      mockNotEmtpySourcesContainer();
     });
     it("Elements are modified", function () {
       expect(
@@ -628,4 +627,12 @@ function initializeMocks() {
   global.browser = mockBrowser();
   const popupJsPathName = "../src/popup/popup.js";
   popupModule = require(popupJsPathName);
+}
+
+function mockNotEmtpySourcesContainer() {
+  let entryElement = document.createElement("p");
+  let extraTextElement = document.createElement("p");
+  extraTextElement.textContent = "foo";
+  entryElement.appendChild(extraTextElement);
+  popupModule.__set__("sourcesContainer", entryElement);
 }
