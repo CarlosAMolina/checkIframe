@@ -285,7 +285,7 @@ describe("Check module import", () => {
                 },
               }),
             );
-            mockNotEmtpySourcesContainer();
+            mockNotEmptySourcesContainer();
           });
           it("Check expected calls and values", async () => {
             runBeforeRunExpects();
@@ -562,7 +562,7 @@ describe("Check module import", () => {
   });
   describe("Check cleanShowSources", () => {
     beforeEach(() => {
-      mockNotEmtpySourcesContainer();
+      mockNotEmptySourcesContainer();
     });
     it("Elements are modified", function () {
       expect(
@@ -626,7 +626,7 @@ describe("Check module import", () => {
     const popupJsPathName = "../src/popup/popup.js";
     popupModule = require(popupJsPathName);
   }
-  function mockNotEmtpySourcesContainer() {
+  function mockNotEmptySourcesContainer() {
     let entryElement = document.createElement("p");
     let extraTextElement = document.createElement("p");
     extraTextElement.textContent = "foo";
