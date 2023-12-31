@@ -330,6 +330,24 @@ describe("Check module import", () => {
         );
       });
     });
+    describe("Check ButtonShowLogs", () => {
+      beforeAll(() => {
+        const classType = popupModule.__get__("ButtonShowLogs");
+        button = new classType();
+      });
+      it("Check it has correct button ID value", function () {
+        expect(button.buttonIdHtml).toBe("buttonShowLogs");
+      });
+      it("Check run has expected calls and values", async () => {
+        console.info("*****start");
+        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+
+        await Promise.all([button.run]);
+
+        //expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+        console.info("*****end");
+      });
+    });
   });
   describe("Check getShowLogs", () => {
     beforeEach(() => {
