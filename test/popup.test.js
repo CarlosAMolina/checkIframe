@@ -192,7 +192,7 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonScroll");
       });
-      describe("Check ButtonScroll run", () => {
+      describe("Check button run", () => {
         function runBeforeRunExpects() {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
           expect(infoScrollBeforeRun.className).toBe("hidden");
@@ -209,7 +209,7 @@ describe("Check module import", () => {
           const lastCall = browser.tabs.sendMessage.mock.lastCall;
           expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
         }
-        describe("Check ButtonScroll run if has all required data", () => {
+        describe("Check if all required data exists", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() =>
@@ -225,7 +225,7 @@ describe("Check module import", () => {
             );
           });
         });
-        describe("Check ButtonScroll run if undefined response.response", () => {
+        describe("Check if undefined response.response", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
