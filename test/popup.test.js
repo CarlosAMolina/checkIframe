@@ -575,6 +575,7 @@ describe("Check module import", () => {
           },
         ]);
       });
+      // TODO test other elements with addEventListener
     });
   });
   it("hideInfo adds class", function () {
