@@ -384,11 +384,25 @@ describe("Check module import", () => {
       });
       describe("Check run has expected calls and values", () => {
         it("Test urltype global variable", async () => {
-          console.info("*** start"); // TODO rm
           expect(popupModule.__get__("urlType")).toEqual("");
           button.run;
           expect(popupModule.__get__("urlType")).toEqual("notify");
-          console.info("*** end"); // TODO rm
+        });
+        describe("Test removeShownStoredUrls call", () => {
+          beforeEach(() => {
+            mockNotEmptyInfoContainer();
+          });
+          it("Test", async () => {
+            console.info("*** start"); // TODO rm
+            expect(
+              popupModule.__get__("infoContainer").firstChild.textContent,
+            ).toBe("foo");
+
+            button.run;
+
+            expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
+            console.info("*** end"); // TODO rm
+          });
         });
       });
     });
@@ -723,7 +737,7 @@ describe("Check module import", () => {
   function mockNotEmptyInfoContainer() {
     let entryElement = document.createElement("div");
     let entryValue = document.createElement("p");
-    extraTextElement.textContent = "foo";
+    entryValue.textContent = "foo";
     entryElement.appendChild(entryValue);
     popupModule.__set__("infoContainer", entryElement);
   }
