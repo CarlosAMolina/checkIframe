@@ -402,9 +402,7 @@ describe("Check module import", () => {
             expect(
               popupModule.__get__("infoContainer").firstChild.textContent,
             ).toBe("foo");
-
             button.run;
-
             expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
           });
         });
@@ -540,7 +538,6 @@ describe("Check module import", () => {
         function_(eKey, eValue);
         const infoContainer = popupModule.__get__("infoContainer");
         const buttons = infoContainer.getElementsByTagName("button");
-
         expect(buttons.length).toBe(3);
         expect(buttons[0].title).toBe("Delete");
         expect(buttons[1].title).toBe("Update");
@@ -554,7 +551,6 @@ describe("Check module import", () => {
           new url("referer", []),
         ]);
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-
         await deleteButton.click();
         const buttonsAfterClick = infoContainer.getElementsByTagName("button");
         // Test elements have been deleted.
