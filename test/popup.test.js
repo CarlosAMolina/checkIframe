@@ -643,9 +643,18 @@ describe("Check module import", () => {
       expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
     });
   });
-  it("removeShownStoredUrls runs without error", function () {
-    function_ = popupModule.__get__("removeShownStoredUrls");
-    function_();
+  describe("Check removeShownStoredUrls", () => {
+    beforeEach(() => {
+      mockNotEmptyInfoContainer();
+    });
+    it("Elements are modified", function () {
+      expect(popupModule.__get__("infoContainer").firstChild.textContent).toBe(
+        "foo",
+      );
+      function_ = popupModule.__get__("removeShownStoredUrls");
+      function_();
+      expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
+    });
   });
   it("saveShowLogs runs without error", function () {
     function_ = popupModule.__get__("saveShowLogs");
@@ -702,5 +711,12 @@ describe("Check module import", () => {
     extraTextElement.textContent = "foo";
     entryElement.appendChild(extraTextElement);
     popupModule.__set__("sourcesContainer", entryElement);
+  }
+  function mockNotEmptyInfoContainer() {
+    let entryElement = document.createElement("div");
+    let entryValue = document.createElement("p");
+    extraTextElement.textContent = "foo";
+    entryElement.appendChild(entryValue);
+    popupModule.__set__("infoContainer", entryElement);
   }
 });
