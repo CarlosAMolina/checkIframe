@@ -348,6 +348,12 @@ function enableElementsConfiguration() {
 }
 
 function showStoredInfo(eKey, eValue) {
+  console.info("--------------------"); // TODO rm
+  console.info("start showStoredInfo"); // TODO rm
+  console.info("eKey:"); // TODO rm
+  console.info(eKey); // TODO rm
+  console.info("eValue:"); // TODO rm
+  console.info(eValue); // TODO rm
   // display box
   var entry = document.createElement("div");
   var entryDisplay = document.createElement("div");
@@ -406,6 +412,8 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.style.display = "none";
 
   infoContainer.appendChild(entry);
+  console.info(document.documentElement.outerHTML); // TODO rm
+  console.info("end showStoredInfo"); // TODO rm
 
   // set up listeners for the update functionality
   entryValue.addEventListener("click", () => {
