@@ -374,7 +374,7 @@ describe("Check module import", () => {
         });
       });
     });
-    describe.only("Check ButtonUrlsNotify", () => {
+    describe("Check ButtonUrlsNotify", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonUrlsNotify");
         button = new classType();
@@ -383,10 +383,15 @@ describe("Check module import", () => {
         expect(button.buttonIdHtml).toBe("buttonUrlsNotify");
       });
       describe("Check run has expected calls and values", () => {
-        it("Test urltype global variable", async () => {
-          expect(popupModule.__get__("urlType")).toEqual("");
-          button.run;
-          expect(popupModule.__get__("urlType")).toEqual("notify");
+        describe("Test urltype global variable", () => {
+          beforeEach(() => {
+            popupModule.__set__("urlType", "");
+          });
+          it("Test", async () => {
+            expect(popupModule.__get__("urlType")).toEqual("");
+            button.run;
+            expect(popupModule.__get__("urlType")).toEqual("notify");
+          });
         });
         describe("Test removeShownStoredUrls call", () => {
           beforeEach(() => {
