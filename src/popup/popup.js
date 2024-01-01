@@ -309,7 +309,7 @@ function getShowLogs() {
 
   // enable/disable logs
   function changeStateBoxLog(results) {
-    console.log("3. changeStateBoxLog) Init"); // TODO
+    //console.log("3. changeStateBoxLog) Init"); // TODO
     if (results.idShowLogs == 1) {
       document.getElementById("buttonShowLogs").checked = true;
     } else {
@@ -339,7 +339,7 @@ function deleteAllUrlType(results) {
       arrayValue.values = [];
     }
   });
-  console.log("deleteAllUrlType) sendInfoAndValue"); // TODO rm
+  //console.log("deleteAllUrlType) sendInfoAndValue"); // TODO rm
   sendInfoAndValue("urls", urls);
 }
 
@@ -348,14 +348,14 @@ function enableElementsConfiguration() {
 }
 
 function showStoredInfo(eKey, eValue) {
-  console.info("--------------------"); // TODO rm
-  console.info("start showStoredInfo"); // TODO rm
-  console.info("eKey:"); // TODO rm
-  console.info(eKey); // TODO rm
-  console.info("eValue:"); // TODO rm
-  console.info(eValue); // TODO rm
-  console.info("urls:"); // TODO rm
-  console.info(urls); // TODO rm
+  //console.info("--------------------"); // TODO rm
+  //console.info("start showStoredInfo"); // TODO rm
+  //console.info("eKey:"); // TODO rm
+  //console.info(eKey); // TODO rm
+  //console.info("eValue:"); // TODO rm
+  //console.info(eValue); // TODO rm
+  //console.info("urls:"); // TODO rm
+  //console.info(urls); // TODO rm
   // display box
   var entry = document.createElement("div");
   var entryDisplay = document.createElement("div");
@@ -377,26 +377,26 @@ function showStoredInfo(eKey, eValue) {
 
   // set up listener for the delete functionality
   deleteBtn.addEventListener("click", (e) => {
-    console.info("init addEventListener"); // TODO
-    console.info("urls:"); // TODO rm
-    console.info(urls); // TODO rm
+    //console.info("init addEventListener"); // TODO
+    //console.info("urls:"); // TODO rm
+    //console.info(urls); // TODO rm
     const evtTgt = e.target;
     evtTgt.parentNode.parentNode.parentNode.removeChild(
       evtTgt.parentNode.parentNode,
     );
     browser.storage.local.remove(eKey);
-    console.info("urls 2:"); // TODO rm
-    console.info(urls); // TODO rm
+    //console.info("urls 2:"); // TODO rm
+    //console.info(urls); // TODO rm
     // TODO can be this line deleted?
     // Maybe it doesn't do anything becaus the variable `urls` has
     // the url deleted before showStoredInfo is called.
     deleteUrl(eKey);
-    console.log("showStoredInfo) deleteBtn.addEventListener) sendInfoAndValue"); // TODO rm
-    console.info("urls 3:"); // TODO rm
-    console.info(urls); // TODO rm
+    //console.log("showStoredInfo) deleteBtn.addEventListener) sendInfoAndValue"); // TODO rm
+    //console.info("urls 3:", urls); // TODO rm
+    //console.info(urls); // TODO rm
     sendInfoAndValue("urls", urls);
-    console.info("urls 4:"); // TODO rm
-    console.info(urls); // TODO rm
+    //console.info("urls 4:"); // TODO rm
+    //console.info(urls); // TODO rm
   });
 
   // edit box
@@ -426,7 +426,7 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.style.display = "none";
 
   infoContainer.appendChild(entry);
-  console.info("end showStoredInfo"); // TODO rm
+  //console.info("end showStoredInfo"); // TODO rm
 
   // set up listeners for the update functionality
   entryValue.addEventListener("click", () => {
@@ -469,7 +469,7 @@ function showStoredInfo(eKey, eValue) {
         showStoredInfo(id2save, info2save);
       }, reportError);
     }, reportError);
-    console.log("updateEntry) sendInfoAndValue"); // TODO rm
+    //console.log("updateEntry) sendInfoAndValue"); // TODO rm
     sendInfoAndValue("urls", urls);
   }
 }
@@ -647,9 +647,9 @@ function saveShowLogs() {
 }
 
 function deleteUrl(eKey) {
-  console.info("deteleUrls start"); // TODO rm
-  console.info("urls:"); // TODO rm
-  console.info(urls); // TODO rm
+  //console.info("deteleUrls start"); // TODO rm
+  //console.info("urls:"); // TODO rm
+  //console.info(urls); // TODO rm
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values = arrayValue.values.filter(
@@ -657,9 +657,9 @@ function deleteUrl(eKey) {
       );
     }
   });
-  console.info("deteleurls end"); // TODO rm
-  console.info("urls:"); // TODO rm
-  console.info(urls); // TODO rm
+  //console.info("deteleurls end"); // TODO rm
+  //console.info("urls:"); // TODO rm
+  //console.info(urls); // TODO rm
 }
 
 function addUrl(eKey) {
@@ -688,7 +688,7 @@ function saveUrl(enterKey) {
 function storeInfo() {
   function saveInfo(id2save, value2save) {
     addUrl(id2save);
-    console.log("storeInfo) saveInfo) sendInfoAndValue"); // TODO rm
+    //console.log("storeInfo) saveInfo) sendInfoAndValue"); // TODO rm
     sendInfoAndValue("urls", urls);
     var storingInfo = browser.storage.local.set({ [id2save]: value2save });
     storingInfo.then(() => {
