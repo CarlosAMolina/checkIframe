@@ -237,7 +237,7 @@ describe("Check module import", () => {
           expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           const lastCall = browser.tabs.sendMessage.mock.lastCall;
-          expect(lastCall).toEqual([1, { info: "buttonScroll" }]);
+          expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
         }
       });
     });
@@ -309,7 +309,7 @@ describe("Check module import", () => {
         expect(popupModule.__get__("htmlIdToChange")).toEqual("infoTags");
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        expect(lastCall).toEqual([1, { info: "buttonShowSources" }]);
+        expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
       }
     });
     describe("Check ButtonShowConfig", () => {
@@ -348,7 +348,7 @@ describe("Check module import", () => {
           ]);
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-            1,
+            tabId,
             { info: undefined, values: 0 },
           ]);
         });
@@ -367,7 +367,7 @@ describe("Check module import", () => {
             ]);
             expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
             expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-              1,
+              tabId,
               { info: undefined, values: 1 },
             ]);
           });
@@ -516,7 +516,7 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("sendInfoAndValue");
     await function_(info2send, values2send);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-      1,
+      tabId,
       {
         info: "info 2 send",
         values: "value 2 send",
