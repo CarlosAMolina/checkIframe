@@ -354,6 +354,8 @@ function showStoredInfo(eKey, eValue) {
   console.info(eKey); // TODO rm
   console.info("eValue:"); // TODO rm
   console.info(eValue); // TODO rm
+  console.info("urls:"); // TODO rm
+  console.info(urls); // TODO rm
   // display box
   var entry = document.createElement("div");
   var entryDisplay = document.createElement("div");
@@ -375,14 +377,26 @@ function showStoredInfo(eKey, eValue) {
 
   // set up listener for the delete functionality
   deleteBtn.addEventListener("click", (e) => {
+    console.info("init addEventListener"); // TODO
+    console.info("urls:"); // TODO rm
+    console.info(urls); // TODO rm
     const evtTgt = e.target;
     evtTgt.parentNode.parentNode.parentNode.removeChild(
       evtTgt.parentNode.parentNode,
     );
     browser.storage.local.remove(eKey);
+    console.info("urls 2:"); // TODO rm
+    console.info(urls); // TODO rm
+    // TODO can be this line deleted?
+    // Maybe it doesn't do anything becaus the variable `urls` has
+    // the url deleted before showStoredInfo is called.
     deleteUrl(eKey);
     console.log("showStoredInfo) deleteBtn.addEventListener) sendInfoAndValue"); // TODO rm
+    console.info("urls 3:"); // TODO rm
+    console.info(urls); // TODO rm
     sendInfoAndValue("urls", urls);
+    console.info("urls 4:"); // TODO rm
+    console.info(urls); // TODO rm
   });
 
   // edit box
@@ -412,7 +426,6 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.style.display = "none";
 
   infoContainer.appendChild(entry);
-  console.info(document.documentElement.outerHTML); // TODO rm
   console.info("end showStoredInfo"); // TODO rm
 
   // set up listeners for the update functionality
@@ -634,6 +647,9 @@ function saveShowLogs() {
 }
 
 function deleteUrl(eKey) {
+  console.info("deteleUrls start"); // TODO rm
+  console.info("urls:"); // TODO rm
+  console.info(urls); // TODO rm
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values = arrayValue.values.filter(
@@ -641,6 +657,9 @@ function deleteUrl(eKey) {
       );
     }
   });
+  console.info("deteleurls end"); // TODO rm
+  console.info("urls:"); // TODO rm
+  console.info(urls); // TODO rm
 }
 
 function addUrl(eKey) {

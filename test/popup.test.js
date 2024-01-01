@@ -6,6 +6,7 @@ function mockBrowser() {
     storage: {
       local: {
         get: jest.fn(() => Promise.resolve({})),
+        remove: jest.fn(() => Promise.resolve({})),
         set: jest.fn(() => Promise.resolve({})),
       },
     },
@@ -493,8 +494,8 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("enableElementsConfiguration");
     function_();
   });
-  describe.only("Check function showStoredInfo", () => {
-    describe.only("DOM elements are created correctly", () => {
+  describe("Check function showStoredInfo", () => {
+    describe("DOM elements are created correctly", () => {
       beforeEach(() => {
         mockEmptyInfoContainer();
       });
@@ -507,7 +508,6 @@ describe("Check module import", () => {
         );
       });
       it("If values to manage", function () {
-        console.info("xxx start"); // TODO rm
         expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
         function_ = popupModule.__get__("showStoredInfo");
         const eKey = "blacklist_https://foo.com/test.html";
@@ -516,7 +516,47 @@ describe("Check module import", () => {
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
           '<div><div><button title="Delete" class="floatLeft button" style="margin: 0% auto"><img src="/icons/trash.png"></button><p style="margin-left: 45px">https://foo.com/test.html</p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
         );
-        console.info("xxx end"); // TODO rm
+      });
+    });
+    describe.only("Buttons run correctly", () => {
+      it("Test click deleteBtn", function () {
+        const eValue = "https://foo.com/test.html";
+        const eKey = "blacklist_https://foo.com/test.html";
+        function_ = popupModule.__get__("showStoredInfo");
+        function_(eKey, eValue);
+        const infoContainer = popupModule.__get__("infoContainer");
+        const buttons = infoContainer.getElementsByTagName("button");
+        const deleteButton = buttons[0];
+        expect(deleteButton.title).toBe("Delete");
+        expect(browser.storage.local.remove.mock.calls.length).toBe(0);
+        const url = popupModule.__get__("url");
+        expect(popupModule.__get__("urls")).toEqual([
+          new url("blacklist", []),
+          new url("notify", []),
+          new url("referer", []),
+        ]);
+        deleteButton.click();
+        const buttonsAfterClick = infoContainer.getElementsByTagName("button");
+        // Test elements have been deleted.
+        expect(buttonsAfterClick[0]).toBe(undefined);
+        expect(browser.storage.local.remove.mock.calls.length).toBe(1);
+        expect(browser.storage.local.remove.mock.lastCall).toEqual([eKey]);
+        expect(popupModule.__get__("urls")).toEqual([
+          new url("blacklist", []),
+          new url("notify", []),
+          new url("referer", []),
+        ]);
+        expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+          tabId,
+          {
+            info: "urls",
+            values: [
+              new url("blacklist", []),
+              new url("notify", []),
+              new url("referer", []),
+            ],
+          },
+        ]);
       });
     });
   });
@@ -724,6 +764,7 @@ describe("Check module import", () => {
       popupModule.__set__("urlType", "");
     });
     it("deleteUrl runs without error", function () {
+      // TODO test array with values to delete and to not delete.
       function_ = popupModule.__get__("deleteUrl");
       const eKey = "blacklist_foo";
       function_(eKey);
