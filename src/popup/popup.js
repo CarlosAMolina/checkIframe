@@ -600,6 +600,7 @@ function listSourceTagSummary(tag, sourceTagSummary) {
   }
 }
 
+// TODO cleanShowSources and removeShownStoredUrls: extract common function
 function cleanShowSources() {
   while (sourcesContainer.firstChild) {
     sourcesContainer.removeChild(sourcesContainer.firstChild);
