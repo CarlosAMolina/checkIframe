@@ -518,7 +518,7 @@ describe("Check module import", () => {
         );
       });
     });
-    describe.only("Buttons run correctly", () => {
+    describe("Buttons run correctly", () => {
       it("Test click deleteBtn", function () {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
