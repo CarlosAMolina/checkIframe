@@ -6,7 +6,7 @@ function mockBrowser() {
     storage: {
       local: {
         get: jest.fn(() => Promise.resolve({})),
-        set: getNewPromise,
+        set: jest.fn(() => Promise.resolve({})),
       },
     },
     tabs: {
@@ -338,14 +338,40 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonShowLogs");
       });
-      it("Check run has expected calls and values", async () => {
-        console.info("*****start");
-        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-
-        await Promise.all([button.run]);
-
-        //expect(document.getElementById("buttonShowLogs").checked).toBe(true);
-        console.info("*****end");
+      describe("Check run has expected calls and values", () => {
+        it("If buttonShowLogs is not checked", async () => {
+          expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+          await Promise.all([button.run]);
+          // saveShowLogs calls storage.
+          expect(browser.storage.local.set.mock.lastCall).toEqual([
+            { idShowLogs: 0 },
+          ]);
+          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+          expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+            1,
+            { info: undefined, values: 0 },
+          ]);
+        });
+        describe("If buttonShowLogs is checked", () => {
+          beforeEach(() => {
+            document.getElementById("buttonShowLogs").checked = true;
+          });
+          it("Run test", async () => {
+            expect(document.getElementById("buttonShowLogs").checked).toBe(
+              true,
+            );
+            await Promise.all([button.run]);
+            //  // saveShowLogs calls storage.
+            expect(browser.storage.local.set.mock.lastCall).toEqual([
+              { idShowLogs: 1 },
+            ]);
+            expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+            expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
+              1,
+              { info: undefined, values: 1 },
+            ]);
+          });
+        });
       });
     });
   });
