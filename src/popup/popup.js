@@ -212,6 +212,7 @@ class ButtonShowLogs extends ButtonClicked {
     this.logButtonName;
     saveShowLogs();
     values2sendFromPopup = showLogs;
+    // TODO replace with this.buttonIdHtml?
     info2sendFromPopup = buttonIdHtml;
     //console.log("ButtonShowLogs) sendInfoAndValue"); // TODO rm
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
@@ -508,8 +509,8 @@ function showStoredUrlsType(type2show) {
 
 function sendInfoAndValue(info2send, value2send) {
   //console.log("4. sendInfoAndValue) Init"); // TODO rm
-  //console.log("sendInfoAndValue) info2send", info2send); // TODO rm
-  //console.log("sendInfoAndValue) value2send", value2send); // TODO rm
+  //console.info("sendInfoAndValue) info2send", info2send); // TODO rm
+  //console.info("sendInfoAndValue) value2send", value2send); // TODO rm
   info2sendFromPopup = info2send;
   values2sendFromPopup = value2send;
   //console.log("5. browser.tabs.query) Then previous line"); // TODO rm
@@ -613,8 +614,10 @@ function removeShownStoredUrls() {
 
 function saveShowLogs() {
   if (document.getElementById("buttonShowLogs").checked == true) {
+    //console.info("checked == true"); // TODO
     showLogs = 1;
   } else {
+    //console.info("checked != true"); // TODO
     showLogs = 0;
   }
   var storingInfo = browser.storage.local.set({ ["idShowLogs"]: showLogs });
