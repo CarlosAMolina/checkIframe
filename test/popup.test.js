@@ -393,7 +393,6 @@ describe("Check module import", () => {
             mockNotEmptyInfoContainer();
           });
           it("Test", async () => {
-            console.info("*** start"); // TODO rm
             expect(
               popupModule.__get__("infoContainer").firstChild.textContent,
             ).toBe("foo");
@@ -401,9 +400,16 @@ describe("Check module import", () => {
             button.run;
 
             expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
-            console.info("*** end"); // TODO rm
           });
         });
+        // TODO describe("Test showStoredUrlsType call", () => {
+        // TODO     console.info("*** start"); // TODO rm
+        // TODO     console.info("*** end"); // TODO rm
+        // TODO });
+        // TODO describe("Test enableElementsConfiguration call", () => {
+        // TODO     console.info("*** start"); // TODO rm
+        // TODO     console.info("*** end"); // TODO rm
+        // TODO });
       });
     });
   });
