@@ -495,25 +495,28 @@ describe("Check module import", () => {
   });
   describe.only("Check function showStoredInfo", () => {
     describe.only("DOM elements are created correctly", () => {
+      beforeEach(() => {
+        mockEmptyInfoContainer();
+      });
       it("If no values to manage", function () {
-        console.info("xxx start"); // TODO rm
         expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
         function_ = popupModule.__get__("showStoredInfo");
         function_();
+        expect(popupModule.__get__("infoContainer").innerHTML).toBe(
+          '<div><div><button title="Delete" class="floatLeft button" style="margin: 0% auto"><img src="/icons/trash.png"></button><p style="margin-left: 45px"></p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
+        );
+      });
+      it("If values to manage", function () {
+        console.info("xxx start"); // TODO rm
+        expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
+        function_ = popupModule.__get__("showStoredInfo");
+        const eKey = "blacklist_https://foo.com/test.html";
+        const eValue = "https://foo.com/test.html";
+        function_(eKey, eValue);
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
           '<div><div><button title="Delete" class="floatLeft button" style="margin: 0% auto"><img src="/icons/trash.png"></button><p style="margin-left: 45px"></p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
         );
         console.info("xxx end"); // TODO rm
-      });
-      it("If values to manage", function () {
-        console.info("xxx2 start"); // TODO rm
-        expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
-        function_ = popupModule.__get__("showStoredInfo");
-        function_();
-        expect(popupModule.__get__("infoContainer").innerHTML).toBe(
-          '<div><div><button title="Delete" class="floatLeft button" style="margin: 0% auto"><img src="/icons/trash.png"></button><p style="margin-left: 45px"></p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
-        );
-        console.info("xxx2 end"); // TODO rm
       });
     });
   });
@@ -764,6 +767,11 @@ describe("Check module import", () => {
     extraTextElement.textContent = "foo";
     entryElement.appendChild(extraTextElement);
     popupModule.__set__("sourcesContainer", entryElement);
+  }
+  function mockEmptyInfoContainer() {
+    let element = document.createElement("div");
+    element.setAttribute("class", "info-container");
+    popupModule.__set__("infoContainer", element);
   }
   function mockNotEmptyInfoContainer() {
     let entryElement = document.createElement("div");
