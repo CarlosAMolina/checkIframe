@@ -518,16 +518,31 @@ describe("Check module import", () => {
         );
       });
     });
-    describe("Buttons run correctly", () => {
-      it("Test click deleteBtn", function () {
+    describe.only("Buttons run correctly", () => {
+      beforeEach(() => {
+        const url = popupModule.__get__("url");
+        popupModule.__set__("urls", [
+          new url("blacklist", []),
+          new url("notify", []),
+          new url("referer", []),
+        ]);
+        browser.tabs.sendMessage = jest.fn(() => Promise.resolve({ data: "done sendMessage" }));
+      });
+      it("Test click deleteBtn", async () => {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
+        // TODO in some part of the code the urls.blacklist must have de eKey or eValue value. Add this behaviour to the tests.
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
         function_ = popupModule.__get__("showStoredInfo");
         function_(eKey, eValue);
         const infoContainer = popupModule.__get__("infoContainer");
         const buttons = infoContainer.getElementsByTagName("button");
+
+        expect(buttons.length).toBe(3);
+        expect(buttons[0].title).toBe("Delete");
+        expect(buttons[1].title).toBe("Update");
+        expect(buttons[2].title).toBe("Cancel update");
         const deleteButton = buttons[0];
-        expect(deleteButton.title).toBe("Delete");
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
         const url = popupModule.__get__("url");
         expect(popupModule.__get__("urls")).toEqual([
@@ -535,10 +550,12 @@ describe("Check module import", () => {
           new url("notify", []),
           new url("referer", []),
         ]);
-        deleteButton.click();
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
+
+        await deleteButton.click();
         const buttonsAfterClick = infoContainer.getElementsByTagName("button");
         // Test elements have been deleted.
-        expect(buttonsAfterClick[0]).toBe(undefined);
+        expect(buttonsAfterClick.length).toBe(0);
         expect(browser.storage.local.remove.mock.calls.length).toBe(1);
         expect(browser.storage.local.remove.mock.lastCall).toEqual([eKey]);
         expect(popupModule.__get__("urls")).toEqual([
@@ -546,6 +563,7 @@ describe("Check module import", () => {
           new url("notify", []),
           new url("referer", []),
         ]);
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
           tabId,
           {
