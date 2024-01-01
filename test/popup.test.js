@@ -184,8 +184,7 @@ describe("Check module import", () => {
         // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
       });
     });
-    // TODO rm only
-    describe.only("Check ButtonScroll", () => {
+    describe("Check ButtonScroll", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonScroll");
         button = new classType();
@@ -375,13 +374,22 @@ describe("Check module import", () => {
         });
       });
     });
-    describe("Check ButtonUrlsNotify", () => {
+    describe.only("Check ButtonUrlsNotify", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonUrlsNotify");
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
         expect(button.buttonIdHtml).toBe("buttonUrlsNotify");
+      });
+      describe("Check run has expected calls and values", () => {
+        it("Test urltype global variable", async () => {
+          console.info("*** start"); // TODO rm
+          expect(popupModule.__get__("urlType")).toEqual("");
+          button.run;
+          expect(popupModule.__get__("urlType")).toEqual("notify");
+          console.info("*** end"); // TODO rm
+        });
       });
     });
   });
