@@ -518,7 +518,7 @@ describe("Check module import", () => {
         );
       });
     });
-    describe.only("Buttons run correctly", () => {
+    describe("Buttons run correctly", () => {
       beforeEach(() => {
         const url = popupModule.__get__("url");
         popupModule.__set__("urls", [
@@ -526,7 +526,10 @@ describe("Check module import", () => {
           new url("notify", []),
           new url("referer", []),
         ]);
-        browser.tabs.sendMessage = jest.fn(() => Promise.resolve({ data: "done sendMessage" }));
+        browser.tabs.sendMessage = jest.fn(() =>
+          Promise.resolve({ data: "done sendMessage" }),
+        );
+        mockEmptyInfoContainer();
       });
       it("Test click deleteBtn", async () => {
         const eValue = "https://foo.com/test.html";
