@@ -442,7 +442,13 @@ function showStoredInfo(eKey, eValue) {
   });
 
   updateBtn.addEventListener("click", () => {
+    console.info("updateBtn.addEventListener start"); // TODO rm
+    console.info("entryEditInput.value:"); // TODO rm
+    console.info(entryEditInput.value); // TODO rm
+    console.info("eValue:"); // TODO rm
+    console.info(eValue); // TODO rm
     if (entryEditInput.value !== eValue) {
+      console.info("in if"); // TODO rm
       // type a different value
       info2save = entryEditInput.value;
       var id2save = eKey.split("_")[0] + "_" + info2save;
@@ -457,6 +463,7 @@ function showStoredInfo(eKey, eValue) {
         }
       });
     }
+    console.info("updateBtn.addEventListener end"); // TODO rm
   });
 
   // update

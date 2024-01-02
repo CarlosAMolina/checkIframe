@@ -663,7 +663,27 @@ describe("Check module import", () => {
             .value,
         ).toBe("https://foo.com/test.html");
       });
-      // TODO test updateBtn
+      it("Test click updateBtn", function () {
+        console.info("*** test start"); // TODO rm
+        const eValue = "https://foo.com/test.html";
+        const eKey = "blacklist_https://foo.com/test.html";
+        function_ = popupModule.__get__("showStoredInfo");
+        function_(eKey, eValue);
+        expect(
+          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
+            .value,
+        ).toBe("https://foo.com/test.html");
+        const infoContainer = popupModule.__get__("infoContainer");
+        const updateButton = infoContainer.getElementsByTagName("button")[1];
+        expect(updateButton.title).toBe("Update");
+        popupModule
+          .__get__("infoContainer")
+          .getElementsByTagName("input")[0].value =
+          "https://bar.com/test-2.html";
+        updateButton.click();
+
+        console.info("*** test end"); // TODO rm
+      });
     });
   });
   it("hideInfo adds class", function () {
