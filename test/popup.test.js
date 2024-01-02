@@ -516,7 +516,7 @@ describe("Check module import", () => {
         );
       });
     });
-    describe("Buttons run correctly", () => {
+    describe.only("Buttons run correctly", () => {
       beforeEach(() => {
         const url = popupModule.__get__("url");
         popupModule.__set__("urls", [
@@ -574,6 +574,46 @@ describe("Check module import", () => {
             ],
           },
         ]);
+      });
+      it("Test click entryValue", function () {
+        const eValue = "https://foo.com/test.html";
+        const eKey = "blacklist_https://foo.com/test.html";
+        expect(
+          popupModule.__get__("infoContainer").getElementsByTagName("p").length,
+        ).toBe(0);
+        function_ = popupModule.__get__("showStoredInfo");
+        function_(eKey, eValue);
+        const infoContainer = popupModule.__get__("infoContainer");
+        const pElements = infoContainer.getElementsByTagName("p");
+        const entryValue = pElements[0];
+        expect(entryValue.textContent).toBe("https://foo.com/test.html");
+        const indexDivElementToCheck = 1;
+        const indexDivElementToCheckB = 3;
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheck].getAttribute("style"),
+        ).toBe(null);
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheckB].getAttribute("style"),
+        ).toBe("display: none;");
+        entryValue.click();
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheck].getAttribute("style"),
+        ).toBe("display: none;");
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheckB].getAttribute("style"),
+        ).toBe("display: block;");
       });
       // TODO test other elements with addEventListener
     });
