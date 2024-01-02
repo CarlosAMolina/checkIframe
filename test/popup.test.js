@@ -781,11 +781,56 @@ describe("Check module import", () => {
     afterEach(() => {
       popupModule.__set__("urlType", "");
     });
-    it("deleteUrl runs without error", function () {
-      // TODO test array with values to delete and to not delete.
-      function_ = popupModule.__get__("deleteUrl");
-      const eKey = "blacklist_foo";
-      function_(eKey);
+    describe("deleteUrl runs without error", () => {
+      beforeAll(() => {
+        const url = popupModule.__get__("url");
+        popupModule.__set__("urls", [
+          new url("blacklist", [
+            "https://foo.com/foo.html",
+            "https://foo.com/foo-2.html",
+          ]),
+          new url("notify", [
+            "https://foo.com/foo-3.html",
+            "https://foo.com/foo-4.html",
+          ]),
+          new url("referer", [
+            "https://foo.com/foo-5.html",
+            "https://foo.com/foo-6.html",
+          ]),
+        ]);
+      });
+      it("Test", function () {
+        expect(popupModule.__get__("urlType")).toBe("blacklist");
+        const url = popupModule.__get__("url");
+        expect(popupModule.__get__("urls")).toStrictEqual([
+          new url("blacklist", [
+            "https://foo.com/foo.html",
+            "https://foo.com/foo-2.html",
+          ]),
+          new url("notify", [
+            "https://foo.com/foo-3.html",
+            "https://foo.com/foo-4.html",
+          ]),
+          new url("referer", [
+            "https://foo.com/foo-5.html",
+            "https://foo.com/foo-6.html",
+          ]),
+        ]);
+        function_ = popupModule.__get__("deleteUrl");
+        const eKey = "blacklist_https://foo.com/foo.html";
+        function_(eKey);
+        expect(popupModule.__get__("urls")).toStrictEqual([
+          new url("blacklist", ["https://foo.com/foo-2.html"]),
+          new url("notify", [
+            "https://foo.com/foo-3.html",
+            "https://foo.com/foo-4.html",
+          ]),
+          new url("referer", [
+            "https://foo.com/foo-5.html",
+            "https://foo.com/foo-6.html",
+          ]),
+        ]);
+      });
     });
     it("addUrl runs without error", function () {
       function_ = popupModule.__get__("addUrl");
