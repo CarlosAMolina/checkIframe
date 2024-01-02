@@ -437,6 +437,7 @@ function showStoredInfo(eKey, eValue) {
   cancelBtn.addEventListener("click", () => {
     entryDisplay.style.display = "block";
     entryEdit.style.display = "none";
+    // TODO the next line is necessary?
     entryEditInput.value = eValue;
   });
 

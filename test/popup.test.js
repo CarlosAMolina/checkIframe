@@ -615,7 +615,55 @@ describe("Check module import", () => {
             [indexDivElementToCheckB].getAttribute("style"),
         ).toBe("display: block;");
       });
-      // TODO test other elements with addEventListener
+      it("Test click cancelBtn", function () {
+        const eValue = "https://foo.com/test.html";
+        const eKey = "blacklist_https://foo.com/test.html";
+        expect(
+          popupModule.__get__("infoContainer").getElementsByTagName("button")
+            .length,
+        ).toBe(0);
+        function_ = popupModule.__get__("showStoredInfo");
+        function_(eKey, eValue);
+        const infoContainer = popupModule.__get__("infoContainer");
+        const cancelButton = infoContainer.getElementsByTagName("button")[2];
+        expect(cancelButton.title).toBe("Cancel update");
+        const indexDivElementToCheck = 1;
+        const indexDivElementToCheckB = 3;
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheck].getAttribute("style"),
+        ).toBe(null);
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheckB].getAttribute("style"),
+        ).toBe("display: none;");
+        expect(
+          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
+            .value,
+        ).toBe("https://foo.com/test.html");
+        cancelButton.click();
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheck].getAttribute("style"),
+        ).toBe("display: block;");
+        expect(
+          popupModule
+            .__get__("infoContainer")
+            .getElementsByTagName("div")
+            [indexDivElementToCheckB].getAttribute("style"),
+        ).toBe("display: none;");
+        expect(
+          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
+            .value,
+        ).toBe("https://foo.com/test.html");
+      });
+      // TODO test updateBtn
     });
   });
   it("hideInfo adds class", function () {
