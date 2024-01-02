@@ -679,7 +679,7 @@ describe("Check module import", () => {
         popupModule
           .__get__("infoContainer")
           .getElementsByTagName("input")[0].value =
-          "https://bar.com/test-2.html";
+          "https://new-url.com/test-2.html";
         updateButton.click();
 
         console.info("*** test end"); // TODO rm
