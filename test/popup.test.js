@@ -683,6 +683,11 @@ describe("Check module import", () => {
         updateButton.click();
         expect(popupModule.__get__("info2save")).toBe(entryEditInputValue);
         console.info("*** test end"); // TODO rm
+        expect(browser.storage.local.get.mock.calls.length).toBe(1);
+        const expecteId2save = "blacklist_https://new-url.com/test-2.html";
+        expect(browser.storage.local.get.mock.lastCall).toEqual([
+          expecteId2save,
+        ]);
       });
     });
   });
