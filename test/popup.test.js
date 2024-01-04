@@ -676,12 +676,12 @@ describe("Check module import", () => {
         const infoContainer = popupModule.__get__("infoContainer");
         const updateButton = infoContainer.getElementsByTagName("button")[1];
         expect(updateButton.title).toBe("Update");
+        const entryEditInputValue = "https://new-url.com/test-2.html";
         popupModule
           .__get__("infoContainer")
-          .getElementsByTagName("input")[0].value =
-          "https://new-url.com/test-2.html";
+          .getElementsByTagName("input")[0].value = entryEditInputValue;
         updateButton.click();
-
+        expect(popupModule.__get__("info2save")).toBe(entryEditInputValue);
         console.info("*** test end"); // TODO rm
       });
     });
