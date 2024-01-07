@@ -663,8 +663,10 @@ describe("Check module import", () => {
             .value,
         ).toBe("https://foo.com/test.html");
       });
-      it("Test click updateBtn", function () {
+      it("Test click updateBtn if we will store the first blacklist url", async () => {
         console.info("*** test start"); // TODO rm
+        // TODO move to beforeEach
+        popupModule.__set__("urlType", "blacklist");
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
         function_ = popupModule.__get__("showStoredInfo");
@@ -680,15 +682,77 @@ describe("Check module import", () => {
         popupModule
           .__get__("infoContainer")
           .getElementsByTagName("input")[0].value = entryEditInputValue;
-        updateButton.click();
-        expect(popupModule.__get__("info2save")).toBe(entryEditInputValue);
-        console.info("*** test end"); // TODO rm
-        expect(browser.storage.local.get.mock.calls.length).toBe(1);
-        const expecteId2save = "blacklist_https://new-url.com/test-2.html";
-        expect(browser.storage.local.get.mock.lastCall).toEqual([
-          expecteId2save,
+        expect(
+            popupModule
+              .__get__("infoContainer")
+              .getElementsByTagName("input")[0].value
+        ).toBe(entryEditInputValue);
+        const url = popupModule.__get__("url");
+        expect(popupModule.__get__("urls")).toStrictEqual([
+          new url("blacklist", [
+          ]),
+          new url("notify", [
+          ]),
+          new url("referer", [
+          ]),
         ]);
+        expect(popupModule.__get__("info2save")).toBe(undefined);
+        expect(browser.storage.local.get.mock.calls.length).toBe(0);
+        expect(browser.storage.local.set.mock.calls.length).toBe(0);
+        expect(browser.storage.local.remove.mock.calls.length).toBe(0);
+
+        expect(browser.tabs.query.mock.calls.length).toBe(0);
+        expect(browser.tabs.query.mock.calls.length).toBe(0);
+        await Promise.all([
+        updateButton.click()
+        ]);
+
+        expect(popupModule.__get__("info2save")).toBe(entryEditInputValue);
+        expect(browser.storage.local.get.mock.calls.length).toBe(1);
+        const expectedId2save = "blacklist_https://new-url.com/test-2.html";
+
+        expect(browser.storage.local.get.mock.lastCall).toEqual([
+          expectedId2save,
+        ]);
+        // Test updateEntry 
+        // Test addUrl
+        expect(popupModule.__get__("urls")).toStrictEqual([
+          new url("blacklist", [
+            "https://new-url.com/test-2.html",
+          ]),
+          new url("notify", [
+          ]),
+          new url("referer", [
+          ]),
+        ]);
+        expect(browser.storage.local.set.mock.calls.length).toBe(1);
+        const expectedInfo2save = "https://new-url.com/test-2.html";
+        expect(browser.storage.local.set.mock.lastCall).toStrictEqual([
+            {"blacklist_https://new-url.com/test-2.html": expectedInfo2save}
+
+        ]);
+        expect(browser.storage.local.remove.mock.calls.length).toBe(1);
+        expect(browser.storage.local.remove.mock.lastCall).toStrictEqual([
+            "blacklist_https://foo.com/test.html"
+        ]);
+        // TODO not tested (is executed after the test ends): removingEntry.then(() => { showStoredInfo
+        // Test sendInfoAndValue
+        expect(browser.tabs.query.mock.calls.length).toBe(1);
+        expect(browser.tabs.query.mock.calls.length).toBe(1);
+        expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+          tabId,
+          {
+            info: "urls",
+            values: [
+              new url("blacklist", ["https://new-url.com/test-2.html"]),
+              new url("notify", []),
+              new url("referer", []),
+            ],
+          },
+        ]);
+        // TODO not tested entry.parentNode.removeChild(entry);
       });
+      // TODO it("Test click updateBtn if we will store the second blacklist url", async () => {
     });
   });
   it("hideInfo adds class", function () {

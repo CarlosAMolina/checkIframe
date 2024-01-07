@@ -356,6 +356,8 @@ function showStoredInfo(eKey, eValue) {
   //console.info(eValue); // TODO rm
   //console.info("urls:"); // TODO rm
   //console.info(urls); // TODO rm
+  //console.info("urls blacklist:"); // TODO rm
+  //console.info(urls[0].values); // TODO rm
   // display box
   var entry = document.createElement("div");
   var entryDisplay = document.createElement("div");
@@ -442,37 +444,60 @@ function showStoredInfo(eKey, eValue) {
   });
 
   updateBtn.addEventListener("click", () => {
-    console.info("updateBtn.addEventListener start"); // TODO rm
-    console.info("entryEditInput.value:"); // TODO rm
-    console.info(entryEditInput.value); // TODO rm
-    console.info("eValue:"); // TODO rm
-    console.info(eValue); // TODO rm
+    //console.info("updateBtn.addEventListener start"); // TODO rm
+    //console.info("entryEditInput.value:"); // TODO rm
+    //console.info(entryEditInput.value); // TODO rm
+    //console.info("eValue:"); // TODO rm
+    //console.info(eValue); // TODO rm
     if (entryEditInput.value !== eValue) {
-      console.info("in if"); // TODO rm
+      //console.info("in if"); // TODO rm
       // type a different value
       info2save = entryEditInput.value;
       var id2save = eKey.split("_")[0] + "_" + info2save;
       var gettingItem = browser.storage.local.get(id2save);
       gettingItem.then((result) => {
+        //console.info("in gettingItem.then"); // TODO rm
+        //console.info("result:"); // TODO rm
+        //console.info(result); // TODO rm
         // result: empty object if the searched value is not stored
         var searchInStorage = Object.keys(result); // array with the searched value if it is stored
+        //console.info("searchInStorage:"); // TODO rm
+        //console.info(searchInStorage); // TODO rm
         if (searchInStorage.length < 1) {
           // searchInStorage.length < 1 -> no stored
           updateEntry(eKey, id2save);
+          //console.info('entry:'); // TODO RM
+          //console.info(entry); // TODO RM
+          //console.info(entry.parentNode); // TODO RM
           entry.parentNode.removeChild(entry);
+          //console.info('entry 2:'); // TODO RM
+          //console.info(entry); // TODO RM
+          //console.info(entry.parentNode); // TODO RM
         }
       });
     }
-    console.info("updateBtn.addEventListener end"); // TODO rm
+    //console.info("updateBtn.addEventListener end"); // TODO rm
   });
 
   // update
   function updateEntry(id2change, id2save) {
+    //console.info("in updateEntry"); // TODO rm
+    //console.info("id2change:"); // TODO rm
+    //console.info(id2change); // TODO rm
+    //console.info("id2save:"); // TODO rm
+    //console.info(id2save); // TODO rm
+    //console.info("info2save:"); // TODO rm
+    //console.info(info2save); // TODO rm
     addUrl(id2save);
+    // TODO replace [id2save] -> id2save
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
     storingInfo.then(() => {
-      deleteUrl(id2change);
+      //console.info("in storingInfo.then"); // TODO rm
+
+      deleteUrl(id2change); // Delete url in `var urls`.
       var removingEntry = browser.storage.local.remove(id2change);
+      //console.info('browser.storage.local.remove(id2change);'); // TODO rm
+      //console.info(browser.storage.local.remove); // TODO rm
       removingEntry.then(() => {
         showStoredInfo(id2save, info2save);
       }, reportError);
@@ -654,6 +679,7 @@ function saveShowLogs() {
   storingInfo.then(() => {});
 }
 
+// Delete url in `var urls`.
 function deleteUrl(eKey) {
   //console.info("deteleUrls start"); // TODO rm
   //console.info("urlType:"); // TODO rm
@@ -662,6 +688,8 @@ function deleteUrl(eKey) {
   //console.info(eKey); // TODO rm
   //console.info("urls before loop:"); // TODO rm
   //console.info(urls); // TODO rm
+  //console.info("urls blacklist before loop:"); // TODO rm
+  //console.info(urls[0].values); // TODO rm
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values = arrayValue.values.filter(
@@ -671,15 +699,31 @@ function deleteUrl(eKey) {
   });
   //console.info("urls after loop:"); // TODO rm
   //console.info(urls); // TODO rm
+  //console.info("urls blacklist after loop:"); // TODO rm
+  //console.info(urls[0].values); // TODO rm
   //console.info("deteleurls end"); // TODO rm
 }
 
 function addUrl(eKey) {
+  //console.info('addUrl start'); // TODO rm
+  //console.info('urls:'); // TODO rm
+  //console.info(urls); // TODO rm
+  //console.info("urls blacklist:"); // TODO rm
+  //console.info(urls[0].values); // TODO rm
+  //console.info('eKey:'); // TODO rm
+  //console.info(eKey); // TODO rm
+  //console.info('urlType:'); // TODO rm
+  //console.info(urlType); // TODO rm
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values.push(eKey.replace(urlType + "_", ""));
     }
   });
+  //console.info('urls:'); // TODO rm
+  //console.info(urls); // TODO rm
+  //console.info("urls blacklist:"); // TODO rm
+  //console.info(urls[0].values); // TODO rm
+  //console.info('addUrl end'); // TODO rm
 }
 
 // save input box info
