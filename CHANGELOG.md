@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Tests.
 - Changelog file.
+- package.json: added development tools like eslint, prettier, web-ext, etc.
 
 ### Changed
 - Refactor code.
