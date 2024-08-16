@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Organize code in folders.
 - Format with prettier.
 - Improve variable types.
+- Update README.md.
 
 ## [1.4.1] - 2021-02-08
 ### Fixed
