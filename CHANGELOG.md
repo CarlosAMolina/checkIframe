@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [unreleased] - TODO
+## [1.4.2] - 2024-08-16
 ### Added
 - Tests.
 - Changelog file.
-- package.json: added development tools like eslint, prettier, web-ext, etc.
+- package.json: added development tools like eslint, prettier, web-ext, pre commit, etc.
 
 ### Changed
 - Refactor code:

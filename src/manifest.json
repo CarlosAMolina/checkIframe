@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Check iframe",
-  "version": "1.4.1",
+  "version": "1.4.2",
 
   "description": "Firefox add-on that indicates if the current web page uses iframes or frames and allows you to browse through them.",
   "homepage_url": "https://github.com/CarlosAMolina/checkIframe",
