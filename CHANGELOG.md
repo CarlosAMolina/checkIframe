@@ -18,9 +18,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Move code.
   - Inline variables.
 - Organize code in folders.
-- Format with prettier.
+- Format code with prettier.
 - Improve variable types.
 - Update README.md.
+- Change create zip result path.
 
 ## [1.4.1] - 2021-02-08
 ### Fixed

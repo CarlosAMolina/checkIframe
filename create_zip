@@ -1,3 +1,3 @@
 # Create .zip package to publish.
 # https://extensionworkshop.com/documentation/publish/package-your-extension/
-cd src && zip -r -FS ../checkIframe.zip *
+cd src && zip -r -FS /tmp/checkIframe.zip *
