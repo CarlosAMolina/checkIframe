@@ -44,3 +44,11 @@ npm install
 ```bash
 npm test
 ```
+
+### Development
+
+Load extension in the browser:
+
+```bash
+npm run web-ext
+```
