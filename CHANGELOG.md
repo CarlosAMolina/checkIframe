@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Extract functions.
   - Extract classes.
   - Move code.
+  - Inline variables.
 - Organize code in folders.
 - Format with prettier.
 - Improve variable types.
