@@ -10,7 +10,7 @@
     "prettier": "npx prettier src test --check",
     "prettier:fix": "npm run prettier -- --write",
     "test": "jest ./test",
-    "web-ext": "node_modules/web-ext/bin/web-ext.js run",
+    "web-ext": "cd src && ../node_modules/web-ext/bin/web-ext.js run",
     "prepare": "husky install"
   },
   "repository": {
