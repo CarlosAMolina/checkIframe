@@ -681,15 +681,6 @@ function saveShowLogs() {
 
 // Delete url in `var urls`.
 function deleteUrl(eKey) {
-  //console.info("deteleUrls start"); // TODO rm
-  //console.info("urlType:"); // TODO rm
-  //console.info(urlType); // TODO rm
-  //console.info("eKey:"); // TODO rm
-  //console.info(eKey); // TODO rm
-  //console.info("urls before loop:"); // TODO rm
-  //console.info(urls); // TODO rm
-  //console.info("urls blacklist before loop:"); // TODO rm
-  //console.info(urls[0].values); // TODO rm
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values = arrayValue.values.filter(
@@ -697,11 +688,6 @@ function deleteUrl(eKey) {
       );
     }
   });
-  //console.info("urls after loop:"); // TODO rm
-  //console.info(urls); // TODO rm
-  //console.info("urls blacklist after loop:"); // TODO rm
-  //console.info(urls[0].values); // TODO rm
-  //console.info("deteleurls end"); // TODO rm
 }
 
 function addUrl(eKey) {
