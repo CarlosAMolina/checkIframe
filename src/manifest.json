@@ -29,5 +29,12 @@
 
   "background": {
     "scripts": ["background.js"]
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+    },
+    "gecko_android": {
+    }
   }
 }
