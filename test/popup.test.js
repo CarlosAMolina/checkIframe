@@ -516,7 +516,7 @@ describe("Check module import", () => {
         );
       });
     });
-    describe.only("Buttons run correctly", () => {
+    describe("Buttons run correctly", () => {
       beforeEach(() => {
         const url = popupModule.__get__("url");
         popupModule.__set__("urls", [
