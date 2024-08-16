@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Refactor code.
+- Organize code in folders.
+- Format with prettier.
 
 ## [1.4.1] - 2021-02-08
 ### Fixed
