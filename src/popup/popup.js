@@ -705,25 +705,11 @@ function deleteUrl(eKey) {
 }
 
 function addUrl(eKey) {
-  //console.info('addUrl start'); // TODO rm
-  //console.info('urls:'); // TODO rm
-  //console.info(urls); // TODO rm
-  //console.info("urls blacklist:"); // TODO rm
-  //console.info(urls[0].values); // TODO rm
-  //console.info('eKey:'); // TODO rm
-  //console.info(eKey); // TODO rm
-  //console.info('urlType:'); // TODO rm
-  //console.info(urlType); // TODO rm
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values.push(eKey.replace(urlType + "_", ""));
     }
   });
-  //console.info('urls:'); // TODO rm
-  //console.info(urls); // TODO rm
-  //console.info("urls blacklist:"); // TODO rm
-  //console.info(urls[0].values); // TODO rm
-  //console.info('addUrl end'); // TODO rm
 }
 
 // save input box info
