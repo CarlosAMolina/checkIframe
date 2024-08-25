@@ -190,9 +190,9 @@ function updateBorderOfElement(elementToModify, value) {
       );
     }
     function scrollAndBorder() {
-      elementsValidSrc[elementsValidSrcIndex].info.scrollIntoView(false); //false: element in the lower part of the window
-      quitBorderByIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
       let elementToModify = elementsValidSrc[elementsValidSrcIndex];
+      elementToModify.info.scrollIntoView(false); //false: element in the lower part of the window
+      quitBorderByIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
       setBorderOfElement(elementToModify);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
