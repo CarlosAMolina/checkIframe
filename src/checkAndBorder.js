@@ -77,12 +77,20 @@ initializeContentScript();
 
 // elementToModify: type element
 function setBorderToElement(elementToModify) {
-  elementToModify.info.style.border = " 10px solid red ";
+  const borderValue = " 10px solid red ";
+  updateBorderOfElement(elementToModify, borderValue);
 }
 
 // elementToModify: type element
 function quitBorderToElement(elementToModify) {
-  elementToModify.info.style.border = "";
+  const borderValue = "";
+  updateBorderOfElement(elementToModify, borderValue);
+}
+
+// elementToModify: type element
+// value: string
+function updateBorderOfElement(elementToModify, value) {
+  elementToModify.info.style.border = value;
 }
 
 (function () {
