@@ -196,7 +196,6 @@ function updateBorderOfElement(elementToModify, value) {
     return indexInfo;
   }
 
-  // quit border
   // elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
   function quitBorder() {
     if (
