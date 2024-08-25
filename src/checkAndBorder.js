@@ -81,6 +81,17 @@ function setBorderOfElement(elementToModify) {
   updateBorderOfElement(elementToModify, borderValue);
 }
 
+// elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
+function quitBorder() {
+  if (
+    typeof elementsValidSrcIndex2QuitBorder != "undefined" &&
+    typeof elementsValidSrc[elementsValidSrcIndex2QuitBorder] != "undefined"
+  ) {
+    let elementToModify = elementsValidSrc[elementsValidSrcIndex2QuitBorder];
+    quitBorderOfElement(elementToModify);
+  }
+}
+
 // elementToModify: type element
 function quitBorderOfElement(elementToModify) {
   const borderValue = "";
@@ -194,17 +205,6 @@ function updateBorderOfElement(elementToModify, value) {
       }
     }
     return indexInfo;
-  }
-
-  // elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
-  function quitBorder() {
-    if (
-      typeof elementsValidSrcIndex2QuitBorder != "undefined" &&
-      typeof elementsValidSrc[elementsValidSrcIndex2QuitBorder] != "undefined"
-    ) {
-      let elementToModify = elementsValidSrc[elementsValidSrcIndex2QuitBorder];
-      quitBorderOfElement(elementToModify);
-    }
   }
 
   // check page required infromation and send results
