@@ -190,10 +190,10 @@ function updateBorderOfElement(elementToModify, value) {
       );
     }
     function scrollAndBorder() {
-      let elementToModify = elementsValidSrc[elementsValidSrcIndex];
-      elementToModify.info.scrollIntoView(false); //false: element in the lower part of the window
+      let elementToSetBorder = elementsValidSrc[elementsValidSrcIndex];
+      elementToSetBorder.info.scrollIntoView(false); //false: element in the lower part of the window
       quitBorderByIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
-      setBorderOfElement(elementToModify);
+      setBorderOfElement(elementToSetBorder);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
     var indexInfo = "Web page without sources.";
