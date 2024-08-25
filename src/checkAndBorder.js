@@ -82,12 +82,14 @@ function setBorderOfElement(elementToModify) {
 }
 
 // elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
-function quitBorder() {
+// elementsValidSrc: type elementsValidSrc
+// index: type int or "undefined"
+function quitBorder(elementsValidSrc, index) {
   if (
-    typeof elementsValidSrcIndex2QuitBorder != "undefined" &&
-    typeof elementsValidSrc[elementsValidSrcIndex2QuitBorder] != "undefined"
+    typeof index != "undefined" &&
+    typeof elementsValidSrc[index] != "undefined"
   ) {
-    let elementToModify = elementsValidSrc[elementsValidSrcIndex2QuitBorder];
+    let elementToModify = elementsValidSrc[index];
     quitBorderOfElement(elementToModify);
   }
 }
@@ -190,7 +192,7 @@ function updateBorderOfElement(elementToModify, value) {
     }
     function scrollAndBorder() {
       elementsValidSrc[elementsValidSrcIndex].info.scrollIntoView(false); //false: element in the lower part of the window
-      quitBorder();
+      quitBorder(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
       let elementToModify = elementsValidSrc[elementsValidSrcIndex];
       setBorderOfElement(elementToModify);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
@@ -239,7 +241,7 @@ function updateBorderOfElement(elementToModify, value) {
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
       getElementsValidSrc(); // when the pop-up is closed, this info is lost
-      quitBorder();
+      quitBorder(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
       elementsValidSrcIndex = undefined;
       elementsValidSrcIndex2QuitBorder = undefined;
     } else if (message.info === "buttonShowSources") {
