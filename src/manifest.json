@@ -32,9 +32,7 @@
   },
 
   "browser_specific_settings": {
-    "gecko": {
-    },
-    "gecko_android": {
-    }
+    "gecko": {},
+    "gecko_android": {}
   }
 }

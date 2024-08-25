@@ -424,7 +424,6 @@ function showStoredInfo(eKey, eValue) {
     // TODO replace [id2save] -> id2save
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
     storingInfo.then(() => {
-
       deleteUrl(id2change); // Delete url in `var urls`.
       var removingEntry = browser.storage.local.remove(id2change);
       removingEntry.then(() => {
