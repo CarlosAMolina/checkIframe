@@ -75,6 +75,11 @@ function logs() {
 
 initializeContentScript();
 
+// elementToModify: type element
+function setBorderToElement(elementToModify) {
+  elementToModify.info.style.border = " 10px solid red ";
+}
+
 (function () {
   // check and set a global guard variable.
   // if this content script is injected into the same web page again,
@@ -162,8 +167,7 @@ initializeContentScript();
     function scrollAndBorder() {
       elementsValidSrc[elementsValidSrcIndex].info.scrollIntoView(false); //false: element in the lower part of the window
       quitBorder();
-      elementsValidSrc[elementsValidSrcIndex].info.style.border =
-        " 10px solid red ";
+      setBorderToElement(elementsValidSrc[elementsValidSrcIndex]);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
     var indexInfo = "Web page without sources.";
