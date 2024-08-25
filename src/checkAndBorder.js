@@ -73,6 +73,15 @@ function logs() {
   }
 }
 
+// TODO use
+// elementsValidSrc: type elementsValidSrc
+function setBorderOfAllElements(elementsValidSrc) {
+  // TODO? change let to const?
+  for (let element in elementsValidSrc) {
+    setBorderOfElement(element);
+  }
+}
+
 // elementToModify: type element
 function setBorderOfElement(elementToModify) {
   const borderValue = " 10px solid red ";
