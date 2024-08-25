@@ -5,6 +5,7 @@ var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
 var showLogs = 0;
+var highlightAllAutomatically = 0;
 function url(type, values) {
   this.type = type;
   this.values = values;
@@ -45,6 +46,7 @@ function popupMain() {
 
 function initializePopup() {
   getShowLogs();
+  getHighlightAllAutomatically();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     getUrls(results);
@@ -83,6 +85,8 @@ function createButton(buttonIdHtml) {
       return new ButtonShowConfig();
     case new ButtonShowLogs().buttonIdHtml:
       return new ButtonShowLogs();
+    case new ButtonHighlightAllAutomatically().buttonIdHtml:
+      return new ButtonHighlightAllAutomatically();
     case new ButtonUrlsNotify().buttonIdHtml:
       return new ButtonUrlsNotify();
     case new ButtonUrlsBlacklist().buttonIdHtml:
@@ -210,6 +214,21 @@ class ButtonShowLogs extends ButtonClicked {
   }
 }
 
+class ButtonHighlightAllAutomatically extends ButtonClicked {
+  constructor() {
+    super("buttonHighlightAllAutomatically");
+  }
+
+  get run() {
+    this.logButtonName;
+    saveHighlightAllAutomatically();
+    values2sendFromPopup = highlightAllAutomatically;
+    // TODO replace with this.buttonIdHtml?
+    info2sendFromPopup = buttonIdHtml;
+    sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
+  }
+}
+
 class ButtonUrlsNotify extends ButtonClicked {
   constructor() {
     super("buttonUrlsNotify");
@@ -295,6 +314,28 @@ function getShowLogs() {
       document.getElementById("buttonShowLogs").checked = false;
     }
     sendInfoAndValue("buttonShowLogs", results.idShowLogs);
+  }
+}
+
+function getHighlightAllAutomatically() {
+  var gettingItem = browser.storage.local.get("idHighlightAllAutomatically");
+  // result: empty object if the searched value is not stored
+  gettingItem.then((result) => {
+    // highlight all automatically has never been used
+    if (typeof result.idHighlightAllAutomatically != "undefined") {
+      changeStateBoxHighlightAllAutomatically(result);
+    }
+  }, reportError);
+
+  // enable/disable
+  function changeStateBoxHighlightAllAutomatically(results) {
+    if (results.idHighlightAllAutomatically == 1) {
+      document.getElementById("buttonHighlightAllAutomatically").checked = true;
+    } else {
+      document.getElementById("buttonHighlightAllAutomatically").checked =
+        false;
+    }
+    sendInfoAndValue("buttonHighlightAllAutomatically", results.idShowLogs);
   }
 }
 
@@ -579,6 +620,20 @@ function saveShowLogs() {
     showLogs = 0;
   }
   var storingInfo = browser.storage.local.set({ ["idShowLogs"]: showLogs });
+  storingInfo.then(() => {});
+}
+
+function saveHighlightAllAutomatically() {
+  if (
+    document.getElementById("buttonHighlightAllAutomatically").checked == true
+  ) {
+    saveHighlightAllAutomatically = 1;
+  } else {
+    saveHighlightAllAutomatically = 0;
+  }
+  var storingInfo = browser.storage.local.set({
+    ["idHighlightAllAutomatically"]: saveHighlightAllAutomatically,
+  });
   storingInfo.then(() => {});
 }
 

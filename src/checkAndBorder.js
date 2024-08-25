@@ -12,6 +12,7 @@ var invalidSources = [];
 var notifySources = [];
 var refererSources = [];
 var showLogs = 0;
+var highlightAllAutomatically = 0;
 var tags2Search = ["iframe", "frame"];
 var urlTypeBlacklist = "blacklist";
 var urlTypeNotify = "notify";
@@ -28,6 +29,10 @@ function initializeContentScript() {
     // 'show log' option has never been used
     if (typeof results.idShowLogs != "undefined") {
       showLogs = results.idShowLogs;
+    }
+    // 'Highlight all automatically' option has never been used
+    if (typeof results.idHighlightAllAutomatically != "undefined") {
+      highlightAllAutomatically = results.idHighlightAllAutomatically;
     }
     invalidSources = Object.keys(results).filter((key) =>
       key.includes(urlTypeBlacklist + "_"),
@@ -226,6 +231,8 @@ initializeContentScript();
     } else if (message.info === "buttonShowLogs") {
       showLogs = message.values;
       logs();
+    } else if (message.info === "buttonHighlightAllAutomatically") {
+      highlightAllAutomatically = message.values;
     } else if (message.info === "urls") {
       invalidSources = message.values.filter((values) =>
         values.type.includes(urlTypeBlacklist),
