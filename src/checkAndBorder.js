@@ -172,7 +172,8 @@ function quitBorderToElement(elementToModify) {
     function scrollAndBorder() {
       elementsValidSrc[elementsValidSrcIndex].info.scrollIntoView(false); //false: element in the lower part of the window
       quitBorder();
-      setBorderToElement(elementsValidSrc[elementsValidSrcIndex]);
+      let elementToModify = elementsValidSrc[elementsValidSrcIndex];
+      setBorderToElement(elementToModify);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
     var indexInfo = "Web page without sources.";
@@ -194,7 +195,8 @@ function quitBorderToElement(elementToModify) {
       typeof elementsValidSrcIndex2QuitBorder != "undefined" &&
       typeof elementsValidSrc[elementsValidSrcIndex2QuitBorder] != "undefined"
     ) {
-      quitBorderToElement(elementsValidSrc[elementsValidSrcIndex2QuitBorder]);
+      let elementToModify = elementsValidSrc[elementsValidSrcIndex2QuitBorder];
+      quitBorderToElement(elementToModify);
     }
   }
 
