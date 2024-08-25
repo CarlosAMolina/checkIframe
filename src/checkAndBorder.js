@@ -80,6 +80,11 @@ function setBorderToElement(elementToModify) {
   elementToModify.info.style.border = " 10px solid red ";
 }
 
+// elementToModify: type element
+function quitBorderToElement(elementToModify) {
+  elementToModify.info.style.border = "";
+}
+
 (function () {
   // check and set a global guard variable.
   // if this content script is injected into the same web page again,
@@ -189,7 +194,7 @@ function setBorderToElement(elementToModify) {
       typeof elementsValidSrcIndex2QuitBorder != "undefined" &&
       typeof elementsValidSrc[elementsValidSrcIndex2QuitBorder] != "undefined"
     ) {
-      elementsValidSrc[elementsValidSrcIndex2QuitBorder].info.style.border = "";
+      quitBorderToElement(elementsValidSrc[elementsValidSrcIndex2QuitBorder]);
     }
   }
 
