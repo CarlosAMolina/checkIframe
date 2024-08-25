@@ -73,8 +73,6 @@ function logs() {
   }
 }
 
-initializeContentScript();
-
 // elementToModify: type element
 function setBorderOfElement(elementToModify) {
   const borderValue = " 10px solid red ";
@@ -104,6 +102,8 @@ function quitBorderOfElement(elementToModify) {
 function updateBorderOfElement(elementToModify, value) {
   elementToModify.info.style.border = value;
 }
+
+initializeContentScript();
 
 (function () {
   // check and set a global guard variable.
