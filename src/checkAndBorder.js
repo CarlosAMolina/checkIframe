@@ -85,12 +85,11 @@ function setBorderOfElement(elementToModify) {
 // elementsValidSrc: type elementsValidSrc
 // index: type int or "undefined"
 function quitBorder(elementsValidSrc, index) {
-  if (
-    typeof index != "undefined" &&
-    typeof elementsValidSrc[index] != "undefined"
-  ) {
+  if (typeof index != "undefined") {
     let elementToModify = elementsValidSrc[index];
-    quitBorderOfElement(elementToModify);
+    if (typeof elementToModify != "undefined") {
+      quitBorderOfElement(elementToModify);
+    }
   }
 }
 
