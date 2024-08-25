@@ -76,13 +76,13 @@ function logs() {
 initializeContentScript();
 
 // elementToModify: type element
-function setBorderToElement(elementToModify) {
+function setBorderOfElement(elementToModify) {
   const borderValue = " 10px solid red ";
   updateBorderOfElement(elementToModify, borderValue);
 }
 
 // elementToModify: type element
-function quitBorderToElement(elementToModify) {
+function quitBorderOfElement(elementToModify) {
   const borderValue = "";
   updateBorderOfElement(elementToModify, borderValue);
 }
@@ -181,7 +181,7 @@ function updateBorderOfElement(elementToModify, value) {
       elementsValidSrc[elementsValidSrcIndex].info.scrollIntoView(false); //false: element in the lower part of the window
       quitBorder();
       let elementToModify = elementsValidSrc[elementsValidSrcIndex];
-      setBorderToElement(elementToModify);
+      setBorderOfElement(elementToModify);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
     var indexInfo = "Web page without sources.";
@@ -204,7 +204,7 @@ function updateBorderOfElement(elementToModify, value) {
       typeof elementsValidSrc[elementsValidSrcIndex2QuitBorder] != "undefined"
     ) {
       let elementToModify = elementsValidSrc[elementsValidSrcIndex2QuitBorder];
-      quitBorderToElement(elementToModify);
+      quitBorderOfElement(elementToModify);
     }
   }
 
