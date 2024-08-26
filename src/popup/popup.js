@@ -335,7 +335,10 @@ function getHighlightAllAutomatically() {
       document.getElementById("buttonHighlightAllAutomatically").checked =
         false;
     }
-    sendInfoAndValue("buttonHighlightAllAutomatically", results.idHighlightAllAutomatically);
+    sendInfoAndValue(
+      "buttonHighlightAllAutomatically",
+      results.idHighlightAllAutomatically,
+    );
   }
 }
 
@@ -632,7 +635,7 @@ function saveHighlightAllAutomatically() {
     highlightAllAutomatically = 0;
   }
   var storingInfo = browser.storage.local.set({
-    ["idHighlightAllAutomatically"]: highlightAllAutomatically
+    ["idHighlightAllAutomatically"]: highlightAllAutomatically,
   });
   storingInfo.then(() => {});
 }
