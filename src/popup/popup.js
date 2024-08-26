@@ -335,7 +335,7 @@ function getHighlightAllAutomatically() {
       document.getElementById("buttonHighlightAllAutomatically").checked =
         false;
     }
-    sendInfoAndValue("buttonHighlightAllAutomatically", results.idShowLogs);
+    sendInfoAndValue("buttonHighlightAllAutomatically", results.idHighlightAllAutomatically);
   }
 }
 
@@ -627,12 +627,12 @@ function saveHighlightAllAutomatically() {
   if (
     document.getElementById("buttonHighlightAllAutomatically").checked == true
   ) {
-    saveHighlightAllAutomatically = 1;
+    highlightAllAutomatically = 1;
   } else {
-    saveHighlightAllAutomatically = 0;
+    highlightAllAutomatically = 0;
   }
   var storingInfo = browser.storage.local.set({
-    ["idHighlightAllAutomatically"]: saveHighlightAllAutomatically,
+    ["idHighlightAllAutomatically"]: highlightAllAutomatically
   });
   storingInfo.then(() => {});
 }
