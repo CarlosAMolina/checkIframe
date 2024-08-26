@@ -75,8 +75,11 @@ function logs() {
 
 // TODO use
 // elementsValidSrc: type elementsValidSrc
-function setBorderOfAllElements(elementsValidSrc) {
-  elementsValidSrc.forEach((element) => setBorderOfElement(element));
+// mustSetBorder: type integer
+function setBorderOfAllElements(elementsValidSrc, mustSetBorder) {
+  if (mustSetBorder == 1) {
+    elementsValidSrc.forEach((element) => setBorderOfElement(element));
+  }
 }
 
 // elementToModify: type element
@@ -235,11 +238,11 @@ initializeContentScript();
   browser.runtime.onMessage.addListener((message) => {
     if (message.info === "protocolok") {
       checkAndSend();
-      setBorderOfAllElements(elementsValidSrc);
+      setBorderOfAllElements(elementsValidSrc, highlightAllAutomatically);
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
       logs();
-      setBorderOfAllElements(elementsValidSrc);
+      setBorderOfAllElements(elementsValidSrc, highlightAllAutomatically);
     } else if (message.info === "buttonScroll") {
       checkTags();
       var scrollInfo = showElement();
@@ -260,7 +263,7 @@ initializeContentScript();
       logs();
     } else if (message.info === "buttonHighlightAllAutomatically") {
       highlightAllAutomatically = message.values;
-      setBorderOfAllElements(elementsValidSrc);
+      setBorderOfAllElements(elementsValidSrc, highlightAllAutomatically);
     } else if (message.info === "urls") {
       invalidSources = message.values.filter((values) =>
         values.type.includes(urlTypeBlacklist),
