@@ -235,9 +235,11 @@ initializeContentScript();
   browser.runtime.onMessage.addListener((message) => {
     if (message.info === "protocolok") {
       checkAndSend();
+      setBorderOfAllElements(elementsValidSrc);
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
       logs();
+      setBorderOfAllElements(elementsValidSrc);
     } else if (message.info === "buttonScroll") {
       checkTags();
       var scrollInfo = showElement();
