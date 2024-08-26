@@ -76,10 +76,7 @@ function logs() {
 // TODO use
 // elementsValidSrc: type elementsValidSrc
 function setBorderOfAllElements(elementsValidSrc) {
-  // TODO? change let to const?
-  for (let element in elementsValidSrc) {
-    setBorderOfElement(element);
-  }
+  elementsValidSrc.forEach((element) => setBorderOfElement(element));
 }
 
 // elementToModify: type element
@@ -261,6 +258,7 @@ initializeContentScript();
       logs();
     } else if (message.info === "buttonHighlightAllAutomatically") {
       highlightAllAutomatically = message.values;
+      setBorderOfAllElements(elementsValidSrc);
     } else if (message.info === "urls") {
       invalidSources = message.values.filter((values) =>
         values.type.includes(urlTypeBlacklist),
