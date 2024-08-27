@@ -129,7 +129,7 @@ class ButtonRecheck extends ButtonClicked {
 
   get run() {
     this.logButtonName;
-    hideInfo("infoTags");
+    hideHtmlId("infoTags");
     info2sendFromPopup = this.buttonIdHtml;
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -146,7 +146,7 @@ class ButtonClean extends ButtonClicked {
   get run() {
     this.logButtonName;
     info2sendFromPopup = this.buttonIdHtml;
-    hideInfo("infoScroll");
+    hideHtmlId("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfo)
@@ -493,15 +493,11 @@ function showStoredInfo(eKey, eValue) {
 }
 
 function hideButtonClean() {
-  hideHtmlId("buttonClean")
+  hideHtmlId("buttonClean");
 }
 
 function unhideButtonClean() {
-  unhideHtmlId("buttonClean")
-}
-
-function hideInfo(htmlId) {
-  document.querySelector("#" + htmlId).classList.add("hidden");
+  unhideHtmlId("buttonClean");
 }
 
 function showTagsInfo(htmlId) {
@@ -528,7 +524,7 @@ function showOrHideInfo(htmlId) {
   if (document.getElementById(htmlId).classList.contains("hidden")) {
     showTagsInfo(htmlId);
   } else {
-    hideInfo(htmlId);
+    hideHtmlId(htmlId);
   }
 }
 

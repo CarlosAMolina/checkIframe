@@ -755,8 +755,8 @@ describe("Check module import", () => {
       });
     });
   });
-  it("hideInfo adds class", function () {
-    function_ = popupModule.__get__("hideInfo");
+  it("hideHtmlId adds class", function () {
+    function_ = popupModule.__get__("hideHtmlId");
     const htmlId = "buttonRecheck";
     expect(document.getElementById(htmlId).className).toBe("button menuButton");
     function_(htmlId);
