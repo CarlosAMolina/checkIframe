@@ -18,11 +18,12 @@ var urlTypeBlacklist = "blacklist";
 var urlTypeNotify = "notify";
 var urlTypeReferer = "referer";
 
+function reportErrorContentScript(error) {
+  console.error(`Error: ${error}`);
+}
+
 // initialize
 function initializeContentScript() {
-  function reportErrorContentScript(error) {
-    console.error(`Error: ${error}`);
-  }
   getElementsByTags();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
@@ -249,11 +250,17 @@ initializeContentScript();
   browser.runtime.onMessage.addListener((message) => {
     if (message.info === "protocolok") {
       checkAndSend();
-      // TODO when change to a different tab (no a new tab, an already openned tab) iframes are not highlighted.
-      setBorderOfAllElementsIfRequired(
-        elementsValidSrc,
-        highlightAllAutomatically,
-      );
+      // Required to highlight all when changing to a different tab already open.
+      var gettingAllStorageItems = browser.storage.local.get(null);
+      gettingAllStorageItems.then((results) => {
+        if (typeof results.idHighlightAllAutomatically != "undefined") {
+          highlightAllAutomatically = results.idHighlightAllAutomatically;
+        }
+        setBorderOfAllElementsIfRequired(
+          elementsValidSrc,
+          highlightAllAutomatically,
+        );
+      }, reportErrorContentScript);
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
       logs();
