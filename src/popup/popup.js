@@ -493,11 +493,11 @@ function showStoredInfo(eKey, eValue) {
 }
 
 function hideButtonClean() {
-  document.querySelector("#buttonClean").classList.add("hidden");
+  hideHtmlId("buttonClean")
 }
 
 function unhideButtonClean() {
-  document.querySelector("#buttonClean").classList.remove("hidden");
+  unhideHtmlId("buttonClean")
 }
 
 function hideInfo(htmlId) {
@@ -505,6 +505,14 @@ function hideInfo(htmlId) {
 }
 
 function showTagsInfo(htmlId) {
+  document.querySelector("#" + htmlId).classList.remove("hidden");
+}
+
+function hideHtmlId(htmlId) {
+  document.querySelector("#" + htmlId).classList.add("hidden");
+}
+
+function unhideHtmlId(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
