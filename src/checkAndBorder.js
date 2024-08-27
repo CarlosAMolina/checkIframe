@@ -249,6 +249,7 @@ initializeContentScript();
   browser.runtime.onMessage.addListener((message) => {
     if (message.info === "protocolok") {
       checkAndSend();
+      // TODO when change to a different tab (no a new tab, an already openned tab) iframes are not highlighted.
       setBorderOfAllElementsIfRequired(
         elementsValidSrc,
         highlightAllAutomatically,
@@ -268,6 +269,8 @@ initializeContentScript();
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
       getElementsValidSrc(); // when the pop-up is closed, this info is lost
+      // TODO replace quitBorderOfIndex with quitBorderOfAllElements(elementsValidSrc) and
+      // check if elementsValidSrcIndex2QuitBorder can be deprecated
       quitBorderOfIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
       elementsValidSrcIndex = undefined;
       elementsValidSrcIndex2QuitBorder = undefined;
