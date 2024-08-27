@@ -225,6 +225,7 @@ class ButtonHighlightAllAutomatically extends ButtonClicked {
     values2sendFromPopup = highlightAllAutomatically;
     // TODO replace with this.buttonIdHtml?
     info2sendFromPopup = buttonIdHtml;
+    highlightAllAutomatically == 1 ? hideButtonClean() : unhideButtonClean();
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
   }
 }
@@ -476,6 +477,14 @@ function showStoredInfo(eKey, eValue) {
     }, reportError);
     sendInfoAndValue("urls", urls);
   }
+}
+
+function hideButtonClean() {
+  document.querySelector("#buttonClean").classList.add("hidden");
+}
+
+function unhideButtonClean() {
+  document.querySelector("#buttonClean").classList.remove("hidden");
 }
 
 function hideInfo(htmlId) {
