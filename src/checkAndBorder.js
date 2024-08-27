@@ -75,7 +75,7 @@ function logs() {
 
 // elementsValidSrc: type elementsValidSrc
 // mustSetBorder: type integer
-function setBorderOfAllIfRequired(elementsValidSrc, mustSetBorder) {
+function setBorderOfAllElementsIfRequired(elementsValidSrc, mustSetBorder) {
   if (mustSetBorder == 1) {
     setBorderOfAllElements(elementsValidSrc);
   }
