@@ -228,7 +228,7 @@ initializeContentScript();
     return indexInfo;
   }
 
-  // check page required infromation and send results
+  // check page required information and send results
   function checkAndSend() {
     browser.runtime.sendMessage({
       tagsExist: checkTags(),
