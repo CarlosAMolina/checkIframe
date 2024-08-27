@@ -77,7 +77,7 @@ function logs() {
 // mustSetBorder: type integer
 function setBorderOfAllIfRequired(elementsValidSrc, mustSetBorder) {
   if (mustSetBorder == 1) {
-    elementsValidSrc.forEach((element) => setBorderOfElement(element));
+    setBorderOfAllElements(elementsValidSrc);
   }
 }
 
@@ -279,9 +279,7 @@ initializeContentScript();
       showLogs = message.values;
       logs();
     } else if (message.info === "buttonHighlightAllAutomatically") {
-      console.log("button clicked"); // TODO RM.
       highlightAllAutomatically = message.values;
-      console.log("highlightAllAutomatically: ", highlightAllAutomatically); // TODO RM.
       if (highlightAllAutomatically == 1) {
         setBorderOfAllElements(elementsValidSrc);
       } else {
