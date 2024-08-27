@@ -764,8 +764,8 @@ describe("Check module import", () => {
       "button menuButton hidden",
     );
   });
-  it("showTagsInfo removes class", function () {
-    function_ = popupModule.__get__("showTagsInfo");
+  it("unhideHtmlId removes class", function () {
+    function_ = popupModule.__get__("unhideHtmlId");
     const htmlId = "infoScroll";
     expect(document.getElementById(htmlId).className).toBe("hidden");
     function_(htmlId);

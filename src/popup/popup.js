@@ -163,7 +163,7 @@ class ButtonScroll extends ButtonClicked {
     this.logButtonName;
     htmlIdToChange = "infoScroll";
     info2sendFromPopup = this.buttonIdHtml;
-    showTagsInfo("infoScroll");
+    unhideHtmlId("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfoSaveAndShowAnswer)
@@ -500,10 +500,6 @@ function unhideButtonClean() {
   unhideHtmlId("buttonClean");
 }
 
-function showTagsInfo(htmlId) {
-  document.querySelector("#" + htmlId).classList.remove("hidden");
-}
-
 function hideHtmlId(htmlId) {
   document.querySelector("#" + htmlId).classList.add("hidden");
 }
@@ -522,7 +518,7 @@ function sendInfo(tabs) {
 
 function showOrHideInfo(htmlId) {
   if (document.getElementById(htmlId).classList.contains("hidden")) {
-    showTagsInfo(htmlId);
+    unhideHtmlId(htmlId);
   } else {
     hideHtmlId(htmlId);
   }
