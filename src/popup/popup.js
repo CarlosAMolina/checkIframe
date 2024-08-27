@@ -225,7 +225,9 @@ class ButtonHighlightAllAutomatically extends ButtonClicked {
     values2sendFromPopup = highlightAllAutomatically;
     // TODO replace with this.buttonIdHtml?
     info2sendFromPopup = buttonIdHtml;
-    highlightAllAutomatically == 1 ? hideButtonClean() : unhideButtonClean();
+    highlightAllAutomatically == 1
+      ? hideElementsIfHighlightAllAutomatically()
+      : unhideElementsIfHighlightAllAutomatically();
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
   }
 }
@@ -321,7 +323,6 @@ function getShowLogs() {
 function hideElementsIfHighlightAllAutomatically() {
   hideButtonClean();
 }
-// TODO use
 function unhideElementsIfHighlightAllAutomatically() {
   unhideButtonClean();
 }
