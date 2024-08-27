@@ -73,13 +73,24 @@ function logs() {
   }
 }
 
-// TODO use
 // elementsValidSrc: type elementsValidSrc
 // mustSetBorder: type integer
-function setBorderOfAllElements(elementsValidSrc, mustSetBorder) {
+function setBorderOfAllIfRequired(elementsValidSrc, mustSetBorder) {
   if (mustSetBorder == 1) {
     elementsValidSrc.forEach((element) => setBorderOfElement(element));
   }
+}
+
+// elementsValidSrc: type elementsValidSrc
+// mustSetBorder: type integer
+function setBorderOfAllElements(elementsValidSrc) {
+  elementsValidSrc.forEach((element) => setBorderOfElement(element));
+}
+
+// elementsValidSrc: type elementsValidSrc
+// mustSetBorder: type integer
+function quitBorderOfAllElements(elementsValidSrc) {
+  elementsValidSrc.forEach((element) => quitBorderOfElement(element));
 }
 
 // elementToModify: type element
@@ -238,11 +249,17 @@ initializeContentScript();
   browser.runtime.onMessage.addListener((message) => {
     if (message.info === "protocolok") {
       checkAndSend();
-      setBorderOfAllElements(elementsValidSrc, highlightAllAutomatically);
+      setBorderOfAllElementsIfRequired(
+        elementsValidSrc,
+        highlightAllAutomatically,
+      );
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
       logs();
-      setBorderOfAllElements(elementsValidSrc, highlightAllAutomatically);
+      setBorderOfAllElementsIfRequired(
+        elementsValidSrc,
+        highlightAllAutomatically,
+      );
     } else if (message.info === "buttonScroll") {
       checkTags();
       var scrollInfo = showElement();
@@ -262,8 +279,14 @@ initializeContentScript();
       showLogs = message.values;
       logs();
     } else if (message.info === "buttonHighlightAllAutomatically") {
+      console.log("button clicked"); // TODO RM.
       highlightAllAutomatically = message.values;
-      setBorderOfAllElements(elementsValidSrc, highlightAllAutomatically);
+      console.log("highlightAllAutomatically: ", highlightAllAutomatically); // TODO RM.
+      if (highlightAllAutomatically == 1) {
+        setBorderOfAllElements(elementsValidSrc);
+      } else {
+        quitBorderOfAllElements(elementsValidSrc);
+      }
     } else if (message.info === "urls") {
       invalidSources = message.values.filter((values) =>
         values.type.includes(urlTypeBlacklist),
