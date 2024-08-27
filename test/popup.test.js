@@ -758,10 +758,10 @@ describe("Check module import", () => {
   it("hideHtmlId adds class", function () {
     function_ = popupModule.__get__("hideHtmlId");
     const htmlId = "buttonRecheck";
-    expect(document.getElementById(htmlId).className).toBe("button menuButton");
+    expect(document.getElementById(htmlId).className).toBe("mainMenuButton");
     function_(htmlId);
     expect(document.getElementById(htmlId).className).toBe(
-      "button menuButton hidden",
+      "mainMenuButton hidden",
     );
   });
   it("unhideHtmlId removes class", function () {

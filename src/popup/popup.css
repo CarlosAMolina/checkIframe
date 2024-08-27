@@ -6,15 +6,31 @@ body {
   overflow-x: hidden; /* no x-axis scroll */
 }
 
-.button {
+.oneLineButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.button,
+.mainMenuButton {
+  width: 100%;
   text-align: center;
-  margin: 3% auto; /* upper and lower space */
-  padding: 4px; /* padding area on all four sides of an element */
   cursor: pointer;
   background-color: #e5f2f2;
 }
-.button:hover {
+.button:hover,
+.mainMenuButton:hover {
   background-color: #cff2f2;
+}
+.mainMenuButton {
+  height: 40px;
+}
+/* TODO refactor extract common code with mainMenuButton */
+.button {
+  margin: 3% auto; /* upper and lower space */
+  padding: 4px; /* padding area on all four sides of an element */
 }
 
 /* Toggle Switch */

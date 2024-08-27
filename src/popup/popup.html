@@ -9,30 +9,21 @@
 
   <body>
     <div id="popup-content" style="width: 250px">
-      <button
-        id="buttonRecheck"
-        title="Recheck"
-        class="button menuButton"
-        style="width: 32%"
-      >
-        <img src="/icons/recheck.png" />
-      </button>
-      <button
-        id="buttonScroll"
-        title="Scroll to element"
-        class="button menuButton"
-        style="width: 31%"
-      >
-        <img src="/icons/locate.png" />
-      </button>
-      <button
-        id="buttonClean"
-        title="Clean border"
-        class="button menuButton"
-        style="width: 32%"
-      >
-        <img src="/icons/noHighlight.png" />
-      </button>
+      <div class="oneLineButtons">
+        <button id="buttonRecheck" title="Recheck" class="mainMenuButton">
+          <img src="/icons/recheck.png" />
+        </button>
+        <button
+          id="buttonScroll"
+          title="Scroll to element"
+          class="mainMenuButton"
+        >
+          <img src="/icons/locate.png" />
+        </button>
+        <button id="buttonClean" title="Clean border" class="mainMenuButton">
+          <img src="/icons/noHighlight.png" />
+        </button>
+      </div>
       <p id="infoScroll" class="hidden"><br /></p>
       <button
         id="buttonShowSources"
