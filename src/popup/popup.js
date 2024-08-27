@@ -318,17 +318,30 @@ function getShowLogs() {
   }
 }
 
+function hideElementsIfHighlightAllAutomatically() {
+  hideButtonClean();
+}
+// TODO use
+function unhideElementsIfHighlightAllAutomatically() {
+  unhideButtonClean();
+}
+
+// TODO refactor move logic change html out of this function.
 function getHighlightAllAutomatically() {
   var gettingItem = browser.storage.local.get("idHighlightAllAutomatically");
   // result: empty object if the searched value is not stored
   gettingItem.then((result) => {
     // highlight all automatically has never been used
     if (typeof result.idHighlightAllAutomatically != "undefined") {
+      if (result.idHighlightAllAutomatically == 1) {
+        hideElementsIfHighlightAllAutomatically();
+      }
       changeStateBoxHighlightAllAutomatically(result);
     }
   }, reportError);
 
   // enable/disable
+  // TODO Refactor: use highlightAllAutomatically instead of results.
   function changeStateBoxHighlightAllAutomatically(results) {
     if (results.idHighlightAllAutomatically == 1) {
       document.getElementById("buttonHighlightAllAutomatically").checked = true;
