@@ -322,9 +322,11 @@ function getShowLogs() {
 
 function hideElementsForHighlightAllAutomatically() {
   hideHtmlId("buttonClean");
+  hideHtmlId("buttonScroll");
 }
 function unhideElementsForHighlightAllAutomatically() {
   unhideHtmlId("buttonClean");
+  unhideHtmlId("buttonScroll");
 }
 
 // TODO refactor move logic change html out of this function.
