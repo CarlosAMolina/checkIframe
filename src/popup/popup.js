@@ -226,8 +226,8 @@ class ButtonHighlightAllAutomatically extends ButtonClicked {
     // TODO replace with this.buttonIdHtml?
     info2sendFromPopup = buttonIdHtml;
     highlightAllAutomatically == 1
-      ? hideElementsIfHighlightAllAutomatically()
-      : unhideElementsIfHighlightAllAutomatically();
+      ? hideElementsForHighlightAllAutomatically()
+      : unhideElementsForHighlightAllAutomatically();
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
   }
 }
@@ -320,10 +320,10 @@ function getShowLogs() {
   }
 }
 
-function hideElementsIfHighlightAllAutomatically() {
+function hideElementsForHighlightAllAutomatically() {
   hideButtonClean();
 }
-function unhideElementsIfHighlightAllAutomatically() {
+function unhideElementsForHighlightAllAutomatically() {
   unhideButtonClean();
 }
 
@@ -335,7 +335,7 @@ function getHighlightAllAutomatically() {
     // highlight all automatically has never been used
     if (typeof result.idHighlightAllAutomatically != "undefined") {
       if (result.idHighlightAllAutomatically == 1) {
-        hideElementsIfHighlightAllAutomatically();
+        hideElementsForHighlightAllAutomatically();
       }
       changeStateBoxHighlightAllAutomatically(result);
     }
