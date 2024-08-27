@@ -321,10 +321,10 @@ function getShowLogs() {
 }
 
 function hideElementsForHighlightAllAutomatically() {
-  hideButtonClean();
+  hideHtmlId("buttonClean");
 }
 function unhideElementsForHighlightAllAutomatically() {
-  unhideButtonClean();
+  unhideHtmlId("buttonClean");
 }
 
 // TODO refactor move logic change html out of this function.
@@ -491,14 +491,6 @@ function showStoredInfo(eKey, eValue) {
     }, reportError);
     sendInfoAndValue("urls", urls);
   }
-}
-
-function hideButtonClean() {
-  hideHtmlId("buttonClean");
-}
-
-function unhideButtonClean() {
-  unhideHtmlId("buttonClean");
 }
 
 function hideHtmlId(htmlId) {
