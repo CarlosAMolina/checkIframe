@@ -269,9 +269,12 @@ initializeContentScript();
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
       getElementsValidSrc(); // when the pop-up is closed, this info is lost
-      // TODO replace quitBorderOfIndex with quitBorderOfAllElements(elementsValidSrc) and
-      // check if elementsValidSrcIndex2QuitBorder can be deprecated
-      quitBorderOfIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
+      // The buttonClean must drop all borders and not only one border
+      // by index because all borders may be highlighted.
+      quitBorderOfAllElements(
+        elementsValidSrc,
+        elementsValidSrcIndex2QuitBorder,
+      );
       elementsValidSrcIndex = undefined;
       elementsValidSrcIndex2QuitBorder = undefined;
     } else if (message.info === "buttonShowSources") {
