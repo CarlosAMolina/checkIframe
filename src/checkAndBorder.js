@@ -251,10 +251,12 @@ initializeContentScript();
     if (message.info === "protocolok") {
       checkAndSend();
       // Required to highlight all when changing to a different tab already open.
-      var gettingAllStorageItems = browser.storage.local.get(null);
-      gettingAllStorageItems.then((results) => {
-        if (typeof results.idHighlightAllAutomatically != "undefined") {
-          highlightAllAutomatically = results.idHighlightAllAutomatically;
+      let gettingItem = browser.storage.local.get(
+        "idHighlightAllAutomatically",
+      );
+      gettingItem.then((result) => {
+        if (typeof result.idHighlightAllAutomatically != "undefined") {
+          highlightAllAutomatically = result.idHighlightAllAutomatically;
         }
         setBorderOfAllElementsIfRequired(
           elementsValidSrc,
