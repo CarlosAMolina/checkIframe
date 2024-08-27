@@ -344,7 +344,6 @@ function getHighlightAllAutomatically() {
   }, reportError);
 
   // enable/disable
-  // TODO Refactor: use highlightAllAutomatically instead of results.
   function changeStateBoxHighlightAllAutomatically(results) {
     if (results.idHighlightAllAutomatically == 1) {
       document.getElementById("buttonHighlightAllAutomatically").checked = true;
