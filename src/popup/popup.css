@@ -6,6 +6,14 @@ body {
   overflow-x: hidden; /* no x-axis scroll */
 }
 
+button,
+input,
+label,
+p,
+textarea {
+  font-size: 15px;
+}
+
 .oneLineButtons {
   display: flex;
   flex-direction: row;
