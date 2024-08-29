@@ -1,4 +1,11 @@
 /* pop-up box */
+
+:root {
+  --FLEX-PADDING: 5px;
+  --FONT-SIZE: 15px;
+  --SPACE-BETWEEN-SECTIONS: 10px;
+}
+
 html,
 body {
   width: 260px;
@@ -11,14 +18,18 @@ input,
 label,
 p,
 textarea {
-  font-size: 15px;
+  font-size: var(--FONT-SIZE);
+}
+
+.section {
+  margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
 
 .oneLineButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 5px;
+  gap: var(--FLEX-PADDING);
 }
 
 .button,
