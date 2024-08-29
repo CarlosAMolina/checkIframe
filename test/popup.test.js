@@ -173,11 +173,13 @@ describe("Check module import", () => {
       });
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoScroll").classList.remove("hidden");
-        expect(document.getElementById("infoScroll").className).toBe("");
+        expect(document.getElementById("infoScroll").className).toBe("section");
         await button.run;
         const buttonIdHtml = "buttonClean";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
-        expect(document.getElementById("infoScroll").className).toBe("hidden");
+        expect(document.getElementById("infoScroll").className).toBe(
+          "section hidden",
+        );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall[0]).toBe(tabId);
@@ -226,7 +228,7 @@ describe("Check module import", () => {
         });
         function runBeforeRunExpects() {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
-          expect(infoScrollBeforeRun.className).toBe("hidden");
+          expect(infoScrollBeforeRun.className).toBe("section hidden");
           expect(infoScrollBeforeRun.textContent).toBe("");
           expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
         }
@@ -234,7 +236,9 @@ describe("Check module import", () => {
           expect(popupModule.__get__("info2sendFromPopup")).toBe(
             "buttonScroll",
           );
-          expect(document.getElementById("infoScroll").className).toBe("");
+          expect(document.getElementById("infoScroll").className).toBe(
+            "section",
+          );
           expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -767,9 +771,9 @@ describe("Check module import", () => {
   it("unhideHtmlId removes class", function () {
     function_ = popupModule.__get__("unhideHtmlId");
     const htmlId = "infoScroll";
-    expect(document.getElementById(htmlId).className).toBe("hidden");
+    expect(document.getElementById(htmlId).className).toBe("section hidden");
     function_(htmlId);
-    expect(document.getElementById(htmlId).className).toBe("");
+    expect(document.getElementById(htmlId).className).toBe("section");
   });
   describe("Check sendInfo", () => {
     beforeEach(() => {
