@@ -424,17 +424,15 @@ function showStoredInfo(eKey, eValue) {
   var clearFix2 = document.createElement("div");
   var updateBtn = document.createElement("button");
   var cancelBtn = document.createElement("button");
+  entryEdit.setAttribute("class", "section sourceConfig");
   entryEditInput.setAttribute("class", "input");
-  entryEditInput.setAttribute("style", "width:70%");
-  updateBtn.innerHTML = '<img src="/icons/ok.png"/>';
+  entryEditInput.setAttribute("style", "width:100%");
+  updateBtn.innerHTML = '<img src="/icons/ok.png" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
-  updateBtn.setAttribute("class", "button");
-  updateBtn.setAttribute("style", "margin: 0% auto");
-  cancelBtn.innerHTML = '<img src="/icons/cancel.png"/>';
+  updateBtn.setAttribute("class", "button squareButton");
+  cancelBtn.innerHTML = '<img src="/icons/cancel.png" alt="Cancel update"/>';
   cancelBtn.setAttribute("title", "Cancel update");
-  cancelBtn.setAttribute("class", "button");
-  cancelBtn.setAttribute("class", "floatRight button");
-  cancelBtn.setAttribute("style", "margin: 0% auto");
+  cancelBtn.setAttribute("class", "button squareButton");
   clearFix2.setAttribute("class", "clearfix");
   entryEdit.appendChild(entryEditInput);
   entryEdit.appendChild(updateBtn);
@@ -449,11 +447,11 @@ function showStoredInfo(eKey, eValue) {
   // set up listeners for the update functionality
   entryValue.addEventListener("click", () => {
     entryDisplay.style.display = "none";
-    entryEdit.style.display = "block";
+    entryEdit.style.display = "";
   });
 
   cancelBtn.addEventListener("click", () => {
-    entryDisplay.style.display = "block";
+    entryDisplay.style.display = "";
     entryEdit.style.display = "none";
     // TODO the next line is necessary?
     entryEditInput.value = eValue;
