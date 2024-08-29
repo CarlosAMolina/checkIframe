@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
 
+  <!-- TODO add margin without using section class-->
   <body>
     <div id="popup-content" style="width: 300px">
       <div class="oneLineButtons">
@@ -44,16 +45,21 @@
           <span class="slider round"></span>
         </label>
         <p class="section"><u>Sources options</u></p>
-        <input id="buttonUrlsNotify" type="radio" name="urlType" />
-        <label for="buttonUrlsNotify">Sources to notify when are detected</label
-        ><br />
-        <input id="buttonUrlsBlacklist" type="radio" name="urlType" />
-        <label for="buttonUrlsBlacklist">Sources to omit (exact match)</label
-        ><br />
-        <input id="buttonUrlsReferer" type="radio" name="urlType" />
-        <label for="buttonUrlsReferer"
-          >Sites where first source opens automatically</label
-        ><br />
+        <fieldset class="section">
+          <legend>Type of source to configure:</legend>
+
+          <input id="buttonUrlsNotify" type="radio" name="urlType" />
+          <label for="buttonUrlsNotify"
+            >Sources to notify when are detected</label
+          ><br />
+          <input id="buttonUrlsBlacklist" type="radio" name="urlType" />
+          <label for="buttonUrlsBlacklist">Sources to omit (exact match)</label
+          ><br />
+          <input id="buttonUrlsReferer" type="radio" name="urlType" />
+          <label for="buttonUrlsReferer"
+            >Sites where first source opens automatically</label
+          ><br />
+        </fieldset>
         <p id="pInput" class="section">New values</p>
         <textarea
           id="inputUrl"
