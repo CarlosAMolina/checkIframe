@@ -122,10 +122,6 @@ input:checked + .slider:before {
   background: rgb(240, 240, 240);
 }
 
-.floatRight {
-  float: right;
-}
-
 p {
   margin: 0;
 }
