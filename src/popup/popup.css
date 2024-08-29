@@ -140,3 +140,7 @@ p {
 #menuConfig {
   padding: 10px;
 }
+
+#infoTags p {
+  margin: 10px;
+}
