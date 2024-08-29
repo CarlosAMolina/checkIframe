@@ -13,6 +13,10 @@ body {
   overflow-x: hidden; /* no x-axis scroll */
 }
 
+body {
+  margin: 15px;
+}
+
 button,
 input,
 label,
