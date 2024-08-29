@@ -508,7 +508,7 @@ describe("Check module import", () => {
         function_ = popupModule.__get__("showStoredInfo");
         function_();
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
-          '<div><div><button title="Delete" class="floatLeft button" style="margin: 0% auto"><img src="/icons/trash.png"></button><p style="margin-left: 45px"></p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
+          '<div><div class="section"><button title="Delete" class="floatLeft button squareButton"><img src="/icons/trash.png"></button><p style="margin-left: 45px"></p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
         );
       });
       it("If values to manage", function () {
@@ -518,7 +518,7 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         function_(eKey, eValue);
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
-          '<div><div><button title="Delete" class="floatLeft button" style="margin: 0% auto"><img src="/icons/trash.png"></button><p style="margin-left: 45px">https://foo.com/test.html</p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
+          '<div><div class="section"><button title="Delete" class="floatLeft button squareButton"><img src="/icons/trash.png"></button><p style="margin-left: 45px">https://foo.com/test.html</p><div class="clearfix"></div></div><div style="display: none;"><input class="input" style="width:70%"><button title="Update" class="button" style="margin: 0% auto"><img src="/icons/ok.png"></button><button title="Cancel update" class="floatRight button" style="margin: 0% auto"><img src="/icons/cancel.png"></button><div class="clearfix"></div></div></div>',
         );
       });
     });

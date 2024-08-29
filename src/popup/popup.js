@@ -392,13 +392,13 @@ function showStoredInfo(eKey, eValue) {
   var entryValue = document.createElement("p");
   var deleteBtn = document.createElement("button");
   var clearFix = document.createElement("div"); // for background color and correct position
+  entryDisplay.setAttribute("class", "section");
   entryValue.textContent = eValue;
   deleteBtn.textContent = "Delete";
   deleteBtn.innerHTML = '<img src="/icons/trash.png"/>';
   entryValue.setAttribute("style", "margin-left: 45px");
   deleteBtn.setAttribute("title", "Delete");
-  deleteBtn.setAttribute("class", "floatLeft button");
-  deleteBtn.setAttribute("style", "margin: 0% auto");
+  deleteBtn.setAttribute("class", "floatLeft button squareButton");
   clearFix.setAttribute("class", "clearfix");
   entryDisplay.appendChild(deleteBtn);
   entryDisplay.appendChild(entryValue);
