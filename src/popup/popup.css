@@ -37,7 +37,6 @@ textarea {
 }
 /* TODO refactor extract common code with mainMenuButton */
 .button {
-  margin: 3% auto; /* upper and lower space */
   padding: 4px; /* padding area on all four sides of an element */
 }
 
