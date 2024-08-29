@@ -136,3 +136,7 @@ p {
 .clearfix {
   clear: both;
 }
+
+#menuConfig {
+  padding: 10px;
+}
