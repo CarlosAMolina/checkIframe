@@ -329,11 +329,11 @@ describe("Check module import", () => {
       });
       it("Check run has expected calls and values", function () {
         expect(document.getElementById("menuConfig").className).toBe(
-          "section backGroundGrey hidden",
+          "section backgroundGrey hidden",
         );
         button.run;
         expect(document.getElementById("menuConfig").className).toBe(
-          "section backGroundGrey",
+          "section backgroundGrey",
         );
       });
     });

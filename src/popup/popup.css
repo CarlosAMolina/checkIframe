@@ -118,7 +118,7 @@ input:checked + .slider:before {
   width: 100px;
 }
 
-.backGroundGrey {
+.backgroundGrey {
   background: rgb(240, 240, 240);
 }
 
