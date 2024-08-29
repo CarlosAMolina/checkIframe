@@ -122,9 +122,6 @@ input:checked + .slider:before {
   background: rgb(240, 240, 240);
 }
 
-.floatLeft {
-  float: left;
-}
 .floatRight {
   float: right;
 }
@@ -143,6 +140,13 @@ p {
   height: var(--BUTTON-HEIGHT);
   width: var(--SQUARE-BUTTON-WIDTH);
   flex-shrink: 0;
+}
+
+.sourceConfig {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
 
 #menuConfig {
