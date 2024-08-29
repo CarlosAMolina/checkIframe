@@ -47,18 +47,24 @@
         <p class="section"><u>Sources options</u></p>
         <fieldset class="section">
           <legend>Type of source to configure:</legend>
-
-          <input id="buttonUrlsNotify" type="radio" name="urlType" />
-          <label for="buttonUrlsNotify"
-            >Sources to notify when are detected</label
-          ><br />
-          <input id="buttonUrlsBlacklist" type="radio" name="urlType" />
-          <label for="buttonUrlsBlacklist">Sources to omit (exact match)</label
-          ><br />
-          <input id="buttonUrlsReferer" type="radio" name="urlType" />
-          <label for="buttonUrlsReferer"
-            >Sites where first source opens automatically</label
-          ><br />
+          <div>
+            <input id="buttonUrlsNotify" type="radio" name="urlType" />
+            <label for="buttonUrlsNotify"
+              >Sources to notify when are detected</label
+            >
+          </div>
+          <div>
+            <input id="buttonUrlsBlacklist" type="radio" name="urlType" />
+            <label for="buttonUrlsBlacklist"
+              >Sources to omit (exact match)</label
+            >
+          </div>
+          <div>
+            <input id="buttonUrlsReferer" type="radio" name="urlType" />
+            <label for="buttonUrlsReferer"
+              >Sites where first source opens automatically</label
+            >
+          </div>
         </fieldset>
         <p id="pInput" class="section">New values</p>
         <textarea
