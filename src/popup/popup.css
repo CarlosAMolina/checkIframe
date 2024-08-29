@@ -126,10 +126,6 @@ p {
   margin: 0;
 }
 
-.clearfix {
-  clear: both;
-}
-
 /* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 /* TODO remove flex-shrink if not required */
 .squareButton {

@@ -391,17 +391,14 @@ function showStoredInfo(eKey, eValue) {
   var entryDisplay = document.createElement("div");
   var entryValue = document.createElement("p");
   var deleteBtn = document.createElement("button");
-  var clearFix = document.createElement("div"); // for background color and correct position // TODO RM?
   entryDisplay.setAttribute("class", "section sourceConfig");
   entryValue.textContent = eValue;
   deleteBtn.textContent = "Delete";
   deleteBtn.innerHTML = '<img src="/icons/trash.png" alt="Delete"/>';
   deleteBtn.setAttribute("title", "Delete");
   deleteBtn.setAttribute("class", "button squareButton");
-  clearFix.setAttribute("class", "clearfix");
   entryDisplay.appendChild(deleteBtn);
   entryDisplay.appendChild(entryValue);
-  entryDisplay.appendChild(clearFix);
   entry.appendChild(entryDisplay);
 
   // set up listener for the delete functionality
@@ -421,7 +418,6 @@ function showStoredInfo(eKey, eValue) {
   // edit box
   var entryEdit = document.createElement("div");
   var entryEditInput = document.createElement("input");
-  var clearFix2 = document.createElement("div");
   var updateBtn = document.createElement("button");
   var cancelBtn = document.createElement("button");
   entryEdit.setAttribute("class", "section sourceConfig");
@@ -433,11 +429,9 @@ function showStoredInfo(eKey, eValue) {
   cancelBtn.innerHTML = '<img src="/icons/cancel.png" alt="Cancel update"/>';
   cancelBtn.setAttribute("title", "Cancel update");
   cancelBtn.setAttribute("class", "button squareButton");
-  clearFix2.setAttribute("class", "clearfix");
   entryEdit.appendChild(entryEditInput);
   entryEdit.appendChild(updateBtn);
   entryEdit.appendChild(cancelBtn);
-  entryEdit.appendChild(clearFix2);
   entry.appendChild(entryEdit);
   entryEditInput.value = eValue;
   entryEdit.style.display = "none";
