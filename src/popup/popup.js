@@ -240,6 +240,7 @@ class ButtonUrlsNotify extends ButtonClicked {
   get run() {
     this.logButtonName;
     urlType = urlTypeNotify;
+    unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
     enableElementsConfiguration();
@@ -254,6 +255,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
   get run() {
     this.logButtonName;
     urlType = urlTypeBlacklist;
+    unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
     enableElementsConfiguration();
@@ -268,6 +270,7 @@ class ButtonUrlsReferer extends ButtonClicked {
   get run() {
     this.logButtonName;
     urlType = urlTypeReferer;
+    unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
     enableElementsConfiguration();
@@ -379,6 +382,10 @@ function deleteAllUrlType(results) {
     }
   });
   sendInfoAndValue("urls", urls);
+}
+
+function unhideSourcesConfigValues() {
+  unhideHtmlId("sourcesConfigValues");
 }
 
 function enableElementsConfiguration() {
