@@ -33,6 +33,12 @@ textarea {
   font-size: var(--FONT-SIZE);
 }
 
+/* https://stackoverflow.com/questions/271067/how-can-i-make-a-textarea-100-width-without-overflowing-when-padding-is-present */
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+
 .section {
   margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
@@ -119,10 +125,6 @@ input:checked + .slider:before {
 
 .hidden {
   display: none;
-}
-
-.input {
-  width: 100px;
 }
 
 .backgroundGrey {

@@ -421,8 +421,6 @@ function showStoredInfo(eKey, eValue) {
   var updateBtn = document.createElement("button");
   var cancelBtn = document.createElement("button");
   entryEdit.setAttribute("class", "section sourceConfig");
-  entryEditInput.setAttribute("class", "input");
-  entryEditInput.setAttribute("style", "width:100%");
   updateBtn.innerHTML = '<img src="/icons/ok.png" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
   updateBtn.setAttribute("class", "button squareButton");

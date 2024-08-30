@@ -508,7 +508,7 @@ describe("Check module import", () => {
         function_ = popupModule.__get__("showStoredInfo");
         function_();
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
-          '<div><div class="section sourceConfig"><button title="Delete" class="button squareButton"><img src="/icons/trash.png" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input class="input" style="width:100%"><button title="Update" class="button squareButton"><img src="/icons/ok.png" alt="Update"></button><button title="Cancel update" class="button squareButton"><img src="/icons/cancel.png" alt="Cancel update"></button></div></div>',
+          '<div><div class="section sourceConfig"><button title="Delete" class="button squareButton"><img src="/icons/trash.png" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update" class="button squareButton"><img src="/icons/ok.png" alt="Update"></button><button title="Cancel update" class="button squareButton"><img src="/icons/cancel.png" alt="Cancel update"></button></div></div>',
         );
       });
       it("If values to manage", function () {
@@ -518,7 +518,7 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         function_(eKey, eValue);
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
-          '<div><div class="section sourceConfig"><button title="Delete" class="button squareButton"><img src="/icons/trash.png" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="section sourceConfig" style="display: none;"><input class="input" style="width:100%"><button title="Update" class="button squareButton"><img src="/icons/ok.png" alt="Update"></button><button title="Cancel update" class="button squareButton"><img src="/icons/cancel.png" alt="Cancel update"></button></div></div>',
+          '<div><div class="section sourceConfig"><button title="Delete" class="button squareButton"><img src="/icons/trash.png" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update" class="button squareButton"><img src="/icons/ok.png" alt="Update"></button><button title="Cancel update" class="button squareButton"><img src="/icons/cancel.png" alt="Cancel update"></button></div></div>',
         );
       });
     });
