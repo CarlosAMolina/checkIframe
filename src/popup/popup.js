@@ -394,7 +394,7 @@ function showStoredInfo(eKey, eValue) {
   entryDisplay.setAttribute("class", "section sourceConfig");
   entryValue.textContent = eValue;
   deleteBtn.textContent = "Delete";
-  deleteBtn.innerHTML = '<img src="/icons/trash.png" alt="Delete"/>';
+  deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
   deleteBtn.setAttribute("title", "Delete");
   deleteBtn.setAttribute("class", "button squareButton");
   entryDisplay.appendChild(deleteBtn);
