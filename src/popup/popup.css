@@ -55,9 +55,29 @@ textarea {
   width: 100%;
   text-align: center;
   cursor: pointer;
-  background-color: #e5f2f2;
 }
+/* TODO replace mainButton with mainMenuButton */
+/* TODO try rm fontsize */
+.mainButton {
+  background-color: #e5f2f2;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: center;
+}
+.mainButton {
+  flex-grow: 1;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  border-width: 2px;
+  border-color: #e8e8e8;
+  border-right-color: #979797;
+  border-bottom-color: #979797;
+  border-style: solid;
+  width: 100%;
+}
+
 .button:hover,
+.mainButton:hover,
 .mainMenuButton:hover {
   background-color: #cff2f2;
 }
