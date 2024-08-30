@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Automatic highlighting all iframes.
 
 ### Changed
-- popup.html text.
+- Improve front (nicer front).
+- More efficient popup attributes.
+- Front text.
+- The sources configuration is hidden until any radio button is clicked.
 
 ## [1.5.0] - 2024-08-16
 ### Added
