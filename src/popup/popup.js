@@ -424,7 +424,7 @@ function showStoredInfo(eKey, eValue) {
   updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
   updateBtn.setAttribute("class", "button squareButton");
-  cancelBtn.innerHTML = '<img src="/icons/cancel.png" alt="Cancel update"/>';
+  cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
   cancelBtn.setAttribute("title", "Cancel update");
   cancelBtn.setAttribute("class", "button squareButton");
   entryEdit.appendChild(entryEditInput);
