@@ -416,10 +416,6 @@ describe("Check module import", () => {
         // TODO     console.info("*** start"); // TODO rm
         // TODO     console.info("*** end"); // TODO rm
         // TODO });
-        // TODO describe("Test enableElementsConfiguration call", () => {
-        // TODO     console.info("*** start"); // TODO rm
-        // TODO     console.info("*** end"); // TODO rm
-        // TODO });
       });
     });
   });
@@ -493,10 +489,6 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("deleteAllUrlType");
     const results = {};
     function_(results);
-  });
-  it("enableElementsConfiguration runs without error", function () {
-    function_ = popupModule.__get__("enableElementsConfiguration");
-    function_();
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
@@ -822,11 +814,6 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("changeParagraph");
     function_(response, htmlId);
     popupModule.__set__("info2sendFromPopup", "");
-  });
-  it("enableElements runs without error", function () {
-    function_ = popupModule.__get__("enableElements");
-    const htmlIdsToChange = ["pInput"];
-    function_(htmlIdsToChange);
   });
   describe("Check listSourceTagSummary", () => {
     beforeEach(() => {

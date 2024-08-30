@@ -243,7 +243,6 @@ class ButtonUrlsNotify extends ButtonClicked {
     unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
-    enableElementsConfiguration();
   }
 }
 
@@ -258,7 +257,6 @@ class ButtonUrlsBlacklist extends ButtonClicked {
     unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
-    enableElementsConfiguration();
   }
 }
 
@@ -273,7 +271,6 @@ class ButtonUrlsReferer extends ButtonClicked {
     unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
-    enableElementsConfiguration();
   }
 }
 
@@ -386,10 +383,6 @@ function deleteAllUrlType(results) {
 
 function unhideSourcesConfigValues() {
   unhideHtmlId("sourcesConfigValues");
-}
-
-function enableElementsConfiguration() {
-  enableElements(["pInput", "inputUrl", "buttonAddUrl", "buttonClearAll"]);
 }
 
 function showStoredInfo(eKey, eValue) {
@@ -561,12 +554,6 @@ function changeParagraph(response, htmlId) {
     document.getElementById(htmlId).textContent =
       "No info received from the content script.";
   }
-}
-
-function enableElements(htmlIdsToChange) {
-  htmlIdsToChange.forEach(function (arrayValue) {
-    document.getElementById(arrayValue).disabled = false;
-  });
 }
 
 function listSourceTagSummary(tag, sourceTagSummary) {
