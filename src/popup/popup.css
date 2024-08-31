@@ -49,9 +49,9 @@ textarea {
   text-align: center;
   cursor: pointer;
 }
-/* TODO replace mainButton with mainMenuButton */
+/* TODO replace mainMenuButton with mainMenuButton */
 /* TODO try rm fontsize */
-.mainButton {
+.mainMenuButton {
   background-color: #e5f2f2;
   border-bottom-color: #979797;
   border-color: #e8e8e8;
@@ -69,7 +69,7 @@ textarea {
 }
 
 .button:hover,
-.mainButton:hover,
+.mainMenuButton:hover,
 .mainMenuButton:hover {
   background-color: #cff2f2;
 }
