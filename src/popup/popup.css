@@ -54,20 +54,16 @@ textarea {
   border-right-color: #979797;
   border-style: solid;
   border-width: 2px;
+  padding: 4px;
 }
 .mainMenuButton {
   flex-grow: 1;
   height: var(--BUTTON-HEIGHT);
-  padding-bottom: 4px; /* TODO rm? */
-  padding-top: 4px; /* TODO rm? */
 }
 
 .button:hover,
 .mainMenuButton:hover {
   background-color: #cff2f2;
-}
-.button {
-  padding: 4px; /* padding area on all four sides of an element */
 }
 
 /* Toggle Switch */
