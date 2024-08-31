@@ -396,7 +396,6 @@ function showStoredInfo(eKey, eValue) {
   deleteBtn.textContent = "Delete";
   deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
   deleteBtn.setAttribute("title", "Delete");
-  deleteBtn.setAttribute("class", "button squareButton");
   entryDisplay.appendChild(deleteBtn);
   entryDisplay.appendChild(entryValue);
   entry.appendChild(entryDisplay);
@@ -423,10 +422,8 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.setAttribute("class", "section sourceConfig");
   updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
-  updateBtn.setAttribute("class", "button squareButton");
   cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
   cancelBtn.setAttribute("title", "Cancel update");
-  cancelBtn.setAttribute("class", "button squareButton");
   entryEdit.appendChild(entryEditInput);
   entryEdit.appendChild(updateBtn);
   entryEdit.appendChild(cancelBtn);
