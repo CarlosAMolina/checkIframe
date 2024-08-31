@@ -61,19 +61,19 @@ textarea {
 /* TODO try rm fontsize */
 .mainButton {
   background-color: #e5f2f2;
-  cursor: pointer;
-  font-size: 15px;
-  text-align: center;
-  flex-grow: 1;
-  padding-bottom: 4px; /* TODO rm? */
-  padding-top: 4px; /* TODO rm? */
-  border-width: 2px;
+  border-bottom-color: #979797;
   border-color: #e8e8e8;
   border-right-color: #979797;
-  border-bottom-color: #979797;
   border-style: solid;
-  width: 100%;
+  border-width: 2px;
+  cursor: pointer;
+  flex-grow: 1;
+  font-size: 15px;
   height: 40px;
+  padding-bottom: 4px; /* TODO rm? */
+  padding-top: 4px; /* TODO rm? */
+  text-align: center;
+  width: 100%;
 }
 
 .button:hover,
