@@ -59,7 +59,6 @@ textarea {
   border-style: solid;
   border-width: 2px;
   flex-grow: 1;
-  font-size: 15px;
   height: var(--BUTTON-HEIGHT);
   padding-bottom: 4px; /* TODO rm? */
   padding-top: 4px; /* TODO rm? */
