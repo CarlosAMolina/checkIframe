@@ -8,10 +8,6 @@
   --SQUARE-BUTTON-WIDTH: 30px;
 }
 
-/* TODO
- * Input source config height must be equal to the buttons height.
- */
-
 html,
 body {
   width: 310px;
@@ -139,8 +135,12 @@ input:checked + .slider:before {
 .sourceConfig {
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 10px;
+}
+
+.sourceConfig p {
+  display: flex;
+  align-items: center;
 }
 
 #menuConfig {
