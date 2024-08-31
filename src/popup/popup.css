@@ -51,6 +51,17 @@ input[type="image"]:hover {
   background-color: #cff2f2;
 }
 
+.sourceConfig {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.sourceConfig p {
+  display: flex;
+  align-items: center;
+}
+
 /* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 /* TODO remove flex-shrink if not required */
 .sourceConfig button {
@@ -130,17 +141,6 @@ input:checked + .slider:before {
 
 .backgroundGrey {
   background: rgb(240, 240, 240);
-}
-
-.sourceConfig {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.sourceConfig p {
-  display: flex;
-  align-items: center;
 }
 
 #menuConfig {
