@@ -5,7 +5,6 @@
   --FONT-SIZE: 15px;
   --SPACE-BETWEEN-SECTIONS: 10px;
   --BUTTON-HEIGHT: 30px;
-  --MAIN-BUTTON-HEIGHT: 35px;
   --SQUARE-BUTTON-WIDTH: 30px;
 }
 
@@ -62,7 +61,7 @@ textarea {
   cursor: pointer;
   flex-grow: 1;
   font-size: 15px;
-  height: var(--MAIN-BUTTON-HEIGHT);
+  height: var(--BUTTON-HEIGHT);
   padding-bottom: 4px; /* TODO rm? */
   padding-top: 4px; /* TODO rm? */
   text-align: center;
