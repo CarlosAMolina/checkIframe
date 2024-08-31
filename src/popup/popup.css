@@ -23,14 +23,6 @@ body {
 
 body {
   margin: 15px;
-}
-
-button,
-input,
-label,
-legend,
-p,
-textarea {
   font-size: var(--FONT-SIZE);
 }
 
