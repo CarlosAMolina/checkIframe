@@ -61,9 +61,6 @@ p {
   text-align: center;
   width: 100%;
 }
-.mainMenuButton {
-  flex-grow: 1;
-}
 
 .button:hover,
 .mainMenuButton:hover {
