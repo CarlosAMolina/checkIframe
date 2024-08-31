@@ -37,12 +37,14 @@
       <button id="buttonShowSources" class="section">Show tags info</button>
       <div id="infoTags" class="section sources-container hidden"></div>
       <button id="buttonShowConfig" class="section">Configuration</button>
-      <div id="menuConfig" class="section backgroundGrey hidden">
-        <p><u>Show logs in the console</u></p>
-        <label class="switch">
-          <input id="buttonShowLogs" type="checkbox" />
-          <span class="slider round"></span>
-        </label>
+      <!-- TODO add hidden -->
+      <div id="menuConfig" class="section backgroundGrey">
+        <div class="switchConfig">
+          <button id="buttonShowLogs">
+            <div>off</div>
+          </button>
+          <p>Show logs in the console</p>
+        </div>
         <p class="section"><u>Highlight all automatically</u></p>
         <label class="switch">
           <input id="buttonHighlightAllAutomatically" type="checkbox" />

@@ -51,13 +51,29 @@ input[type="image"]:hover {
   background-color: #cff2f2;
 }
 
-.sourceConfig {
+/* https://www.scriptol.com/html5/button-on-off.php */
+.switchConfig button {
+  width: var(--SQUARE-BUTTON-WIDTH);
+  height: var(--BUTTON-HEIGHT);
+  background: lightgray;
+  cursor: pointer;
+  padding: 1px 2px 3px 3px;
+}
+
+.onOffButton div {
+  color: gray;
+  font-size: 12px;
+}
+
+.sourceConfig,
+.switchConfig {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.sourceConfig p {
+.sourceConfig p,
+.switchConfig p {
   display: flex;
   align-items: center;
 }

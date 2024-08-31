@@ -122,6 +122,89 @@ class ButtonClicked {
   }
 }
 
+// https://www.scriptol.com/html5/button-on-off.php
+class ButtonOnOff extends ButtonClicked {
+  static get _buttonIdStorage() {
+    throw TypeError("Not implemented");
+  }
+
+  static get buttonIdStorage() {
+    return this._buttonIdStorage;
+  }
+
+  get isOn() {
+    return document.getElementById(this.buttonIdHtml).checked;
+  }
+
+  // TODO use
+  setStylePrevious() {
+    browser.storage.local
+      .get(this.constructor.buttonIdStorage)
+      .then((result) => {
+        if (result[this.constructor.buttonIdStorage]) {
+          this.setStyleOn();
+        } else {
+          this.setStyleOff();
+        }
+      }, console.error);
+  }
+
+  switchStyleAndStorageOnOff() {
+    if (this.isOn) {
+      this.setStyleOff();
+    } else {
+      this.setStyleOn();
+    }
+    let storingInfo = browser.storage.local.set({
+      [this.constructor.buttonIdStorage]: this.isOn,
+    });
+    storingInfo.then(() => {
+      console.log(`Stored ${this.constructor.buttonIdStorage}: ${this.isOn}`);
+    }, console.error);
+  }
+
+  setStyleOff() {
+    this.setStyleColorLabelChecked("gray", "lightgray", "off", false);
+  }
+
+  setStyleOn() {
+    this.setStyleColorLabelChecked("green", "lightgreen", "on", true);
+  }
+
+  setStyleColorLabelChecked(style, color, label, checked) {
+    document.getElementById(this.buttonIdHtml).style.background = style;
+    document.getElementById(this.buttonIdHtml).style.color = color;
+    document.getElementById(this.buttonIdHtml).textContent = label;
+    document.getElementById(this.buttonIdHtml).checked = checked;
+  }
+}
+
+class ButtonShowLogs extends ButtonOnOff {
+  constructor() {
+    super("buttonShowLogs");
+  }
+
+  static get _buttonIdStorage() {
+    return "idShowLogs";
+  }
+
+  get run() {
+    this.logButtonName;
+    this.switchStyleAndStorageOnOff();
+    // TODO use .isOn
+    // TODO use this.id html
+    if (document.getElementById("buttonShowLogs").checked == true) {
+      showLogs = 1;
+    } else {
+      showLogs = 0;
+    }
+    values2sendFromPopup = showLogs;
+    // TODO replace with this.buttonIdHtml?
+    info2sendFromPopup = buttonIdHtml;
+    sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
+  }
+}
+
 class ButtonRecheck extends ButtonClicked {
   constructor() {
     super("buttonRecheck");
@@ -196,21 +279,6 @@ class ButtonShowConfig extends ButtonClicked {
   get run() {
     this.logButtonName;
     showOrHideInfo("menuConfig");
-  }
-}
-
-class ButtonShowLogs extends ButtonClicked {
-  constructor() {
-    super("buttonShowLogs");
-  }
-
-  get run() {
-    this.logButtonName;
-    saveShowLogs();
-    values2sendFromPopup = showLogs;
-    // TODO replace with this.buttonIdHtml?
-    info2sendFromPopup = buttonIdHtml;
-    sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
   }
 }
 
@@ -299,22 +367,27 @@ class ButtonClearAll extends ButtonClicked {
   }
 }
 
+// TODO move to the ButtonScroll
 function getShowLogs() {
   var gettingItem = browser.storage.local.get("idShowLogs");
   // result: empty object if the searched value is not stored
   gettingItem.then((result) => {
     // show log option has never been used
     if (typeof result.idShowLogs != "undefined") {
+      // TODO rename
       changeStateBoxLog(result);
     }
   }, reportError);
 
+  // TODO replace with setStylePrevious()?
   // enable/disable logs
   function changeStateBoxLog(results) {
     if (results.idShowLogs == 1) {
-      document.getElementById("buttonShowLogs").checked = true;
+      new ButtonShowLogs().setStyleOn();
+      //document.getElementById("buttonShowLogs").checked = true;
     } else {
-      document.getElementById("buttonShowLogs").checked = false;
+      new ButtonShowLogs().setStyleOff();
+      //document.getElementById("buttonShowLogs").checked = false;
     }
     sendInfoAndValue("buttonShowLogs", results.idShowLogs);
   }
@@ -610,16 +683,6 @@ function removeShownStoredUrls() {
   while (infoContainer.firstChild) {
     infoContainer.removeChild(infoContainer.firstChild);
   }
-}
-
-function saveShowLogs() {
-  if (document.getElementById("buttonShowLogs").checked == true) {
-    showLogs = 1;
-  } else {
-    showLogs = 0;
-  }
-  var storingInfo = browser.storage.local.set({ ["idShowLogs"]: showLogs });
-  storingInfo.then(() => {});
 }
 
 function saveHighlightAllAutomatically() {
