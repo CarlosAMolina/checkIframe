@@ -71,6 +71,10 @@ input[type="image"]:hover {
   flex-shrink: 0;
 }
 
+.sourceConfig input {
+  width: 100%;
+}
+
 .section {
   margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
