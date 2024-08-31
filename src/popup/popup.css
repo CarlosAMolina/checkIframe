@@ -65,6 +65,7 @@ input[type="image"]:hover {
 /* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 /* TODO remove flex-shrink if not required */
 .sourceConfig button {
+  display: flex;
   height: var(--BUTTON-HEIGHT);
   width: var(--SQUARE-BUTTON-WIDTH);
   flex-shrink: 0;
