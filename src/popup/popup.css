@@ -45,7 +45,8 @@ p {
   gap: var(--FLEX-PADDING);
 }
 
-.button {
+button,
+input[type="image"] {
   background-color: #e5f2f2;
   border-bottom-color: #979797;
   border-left-color: #e8e8e8;
@@ -60,7 +61,8 @@ p {
   width: 100%;
 }
 
-.button:hover {
+button:hover,
+input[type="image"]:hover {
   background-color: #cff2f2;
 }
 
