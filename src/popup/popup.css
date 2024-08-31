@@ -67,6 +67,14 @@ p {
   background-color: #cff2f2;
 }
 
+/* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
+/* TODO remove flex-shrink if not required */
+.squareButton {
+  height: var(--BUTTON-HEIGHT);
+  width: var(--SQUARE-BUTTON-WIDTH);
+  flex-shrink: 0;
+}
+
 /* Toggle Switch */
 /* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch */
 .switch {
@@ -127,14 +135,6 @@ input:checked + .slider:before {
 
 .backgroundGrey {
   background: rgb(240, 240, 240);
-}
-
-/* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
-/* TODO remove flex-shrink if not required */
-.squareButton {
-  height: var(--BUTTON-HEIGHT);
-  width: var(--SQUARE-BUTTON-WIDTH);
-  flex-shrink: 0;
 }
 
 .sourceConfig {
