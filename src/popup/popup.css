@@ -31,6 +31,10 @@ textarea {
   width: 100%;
 }
 
+p {
+  margin: 0;
+}
+
 .section {
   margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
@@ -126,10 +130,6 @@ input:checked + .slider:before {
 
 .backgroundGrey {
   background: rgb(240, 240, 240);
-}
-
-p {
-  margin: 0;
 }
 
 /* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
