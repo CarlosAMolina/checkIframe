@@ -73,9 +73,6 @@ textarea {
 .mainMenuButton:hover {
   background-color: #cff2f2;
 }
-.mainMenuButton {
-  height: 40px;
-}
 /* TODO refactor extract common code with mainMenuButton */
 .button {
   padding: 4px; /* padding area on all four sides of an element */
