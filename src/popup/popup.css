@@ -48,16 +48,14 @@ textarea {
   width: 100%;
   text-align: center;
   cursor: pointer;
-}
-/* TODO replace mainMenuButton with mainMenuButton */
-/* TODO try rm fontsize */
-.mainMenuButton {
   border-top-color: #e8e8e8;
   border-left-color: #e8e8e8;
   border-bottom-color: #979797;
   border-right-color: #979797;
   border-style: solid;
   border-width: 2px;
+}
+.mainMenuButton {
   flex-grow: 1;
   height: var(--BUTTON-HEIGHT);
   padding-bottom: 4px; /* TODO rm? */
