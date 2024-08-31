@@ -52,13 +52,13 @@ textarea {
   border-top-color: #e8e8e8;
   border-width: 2px;
   cursor: pointer;
+  height: var(--BUTTON-HEIGHT);
   padding: 4px;
   text-align: center;
   width: 100%;
 }
 .mainMenuButton {
   flex-grow: 1;
-  height: var(--BUTTON-HEIGHT);
 }
 
 .button:hover,
