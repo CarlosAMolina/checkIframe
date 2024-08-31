@@ -45,16 +45,16 @@ textarea {
 .button,
 .mainMenuButton {
   background-color: #e5f2f2;
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-  border-top-color: #e8e8e8;
-  border-left-color: #e8e8e8;
   border-bottom-color: #979797;
+  border-left-color: #e8e8e8;
   border-right-color: #979797;
   border-style: solid;
+  border-top-color: #e8e8e8;
   border-width: 2px;
+  cursor: pointer;
   padding: 4px;
+  text-align: center;
+  width: 100%;
 }
 .mainMenuButton {
   flex-grow: 1;
