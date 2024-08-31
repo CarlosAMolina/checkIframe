@@ -60,7 +60,6 @@ textarea {
   height: var(--BUTTON-HEIGHT);
   padding-bottom: 4px; /* TODO rm? */
   padding-top: 4px; /* TODO rm? */
-  text-align: center;
 }
 
 .button:hover,
