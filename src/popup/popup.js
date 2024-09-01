@@ -192,9 +192,7 @@ class ButtonShowLogs extends ButtonOnOff {
   get run() {
     this.logButtonName;
     this.switchStyleAndStorageOnOff();
-    // TODO use .isOn
-    // TODO use this.id html
-    if (document.getElementById("buttonShowLogs").checked == true) {
+    if (this.isOn) {
       showLogs = 1;
     } else {
       showLogs = 0;
