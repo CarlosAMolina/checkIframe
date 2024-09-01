@@ -200,7 +200,7 @@ class ButtonShowLogs extends ButtonOnOff {
       showLogs = 0;
     }
     values2sendFromPopup = showLogs;
-    // TODO replace with this.buttonIdHtml?
+    buttonIdHtml = this.buttonIdHtml;
     info2sendFromPopup = buttonIdHtml;
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
   }

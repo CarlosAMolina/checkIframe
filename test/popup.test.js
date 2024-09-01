@@ -423,6 +423,8 @@ describe("Check module import", () => {
   });
   describe("Check getShowLogs", () => {
     beforeEach(() => {
+      const classType = popupModule.__get__("ButtonShowLogs");
+      button = new classType();
       // required reset to avoid errors if only one test is run by filtering with: node_modules/.bin/jest -t '...'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
     });
@@ -441,17 +443,14 @@ describe("Check module import", () => {
     });
     describe("Check if the show log option has been activated", () => {
       beforeEach(() => {
-        browser.storage.local.get = jest.fn(() =>
-          Promise.resolve({ idShowLogs: 1 }),
-        );
+        button.run;
       });
       it("Check expected values", async () => {
-        // sendInfoAndValue calls browser.tabs.query
-        expect(browser.tabs.query.mock.calls.length).toBe(0);
-        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        expect(browser.tabs.query.mock.calls.length).toBe(1);
+        expect(button.isOn).toBe(true);
         function_ = popupModule.__get__("getShowLogs");
         await Promise.all([function_()]);
-        expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+        expect(button.isOn).toBe(true);
         expect(browser.tabs.query.mock.calls.length).toBe(1);
         const idShowLogs = 1;
         expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
