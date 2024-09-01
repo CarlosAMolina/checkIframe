@@ -150,7 +150,6 @@ class ButtonOnOff extends ButtonClicked {
   }
 
   switchStyleAndStorageOnOff() {
-    this.switchStyle();
     const value2save = this.isOn == true ? 1 : 0;
     let storingInfo = browser.storage.local.set({
       [this.constructor.buttonIdStorage]: value2save,
@@ -191,6 +190,7 @@ class ButtonShowLogs extends ButtonOnOff {
 
   get run() {
     this.logButtonName;
+    this.switchStyle();
     this.switchStyleAndStorageOnOff();
     buttonIdHtml = this.buttonIdHtml;
     showLogs = this.isOn ? 1 : 0;
