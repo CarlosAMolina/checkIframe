@@ -434,10 +434,10 @@ describe("Check module import", () => {
         browser.storage.local.get = jest.fn(() => Promise.resolve({}));
       });
       it("Check expected values", async () => {
-        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        expect(button.isOn).toBe(undefined);
         function_ = popupModule.__get__("getShowLogs");
         await function_();
-        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+        expect(button.isOn).toBe(undefined);
         // sendInfoAndValue calls browser.tabs.query
         expect(browser.tabs.query.mock.calls.length).toBe(0);
       });
