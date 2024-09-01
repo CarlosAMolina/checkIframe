@@ -193,8 +193,12 @@ class ButtonShowLogs extends ButtonOnOff {
     this.switchStyle();
     this.storageOnOff();
     buttonIdHtml = this.buttonIdHtml;
-    showLogs = this.isOn ? 1 : 0;
+    this.updateGlobalVariableShowLogs();
     sendInfoAndValue(this.buttonIdHtml, showLogs);
+  }
+
+  updateGlobalVariableShowLogs() {
+    showLogs = this.isOn ? 1 : 0;
   }
 }
 
@@ -364,7 +368,7 @@ class ButtonClearAll extends ButtonClicked {
 function getShowLogs() {
   const button = new ButtonShowLogs();
   button.setStyleByStoredValue();
-  showLogs = button.isOn ? 1 : 0;
+  button.updateGlobalVariableShowLogs();
   sendInfoAndValue(button.buttonIdHtml, showLogs);
 }
 
