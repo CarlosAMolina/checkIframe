@@ -186,9 +186,9 @@ class ButtonShowLogs extends ButtonOnOff {
 
   get run() {
     this.logButtonName;
+    buttonIdHtml = this.buttonIdHtml;
     this.storeChangeOnOff();
     this.setStyleByStoredValue();
-    buttonIdHtml = this.buttonIdHtml;
     this.updateGlobalVariableShowLogs();
     this.sendValueShowLogs();
   }
