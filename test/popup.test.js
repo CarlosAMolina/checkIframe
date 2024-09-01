@@ -348,16 +348,19 @@ describe("Check module import", () => {
       });
       describe("Check run has expected calls and values", () => {
         it("If buttonShowLogs is not checked", async () => {
-          expect(document.getElementById("buttonShowLogs").checked).toBe(false);
+          /* Starting . Test setup */
+          document.getElementById("buttonShowLogs").checked = false;
+          /* End. Test setup */
+          expect(button.isOn).toBe(false);
           await Promise.all([button.run]);
-          // saveShowLogs calls storage.
+          expect(button.isOn).toBe(true);
           expect(browser.storage.local.set.mock.lastCall).toEqual([
-            { idShowLogs: 0 },
+            { idShowLogs: true },
           ]);
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
             tabId,
-            { info: undefined, values: 0 },
+            { info: undefined, values: 1 },
           ]);
         });
         describe("If buttonShowLogs is checked", () => {
@@ -369,7 +372,6 @@ describe("Check module import", () => {
               true,
             );
             await Promise.all([button.run]);
-            //  // saveShowLogs calls storage.
             expect(browser.storage.local.set.mock.lastCall).toEqual([
               { idShowLogs: 1 },
             ]);
@@ -912,10 +914,6 @@ describe("Check module import", () => {
       function_();
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
-  });
-  it.only("saveShowLogs runs without error", function () {
-    function_ = popupModule.__get__("saveShowLogs");
-    function_();
   });
   describe("Check modify urls", () => {
     beforeAll(() => {
