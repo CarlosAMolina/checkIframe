@@ -194,11 +194,15 @@ class ButtonShowLogs extends ButtonOnOff {
     this.storageOnOff();
     buttonIdHtml = this.buttonIdHtml;
     this.updateGlobalVariableShowLogs();
-    sendInfoAndValue(this.buttonIdHtml, showLogs);
+    this.sendValueShowLogs();
   }
 
   updateGlobalVariableShowLogs() {
     showLogs = this.isOn ? 1 : 0;
+  }
+
+  sendValueShowLogs() {
+    sendInfoAndValue(this.buttonIdHtml, showLogs);
   }
 }
 
@@ -369,7 +373,7 @@ function getShowLogs() {
   const button = new ButtonShowLogs();
   button.setStyleByStoredValue();
   button.updateGlobalVariableShowLogs();
-  sendInfoAndValue(button.buttonIdHtml, showLogs);
+  button.sendValueShowLogs();
 }
 
 function hideElementsForHighlightAllAutomatically() {
