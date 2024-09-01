@@ -355,7 +355,7 @@ describe("Check module import", () => {
           await Promise.all([button.run]);
           expect(button.isOn).toBe(true);
           expect(browser.storage.local.set.mock.lastCall).toEqual([
-            { idShowLogs: true },
+            { idShowLogs: 1 },
           ]);
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
@@ -368,17 +368,16 @@ describe("Check module import", () => {
             document.getElementById("buttonShowLogs").checked = true;
           });
           it("Run test", async () => {
-            expect(document.getElementById("buttonShowLogs").checked).toBe(
-              true,
-            );
+            expect(button.isOn).toBe(true);
             await Promise.all([button.run]);
+            expect(button.isOn).toBe(false);
             expect(browser.storage.local.set.mock.lastCall).toEqual([
-              { idShowLogs: 1 },
+              { idShowLogs: 0 },
             ]);
             expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
             expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
               tabId,
-              { info: undefined, values: 1 },
+              { info: undefined, values: 0 },
             ]);
           });
         });

@@ -155,11 +155,12 @@ class ButtonOnOff extends ButtonClicked {
     } else {
       this.setStyleOn();
     }
+    const value2save = this.isOn == true ? 1 : 0;
     let storingInfo = browser.storage.local.set({
-      [this.constructor.buttonIdStorage]: this.isOn,
+      [this.constructor.buttonIdStorage]: value2save,
     });
     storingInfo.then(() => {
-      console.log(`Stored ${this.constructor.buttonIdStorage}: ${this.isOn}`);
+      console.log(`Stored ${this.constructor.buttonIdStorage}: ${value2save}`);
     }, console.error);
   }
 
