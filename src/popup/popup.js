@@ -188,6 +188,10 @@ class ButtonShowLogs extends ButtonOnOff {
     this.logButtonName;
     buttonIdHtml = this.buttonIdHtml;
     this.storeChangeOnOff();
+    this.initializePopup();
+  }
+
+  initializePopup() {
     this.setStyleByStoredValue();
     this.updateGlobalVariableShowLogs();
     this.sendValueShowLogs();
@@ -367,9 +371,7 @@ class ButtonClearAll extends ButtonClicked {
 // TODO move to the ButtonScroll
 function getShowLogs() {
   const button = new ButtonShowLogs();
-  button.setStyleByStoredValue();
-  button.updateGlobalVariableShowLogs();
-  button.sendValueShowLogs();
+  button.initializePopup();
 }
 
 function hideElementsForHighlightAllAutomatically() {
