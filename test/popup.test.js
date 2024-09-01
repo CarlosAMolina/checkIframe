@@ -437,7 +437,7 @@ describe("Check module import", () => {
         expect(button.isOn).toBe(undefined);
         function_ = popupModule.__get__("getShowLogs");
         await function_();
-        expect(button.isOn).toBe(undefined);
+        expect(button.isOn).toBe(false);
         // sendInfoAndValue calls browser.tabs.query
         expect(browser.tabs.query.mock.calls.length).toBe(0);
       });
@@ -451,7 +451,7 @@ describe("Check module import", () => {
         expect(button.isOn).toBe(true);
         function_ = popupModule.__get__("getShowLogs");
         await Promise.all([function_()]);
-        expect(button.isOn).toBe(true);
+        expect(button.isOn).toBe(false);
         expect(browser.tabs.query.mock.calls.length).toBe(1);
         const idShowLogs = 1;
         expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
