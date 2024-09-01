@@ -360,7 +360,7 @@ describe("Check module import", () => {
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
             tabId,
-            { info: undefined, values: 1 },
+            { info: "buttonShowLogs", values: 1 },
           ]);
         });
         describe("If buttonShowLogs is checked", () => {
@@ -377,7 +377,7 @@ describe("Check module import", () => {
             expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
             expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
               tabId,
-              { info: undefined, values: 0 },
+              { info: "buttonShowLogs", values: 0 },
             ]);
           });
         });
