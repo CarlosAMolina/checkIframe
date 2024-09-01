@@ -421,6 +421,7 @@ describe("Check module import", () => {
       });
     });
   });
+  // TODO move these tests to the buttonShowLogs tests
   describe("Check getShowLogs", () => {
     beforeEach(() => {
       const classType = popupModule.__get__("ButtonShowLogs");
