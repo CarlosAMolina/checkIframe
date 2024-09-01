@@ -192,11 +192,9 @@ class ButtonShowLogs extends ButtonOnOff {
   get run() {
     this.logButtonName;
     this.switchStyleAndStorageOnOff();
-    showLogs = this.isOn ? 1 : 0;
-    values2sendFromPopup = showLogs;
     buttonIdHtml = this.buttonIdHtml;
-    info2sendFromPopup = buttonIdHtml;
-    sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
+    showLogs = this.isOn ? 1 : 0;
+    sendInfoAndValue(this.buttonIdHtml, showLogs);
   }
 }
 
