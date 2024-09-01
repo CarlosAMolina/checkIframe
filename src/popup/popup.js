@@ -136,8 +136,8 @@ class ButtonOnOff extends ButtonClicked {
     return document.getElementById(this.buttonIdHtml).checked;
   }
 
-  // TODO use
-  setStylePrevious() {
+  setStyleByStoredValue() {
+    // result: empty object if the searched value is not stored
     browser.storage.local
       .get(this.constructor.buttonIdStorage)
       .then((result) => {
@@ -364,28 +364,10 @@ class ButtonClearAll extends ButtonClicked {
 
 // TODO move to the ButtonScroll
 function getShowLogs() {
-  var gettingItem = browser.storage.local.get("idShowLogs");
-  // result: empty object if the searched value is not stored
-  gettingItem.then((result) => {
-    // show log option has never been used
-    if (typeof result.idShowLogs != "undefined") {
-      // TODO rename
-      changeStateBoxLog(result);
-    }
-  }, reportError);
-
-  // TODO replace with setStylePrevious()?
-  // enable/disable logs
-  function changeStateBoxLog(results) {
-    if (results.idShowLogs == 1) {
-      new ButtonShowLogs().setStyleOn();
-      //document.getElementById("buttonShowLogs").checked = true;
-    } else {
-      new ButtonShowLogs().setStyleOff();
-      //document.getElementById("buttonShowLogs").checked = false;
-    }
-    sendInfoAndValue("buttonShowLogs", results.idShowLogs);
-  }
+  const button = new ButtonShowLogs();
+  button.setStyleByStoredValue();
+  showLogs = button.isOn ? 1 : 0;
+  sendInfoAndValue(button.buttonIdHtml, showLogs);
 }
 
 function hideElementsForHighlightAllAutomatically() {
