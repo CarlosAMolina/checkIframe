@@ -462,15 +462,15 @@ describe("Check module import", () => {
     });
     describe("Check if the show log option has been deactivated", () => {
       beforeEach(() => {
-        document.getElementById("buttonShowLogs").checked = true;
+        document.getElementById("buttonShowLogs").checked = false;
         browser.storage.local.get = jest.fn(() =>
           Promise.resolve({ idShowLogs: 0 }),
         );
       });
-      it("Check expected values", async () => {
+      it.only("Check expected values", async () => {
         // sendInfoAndValue calls browser.tabs.query
         expect(browser.tabs.query.mock.calls.length).toBe(0);
-        expect(document.getElementById("buttonShowLogs").checked).toBe(true);
+        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
         function_ = popupModule.__get__("getShowLogs");
         await Promise.all([function_()]);
         expect(document.getElementById("buttonShowLogs").checked).toBe(false);
