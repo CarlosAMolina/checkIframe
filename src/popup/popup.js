@@ -28,7 +28,7 @@ function popupMain() {
     buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
     let button = createButton(buttonIdHtml);
     if (button) {
-      button.run;
+      button.run();
     }
   });
 
@@ -111,12 +111,11 @@ class ButtonClicked {
     return this._buttonIdHtml;
   }
 
-  // TODO change attribute to function
-  get run() {
+  run() {
     throw TypeError("Not implemented: method run");
   }
 
-  // TODO change attribute to function
+  // TODO? change attribute to function
   get logButtonName() {
     console.log(`Clicked button ID Html: ${this.buttonIdHtml}`);
   }
@@ -133,37 +132,58 @@ class ButtonOnOff extends ButtonClicked {
   }
 
   get isOn() {
-    return document.getElementById(this.buttonIdHtml).checked;
+    const element = document.getElementById(this.buttonIdHtml);
+    console.log(`Is button ${this.buttonIdHtml} checked? ${element.checked}`);
+    const result = element.checked === undefined ? false : element.checked;
+    console.log(`Is button ${this.buttonIdHtml} on? ${result}`);
+    return result;
   }
 
-  setStyleByStoredValue() {
-    // result: empty object if the searched value is not stored
-    browser.storage.local
-      .get(this.constructor.buttonIdStorage)
-      .then((result) => {
-        if (result[this.constructor.buttonIdStorage]) {
-          this.setStyleOn();
-        } else {
-          this.setStyleOff();
-        }
+  async getIsStoredOn() {
+    let result = 0;
+    let resultGetStorage = {};
+    try {
+      resultGetStorage = await browser.storage.local.get(
+        this.constructor.buttonIdStorage,
+      );
+    } catch (e) {
+      console.error(e);
+    }
+    // The result is an empty object if the searched value is not stored.
+    const storedButtonIdStorage =
+      resultGetStorage[this.constructor.buttonIdStorage];
+    console.log(
+      `The stored value for ${this.constructor.buttonIdStorage} is ${storedButtonIdStorage}`,
+    );
+    if (storedButtonIdStorage === undefined) {
+      console.log(
+        `Not previous value for ${this.constructor.buttonIdStorage} was stored`,
+      );
+    } else {
+      result = storedButtonIdStorage ? true : false;
+    }
+    console.log("Is stored on?", result);
+    return result;
+  }
+
+  async storeChangeOnOff() {
+    const value2save = this.isOn ? 0 : 1;
+    await browser.storage.local
+      .set({ [this.constructor.buttonIdStorage]: value2save })
+      .then(() => {
+        console.log(
+          `The following value has been stored for ${this.constructor.buttonIdStorage}: ${value2save}`,
+        );
       }, console.error);
   }
 
-  storeChangeOnOff() {
-    const value2save = this.isOn == true ? 0 : 1;
-    let storingInfo = browser.storage.local.set({
-      [this.constructor.buttonIdStorage]: value2save,
-    });
-    storingInfo.then(() => {
-      console.log(`Stored ${this.constructor.buttonIdStorage}: ${value2save}`);
-    }, console.error);
-  }
-
   setStyleOff() {
+    console.log("Setting style off");
     this.setStyleColorLabelChecked("gray", "lightgray", "off", false);
   }
 
   setStyleOn() {
+    console.log("Setting style on");
     this.setStyleColorLabelChecked("green", "lightgreen", "on", true);
   }
 
@@ -184,24 +204,16 @@ class ButtonShowLogs extends ButtonOnOff {
     return "idShowLogs";
   }
 
-  get run() {
+  async run() {
     this.logButtonName;
     buttonIdHtml = this.buttonIdHtml;
-    this.storeChangeOnOff();
-    this.initializePopup();
+    await this.storeChangeOnOff();
+    await this.initializePopup();
   }
 
-  initializePopup() {
-    this.setStyleByStoredValue();
-    this.updateGlobalVariableShowLogs();
-    this.sendValueShowLogs();
-  }
-
-  updateGlobalVariableShowLogs() {
-    showLogs = this.isOn ? 1 : 0;
-  }
-
-  sendValueShowLogs() {
+  async initializePopup() {
+    showLogs = (await this.getIsStoredOn()) ? 1 : 0; // Not working in tests.
+    showLogs ? this.setStyleOn() : this.setStyleOff();
     sendInfoAndValue(this.buttonIdHtml, showLogs);
   }
 }
@@ -211,7 +223,7 @@ class ButtonRecheck extends ButtonClicked {
     super("buttonRecheck");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     hideHtmlId("infoTags");
     info2sendFromPopup = this.buttonIdHtml;
@@ -227,7 +239,7 @@ class ButtonClean extends ButtonClicked {
     super("buttonClean");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     info2sendFromPopup = this.buttonIdHtml;
     hideHtmlId("infoScroll");
@@ -243,7 +255,7 @@ class ButtonScroll extends ButtonClicked {
     super("buttonScroll");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     htmlIdToChange = "infoScroll";
     info2sendFromPopup = this.buttonIdHtml;
@@ -260,7 +272,7 @@ class ButtonShowSources extends ButtonClicked {
     super("buttonShowSources");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     htmlIdToChange = "infoTags";
     info2sendFromPopup = this.buttonIdHtml;
@@ -277,7 +289,7 @@ class ButtonShowConfig extends ButtonClicked {
     super("buttonShowConfig");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     showOrHideInfo("menuConfig");
   }
@@ -288,7 +300,7 @@ class ButtonHighlightAllAutomatically extends ButtonClicked {
     super("buttonHighlightAllAutomatically");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     saveHighlightAllAutomatically();
     values2sendFromPopup = highlightAllAutomatically;
@@ -306,7 +318,7 @@ class ButtonUrlsNotify extends ButtonClicked {
     super("buttonUrlsNotify");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     urlType = urlTypeNotify;
     unhideSourcesConfigValues();
@@ -320,7 +332,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
     super("buttonUrlsBlacklist");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     urlType = urlTypeBlacklist;
     unhideSourcesConfigValues();
@@ -334,7 +346,7 @@ class ButtonUrlsReferer extends ButtonClicked {
     super("buttonUrlsReferer");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     urlType = urlTypeReferer;
     unhideSourcesConfigValues();
@@ -348,7 +360,7 @@ class ButtonAddUrl extends ButtonClicked {
     super("buttonAddUrl");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     saveUrl();
   }
@@ -359,7 +371,7 @@ class ButtonClearAll extends ButtonClicked {
     super("buttonClearAll");
   }
 
-  get run() {
+  run() {
     this.logButtonName;
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -573,6 +585,7 @@ function showStoredUrlsType(type2show) {
 function sendInfoAndValue(info2send, value2send) {
   info2sendFromPopup = info2send;
   values2sendFromPopup = value2send;
+  console.log("Sending info", info2send, "and value", value2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then(sendInfo)
