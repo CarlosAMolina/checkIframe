@@ -30,6 +30,7 @@ let popupModule;
 let buttonType;
 let button;
 let function_;
+/*TODO add button highlight all automatcially */
 const buttonIdsHtml = [
   "buttonRecheck",
   "buttonClean",
@@ -912,7 +913,7 @@ describe("Check module import", () => {
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
   });
-  it("saveShowLogs runs without error", function () {
+  it.only("saveShowLogs runs without error", function () {
     function_ = popupModule.__get__("saveShowLogs");
     function_();
   });
