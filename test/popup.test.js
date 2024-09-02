@@ -347,7 +347,12 @@ describe("Check module import", () => {
         expect(button.buttonIdHtml).toBe("buttonShowLogs");
       });
       describe("Check run has expected calls and values", () => {
-        it.only("If buttonShowLogs is not checked", async () => {
+        it("If buttonShowLogs is not checked", async () => {
+          // TODO? /* start test required configuration */
+          // TODO? browser.storage.local.get = jest.fn(() =>
+          // TODO?   Promise.resolve({ idShowLogs: 0 }),
+          // TODO? );
+          // TODO? /* end test required configuration */
           expect(button.isOn).toBe(false);
           expect(browser.storage.local.set.mock.lastCall).toEqual(undefined);
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
@@ -968,13 +973,6 @@ describe("Check module import", () => {
     const error = {};
     function_(error);
   });
-  function initializeMocks() {
-    const htmlPathName = "src/popup/popup.html";
-    runMockDom(htmlPathName);
-    global.browser = mockBrowser();
-    const popupJsPathName = "../src/popup/popup.js";
-    popupModule = require(popupJsPathName);
-  }
   function mockNotEmptySourcesContainer() {
     let entryElement = document.createElement("p");
     let extraTextElement = document.createElement("p");
@@ -995,3 +993,22 @@ describe("Check module import", () => {
     popupModule.__set__("infoContainer", entryElement);
   }
 });
+
+describe.only("Check ButtonShowLogs", () => {
+  beforeAll(() => {
+    initializeMocks();
+    const classType = popupModule.__get__("ButtonShowLogs");
+    button = new classType();
+  });
+  it("Check it has correct button ID value", function () {
+    expect(button.buttonIdHtml).toBe("buttonShowLogs");
+  });
+});
+
+function initializeMocks() {
+  const htmlPathName = "src/popup/popup.html";
+  runMockDom(htmlPathName);
+  global.browser = mockBrowser();
+  const popupJsPathName = "../src/popup/popup.js";
+  popupModule = require(popupJsPathName);
+}

@@ -212,7 +212,7 @@ class ButtonShowLogs extends ButtonOnOff {
   }
 
   async initializePopup() {
-    showLogs = (await this.getIsStoredOn()) ? 1 : 0; // Not working in tests.
+    showLogs = (await this.getIsStoredOn()) ? 1 : 0;
     showLogs ? this.setStyleOn() : this.setStyleOff();
     sendInfoAndValue(this.buttonIdHtml, showLogs);
   }
