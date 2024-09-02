@@ -350,12 +350,15 @@ describe("Check module import", () => {
         it.only("If buttonShowLogs is not checked", async () => {
           expect(button.isOn).toBe(false);
           expect(browser.storage.local.set.mock.lastCall).toEqual(undefined);
+          expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
+          expect(browser.tabs.query.mock.calls.length).toBe(0);
           await Promise.all([button.run()]);
           //expect(button.isOn).toBe(true); // This does not work when testing.
           expect(browser.storage.local.set.mock.lastCall).toEqual([
             { idShowLogs: 1 },
           ]);
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+          expect(browser.tabs.query.mock.calls.length).toBe(1);
           //expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
           //  tabId,
           //  { info: "buttonShowLogs", values: 1 },
@@ -426,19 +429,6 @@ describe("Check module import", () => {
       button = new classType();
       // required reset to avoid errors if only one test is run by filtering with: node_modules/.bin/jest -t '...'
       browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
-    });
-    describe("Check if the show log option has never been used", () => {
-      beforeEach(() => {
-        browser.storage.local.get = jest.fn(() => Promise.resolve({}));
-      });
-      it("Check expected values", async () => {
-        expect(button.isOn).toBe(undefined);
-        function_ = popupModule.__get__("getShowLogs");
-        await function_();
-        expect(button.isOn).toBe(false);
-        // sendInfoAndValue calls browser.tabs.query
-        expect(browser.tabs.query.mock.calls.length).toBe(0);
-      });
     });
     describe("Check if the show log option has been activated", () => {
       it("Check expected values", async () => {
