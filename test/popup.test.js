@@ -994,17 +994,6 @@ describe("Check module import", () => {
   }
 });
 
-describe.only("Check ButtonShowLogs", () => {
-  beforeAll(() => {
-    initializeMocks();
-    const classType = popupModule.__get__("ButtonShowLogs");
-    button = new classType();
-  });
-  it("Check it has correct button ID value", function () {
-    expect(button.buttonIdHtml).toBe("buttonShowLogs");
-  });
-});
-
 function initializeMocks() {
   const htmlPathName = "src/popup/popup.html";
   runMockDom(htmlPathName);
