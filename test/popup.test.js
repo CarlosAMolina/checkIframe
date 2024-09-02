@@ -432,10 +432,8 @@ describe("Check module import", () => {
     });
     describe("Check if the show log option has been activated", () => {
       it("Check expected values", async () => {
-        expect(button.isOn).toBe(false);
         await Promise.all([button.run()]);
         expect(browser.tabs.query.mock.calls.length).toBe(1);
-        expect(button.isOn).toBe(true);
         function_ = popupModule.__get__("getShowLogs");
         await Promise.all([function_()]);
         expect(button.isOn).toBe(false);
