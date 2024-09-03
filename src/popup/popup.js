@@ -382,8 +382,7 @@ class ButtonClearAll extends ButtonClicked {
 
 // TODO move to the ButtonScroll
 function getShowLogs() {
-  const button = new ButtonShowLogs();
-  button.initializePopup();
+  (new ButtonShowLogs()).initializePopup();
 }
 
 function hideElementsForHighlightAllAutomatically() {
