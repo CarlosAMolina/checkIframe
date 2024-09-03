@@ -17,14 +17,14 @@ export class ButtonShowLogs extends ButtonClicked {
     console.log(`Clicked button ID Html: ${ButtonShowLogs._buttonIdHtml}`);
     let value2save;
     if (this.isOn) {
-      this.deactivateButton();
+      this.setStyle("off");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
       value2save = 0;
     } else {
-      this.activateButton();
+      this.setStyle("on");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
@@ -43,13 +43,13 @@ export class ButtonShowLogs extends ButtonClicked {
   async initializePopup() {
     const mustBeOn = await this.getIsStoredOn();
     if (mustBeOn) {
-      this.activateButton();
+      this.setStyle("on");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
         .catch(console.error);
     } else {
-      this.deactivateButton();
+      this.setStyle("off");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
@@ -108,21 +108,15 @@ export class ButtonShowLogs extends ButtonClicked {
     return result;
   }
 
-  deactivateButton() {
-    console.log("Setting style off");
-    this.setStyleColorLabelChecked("gray", "lightgray", "off", false);
-  }
-
-  activateButton() {
-    console.log("Setting style on");
-    this.setStyleColorLabelChecked("green", "lightgreen", "on", true);
-  }
-
-  setStyleColorLabelChecked(style, color, label, checked) {
-    document.getElementById(ButtonShowLogs._buttonIdHtml).style.background =
-      style;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).style.color = color;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).textContent = label;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).checked = checked;
+  setStyle(style) {
+    console.log("Setting style", style);
+    const styles = {
+      on: {background: "green", color: "lightgray", textContent: "on", checked: true},
+      off: {background: "gray", color: "lightgray", textContent: "off", checked: false}
+    }
+    document.getElementById(ButtonShowLogs._buttonIdHtml).style.background = styles[style].background;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).style.color = styles[style].color;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).textContent = styles[style].textContent; 
+    document.getElementById(ButtonShowLogs._buttonIdHtml).checked = styles[style].checked;
   }
 }
