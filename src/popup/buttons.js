@@ -46,13 +46,13 @@ export class ButtonShowLogs extends ButtonClicked {
       this.activateButton();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.deactivateLogs)
+        .then(this.activateLogs)
         .catch(console.error);
     } else {
       this.deactivateButton();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.activateLogs)
+        .then(this.deactivateLogs)
         .catch(console.error);
     }
   }
