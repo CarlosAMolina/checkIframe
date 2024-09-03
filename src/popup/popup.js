@@ -206,7 +206,7 @@ class ButtonShowLogs extends ButtonOnOff {
 
   async run() {
     this.logButtonName;
-    buttonIdHtml = this.buttonIdHtml;
+    buttonIdHtml = this.buttonIdHtml; // TODO? rm
     await this.storeChangeOnOff();
     await this.initializePopup();
   }

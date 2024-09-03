@@ -1,78 +1,111 @@
-var showLogs = 0; // TODO rm
-
 class ButtonClicked {
-  constructor(buttonIdHtml) {
-    this._buttonIdHtml = buttonIdHtml;
-  }
-
-  get buttonIdHtml() {
-    return this._buttonIdHtml;
-  }
-
   run() {
     throw TypeError("Not implemented: method run");
-  }
-
-  // TODO? change attribute to function
-  get logButtonName() {
-    console.log(`Clicked button ID Html: ${this.buttonIdHtml}`);
   }
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
-class ButtonOnOff extends ButtonClicked {
+export class ButtonShowLogs extends ButtonClicked {
+  static get _buttonIdHtml() {
+    return "buttonShowLogs";
+  }
   static get _buttonIdStorage() {
-    throw TypeError("Not implemented");
+    return "idShowLogs";
   }
 
-  static get buttonIdStorage() {
-    return this._buttonIdStorage;
+  async run() {
+    console.log(`Clicked button ID Html: ${ButtonShowLogs._buttonIdHtml}`);
+    let value2save;
+    if (this.isOn) {
+      this.setStyleOff();
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.sendButtonIsOff)
+        .catch(console.error);
+      value2save = 0;
+    } else {
+      this.setStyleOn();
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.sendButtonIsOn)
+        .catch(console.error);
+      value2save = 1;
+    }
+    await browser.storage.local
+      .set({ [ButtonShowLogs._buttonIdStorage]: value2save })
+      .then(() => {
+        console.log(
+          `The following value has been stored for ${ButtonShowLogs._buttonIdStorage}: ${value2save}`,
+        );
+      }, console.error);
+  }
+
+  async initializePopup() {
+    const mustBeOn = await this.getIsStoredOn();
+    if (mustBeOn) {
+      this.setStyleOn();
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.sendButtonIsOff)
+        .catch(console.error);
+    } else {
+      this.setStyleOff();
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.sendButtonIsOn)
+        .catch(console.error);
+    }
   }
 
   get isOn() {
-    const element = document.getElementById(this.buttonIdHtml);
-    console.log(`Is button ${this.buttonIdHtml} checked? ${element.checked}`);
+    const element = document.getElementById(ButtonShowLogs._buttonIdHtml);
+    console.log(
+      `Is button ${ButtonShowLogs._buttonIdHtml} checked? ${element.checked}`,
+    );
     const result = element.checked === undefined ? false : element.checked;
-    console.log(`Is button ${this.buttonIdHtml} on? ${result}`);
+    console.log(`Is button ${ButtonShowLogs._buttonIdHtml} on? ${result}`);
     return result;
   }
 
+  sendButtonIsOn(tabs) {
+    browser.tabs.sendMessage(tabs[0].id, {
+      info: ButtonShowLogs._buttonIdHtml,
+      values: 1,
+    });
+  }
+
+  sendButtonIsOff(tabs) {
+    browser.tabs.sendMessage(tabs[0].id, {
+      info: ButtonShowLogs._buttonIdHtml,
+      values: 0,
+    });
+  }
+
   async getIsStoredOn() {
-    let result = 0;
+    let result = false;
     let resultGetStorage = {};
     try {
       resultGetStorage = await browser.storage.local.get(
-        this.constructor.buttonIdStorage,
+        ButtonShowLogs._buttonIdStorage,
       );
     } catch (e) {
       console.error(e);
     }
     // The result is an empty object if the searched value is not stored.
     const storedButtonIdStorage =
-      resultGetStorage[this.constructor.buttonIdStorage];
+      resultGetStorage[ButtonShowLogs._buttonIdStorage];
     console.log(
-      `The stored value for ${this.constructor.buttonIdStorage} is ${storedButtonIdStorage}`,
+      `The stored value for ${ButtonShowLogs._buttonIdStorage} is ${storedButtonIdStorage}`,
     );
     if (storedButtonIdStorage === undefined) {
       console.log(
-        `Not previous value for ${this.constructor.buttonIdStorage} was stored`,
+        `Not previous value for ${ButtonShowLogs._buttonIdStorage} was stored`,
       );
     } else {
       result = storedButtonIdStorage ? true : false;
     }
     console.log("Is stored on?", result);
     return result;
-  }
-
-  async storeChangeOnOff() {
-    const value2save = this.isOn ? 0 : 1;
-    await browser.storage.local
-      .set({ [this.constructor.buttonIdStorage]: value2save })
-      .then(() => {
-        console.log(
-          `The following value has been stored for ${this.constructor.buttonIdStorage}: ${value2save}`,
-        );
-      }, console.error);
   }
 
   setStyleOff() {
@@ -86,42 +119,10 @@ class ButtonOnOff extends ButtonClicked {
   }
 
   setStyleColorLabelChecked(style, color, label, checked) {
-    document.getElementById(this.buttonIdHtml).style.background = style;
-    document.getElementById(this.buttonIdHtml).style.color = color;
-    document.getElementById(this.buttonIdHtml).textContent = label;
-    document.getElementById(this.buttonIdHtml).checked = checked;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).style.background =
+      style;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).style.color = color;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).textContent = label;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).checked = checked;
   }
-}
-
-export class ButtonShowLogs extends ButtonOnOff {
-  constructor() {
-    super("buttonShowLogs");
-  }
-
-  static get _buttonIdStorage() {
-    return "idShowLogs";
-  }
-
-  async run() {
-    this.logButtonName;
-    buttonIdHtml = this.buttonIdHtml;
-    await this.storeChangeOnOff();
-    await this.initializePopup();
-  }
-
-  async initializePopup() {
-    showLogs = (await this.getIsStoredOn()) ? 1 : 0;
-    showLogs ? this.setStyleOn() : this.setStyleOff();
-    sendInfoAndValue(this.buttonIdHtml, showLogs);
-  }
-}
-
-function sendInfoAndValue(info2send, value2send) {
-  info2sendFromPopup = info2send;
-  values2sendFromPopup = value2send;
-  console.log("Sending info", info2send, "and value", value2send);
-  browser.tabs
-    .query({ active: true, currentWindow: true })
-    .then(sendInfo)
-    .catch(reportError);
 }
