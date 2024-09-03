@@ -6,7 +6,7 @@ class ButtonClicked {
 
 // https://www.scriptol.com/html5/button-on-off.php
 export class ButtonShowLogs extends ButtonClicked {
-  static get _buttonIdHtml() {
+  static get buttonIdHtml() {
     return "buttonShowLogs";
   }
   static get _buttonIdStorage() {
@@ -14,7 +14,7 @@ export class ButtonShowLogs extends ButtonClicked {
   }
 
   async run() {
-    console.log(`Clicked button ID Html: ${ButtonShowLogs._buttonIdHtml}`);
+    console.log(`Clicked button ID Html: ${ButtonShowLogs.buttonIdHtml}`);
     let value2save;
     if (this.isOn) {
       this.setStyle("off");
@@ -58,25 +58,25 @@ export class ButtonShowLogs extends ButtonClicked {
   }
 
   get isOn() {
-    const element = document.getElementById(ButtonShowLogs._buttonIdHtml);
+    const element = document.getElementById(ButtonShowLogs.buttonIdHtml);
     console.log(
-      `Is button ${ButtonShowLogs._buttonIdHtml} checked? ${element.checked}`,
+      `Is button ${ButtonShowLogs.buttonIdHtml} checked? ${element.checked}`,
     );
     const result = element.checked === undefined ? false : element.checked;
-    console.log(`Is button ${ButtonShowLogs._buttonIdHtml} on? ${result}`);
+    console.log(`Is button ${ButtonShowLogs.buttonIdHtml} on? ${result}`);
     return result;
   }
 
   activateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
-      info: ButtonShowLogs._buttonIdHtml,
+      info: ButtonShowLogs.buttonIdHtml,
       values: 1,
     });
   }
 
   deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
-      info: ButtonShowLogs._buttonIdHtml,
+      info: ButtonShowLogs.buttonIdHtml,
       values: 0,
     });
   }
@@ -124,13 +124,13 @@ export class ButtonShowLogs extends ButtonClicked {
         checked: false,
       },
     };
-    document.getElementById(ButtonShowLogs._buttonIdHtml).style.background =
+    document.getElementById(ButtonShowLogs.buttonIdHtml).style.background =
       styles[style].background;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).style.color =
+    document.getElementById(ButtonShowLogs.buttonIdHtml).style.color =
       styles[style].color;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).textContent =
+    document.getElementById(ButtonShowLogs.buttonIdHtml).textContent =
       styles[style].textContent;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).checked =
+    document.getElementById(ButtonShowLogs.buttonIdHtml).checked =
       styles[style].checked;
   }
 }

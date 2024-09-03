@@ -31,7 +31,7 @@ describe.only("Check NEWButtonShowLogs", () => {
       runMockDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       const button = new ButtonShowLogs();
-      document.getElementById(ButtonShowLogs._buttonIdHtml).checked = true;
+      document.getElementById(ButtonShowLogs.buttonIdHtml).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
