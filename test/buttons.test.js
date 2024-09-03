@@ -13,7 +13,7 @@ describe("Check NEWButtonShowLogs", () => {
     it.only("If buttonShowLogs is clicked for the first time", async () => {
       /* start test required configuration */
       runMockDom("src/popup/popup.html");
-      global.browser = mockBrowser();
+      global.browser = getBrowserMock();
       /* end test required configuration */
       const button = new ButtonShowLogs();
       expect(button.isOn).toBe(false);
