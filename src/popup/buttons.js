@@ -17,14 +17,14 @@ export class ButtonShowLogs extends ButtonClicked {
     console.log(`Clicked button ID Html: ${ButtonShowLogs._buttonIdHtml}`);
     let value2save;
     if (this.isOn) {
-      this.setStyleOff();
+      this.deactivateButton();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
       value2save = 0;
     } else {
-      this.setStyleOn();
+      this.activateButton();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
@@ -43,13 +43,13 @@ export class ButtonShowLogs extends ButtonClicked {
   async initializePopup() {
     const mustBeOn = await this.getIsStoredOn();
     if (mustBeOn) {
-      this.setStyleOn();
+      this.activateButton();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
     } else {
-      this.setStyleOff();
+      this.deactivateButton();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
@@ -108,12 +108,12 @@ export class ButtonShowLogs extends ButtonClicked {
     return result;
   }
 
-  setStyleOff() {
+  deactivateButton() {
     console.log("Setting style off");
     this.setStyleColorLabelChecked("gray", "lightgray", "off", false);
   }
 
-  setStyleOn() {
+  activateButton() {
     console.log("Setting style on");
     this.setStyleColorLabelChecked("green", "lightgreen", "on", true);
   }
