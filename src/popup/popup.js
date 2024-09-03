@@ -45,7 +45,7 @@ function popupMain() {
 }
 
 function initializePopup() {
-  getShowLogs();
+  (new ButtonShowLogs()).initializePopup();
   getHighlightAllAutomatically();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
@@ -378,11 +378,6 @@ class ButtonClearAll extends ButtonClicked {
       .then(clearStorageInfo)
       .catch(reportError);
   }
-}
-
-// TODO move to the ButtonScroll
-function getShowLogs() {
-  (new ButtonShowLogs()).initializePopup();
 }
 
 function hideElementsForHighlightAllAutomatically() {
