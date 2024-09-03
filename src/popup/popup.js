@@ -1,3 +1,5 @@
+import { ButtonShowLogs } from "./buttons.js";
+
 var buttonIdHtml;
 let htmlIdToChange;
 var info2save; // string and array
@@ -192,29 +194,6 @@ class ButtonOnOff extends ButtonClicked {
     document.getElementById(this.buttonIdHtml).style.color = color;
     document.getElementById(this.buttonIdHtml).textContent = label;
     document.getElementById(this.buttonIdHtml).checked = checked;
-  }
-}
-
-class ButtonShowLogs extends ButtonOnOff {
-  constructor() {
-    super("buttonShowLogs");
-  }
-
-  static get _buttonIdStorage() {
-    return "idShowLogs";
-  }
-
-  async run() {
-    this.logButtonName;
-    buttonIdHtml = this.buttonIdHtml; // TODO? rm
-    await this.storeChangeOnOff();
-    await this.initializePopup();
-  }
-
-  async initializePopup() {
-    showLogs = (await this.getIsStoredOn()) ? 1 : 0;
-    showLogs ? this.setStyleOn() : this.setStyleOff();
-    sendInfoAndValue(this.buttonIdHtml, showLogs);
   }
 }
 
