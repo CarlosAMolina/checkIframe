@@ -20,14 +20,14 @@ export class ButtonShowLogs extends ButtonClicked {
       this.setStyleOff();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.sendButtonIsOff)
+        .then(this.deactivateLogs)
         .catch(console.error);
       value2save = 0;
     } else {
       this.setStyleOn();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.sendButtonIsOn)
+        .then(this.activateLogs)
         .catch(console.error);
       value2save = 1;
     }
@@ -46,13 +46,13 @@ export class ButtonShowLogs extends ButtonClicked {
       this.setStyleOn();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.sendButtonIsOff)
+        .then(this.deactivateLogs)
         .catch(console.error);
     } else {
       this.setStyleOff();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.sendButtonIsOn)
+        .then(this.activateLogs)
         .catch(console.error);
     }
   }
@@ -67,14 +67,14 @@ export class ButtonShowLogs extends ButtonClicked {
     return result;
   }
 
-  sendButtonIsOn(tabs) {
+  activateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
       info: ButtonShowLogs._buttonIdHtml,
       values: 1,
     });
   }
 
-  sendButtonIsOff(tabs) {
+  deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
       info: ButtonShowLogs._buttonIdHtml,
       values: 0,
