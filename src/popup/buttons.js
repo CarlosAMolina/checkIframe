@@ -111,12 +111,26 @@ export class ButtonShowLogs extends ButtonClicked {
   setStyle(style) {
     console.log("Setting style", style);
     const styles = {
-      on: {background: "green", color: "lightgray", textContent: "on", checked: true},
-      off: {background: "gray", color: "lightgray", textContent: "off", checked: false}
-    }
-    document.getElementById(ButtonShowLogs._buttonIdHtml).style.background = styles[style].background;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).style.color = styles[style].color;
-    document.getElementById(ButtonShowLogs._buttonIdHtml).textContent = styles[style].textContent; 
-    document.getElementById(ButtonShowLogs._buttonIdHtml).checked = styles[style].checked;
+      on: {
+        background: "green",
+        color: "lightgray",
+        textContent: "on",
+        checked: true,
+      },
+      off: {
+        background: "gray",
+        color: "lightgray",
+        textContent: "off",
+        checked: false,
+      },
+    };
+    document.getElementById(ButtonShowLogs._buttonIdHtml).style.background =
+      styles[style].background;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).style.color =
+      styles[style].color;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).textContent =
+      styles[style].textContent;
+    document.getElementById(ButtonShowLogs._buttonIdHtml).checked =
+      styles[style].checked;
   }
 }
