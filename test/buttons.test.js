@@ -2,12 +2,12 @@ import { ButtonShowLogs } from "../src/popup/buttons.js";
 import { runMockDom } from "./mockDom.js";
 
 // TODO rm NEW
-describe("Check NEWButtonShowLogs", () => {
+describe.only("Check NEWButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
     const button = new ButtonShowLogs();
     expect(button.buttonIdHtml).toBe("buttonShowLogs");
   });
-  describe.only("Check run has expected calls and values", () => {
+  describe("Check run has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
       /* start test required configuration */
       runMockDom("src/popup/popup.html");
@@ -46,7 +46,7 @@ describe("Check NEWButtonShowLogs", () => {
       ]);
     });
   });
-  describe.only("Check initializePopup has expected calls and values", () => {
+  describe("Check initializePopup has expected calls and values", () => {
     it("If buttonShowLogs must be off because the button has never been clicked", async () => {
       /* start test required configuration */
       runMockDom("src/popup/popup.html");
