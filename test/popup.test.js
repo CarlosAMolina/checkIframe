@@ -338,57 +338,6 @@ describe("Check module import", () => {
         );
       });
     });
-    describe("Check ButtonShowLogs", () => {
-      beforeAll(() => {
-        const classType = popupModule.__get__("ButtonShowLogs");
-        button = new classType();
-      });
-      it("Check it has correct button ID value", function () {
-        expect(button.buttonIdHtml).toBe("buttonShowLogs");
-      });
-      describe("Check run has expected calls and values", () => {
-        it("If buttonShowLogs is not checked", async () => {
-          // TODO? /* start test required configuration */
-          // TODO? browser.storage.local.get = jest.fn(() =>
-          // TODO?   Promise.resolve({ idShowLogs: 0 }),
-          // TODO? );
-          // TODO? /* end test required configuration */
-          expect(button.isOn).toBe(false);
-          expect(browser.storage.local.set.mock.lastCall).toEqual(undefined);
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-          expect(browser.tabs.query.mock.calls.length).toBe(0);
-          await Promise.all([button.run()]);
-          //expect(button.isOn).toBe(true); // This does not work when testing.
-          expect(browser.storage.local.set.mock.lastCall).toEqual([
-            { idShowLogs: 1 },
-          ]);
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-          expect(browser.tabs.query.mock.calls.length).toBe(1);
-          //expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-          //  tabId,
-          //  { info: "buttonShowLogs", values: 1 },
-          //]); // This does not work when testing.
-        });
-        describe("If buttonShowLogs is checked", () => {
-          beforeEach(() => {
-            document.getElementById("buttonShowLogs").checked = true;
-          });
-          it("Run test", async () => {
-            expect(button.isOn).toBe(true);
-            await Promise.all([button.run()]);
-            expect(button.isOn).toBe(false);
-            expect(browser.storage.local.set.mock.lastCall).toEqual([
-              { idShowLogs: 0 },
-            ]);
-            expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-            expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-              tabId,
-              { info: "buttonShowLogs", values: 0 },
-            ]);
-          });
-        });
-      });
-    });
     describe("Check ButtonUrlsNotify", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonUrlsNotify");
@@ -424,37 +373,6 @@ describe("Check module import", () => {
         // TODO     console.info("*** start"); // TODO rm
         // TODO     console.info("*** end"); // TODO rm
         // TODO });
-      });
-    });
-  });
-  // TODO move these tests to the buttonShowLogs tests
-  describe("Check getShowLogs", () => {
-    beforeEach(() => {
-      const classType = popupModule.__get__("ButtonShowLogs");
-      button = new classType();
-      // required reset to avoid errors if only one test is run by filtering with: node_modules/.bin/jest -t '...'
-      browser.tabs.query = jest.fn(() => Promise.resolve([{ id: tabId }]));
-    });
-    describe("Check if the show log option has been deactivated", () => {
-      beforeEach(() => {
-        document.getElementById("buttonShowLogs").checked = false;
-        browser.storage.local.get = jest.fn(() =>
-          Promise.resolve({ idShowLogs: 0 }),
-        );
-      });
-      it("Check expected values", async () => {
-        // sendInfoAndValue calls browser.tabs.query
-        expect(browser.tabs.query.mock.calls.length).toBe(0);
-        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-        function_ = popupModule.__get__("getShowLogs");
-        await Promise.all([function_()]);
-        expect(document.getElementById("buttonShowLogs").checked).toBe(false);
-        expect(browser.tabs.query.mock.calls.length).toBe(1);
-        const idShowLogs = 0;
-        expect(browser.tabs.sendMessage.mock.lastCall).toEqual([
-          tabId,
-          { info: "buttonShowLogs", values: idShowLogs },
-        ]);
       });
     });
   });
