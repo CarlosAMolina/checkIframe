@@ -34,13 +34,13 @@ describe("Check NEWButtonShowLogs", () => {
 // TODO extract to file and use in all tests.
 function initializeMocks() {
   runMockDom("src/popup/popup.html");
-  global.browser = mockBrowser();
+  global.browser = getBrowserMock();
   //const popupJsPathName = "../src/popup/popup.js";
   //const popupModule = require(popupJsPathName);
 }
 
 // TODO extract to file and use in all tests.
-function mockBrowser() {
+function getBrowserMock() {
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {
     storage: {
