@@ -47,7 +47,6 @@ describe("Check NEWButtonShowLogs", () => {
     });
   });
   describe.only("Check initializePopup has expected calls and values", () => {
-    // TODO test (when must be on and off)
     it("If buttonShowLogs must be off because the button has never been clicked", async () => {
       /* start test required configuration */
       runMockDom("src/popup/popup.html");
@@ -64,6 +63,27 @@ describe("Check NEWButtonShowLogs", () => {
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
         [1, { info: "buttonShowLogs", values: 0 }],
+      ]);
+    });
+    it("If buttonShowLogs must be on because the button was clicked previously", async () => {
+      /* start test required configuration */
+      runMockDom("src/popup/popup.html");
+      global.browser = getBrowserMock();
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idShowLogs: 1 }),
+      );
+      /* end test required configuration */
+      const button = new ButtonShowLogs();
+      expect(button.isOn).toBe(false);
+      expect(browser.storage.local.get.mock.calls.length).toBe(0);
+      expect(browser.storage.local.set.mock.calls.length).toBe(0);
+      expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
+      await Promise.all([button.initializePopup()]);
+      expect(button.isOn).toBe(true);
+      expect(browser.storage.local.get.mock.calls.length).toBe(1);
+      expect(browser.storage.local.set.mock.calls.length).toBe(0);
+      expect(browser.tabs.sendMessage.mock.calls).toEqual([
+        [1, { info: "buttonShowLogs", values: 1 }],
       ]);
     });
   });
