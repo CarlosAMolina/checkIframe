@@ -37,7 +37,6 @@ const buttonIdsHtml = [
   "buttonScroll",
   "buttonShowSources",
   "buttonShowConfig",
-  "buttonShowLogs",
   "buttonUrlsNotify",
   "buttonUrlsBlacklist",
   "buttonUrlsReferer",
