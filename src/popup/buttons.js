@@ -10,6 +10,10 @@ class Button {
 
 // https://www.scriptol.com/html5/button-on-off.php
 class OnOffButton extends Button {
+  initializePopup() {
+    throw TypeError("Not implemented: method initializePopup");
+  }
+
   static get _buttonIdStorage() {
     throw TypeError("Not implemented");
   }
