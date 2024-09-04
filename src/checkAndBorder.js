@@ -12,7 +12,7 @@ var invalidSources = [];
 var notifySources = [];
 var refererSources = [];
 var showLogs = false;
-var highlightAllAutomatically = 0;
+var highlightAllAutomatically = false;
 var tags2Search = ["iframe", "frame"];
 var urlTypeBlacklist = "blacklist";
 var urlTypeNotify = "notify";
@@ -295,7 +295,7 @@ initializeContentScript();
       logs();
     } else if (message.info === "buttonHighlightAllAutomatically") {
       highlightAllAutomatically = message.values;
-      if (highlightAllAutomatically == 1) {
+      if (highlightAllAutomatically) {
         setBorderOfAllElements(elementsValidSrc);
       } else {
         quitBorderOfAllElements(elementsValidSrc);

@@ -7,7 +7,7 @@ var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
-var highlightAllAutomatically = 0;
+var highlightAllAutomatically = false;
 function url(type, values) {
   this.type = type;
   this.values = values;
@@ -212,7 +212,7 @@ class ButtonHighlightAllAutomatically extends ButtonClicked {
     values2sendFromPopup = highlightAllAutomatically;
     // TODO replace with this.buttonIdHtml?
     info2sendFromPopup = buttonIdHtml;
-    highlightAllAutomatically == 1
+    highlightAllAutomatically
       ? hideElementsForHighlightAllAutomatically()
       : unhideElementsForHighlightAllAutomatically();
     sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
@@ -302,7 +302,7 @@ function getHighlightAllAutomatically() {
   gettingItem.then((result) => {
     // highlight all automatically has never been used
     if (typeof result.idHighlightAllAutomatically != "undefined") {
-      if (result.idHighlightAllAutomatically == 1) {
+      if (result.idHighlightAllAutomatically) {
         hideElementsForHighlightAllAutomatically();
       }
       changeStateBoxHighlightAllAutomatically(result);
@@ -311,7 +311,7 @@ function getHighlightAllAutomatically() {
 
   // enable/disable
   function changeStateBoxHighlightAllAutomatically(results) {
-    if (results.idHighlightAllAutomatically == 1) {
+    if (results.idHighlightAllAutomatically) {
       document.getElementById("buttonHighlightAllAutomatically").checked = true;
     } else {
       document.getElementById("buttonHighlightAllAutomatically").checked =
@@ -583,9 +583,9 @@ function saveHighlightAllAutomatically() {
   if (
     document.getElementById("buttonHighlightAllAutomatically").checked == true
   ) {
-    highlightAllAutomatically = 1;
+    highlightAllAutomatically = true;
   } else {
-    highlightAllAutomatically = 0;
+    highlightAllAutomatically = false;
   }
   var storingInfo = browser.storage.local.set({
     ["idHighlightAllAutomatically"]: highlightAllAutomatically,
