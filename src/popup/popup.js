@@ -84,7 +84,7 @@ function createButton(buttonIdHtml) {
       return new ButtonShowSources();
     case new ButtonShowConfig().buttonIdHtml:
       return new ButtonShowConfig();
-    case new ButtonShowLogs().buttonIdHtml:
+    case ButtonShowLogs.buttonIdHtml:
       return new ButtonShowLogs();
     case new ButtonHighlightAllAutomatically().buttonIdHtml:
       return new ButtonHighlightAllAutomatically();
