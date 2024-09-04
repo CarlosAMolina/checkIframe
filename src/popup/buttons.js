@@ -150,7 +150,137 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   static get buttonIdHtml() {
     return "buttonHighlightAllAutomatically";
   }
+  // TODO use in all files true/false instead of 1/0
   static get _buttonIdStorage() {
     return "idHighlightAllAutomatically";
+  }
+
+  async run() {
+    console.log(
+      `Clicked button ID Html: ${ButtonHighlightAllAutomatically.buttonIdHtml}`,
+    );
+    if (this.isOn) {
+      this.setStyle("off");
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.deactivateHighlightAllAutomatically)
+        .catch(console.error);
+    } else {
+      this.setStyle("on");
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.activateHighlightAllAutomatically)
+        .catch(console.error);
+    }
+    await browser.storage.local
+      .set({ [ButtonHighlightAllAutomatically._buttonIdStorage]: this.isOn })
+      .then(() => {
+        console.log(
+          `The following value has been stored for ${ButtonHighlightAllAutomatically._buttonIdStorage}: ${this.isOn}`,
+        );
+      }, console.error);
+  }
+
+  async initializePopup() {
+    const mustHighlightAllAutomatically =
+      await this.getIsStoredHighligthAllAutomatically();
+    if (mustHighlightAllAutomatically) {
+      this.setStyle("on");
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.activateHighlightAllAutomatically)
+        .catch(console.error);
+    } else {
+      this.setStyle("off");
+      await browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then(this.deactivateHighlightAllAutomatically)
+        .catch(console.error);
+    }
+  }
+
+  get isOn() {
+    const element = document.getElementById(
+      ButtonHighlightAllAutomatically.buttonIdHtml,
+    );
+    console.log(
+      `Is button ${ButtonHighlightAllAutomatically.buttonIdHtml} checked? ${element.checked}`,
+    );
+    const result = element.checked === undefined ? false : element.checked;
+    console.log(
+      `Is button ${ButtonHighlightAllAutomatically.buttonIdHtml} on? ${result}`,
+    );
+    return result;
+  }
+
+  activateHighlightAllAutomatically(tabs) {
+    browser.tabs.sendMessage(tabs[0].id, {
+      info: ButtonHighlightAllAutomatically.buttonIdHtml,
+      values: 1,
+    });
+  }
+
+  deactivateHighlightAllAutomatically(tabs) {
+    browser.tabs.sendMessage(tabs[0].id, {
+      info: ButtonHighlightAllAutomatically.buttonIdHtml,
+      values: 0,
+    });
+  }
+
+  async getIsStoredOn() {
+    let result = false;
+    let resultGetStorage = {};
+    try {
+      resultGetStorage = await browser.storage.local.get(
+        ButtonHighlightAllAutomatically._buttonIdStorage,
+      );
+    } catch (e) {
+      console.error(e);
+    }
+    // The result is an empty object if the searched value is not stored.
+    const storedButtonIdStorage =
+      resultGetStorage[ButtonHighlightAllAutomatically._buttonIdStorage];
+    console.log(
+      `The stored value for ${ButtonHighlightAllAutomatically._buttonIdStorage} is ${storedButtonIdStorage}`,
+    );
+    if (storedButtonIdStorage === undefined) {
+      console.log(
+        `Not previous value for ${ButtonHighlightAllAutomatically._buttonIdStorage} was stored`,
+      );
+    } else {
+      result = storedButtonIdStorage;
+    }
+    console.log("Is stored on?", result);
+    return result;
+  }
+
+  setStyle(style) {
+    console.log("Setting style", style);
+    const styles = {
+      on: {
+        background: "green",
+        color: "lightgray",
+        textContent: "on",
+        checked: true,
+      },
+      off: {
+        background: "gray",
+        color: "lightgray",
+        textContent: "off",
+        checked: false,
+      },
+    };
+    document.getElementById(
+      ButtonHighlightAllAutomatically.buttonIdHtml,
+    ).style.background = styles[style].background;
+    document.getElementById(
+      ButtonHighlightAllAutomatically.buttonIdHtml,
+    ).style.color = styles[style].color;
+    document.getElementById(
+      ButtonHighlightAllAutomatically.buttonIdHtml,
+    ).textContent = styles[style].textContent;
+    document.getElementById(
+      ButtonHighlightAllAutomatically.buttonIdHtml,
+    ).checked = styles[style].checked;
   }
 }
