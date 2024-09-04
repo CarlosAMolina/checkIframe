@@ -145,3 +145,12 @@ export class ButtonShowLogs extends OnOffButton {
       styles[style].checked;
   }
 }
+
+export class ButtonHighlightAllAutomatically extends OnOffButton {
+  static get buttonIdHtml() {
+    return "buttonHighlightAllAutomatically";
+  }
+  static get _buttonIdStorage() {
+    return "idHighlightAllAutomatically";
+  }
+}
