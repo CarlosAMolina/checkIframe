@@ -30,13 +30,13 @@ export class ButtonShowLogs extends OnOffButton {
   async run() {
     console.log(`Clicked button ID Html: ${ButtonShowLogs.buttonIdHtml}`);
     if (this.isOn) {
-      setStyle(ButtonShowLogs.buttonIdHtml, "off");
+      this.setStyleOff();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
     } else {
-      setStyle(ButtonShowLogs.buttonIdHtml, "on");
+      this.setStyleOn();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
@@ -54,18 +54,26 @@ export class ButtonShowLogs extends OnOffButton {
   async initializePopup() {
     const mustBeOn = await this.getIsStoredOn();
     if (mustBeOn) {
-      setStyle(ButtonShowLogs.buttonIdHtml, "on");
+      this.setStyleOn();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
         .catch(console.error);
     } else {
-      setStyle(ButtonShowLogs.buttonIdHtml, "off");
+      this.setStyleOff();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
     }
+  }
+
+  setStyleOn() {
+    setStyle(ButtonShowLogs.buttonIdHtml, "on");
+  }
+
+  setStyleOff() {
+    setStyle(ButtonShowLogs.buttonIdHtml, "off");
   }
 
   get isOn() {
@@ -133,14 +141,14 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
       `Clicked button ID Html: ${ButtonHighlightAllAutomatically.buttonIdHtml}`,
     );
     if (this.isOn) {
-      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "off");
+      this.setStyleOff();
       this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateHighlightAllAutomatically)
         .catch(console.error);
     } else {
-      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "on");
+      this.setStyleOn();
       this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
@@ -159,20 +167,28 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   async initializePopup() {
     const mustHighlightAllAutomatically = await this.getIsStoredOn();
     if (mustHighlightAllAutomatically) {
-      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "on");
+      this.setStyleOn();
       this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateHighlightAllAutomatically)
         .catch(console.error);
     } else {
-      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "off");
+      this.setStyleOff();
       this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateHighlightAllAutomatically)
         .catch(console.error);
     }
+  }
+
+  setStyleOn() {
+    setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "on");
+  }
+
+  setStyleOff() {
+    setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "off");
   }
 
   hideElementsForHighlightAllAutomatically() {
