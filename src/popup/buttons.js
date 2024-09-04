@@ -1,4 +1,4 @@
-class ButtonClicked {
+class Button {
   run() {
     throw TypeError("Not implemented: method run");
   }
@@ -9,14 +9,14 @@ class ButtonClicked {
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
-class ButtonOnOff extends ButtonClicked {
+class OnOffButton extends Button {
   static get _buttonIdStorage() {
     throw TypeError("Not implemented");
   }
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
-export class ButtonShowLogs extends ButtonOnOff {
+export class ButtonShowLogs extends OnOffButton {
   static get buttonIdHtml() {
     return "buttonShowLogs";
   }
