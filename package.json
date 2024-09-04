@@ -10,7 +10,7 @@
     "prettier": "npx prettier src test --check",
     "prettier:fix": "npm run prettier -- --write",
     "test": "jest ./test",
-    "testnew": "jest ./test -t NEWButtonShowLog",
+    "testfilter": "jest ./test -t ButtonShowLogs",
     "web-ext": "cd src && ../node_modules/web-ext/bin/web-ext.js run",
     "prepare": "husky install"
   },
