@@ -15,7 +15,6 @@ class OnOffButton extends Button {
   }
 }
 
-// https://www.scriptol.com/html5/button-on-off.php
 export class ButtonShowLogs extends OnOffButton {
   static get buttonIdHtml() {
     return "buttonShowLogs";
