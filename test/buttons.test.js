@@ -3,8 +3,7 @@ import { runMockDom } from "./mockDom.js";
 
 describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
-    const button = new ButtonShowLogs();
-    expect(button.buttonIdHtml).toBe("buttonShowLogs");
+    expect(ButtonShowLogs.buttonIdHtml).toBe("buttonShowLogs");
   });
   describe("Check run has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
