@@ -30,7 +30,6 @@ let popupModule;
 let buttonType;
 let button;
 let function_;
-/*TODO add button highlight all automatcially */
 const buttonIdsHtml = [
   "buttonRecheck",
   "buttonClean",

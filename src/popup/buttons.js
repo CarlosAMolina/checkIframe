@@ -150,7 +150,6 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   static get buttonIdHtml() {
     return "buttonHighlightAllAutomatically";
   }
-  // TODO use in all files true/false instead of 1/0
   static get _buttonIdStorage() {
     return "idHighlightAllAutomatically";
   }
