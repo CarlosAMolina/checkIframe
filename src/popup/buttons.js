@@ -182,8 +182,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   async initializePopup() {
-    const mustHighlightAllAutomatically =
-      await this.getIsStoredHighligthAllAutomatically();
+    const mustHighlightAllAutomatically = await this.getIsStoredOn();
     if (mustHighlightAllAutomatically) {
       this.setStyle("on");
       await browser.tabs
