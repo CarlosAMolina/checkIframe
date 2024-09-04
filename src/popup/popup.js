@@ -1,3 +1,4 @@
+import { ButtonHighlightAllAutomatically as ButtonHighlightAllAutomaticallyNew } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 
 var buttonIdHtml;
@@ -86,6 +87,8 @@ function createButton(buttonIdHtml) {
       return new ButtonShowConfig();
     case ButtonShowLogs.buttonIdHtml:
       return new ButtonShowLogs();
+    case ButtonHighlightAllAutomaticallyNew.buttonIdHtml:
+      return new ButtonHighlightAllAutomaticallyNew();
     case new ButtonHighlightAllAutomatically().buttonIdHtml:
       return new ButtonHighlightAllAutomatically();
     case new ButtonUrlsNotify().buttonIdHtml:
