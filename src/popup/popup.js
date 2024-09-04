@@ -6,7 +6,6 @@ var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
-var showLogs = 0;
 var highlightAllAutomatically = 0;
 function url(type, values) {
   this.type = type;
