@@ -30,13 +30,13 @@ export class ButtonShowLogs extends OnOffButton {
   async run() {
     console.log(`Clicked button ID Html: ${ButtonShowLogs.buttonIdHtml}`);
     if (this.isOn) {
-      this.setStyle("off");
+      setStyle(ButtonShowLogs.buttonIdHtml, "off");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
     } else {
-      this.setStyle("on");
+      setStyle(ButtonShowLogs.buttonIdHtml, "on");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
@@ -54,13 +54,13 @@ export class ButtonShowLogs extends OnOffButton {
   async initializePopup() {
     const mustBeOn = await this.getIsStoredOn();
     if (mustBeOn) {
-      this.setStyle("on");
+      setStyle(ButtonShowLogs.buttonIdHtml, "on");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
         .catch(console.error);
     } else {
-      this.setStyle("off");
+      setStyle(ButtonShowLogs.buttonIdHtml, "off");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
@@ -118,32 +118,6 @@ export class ButtonShowLogs extends OnOffButton {
     console.log("Is stored on?", result);
     return result;
   }
-
-  setStyle(style) {
-    console.log("Setting style", style);
-    const styles = {
-      on: {
-        background: "green",
-        color: "lightgray",
-        textContent: "on",
-        checked: true,
-      },
-      off: {
-        background: "gray",
-        color: "lightgray",
-        textContent: "off",
-        checked: false,
-      },
-    };
-    document.getElementById(ButtonShowLogs.buttonIdHtml).style.background =
-      styles[style].background;
-    document.getElementById(ButtonShowLogs.buttonIdHtml).style.color =
-      styles[style].color;
-    document.getElementById(ButtonShowLogs.buttonIdHtml).textContent =
-      styles[style].textContent;
-    document.getElementById(ButtonShowLogs.buttonIdHtml).checked =
-      styles[style].checked;
-  }
 }
 
 export class ButtonHighlightAllAutomatically extends OnOffButton {
@@ -159,14 +133,14 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
       `Clicked button ID Html: ${ButtonHighlightAllAutomatically.buttonIdHtml}`,
     );
     if (this.isOn) {
-      this.setStyle("off");
+      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "off");
       this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateHighlightAllAutomatically)
         .catch(console.error);
     } else {
-      this.setStyle("on");
+      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "on");
       this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
@@ -185,14 +159,14 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   async initializePopup() {
     const mustHighlightAllAutomatically = await this.getIsStoredOn();
     if (mustHighlightAllAutomatically) {
-      this.setStyle("on");
+      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "on");
       this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateHighlightAllAutomatically)
         .catch(console.error);
     } else {
-      this.setStyle("off");
+      setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "off");
       this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
@@ -265,36 +239,29 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     console.log("Is stored on?", result);
     return result;
   }
+}
 
-  setStyle(style) {
-    console.log("Setting style", style);
-    const styles = {
-      on: {
-        background: "green",
-        color: "lightgray",
-        textContent: "on",
-        checked: true,
-      },
-      off: {
-        background: "gray",
-        color: "lightgray",
-        textContent: "off",
-        checked: false,
-      },
-    };
-    document.getElementById(
-      ButtonHighlightAllAutomatically.buttonIdHtml,
-    ).style.background = styles[style].background;
-    document.getElementById(
-      ButtonHighlightAllAutomatically.buttonIdHtml,
-    ).style.color = styles[style].color;
-    document.getElementById(
-      ButtonHighlightAllAutomatically.buttonIdHtml,
-    ).textContent = styles[style].textContent;
-    document.getElementById(
-      ButtonHighlightAllAutomatically.buttonIdHtml,
-    ).checked = styles[style].checked;
-  }
+function setStyle(buttonIdHtml, style) {
+  console.log("Setting style", style);
+  const styles = {
+    on: {
+      background: "green",
+      color: "lightgray",
+      textContent: "on",
+      checked: true,
+    },
+    off: {
+      background: "gray",
+      color: "lightgray",
+      textContent: "off",
+      checked: false,
+    },
+  };
+  document.getElementById(buttonIdHtml).style.background =
+    styles[style].background;
+  document.getElementById(buttonIdHtml).style.color = styles[style].color;
+  document.getElementById(buttonIdHtml).textContent = styles[style].textContent;
+  document.getElementById(buttonIdHtml).checked = styles[style].checked;
 }
 
 // TODO extract to file (this and other files definition)
