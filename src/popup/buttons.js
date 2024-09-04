@@ -26,27 +26,24 @@ export class ButtonShowLogs extends ButtonOnOff {
 
   async run() {
     console.log(`Clicked button ID Html: ${ButtonShowLogs.buttonIdHtml}`);
-    let value2save;
     if (this.isOn) {
       this.setStyle("off");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateLogs)
         .catch(console.error);
-      value2save = 0;
     } else {
       this.setStyle("on");
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateLogs)
         .catch(console.error);
-      value2save = 1;
     }
     await browser.storage.local
-      .set({ [ButtonShowLogs._buttonIdStorage]: value2save })
+      .set({ [ButtonShowLogs._buttonIdStorage]: this.isOn })
       .then(() => {
         console.log(
-          `The following value has been stored for ${ButtonShowLogs._buttonIdStorage}: ${value2save}`,
+          `The following value has been stored for ${ButtonShowLogs._buttonIdStorage}: ${this.isOn}`,
         );
       }, console.error);
   }
@@ -113,7 +110,7 @@ export class ButtonShowLogs extends ButtonOnOff {
         `Not previous value for ${ButtonShowLogs._buttonIdStorage} was stored`,
       );
     } else {
-      result = storedButtonIdStorage ? true : false;
+      result = storedButtonIdStorage;
     }
     console.log("Is stored on?", result);
     return result;
