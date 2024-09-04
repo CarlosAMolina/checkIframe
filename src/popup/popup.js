@@ -46,7 +46,7 @@ function popupMain() {
 }
 
 function initializePopup() {
-  (new ButtonShowLogs()).initializePopup();
+  new ButtonShowLogs().initializePopup();
   getHighlightAllAutomatically();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
