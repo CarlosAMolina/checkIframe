@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Improve front (nicer front).
+- Change front switches to buttons.
 - More efficient popup attributes.
 - Front text.
 - The sources configuration is hidden until any radio button is clicked.

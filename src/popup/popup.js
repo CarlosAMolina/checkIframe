@@ -1,4 +1,4 @@
-import { ButtonHighlightAllAutomatically as ButtonHighlightAllAutomaticallyNew } from "./buttons.js";
+import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 
 var buttonIdHtml;
@@ -7,7 +7,6 @@ var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
-var highlightAllAutomatically = false;
 function url(type, values) {
   this.type = type;
   this.values = values;
@@ -48,7 +47,7 @@ function popupMain() {
 
 function initializePopup() {
   new ButtonShowLogs().initializePopup();
-  getHighlightAllAutomatically();
+  new ButtonHighlightAllAutomatically().initializePopup();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     getUrls(results);
@@ -87,9 +86,7 @@ function createButton(buttonIdHtml) {
       return new ButtonShowConfig();
     case ButtonShowLogs.buttonIdHtml:
       return new ButtonShowLogs();
-    case ButtonHighlightAllAutomaticallyNew.buttonIdHtml:
-      return new ButtonHighlightAllAutomaticallyNew();
-    case new ButtonHighlightAllAutomatically().buttonIdHtml:
+    case ButtonHighlightAllAutomatically.buttonIdHtml:
       return new ButtonHighlightAllAutomatically();
     case new ButtonUrlsNotify().buttonIdHtml:
       return new ButtonUrlsNotify();
@@ -201,24 +198,6 @@ class ButtonShowConfig extends ButtonClicked {
   }
 }
 
-class ButtonHighlightAllAutomatically extends ButtonClicked {
-  constructor() {
-    super("buttonHighlightAllAutomatically");
-  }
-
-  run() {
-    this.logButtonName;
-    saveHighlightAllAutomatically();
-    values2sendFromPopup = highlightAllAutomatically;
-    // TODO replace with this.buttonIdHtml?
-    info2sendFromPopup = buttonIdHtml;
-    highlightAllAutomatically
-      ? hideElementsForHighlightAllAutomatically()
-      : unhideElementsForHighlightAllAutomatically();
-    sendInfoAndValue(info2sendFromPopup, values2sendFromPopup);
-  }
-}
-
 class ButtonUrlsNotify extends ButtonClicked {
   constructor() {
     super("buttonUrlsNotify");
@@ -283,44 +262,6 @@ class ButtonClearAll extends ButtonClicked {
       .query({ active: true, currentWindow: true })
       .then(clearStorageInfo)
       .catch(reportError);
-  }
-}
-
-function hideElementsForHighlightAllAutomatically() {
-  hideHtmlId("buttonClean");
-  hideHtmlId("buttonScroll");
-}
-function unhideElementsForHighlightAllAutomatically() {
-  unhideHtmlId("buttonClean");
-  unhideHtmlId("buttonScroll");
-}
-
-// TODO refactor move logic change html out of this function.
-function getHighlightAllAutomatically() {
-  var gettingItem = browser.storage.local.get("idHighlightAllAutomatically");
-  // result: empty object if the searched value is not stored
-  gettingItem.then((result) => {
-    // highlight all automatically has never been used
-    if (typeof result.idHighlightAllAutomatically != "undefined") {
-      if (result.idHighlightAllAutomatically) {
-        hideElementsForHighlightAllAutomatically();
-      }
-      changeStateBoxHighlightAllAutomatically(result);
-    }
-  }, reportError);
-
-  // enable/disable
-  function changeStateBoxHighlightAllAutomatically(results) {
-    if (results.idHighlightAllAutomatically) {
-      document.getElementById("buttonHighlightAllAutomatically").checked = true;
-    } else {
-      document.getElementById("buttonHighlightAllAutomatically").checked =
-        false;
-    }
-    sendInfoAndValue(
-      "buttonHighlightAllAutomatically",
-      results.idHighlightAllAutomatically,
-    );
   }
 }
 
@@ -577,20 +518,6 @@ function removeShownStoredUrls() {
   while (infoContainer.firstChild) {
     infoContainer.removeChild(infoContainer.firstChild);
   }
-}
-
-function saveHighlightAllAutomatically() {
-  if (
-    document.getElementById("buttonHighlightAllAutomatically").checked == true
-  ) {
-    highlightAllAutomatically = true;
-  } else {
-    highlightAllAutomatically = false;
-  }
-  var storingInfo = browser.storage.local.set({
-    ["idHighlightAllAutomatically"]: highlightAllAutomatically,
-  });
-  storingInfo.then(() => {});
 }
 
 // Delete url in `var urls`.

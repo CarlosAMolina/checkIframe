@@ -161,12 +161,14 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     );
     if (this.isOn) {
       this.setStyle("off");
+      this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateHighlightAllAutomatically)
         .catch(console.error);
     } else {
       this.setStyle("on");
+      this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateHighlightAllAutomatically)
@@ -185,17 +187,29 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     const mustHighlightAllAutomatically = await this.getIsStoredOn();
     if (mustHighlightAllAutomatically) {
       this.setStyle("on");
+      this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.activateHighlightAllAutomatically)
         .catch(console.error);
     } else {
       this.setStyle("off");
+      this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
         .then(this.deactivateHighlightAllAutomatically)
         .catch(console.error);
     }
+  }
+
+  hideElementsForHighlightAllAutomatically() {
+    hideHtmlId("buttonClean");
+    hideHtmlId("buttonScroll");
+  }
+
+  unhideElementsForHighlightAllAutomatically() {
+    unhideHtmlId("buttonClean");
+    unhideHtmlId("buttonScroll");
   }
 
   get isOn() {
@@ -282,4 +296,13 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
       ButtonHighlightAllAutomatically.buttonIdHtml,
     ).checked = styles[style].checked;
   }
+}
+
+// TODO extract to file (this and other files definition)
+function hideHtmlId(htmlId) {
+  document.querySelector("#" + htmlId).classList.add("hidden");
+}
+
+function unhideHtmlId(htmlId) {
+  document.querySelector("#" + htmlId).classList.remove("hidden");
 }
