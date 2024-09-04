@@ -19,7 +19,7 @@ describe("Check ButtonShowLogs", () => {
       await Promise.all([button.run()]);
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls).toEqual([
-        [{ idShowLogs: 1 }],
+        [{ idShowLogs: true }],
       ]);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
         [1, { info: "buttonShowLogs", values: 1 }],
@@ -38,7 +38,7 @@ describe("Check ButtonShowLogs", () => {
       await Promise.all([button.run()]);
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls).toEqual([
-        [{ idShowLogs: 0 }],
+        [{ idShowLogs: false }],
       ]);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
         [1, { info: "buttonShowLogs", values: 0 }],
@@ -69,7 +69,7 @@ describe("Check ButtonShowLogs", () => {
       runMockDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       browser.storage.local.get = jest.fn(() =>
-        Promise.resolve({ idShowLogs: 1 }),
+        Promise.resolve({ idShowLogs: true }),
       );
       /* end test required configuration */
       const button = new ButtonShowLogs();

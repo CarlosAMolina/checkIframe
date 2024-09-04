@@ -11,7 +11,7 @@ var elementsValidSrcIndex2QuitBorder;
 var invalidSources = [];
 var notifySources = [];
 var refererSources = [];
-var showLogs = 0;
+var showLogs = false;
 var highlightAllAutomatically = 0;
 var tags2Search = ["iframe", "frame"];
 var urlTypeBlacklist = "blacklist";
@@ -69,7 +69,7 @@ function getElementsByTags() {
 
 // logs
 function logs() {
-  if (showLogs == 1) {
+  if (showLogs) {
     console.log("checkIframe) checkAndBorder) tags info: ", elements);
   }
 }
