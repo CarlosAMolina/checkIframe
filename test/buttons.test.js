@@ -1,7 +1,7 @@
 import { ButtonShowLogs } from "../src/popup/buttons.js";
 import { runMockDom } from "./mockDom.js";
 
-describe.only("Check ButtonShowLogs", () => {
+describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
     const button = new ButtonShowLogs();
     expect(button.buttonIdHtml).toBe("buttonShowLogs");
