@@ -529,7 +529,6 @@ describe("Check module import", () => {
         ).toBe("https://foo.com/test.html");
       });
       it("Test click updateBtn", async () => {
-        console.info("*** test start"); // TODO rm
         // TODO move to beforeEach
         popupModule.__set__("urlType", "blacklist");
         const eValue = "https://foo.com/test.html";
