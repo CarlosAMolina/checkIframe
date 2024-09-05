@@ -77,13 +77,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   get isOn() {
-    const element = document.getElementById(ButtonShowLogs.buttonIdHtml);
-    console.log(
-      `Is button ${ButtonShowLogs.buttonIdHtml} checked? ${element.checked}`,
-    );
-    const result = element.checked === undefined ? false : element.checked;
-    console.log(`Is button ${ButtonShowLogs.buttonIdHtml} on? ${result}`);
-    return result;
+    return isOn(ButtonShowLogs.buttonIdHtml);
   }
 
   activateLogs(tabs) {
@@ -202,17 +196,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   get isOn() {
-    const element = document.getElementById(
-      ButtonHighlightAllAutomatically.buttonIdHtml,
-    );
-    console.log(
-      `Is button ${ButtonHighlightAllAutomatically.buttonIdHtml} checked? ${element.checked}`,
-    );
-    const result = element.checked === undefined ? false : element.checked;
-    console.log(
-      `Is button ${ButtonHighlightAllAutomatically.buttonIdHtml} on? ${result}`,
-    );
-    return result;
+    return isOn(ButtonHighlightAllAutomatically.buttonIdHtml);
   }
 
   activateHighlightAllAutomatically(tabs) {
@@ -255,6 +239,14 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     console.log("Is stored on?", result);
     return result;
   }
+}
+
+function isOn(buttonIdHtml) {
+  const element = document.getElementById(buttonIdHtml);
+  console.log(`Is button ${buttonIdHtml} checked? ${element.checked}`);
+  const result = element.checked === undefined ? false : element.checked;
+  console.log(`Is button ${buttonIdHtml} on? ${result}`);
+  return result;
 }
 
 function setStyle(buttonIdHtml, style) {
