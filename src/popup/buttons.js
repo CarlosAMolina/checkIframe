@@ -196,7 +196,6 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
 }
 
 async function getIsStoredOn(buttonIdStorage) {
-  let result = false;
   let resultGetStorage = {};
   try {
     resultGetStorage = await browser.storage.local.get(buttonIdStorage);
@@ -208,11 +207,9 @@ async function getIsStoredOn(buttonIdStorage) {
   console.log(
     `The stored value for ${buttonIdStorage} is ${storedButtonIdStorage}`,
   );
-  if (storedButtonIdStorage === undefined) {
-    console.log(`Not previous value for ${buttonIdStorage} was stored`);
-  } else {
-    result = storedButtonIdStorage;
-  }
+  // storedButtonIdStorage === undefined -> not previous value was stored
+  const result =
+    storedButtonIdStorage === undefined ? false : storedButtonIdStorage;
   console.log("Is stored on?", result);
   return result;
 }
