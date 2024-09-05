@@ -95,30 +95,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   async getIsStoredOn() {
-    let result = false;
-    let resultGetStorage = {};
-    try {
-      resultGetStorage = await browser.storage.local.get(
-        ButtonShowLogs._buttonIdStorage,
-      );
-    } catch (e) {
-      console.error(e);
-    }
-    // The result is an empty object if the searched value is not stored.
-    const storedButtonIdStorage =
-      resultGetStorage[ButtonShowLogs._buttonIdStorage];
-    console.log(
-      `The stored value for ${ButtonShowLogs._buttonIdStorage} is ${storedButtonIdStorage}`,
-    );
-    if (storedButtonIdStorage === undefined) {
-      console.log(
-        `Not previous value for ${ButtonShowLogs._buttonIdStorage} was stored`,
-      );
-    } else {
-      result = storedButtonIdStorage;
-    }
-    console.log("Is stored on?", result);
-    return result;
+    return getIsStoredOn(ButtonShowLogs._buttonIdStorage);
   }
 }
 
