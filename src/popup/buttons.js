@@ -214,31 +214,30 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   async getIsStoredOn() {
-    let result = false;
-    let resultGetStorage = {};
-    try {
-      resultGetStorage = await browser.storage.local.get(
-        ButtonHighlightAllAutomatically._buttonIdStorage,
-      );
-    } catch (e) {
-      console.error(e);
-    }
-    // The result is an empty object if the searched value is not stored.
-    const storedButtonIdStorage =
-      resultGetStorage[ButtonHighlightAllAutomatically._buttonIdStorage];
-    console.log(
-      `The stored value for ${ButtonHighlightAllAutomatically._buttonIdStorage} is ${storedButtonIdStorage}`,
-    );
-    if (storedButtonIdStorage === undefined) {
-      console.log(
-        `Not previous value for ${ButtonHighlightAllAutomatically._buttonIdStorage} was stored`,
-      );
-    } else {
-      result = storedButtonIdStorage;
-    }
-    console.log("Is stored on?", result);
-    return result;
+    return getIsStoredOn(ButtonHighlightAllAutomatically._buttonIdStorage);
   }
+}
+
+async function getIsStoredOn(buttonIdStorage) {
+  let result = false;
+  let resultGetStorage = {};
+  try {
+    resultGetStorage = await browser.storage.local.get(buttonIdStorage);
+  } catch (e) {
+    console.error(e);
+  }
+  // The result is an empty object if the searched value is not stored.
+  const storedButtonIdStorage = resultGetStorage[buttonIdStorage];
+  console.log(
+    `The stored value for ${buttonIdStorage} is ${storedButtonIdStorage}`,
+  );
+  if (storedButtonIdStorage === undefined) {
+    console.log(`Not previous value for ${buttonIdStorage} was stored`);
+  } else {
+    result = storedButtonIdStorage;
+  }
+  console.log("Is stored on?", result);
+  return result;
 }
 
 function isOn(buttonIdHtml) {
