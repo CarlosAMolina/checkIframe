@@ -464,6 +464,8 @@ function changeParagraph(response, htmlId) {
       document.getElementById(htmlId).textContent = response;
     } else if (info2sendFromPopup === "buttonShowSources") {
       cleanShowSources();
+      // TODO USE const htmlStr = 'hola';
+      // TODO USE sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
       for (const sourceTag in response) {
         listSourceTagSummary(sourceTag, response[sourceTag]);
       }
