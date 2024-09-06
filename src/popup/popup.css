@@ -10,8 +10,14 @@ body {
   background-color: white;
   font-size: var(--FONT-SIZE);
   overflow-x: hidden; /* no x-axis scroll */
-  margin: 15px;
-  width: 310px;
+  min-width: 310px;
+  margin: 0 auto; /* TODO? drop auto*/
+}
+
+#popup-content {
+  width: 95%;
+  text-align: center;
+  margin: 10px auto;
 }
 
 /* https://stackoverflow.com/questions/271067/how-can-i-make-a-textarea-100-width-without-overflowing-when-padding-is-present */
