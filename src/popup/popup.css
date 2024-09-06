@@ -11,7 +11,7 @@ body {
   font-size: var(--FONT-SIZE);
   overflow-x: hidden; /* no x-axis scroll */
   min-width: 310px;
-  margin: 0 auto; /* TODO? drop auto*/
+  margin: 0;
 }
 
 #popup-content {
