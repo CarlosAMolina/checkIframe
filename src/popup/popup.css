@@ -2,6 +2,7 @@
   --BUTTON-HEIGHT: 30px;
   --FLEX-PADDING: 5px;
   --FONT-SIZE: 15px;
+  --MARGIN: 10px;
   --SPACE-BETWEEN-SECTIONS: 10px;
   --SQUARE-BUTTON-WIDTH: 30px;
 }
@@ -16,7 +17,7 @@ body {
 
 #popup-content {
   width: 95%;
-  margin: 10px auto;
+  margin: var(--MARGIN) auto;
 }
 
 /* https://stackoverflow.com/questions/271067/how-can-i-make-a-textarea-100-width-without-overflowing-when-padding-is-present */
@@ -109,9 +110,9 @@ input[type="image"]:hover {
 }
 
 #menuConfig {
-  padding: 10px;
+  padding: var(--MARGIN);
 }
 
 #infoTags p {
-  margin: 10px;
+  margin: var(--MARGIN);
 }
