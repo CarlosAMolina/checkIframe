@@ -64,6 +64,7 @@ function setNewElementsMaxWidth() {
     maxWidthCurrentWindow - widthToReduceToAvoidVisualSizeChange;
   const maxWidthNewElementsStr = `${maxWidthNewElements}px`;
   document.getElementById("menuConfig").style.maxWidth = maxWidthNewElementsStr;
+  document.getElementById("infoTags").style.maxWidth = maxWidthNewElementsStr;
 }
 
 function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
