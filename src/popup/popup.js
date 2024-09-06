@@ -46,12 +46,24 @@ function popupMain() {
 }
 
 function initializePopup() {
+  setNewElementsMaxWidth();
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     getUrls(results);
   }, reportError);
+}
+
+// This is necessay to avoid changes in the pop-up width.
+function setNewElementsMaxWidth() {
+  const maxWidthCurrentWindow =
+    document.getElementById("buttonShowConfig").offsetWidth;
+  const widthToReduceToAvoidVisualSizeChange = 5;
+  const maxWidthNewElements =
+    maxWidthCurrentWindow - widthToReduceToAvoidVisualSizeChange;
+  const maxWidthNewElementsStr = `${maxWidthNewElements}px`;
+  document.getElementById("menuConfig").style.maxWidth = maxWidthNewElementsStr;
 }
 
 function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
