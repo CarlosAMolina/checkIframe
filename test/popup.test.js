@@ -737,7 +737,6 @@ describe("Check module import", () => {
       expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
       function_ = popupModule.__get__("listSourceTagSummary");
       function_(tag, sourceTagSummary);
-
       const result = popupModule.__get__("sourcesContainer").innerHTML;
       const expectedResult = getFileContent("html/tags-one-iframe-and-blacklisted.html", "utf8");
       expect(result).toBe(expectedResult);
@@ -751,9 +750,9 @@ describe("Check module import", () => {
       expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
       function_ = popupModule.__get__("listSourceTagSummary");
       function_(tag, sourceTagSummary);
-      expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
-        '<p><u>1 element with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div>',
-      );
+      const result = popupModule.__get__("sourcesContainer").innerHTML;
+      const expectedResult = getFileContent("html/tags-one-iframe.html", "utf8");
+      expect(result).toBe(expectedResult);
     });
     it("Test if more than one value in sourcesValid array", function () {
       const tag = "iframe";
