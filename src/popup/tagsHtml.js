@@ -25,9 +25,7 @@ function getTagHtml(tag, tagSummary) {
 
 function getUrlsHtml(tagSummary) {
     let elements = "";
-    // TODO improve loop (not use index)
-    for (let index = 0; index < tagSummary.sourcesValid.length; index++) {
-      const url = tagSummary.sourcesValid[index];
+    for (const url of tagSummary.sourcesValid) {
       const urlHtml = `<a href="${url}">${url}</a>`
       elements += `\n  <li>${urlHtml}</li>`
     }
