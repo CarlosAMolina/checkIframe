@@ -724,9 +724,9 @@ describe("Check module import", () => {
       expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
       function_ = popupModule.__get__("listSourceTagSummary");
       function_(tag, sourceTagSummary);
-      expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
-        "<p><u>0 elements with tag <b>iframe</b></u><p></p></p>",
-      );
+      const result = popupModule.__get__("sourcesContainer").innerHTML;
+      const expectedResult = getFileContent("html/tags-no-iframe.html", "utf8");
+      expect(result).toBe(expectedResult);
     });
     it("Test if sourcesAllNumber and empty sourcesValid array", function () {
       const tag = "iframe";
