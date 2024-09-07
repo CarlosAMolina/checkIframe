@@ -63,6 +63,8 @@ function setNewElementsMaxWidth() {
   const maxWidthNewElements =
     maxWidthCurrentWindow - widthToReduceToAvoidVisualSizeChange;
   const maxWidthNewElementsStr = `${maxWidthNewElements}px`;
+  // TODO refactor, use for loop
+  document.getElementById("infoScroll").style.maxWidth = maxWidthNewElementsStr;
   document.getElementById("menuConfig").style.maxWidth = maxWidthNewElementsStr;
   document.getElementById("infoTags").style.maxWidth = maxWidthNewElementsStr;
 }
