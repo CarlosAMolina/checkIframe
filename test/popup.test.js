@@ -263,7 +263,7 @@ describe("Check module import", () => {
                 response: {
                   frame: {
                     sourcesAllNumber: 2,
-                    sourcesValid: ["https://test.com", "about:blank"],
+                    sourcesValid: ["https://frame1.com", "about:blank"],
                   },
                   iframe: { sourcesAllNumber: 0, sourcesValid: [] },
                 },
@@ -694,12 +694,15 @@ describe("Check module import", () => {
     function_(tabs);
   });
   it("changeParagraph runs without error", function () {
-    // Function tested in other buttons' tests.
-    const sourceTagSummary = {
-      sourcesAllNumber: 0,
-      sourcesValid: [],
-    };
-    const response = { foo: sourceTagSummary };
+      const frameTagsSummary = {
+        sourcesAllNumber: 2,
+        sourcesValid: ["https://frame1.com", "about:blank"],
+      };
+      const iframeTagsSummary = {
+        sourcesAllNumber: 0,
+        sourcesValid: [],
+      };
+      const response = { frame: frameTagsSummary, iframe: iframeTagsSummary };
     const htmlId = "infoTags";
     popupModule.__set__("info2sendFromPopup", "buttonShowSources");
     function_ = popupModule.__get__("changeParagraph");
