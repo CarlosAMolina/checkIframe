@@ -281,7 +281,7 @@ describe("Check module import", () => {
             await Promise.all([button.run()]);
             runAfterRunExpects();
             const result = popupModule.__get__("sourcesContainer").innerHTML;
-            const expectedResult = getFileContent("html/tags-iframe.html", "utf8");
+            const expectedResult = getFileContent("html/tags-multiple-iframe.html", "utf8");
             expect(result).toBe(expectedResult);
           });
         });
