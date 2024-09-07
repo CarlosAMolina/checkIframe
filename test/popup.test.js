@@ -1,6 +1,4 @@
-import fs from "fs";
-import path from "path";
-
+import { getFileContent } from "./readFile.js";
 import { runMockDom } from "./mockDom.js";
 
 function mockBrowser() {
@@ -918,12 +916,4 @@ function initializeMocks() {
   global.browser = mockBrowser();
   const popupJsPathName = "../src/popup/popup.js";
   popupModule = require(popupJsPathName);
-}
-
-// TODO extrat to file, This function and all functions in other files.
-function getFileContent(fileRelativePath) {
-  const fileAbsolutePath = path.resolve(__dirname, fileRelativePath);
-  let result = fs.readFileSync(fileAbsolutePath, "utf8");
-  result = result.trim();
-  return result;
 }
