@@ -1,5 +1,6 @@
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { getStrTagsHtml } from "./tagsHtml.js";
 
 var buttonIdHtml;
 let htmlIdToChange;
@@ -448,6 +449,7 @@ function sendInfoAndValue(info2send, value2send) {
     .catch(reportError);
 }
 
+// TODO move login to the buttons.
 function sendInfoSaveAndShowAnswer(tabs) {
   tabs.forEach(function (arrayValues) {
     browser.tabs
@@ -469,11 +471,14 @@ function changeParagraph(response, htmlId) {
       document.getElementById(htmlId).textContent = response;
     } else if (info2sendFromPopup === "buttonShowSources") {
       cleanShowSources();
-      // TODO USE const htmlStr = 'hola';
-      // TODO USE sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
-      for (const sourceTag in response) {
-        listSourceTagSummary(sourceTag, response[sourceTag]);
-      }
+      const frameTagSummary = response["frame"];
+      const iframeTagSummary = response["iframe"]
+      const htmlStr = getStrTagsHtml(frameTagSummary, iframeTagSummary);
+      sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
+      // TODO rm old functions
+      //for (const sourceTag in response) {
+      //  listSourceTagSummary(sourceTag, response[sourceTag]);
+      //}
     }
   }
 }
