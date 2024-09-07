@@ -3,7 +3,11 @@ export function getStrTagsHtml(frameTagSummary, iframeTagSummary) {
     let result = `<p>Total number of frames and iframes: ${countDetectedTags}</p>`;
     if (countDetectedTags > 0) {
         result += '\n';
+        result += '<p><u>Frame elements</u></p>';
+        result += '\n';
         result += getTagHtml("frame", frameTagSummary);
+        result += '\n';
+        result += '<p><u>IFrame elements</u></p>';
         result += '\n';
         result += getTagHtml("iframe", iframeTagSummary);
     }
