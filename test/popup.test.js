@@ -173,12 +173,14 @@ describe("Check module import", () => {
       });
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoScroll").classList.remove("hidden");
-        expect(document.getElementById("infoScroll").className).toBe("section");
+        expect(document.getElementById("infoScroll").className).toBe(
+          "section backgroundGrey",
+        );
         await button.run();
         const buttonIdHtml = "buttonClean";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoScroll").className).toBe(
-          "section hidden",
+          "section backgroundGrey hidden",
         );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -228,7 +230,9 @@ describe("Check module import", () => {
         });
         function runBeforeRunExpects() {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
-          expect(infoScrollBeforeRun.className).toBe("section hidden");
+          expect(infoScrollBeforeRun.className).toBe(
+            "section backgroundGrey hidden",
+          );
           expect(infoScrollBeforeRun.textContent).toBe("");
           expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
         }
@@ -237,7 +241,7 @@ describe("Check module import", () => {
             "buttonScroll",
           );
           expect(document.getElementById("infoScroll").className).toBe(
-            "section",
+            "section backgroundGrey",
           );
           expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
@@ -630,9 +634,13 @@ describe("Check module import", () => {
   it("unhideHtmlId removes class", function () {
     function_ = popupModule.__get__("unhideHtmlId");
     const htmlId = "infoScroll";
-    expect(document.getElementById(htmlId).className).toBe("section hidden");
+    expect(document.getElementById(htmlId).className).toBe(
+      "section backgroundGrey hidden",
+    );
     function_(htmlId);
-    expect(document.getElementById(htmlId).className).toBe("section");
+    expect(document.getElementById(htmlId).className).toBe(
+      "section backgroundGrey",
+    );
   });
   describe("Check sendInfo", () => {
     beforeEach(() => {

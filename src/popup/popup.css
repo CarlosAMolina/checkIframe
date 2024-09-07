@@ -109,11 +109,11 @@ input[type="image"]:hover {
   background: rgb(240, 240, 240);
 }
 
+#infoScroll,
 #menuConfig {
   padding: var(--MARGIN);
 }
 
-#infoScroll,
 #infoTags p {
   margin: var(--MARGIN);
 }
