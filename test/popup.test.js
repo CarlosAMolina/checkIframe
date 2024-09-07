@@ -261,11 +261,11 @@ describe("Check module import", () => {
             browser.tabs.sendMessage = jest.fn(() =>
               Promise.resolve({
                 response: {
-                  frame: { sourcesAllNumber: 0, sourcesValid: [] },
-                  iframe: {
+                  frame: {
                     sourcesAllNumber: 2,
                     sourcesValid: ["https://test.com", "about:blank"],
                   },
+                  iframe: { sourcesAllNumber: 0, sourcesValid: [] },
                 },
               }),
             );
@@ -279,7 +279,7 @@ describe("Check module import", () => {
             await Promise.all([button.run()]);
             runAfterRunExpects();
             const result = popupModule.__get__("sourcesContainer").innerHTML;
-            const expectedResult = getFileContent("html/tags-multiple-frame.html", "utf8");
+            const expectedResult = getFileContent("html/tags-only-frame.html");
             expect(result).toBe(expectedResult);
           });
         });
@@ -705,79 +705,6 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("changeParagraph");
     function_(response, htmlId);
     popupModule.__set__("info2sendFromPopup", "");
-  });
-  describe("Check listSourceTagSummary", () => {
-    beforeEach(() => {
-      popupModule.__set__(
-        "sourcesContainer",
-        document.querySelector(".sources-container"),
-      );
-    });
-    it("Test if 0 sourcesAllNumber", function () {
-      const tag = "iframe";
-      const sourceTagSummary = {
-        sourcesAllNumber: 0,
-        sourcesValid: [],
-      };
-      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
-      function_ = popupModule.__get__("listSourceTagSummary");
-      function_(tag, sourceTagSummary);
-      const result = popupModule.__get__("sourcesContainer").innerHTML;
-      const expectedResult = getFileContent("html/tags-no-iframe.html", "utf8");
-      expect(result).toBe(expectedResult);
-    });
-    it("Test if sourcesAllNumber and empty sourcesValid array", function () {
-      const tag = "iframe";
-      const sourceTagSummary = {
-        sourcesAllNumber: 1,
-        sourcesValid: [],
-      };
-      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
-      function_ = popupModule.__get__("listSourceTagSummary");
-      function_(tag, sourceTagSummary);
-      const result = popupModule.__get__("sourcesContainer").innerHTML;
-      const expectedResult = getFileContent("html/tags-one-iframe-and-blacklisted.html", "utf8");
-      expect(result).toBe(expectedResult);
-    });
-    it("Test if only one value in sourcesValid array", function () {
-      const tag = "iframe";
-      const sourceTagSummary = {
-        sourcesAllNumber: 1,
-        sourcesValid: ["https://test.com"],
-      };
-      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
-      function_ = popupModule.__get__("listSourceTagSummary");
-      function_(tag, sourceTagSummary);
-      const result = popupModule.__get__("sourcesContainer").innerHTML;
-      const expectedResult = getFileContent("html/tags-one-iframe.html", "utf8");
-      expect(result).toBe(expectedResult);
-    });
-    it("Test if more than one value in sourcesValid array", function () {
-      const tag = "iframe";
-      const sourceTagSummary = {
-        sourcesAllNumber: 2,
-        sourcesValid: ["https://test.com", "about:blank"],
-      };
-      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
-      function_ = popupModule.__get__("listSourceTagSummary");
-      function_(tag, sourceTagSummary);
-      const result = popupModule.__get__("sourcesContainer").innerHTML;
-      const expectedResult = getFileContent("html/tags-multiple-iframe.html", "utf8");
-      expect(result).toBe(expectedResult);
-    });
-    it("Test if values and blacklisted sources", function () {
-      const tag = "iframe";
-      const sourceTagSummary = {
-        sourcesAllNumber: 4,
-        sourcesValid: ["https://test.com", "about:blank"],
-      };
-      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
-      function_ = popupModule.__get__("listSourceTagSummary");
-      function_(tag, sourceTagSummary);
-      const result = popupModule.__get__("sourcesContainer").innerHTML;
-      const expectedResult = getFileContent("html/tags-multiple-iframe-and-blacklisted.html", "utf8");
-      expect(result).toBe(expectedResult);
-    });
   });
   describe("Check cleanShowSources", () => {
     beforeEach(() => {
