@@ -113,6 +113,7 @@ input[type="image"]:hover {
   padding: var(--MARGIN);
 }
 
+#infoScroll,
 #infoTags p {
   margin: var(--MARGIN);
 }
