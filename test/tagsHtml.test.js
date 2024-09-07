@@ -15,6 +15,19 @@ describe.only("Check getTagsHtml", () => {
       const expectedResult = getFileContent("html/tags-no-results.html");
       expect(result).toBe(expectedResult);
   });
+  it("Check expected HTML if only frame", function () {
+      const frameTagsSummary = {
+        sourcesAllNumber: 2,
+        sourcesValid: ["https://frame1.com", "about:blank"],
+      };
+      const iframeTagsSummary = {
+        sourcesAllNumber: 0,
+        sourcesValid: [],
+      };
+      const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
+      const expectedResult = getFileContent("html/tags-only-frame.html");
+      expect(result).toBe(expectedResult);
+  });
   it("Check expected HTML if multiple frame and iframe tags", function () {
       const frameTagsSummary = {
         sourcesAllNumber: 2,
