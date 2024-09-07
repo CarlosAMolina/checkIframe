@@ -148,13 +148,13 @@ describe("Check module import", () => {
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoTags").classList.remove("hidden");
         expect(document.getElementById("infoTags").className).toBe(
-          "section sources-container",
+          "section backgroundGrey sources-container",
         );
         await button.run();
         const buttonIdHtml = "buttonRecheck";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoTags").className).toBe(
-          "section sources-container hidden",
+          "section backgroundGrey sources-container hidden",
         );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -305,7 +305,7 @@ describe("Check module import", () => {
       function runBeforeRunExpects() {
         const infoScrollBeforeRun = document.getElementById("infoTags");
         expect(infoScrollBeforeRun.className).toBe(
-          "section sources-container hidden",
+          "section backgroundGrey sources-container hidden",
         );
         expect(infoScrollBeforeRun.textContent).toBe("");
         expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
@@ -315,7 +315,7 @@ describe("Check module import", () => {
           "buttonShowSources",
         );
         expect(document.getElementById("infoTags").className).toBe(
-          "section sources-container",
+          "section backgroundGrey sources-container",
         );
         expect(popupModule.__get__("htmlIdToChange")).toEqual("infoTags");
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);

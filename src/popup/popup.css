@@ -110,10 +110,15 @@ input[type="image"]:hover {
 }
 
 #infoScroll,
+#infoTags,
 #menuConfig {
   padding: var(--MARGIN);
 }
 
-#infoTags p {
-  margin: var(--MARGIN);
+#infoTags li,
+p {
+  margin-bottom: var(--MARGIN);
+}
+#infoTags p:last-child {
+  margin-bottom: 0px;
 }
