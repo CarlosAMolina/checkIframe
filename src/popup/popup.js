@@ -458,7 +458,10 @@ function sendInfoSaveAndShowAnswer(tabs) {
 }
 
 function changeParagraph(response, htmlId) {
-  if (typeof response !== "undefined") {
+  if (response === undefined) {
+    document.getElementById(htmlId).textContent =
+      "No info received from the content script.";
+  } else {
     // check if the content-script response has been received
     if (info2sendFromPopup === "buttonScroll") {
       document.getElementById(htmlId).textContent = response;
@@ -470,9 +473,6 @@ function changeParagraph(response, htmlId) {
         listSourceTagSummary(sourceTag, response[sourceTag]);
       }
     }
-  } else {
-    document.getElementById(htmlId).textContent =
-      "No info received from the content script.";
   }
 }
 
