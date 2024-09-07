@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 import { runMockDom } from "./mockDom.js";
 
 function mockBrowser() {
@@ -277,11 +280,9 @@ describe("Check module import", () => {
             ).toBe("foo");
             await Promise.all([button.run()]);
             runAfterRunExpects();
-            const expectedResult =
-              '<p><u>0 elements with tag <b>frame</b></u><p></p></p><p><u>2 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>';
-            expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
-              expectedResult,
-            );
+            const result = popupModule.__get__("sourcesContainer").innerHTML;
+            const expectedResult = getFileContent("tags-iframe.html", "utf8");
+            expect(result).toBe(expectedResult);
           });
         });
         describe("Check if undefined response.response", () => {
@@ -917,4 +918,12 @@ function initializeMocks() {
   global.browser = mockBrowser();
   const popupJsPathName = "../src/popup/popup.js";
   popupModule = require(popupJsPathName);
+}
+
+// TODO extrat to file, This function and all functions in other files.
+function getFileContent(fileRelativePath) {
+  const fileAbsolutePath = path.resolve(__dirname, fileRelativePath);
+  let result = fs.readFileSync(fileAbsolutePath, "utf8");
+  result = result.trim();
+  return result;
 }
