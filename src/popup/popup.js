@@ -564,7 +564,7 @@ function addUrl(eKey) {
 // save input box info
 function saveUrl(enterKey) {
   info2save = document
-    .querySelector('div.backgroundGrey textarea[id="inputUrl"]')
+    .querySelector('textarea[id="inputUrl"]')
     .value.split("\n");
   if (enterKey == 1) {
     info2save.pop(); // delete last value (\n)
