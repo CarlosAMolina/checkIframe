@@ -472,7 +472,7 @@ function changeParagraph(response, htmlId) {
     } else if (info2sendFromPopup === "buttonShowSources") {
       cleanShowSources();
       const frameTagSummary = response["frame"];
-      const iframeTagSummary = response["iframe"]
+      const iframeTagSummary = response["iframe"];
       const htmlStr = getStrTagsHtml(frameTagSummary, iframeTagSummary);
       sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
       // TODO rm old functions

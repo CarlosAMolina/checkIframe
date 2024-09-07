@@ -694,15 +694,15 @@ describe("Check module import", () => {
     function_(tabs);
   });
   it("changeParagraph runs without error", function () {
-      const frameTagsSummary = {
-        sourcesAllNumber: 2,
-        sourcesValid: ["https://frame1.com", "about:blank"],
-      };
-      const iframeTagsSummary = {
-        sourcesAllNumber: 0,
-        sourcesValid: [],
-      };
-      const response = { frame: frameTagsSummary, iframe: iframeTagsSummary };
+    const frameTagsSummary = {
+      sourcesAllNumber: 2,
+      sourcesValid: ["https://frame1.com", "about:blank"],
+    };
+    const iframeTagsSummary = {
+      sourcesAllNumber: 0,
+      sourcesValid: [],
+    };
+    const response = { frame: frameTagsSummary, iframe: iframeTagsSummary };
     const htmlId = "infoTags";
     popupModule.__set__("info2sendFromPopup", "buttonShowSources");
     function_ = popupModule.__get__("changeParagraph");
