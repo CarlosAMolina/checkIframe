@@ -460,7 +460,7 @@ function sendInfoSaveAndShowAnswer(tabs) {
 function changeParagraph(response, htmlId) {
   if (response === undefined) {
     document.getElementById(htmlId).textContent =
-      "No info received from the content script.";
+      "Internal error. The action could not be executed";
   } else {
     // check if the content-script response has been received
     if (info2sendFromPopup === "buttonScroll") {

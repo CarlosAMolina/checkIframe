@@ -221,7 +221,7 @@ describe("Check module import", () => {
             await Promise.all([button.run()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
-              "No info received from the content script.",
+              "Internal error. The action could not be executed",
             );
           });
         });
@@ -292,7 +292,7 @@ describe("Check module import", () => {
             await Promise.all([button.run()]);
             runAfterRunExpects();
             expect(document.getElementById("infoTags").textContent).toBe(
-              "No info received from the content script.",
+              "Internal error. The action could not be executed",
             );
           });
         });
