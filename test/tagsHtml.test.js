@@ -28,4 +28,17 @@ describe.only("Check getTagsHtml", () => {
       const expectedResult = getFileContent("html/tags-multiple-frame-and-iframe.html");
       expect(result).toBe(expectedResult);
   });
+  it("Check expected HTML if multiple frame and iframe tags but blacklisted", function () {
+      const frameTagsSummary = {
+        sourcesAllNumber: 2,
+        sourcesValid: [],
+      };
+      const iframeTagsSummary = {
+        sourcesAllNumber: 3,
+        sourcesValid: [],
+      };
+      const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
+      const expectedResult = getFileContent("html/tags-multiple-frame-and-iframe-blacklisted.html");
+      expect(result).toBe(expectedResult);
+  });
 });

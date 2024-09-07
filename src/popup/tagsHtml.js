@@ -11,16 +11,21 @@ export function getStrTagsHtml(frameTagSummary, iframeTagSummary) {
 }
 
 function getTagHtml(tag, tagSummary) {
-    let result = `<p>Total number of ${tag}s: ${tagSummary.sourcesValid.length}</p>`;
+    let result = `<p>Total number of ${tag}s: ${tagSummary.sourcesAllNumber}</p>`;
     result += '\n';
-    result += `<p>Not blacklisted ${tag}s (${tagSummary.sourcesValid.length}):</p>`;
-    result += '\n';
-    result += getUrlsHtml(tagSummary);
+    if (tagSummary.sourcesValid.length == 0) {
+      result += `<p>All ${tag}s are blacklisted</p>`;
+    } else {
+      result += `<p>Not blacklisted ${tag}s (${tagSummary.sourcesValid.length}):</p>`;
+      result += '\n';
+      result += getUrlsHtml(tagSummary);
+    }
     return result
 }
 
 function getUrlsHtml(tagSummary) {
     let elements = "";
+    // TODO improve loop (not use index)
     for (let index = 0; index < tagSummary.sourcesValid.length; index++) {
       const url = tagSummary.sourcesValid[index];
       const urlHtml = `<a href="${url}">${url}</a>`
