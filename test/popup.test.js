@@ -277,8 +277,10 @@ describe("Check module import", () => {
             ).toBe("foo");
             await Promise.all([button.run()]);
             runAfterRunExpects();
+            const expectedResult =
+              '<p><u>0 elements with tag <b>frame</b></u><p></p></p><p><u>2 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>';
             expect(popupModule.__get__("sourcesContainer").innerHTML).toBe(
-              '<p><u>0 elements with tag <b>frame</b></u><p></p></p><p><u>2 elements with tag <b>iframe</b></u><p>Sources (not blacklisted):</p></p><div><p>1 - <a href="https://test.com">https://test.com</a></p></div><div><p>2 - <a href="about:blank">about:blank</a></p></div>',
+              expectedResult,
             );
           });
         });
