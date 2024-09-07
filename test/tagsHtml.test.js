@@ -2,7 +2,20 @@ import { getStrTagsHtml } from "../src/popup/tagsHtml.js";
 import { getFileContent } from "./readFile.js";
 
 describe.only("Check getTagsHtml", () => {
-  it("Check expected HTML", function () {
+  it("Check expected HTML if no frame or iframe tags", function () {
+      const frameTagsSummary = {
+        sourcesAllNumber: 0,
+        sourcesValid: [],
+      };
+      const iframeTagsSummary = {
+        sourcesAllNumber: 0,
+        sourcesValid: [],
+      };
+      const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
+      const expectedResult = getFileContent("html/tags-no-results.html");
+      expect(result).toBe(expectedResult);
+  });
+  it("Check expected HTML if multiple frame and iframe tags", function () {
       const frameTagsSummary = {
         sourcesAllNumber: 2,
         sourcesValid: ["https://frame1.com", "about:blank"],
