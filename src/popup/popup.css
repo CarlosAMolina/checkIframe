@@ -124,6 +124,7 @@ p + p {
   margin-bottom: 0px;
 }
 
-#infoTags {
+#infoTags,
+#menuConfig {
   overflow: auto;
 }
