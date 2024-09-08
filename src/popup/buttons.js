@@ -81,10 +81,12 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   activateLogs(tabs) {
-    browser.tabs.sendMessage(tabs[0].id, {
-      info: ButtonShowLogs.buttonIdHtml,
-      values: 1,
-    });
+    browser.tabs
+      .sendMessage(tabs[0].id, {
+        info: ButtonShowLogs.buttonIdHtml,
+        values: 1,
+      })
+      .catch(console.error);
   }
 
   deactivateLogs(tabs) {
@@ -184,10 +186,12 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   deactivateHighlightAllAutomatically(tabs) {
-    browser.tabs.sendMessage(tabs[0].id, {
-      info: ButtonHighlightAllAutomatically.buttonIdHtml,
-      values: 0,
-    });
+    browser.tabs
+      .sendMessage(tabs[0].id, {
+        info: ButtonHighlightAllAutomatically.buttonIdHtml,
+        values: 0,
+      })
+      .catch(console.error);
   }
 
   async getIsStoredOn() {
