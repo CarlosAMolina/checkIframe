@@ -11,9 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Improve front (nicer front).
-- Front text.
-- Improve the informative text of the popup.
-- Improve the text of the icon titles.
+- Front text:
+  - Improve the (i)frames informative text of the popup.
+  - Improve the text of the icon titles.
+  - Change some text.
 - Change front switches to buttons.
 - More efficient popup attributes.
 - The sources configuration is hidden until any radio button is clicked.
