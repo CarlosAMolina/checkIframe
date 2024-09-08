@@ -148,13 +148,13 @@ describe("Check module import", () => {
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoTags").classList.remove("hidden");
         expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGrey sources-container",
+          "section backgroundGray sources-container",
         );
         await button.run();
         const buttonIdHtml = "buttonRecheck";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGrey sources-container hidden",
+          "section backgroundGray sources-container hidden",
         );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -174,13 +174,13 @@ describe("Check module import", () => {
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoScroll").classList.remove("hidden");
         expect(document.getElementById("infoScroll").className).toBe(
-          "section backgroundGrey",
+          "section backgroundGray",
         );
         await button.run();
         const buttonIdHtml = "buttonClean";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoScroll").className).toBe(
-          "section backgroundGrey hidden",
+          "section backgroundGray hidden",
         );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -231,7 +231,7 @@ describe("Check module import", () => {
         function runBeforeRunExpects() {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
           expect(infoScrollBeforeRun.className).toBe(
-            "section backgroundGrey hidden",
+            "section backgroundGray hidden",
           );
           expect(infoScrollBeforeRun.textContent).toBe("");
           expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
@@ -241,7 +241,7 @@ describe("Check module import", () => {
             "buttonScroll",
           );
           expect(document.getElementById("infoScroll").className).toBe(
-            "section backgroundGrey",
+            "section backgroundGray",
           );
           expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
@@ -305,7 +305,7 @@ describe("Check module import", () => {
       function runBeforeRunExpects() {
         const infoScrollBeforeRun = document.getElementById("infoTags");
         expect(infoScrollBeforeRun.className).toBe(
-          "section backgroundGrey sources-container hidden",
+          "section backgroundGray sources-container hidden",
         );
         expect(infoScrollBeforeRun.textContent).toBe("");
         expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
@@ -315,7 +315,7 @@ describe("Check module import", () => {
           "buttonShowSources",
         );
         expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGrey sources-container",
+          "section backgroundGray sources-container",
         );
         expect(popupModule.__get__("htmlIdToChange")).toEqual("infoTags");
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
@@ -333,11 +333,11 @@ describe("Check module import", () => {
       });
       it("Check run has expected calls and values", function () {
         expect(document.getElementById("menuConfig").className).toBe(
-          "section backgroundGrey hidden",
+          "section backgroundGray hidden",
         );
         button.run();
         expect(document.getElementById("menuConfig").className).toBe(
-          "section backgroundGrey",
+          "section backgroundGray",
         );
       });
     });
@@ -635,11 +635,11 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("unhideHtmlId");
     const htmlId = "infoScroll";
     expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGrey hidden",
+      "section backgroundGray hidden",
     );
     function_(htmlId);
     expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGrey",
+      "section backgroundGray",
     );
   });
   describe("Check sendInfo", () => {
