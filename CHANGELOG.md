@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - More efficient popup attributes.
 - The sources configuration is hidden until any radio button is clicked.
 - Refactor code. For example, extract code to new files.
+- Update docs.
 
 ### Fixed
 - Add horizontal scrollbar in case of long paragraphs, to avoid paragraphs outside the parent elements.
