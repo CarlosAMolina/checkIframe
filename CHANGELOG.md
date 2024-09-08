@@ -11,12 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Improve front (nicer front).
+- Front text.
 - Improve the informative text of the popup.
 - Improve the text of the icon titles.
 - Change front switches to buttons.
 - More efficient popup attributes.
-- Front text.
 - The sources configuration is hidden until any radio button is clicked.
+- Refactor code. For example, extract code to new files.
 
 ### Fixed
 - Add horizontal scrollbar in case of long paragraphs, to avoid paragraphs outside the parent elements.
