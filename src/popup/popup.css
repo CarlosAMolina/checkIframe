@@ -115,10 +115,11 @@ input[type="image"]:hover {
   padding: var(--MARGIN);
 }
 
-#infoTags li,
-p {
-  margin-bottom: var(--MARGIN);
+/* https://stackoverflow.com/questions/10309408/how-to-add-vertical-spacing-between-block-elements-but-not-top-and-bottom */
+#infoTags li + li,
+p + p {
+  margin-top: var(--MARGIN);
 }
-#infoTags p:last-child {
+#infoTags ol {
   margin-bottom: 0px;
 }
