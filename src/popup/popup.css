@@ -124,6 +124,7 @@ p + p {
   margin-bottom: 0px;
 }
 
+/* Horizontal scrollbar for long paragraphs */
 #infoTags,
 #menuConfig {
   overflow: auto;
