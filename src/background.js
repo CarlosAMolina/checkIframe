@@ -54,9 +54,9 @@ function updateActiveTab() {
 // update browserAction icon to reflect if the current web page has any of the searched tags
 function updateIcon(title) {
   console.log("Init updateIcon");
-  if (title == "resultsYES") {
+  if (title == "Web page with (i)frames") {
     change2iconOn();
-  } else if (title == "resultsYESsourceInList") {
+  } else if (title == "Detected special (i)frame to notify") {
     change2iconOnInList();
   } else {
     change2iconOff();
@@ -95,13 +95,13 @@ function changeTitle() {
 // update addon title
 function updateTitle() {
   if (supportedProtocol == 0) {
-    titleIcon = "notSupportedWebPage";
+    titleIcon = "This web page cannot be analyzed";
   } else if (tagsExist == 2) {
-    titleIcon = "resultsYESsourceInList";
+    titleIcon = "Detected special (i)frame to notify";
   } else if (tagsExist == 1) {
-    titleIcon = "resultsYES";
+    titleIcon = "Web page with (i)frames";
   } else if (tagsExist == 0) {
-    titleIcon = "resultsNO";
+    titleIcon = "No (i)frames on the web page";
   }
   changeTitle();
 }
