@@ -217,7 +217,7 @@ initializeContentScript();
       setBorderOfElement(elementToSetBorder);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
-    var indexInfo = "Web page without sources.";
+    var indexInfo = "No elements to show";
     if (elements.length != 0) {
       getElementsValidSrc();
       if (elementsValidSrc.length != 0) {
