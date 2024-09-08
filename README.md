@@ -28,27 +28,3 @@ You can install the Firefox add-on at:
 Please, read the docs to know how to configure the add-on, work with it and more information:
 
 <https://cmoli.es/projects/check-iframe/introduction.html>
-
-## Testing
-
-### Initial steps
-
-In the same path as the `package.json` file, install the requirements:
-
-```bash
-npm install
-```
-
-### Run tests
-
-```bash
-npm test
-```
-
-### Development
-
-Load extension in the browser:
-
-```bash
-npm run web-ext
-```
