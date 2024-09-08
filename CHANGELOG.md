@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [TODO] - TODO
 ### Added
-- Automatic highlighting all iframes.
+- Automatic highlighting (i)frames.
 
 ### Changed
 - Improve front (nicer front).
