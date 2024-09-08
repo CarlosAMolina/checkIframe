@@ -13,7 +13,7 @@
   "permissions": ["activeTab", "storage", "tabs"],
 
   "browser_action": {
-    "default_icon": "icons/i_blue.png",
+    "default_icon": "icons/i_gray.png",
     "default_title": "CheckIframe",
     "default_popup": "popup/popup.html"
   },

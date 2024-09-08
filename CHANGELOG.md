@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Improve the (i)frames informative text of the popup.
   - Improve the text of the icon titles.
   - Change some text.
+- Popup icon gray instead of blue.
 - Now the popup shows a message and the configuration button when the web page cannot be analyzed.
 - Change front switches to buttons.
 - More efficient popup attributes.
