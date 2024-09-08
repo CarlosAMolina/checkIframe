@@ -411,12 +411,18 @@ function unhideHtmlId(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
-// TODO add then-catch?
 function sendInfo(tabs) {
-  browser.tabs.sendMessage(tabs[0].id, {
-    info: info2sendFromPopup,
-    values: values2sendFromPopup,
-  });
+  browser.tabs
+    .sendMessage(tabs[0].id, {
+      info: info2sendFromPopup,
+      values: values2sendFromPopup,
+    })
+    .catch(onSendInfoError);
+}
+
+function onSendInfoError(error) {
+  console.error(error);
+  updateElementsWhenIncompatibleWebPage();
 }
 
 function showOrHideInfo(htmlId) {
@@ -562,12 +568,12 @@ function reportError(error) {
 function reportExecuteScriptError(error) {
   // TODO replace with reportError
   console.error(`Failed to check this web page: ${error.message}`);
-  document.querySelector("#error-content").classList.remove("hidden");
-  hideElementsWhenIncompatibleWebPage();
+  updateElementsWhenIncompatibleWebPage();
   popupMain();
 }
 
-function hideElementsWhenIncompatibleWebPage() {
+function updateElementsWhenIncompatibleWebPage() {
+  document.querySelector("#error-content").classList.remove("hidden");
   const elementsToHide = [
     "#popup-content div.oneLineButtons",
     "#infoScroll",
