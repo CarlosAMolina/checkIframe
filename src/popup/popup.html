@@ -9,6 +9,9 @@
   <!-- TODO add margin without using section class-->
   <body>
     <div id="popup-content">
+      <div id="error-content" class="hidden">
+        <p>Can't check this web page. Try another</p>
+      </div>
       <div class="oneLineButtons">
         <input
           id="buttonRecheck"
@@ -90,10 +93,6 @@
         </div>
         <div class="info-container"></div>
       </div>
-    </div>
-    <div id="error-content" class="hidden">
-      <p>Can't check this web page.</p>
-      <p>Try another.</p>
     </div>
     <script type="module" src="popup.js"></script>
   </body>

@@ -560,10 +560,22 @@ function reportError(error) {
 // there was an error executing the script.
 // display the pop-up's error message, and hide the normal UI.
 function reportExecuteScriptError(error) {
-  document.querySelector("#popup-content").classList.add("hidden");
-  document.querySelector("#error-content").classList.remove("hidden");
   // TODO replace with reportError
   console.error(`Failed to check this web page: ${error.message}`);
+  document.querySelector("#error-content").classList.remove("hidden");
+  hideElementsWhenIncompatibleWebPage();
+  popupMain();
+}
+
+function hideElementsWhenIncompatibleWebPage() {
+  const elementsToHide = [
+    "#popup-content div.oneLineButtons",
+    "#infoScroll",
+    "#buttonShowSources",
+  ];
+  for (const element of elementsToHide) {
+    document.querySelector(element).classList.add("hidden");
+  }
 }
 
 // when the pop-up loads, inject a content script into the active tab,
