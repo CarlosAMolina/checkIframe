@@ -123,3 +123,7 @@ p + p {
 #infoTags ol {
   margin-bottom: 0px;
 }
+
+#infoTags {
+  overflow: auto;
+}
