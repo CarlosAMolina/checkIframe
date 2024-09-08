@@ -56,7 +56,7 @@ function updateIcon(title) {
   console.log("Init updateIcon");
   if (title == "Web page with (i)frames") {
     change2iconOn();
-  } else if (title == "Detected special (i)frame to notify") {
+  } else if (title == "Detected special (i)frames to notify") {
     change2iconOnInList();
   } else {
     change2iconOff();
@@ -97,7 +97,7 @@ function updateTitle() {
   if (supportedProtocol == 0) {
     titleIcon = "This web page cannot be analyzed";
   } else if (tagsExist == 2) {
-    titleIcon = "Detected special (i)frame to notify";
+    titleIcon = "Detected special (i)frames to notify";
   } else if (tagsExist == 1) {
     titleIcon = "Web page with (i)frames";
   } else if (tagsExist == 0) {
