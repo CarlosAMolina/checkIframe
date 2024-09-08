@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Improve front (nicer front).
 - Improve the informative text of the popup.
+- Improve the text of the icon titles.
 - Change front switches to buttons.
 - More efficient popup attributes.
 - Front text.
