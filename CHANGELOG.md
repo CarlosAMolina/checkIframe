@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Front text.
 - The sources configuration is hidden until any radio button is clicked.
 
+### Fixed
+- Add horizontal scrollbar in case of long paragraphs, to avoid paragraphs outside the parent elements.
+
 ## [1.5.0] - 2024-08-16
 ### Added
 - Android support.
