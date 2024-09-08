@@ -475,57 +475,7 @@ function changeParagraph(response, htmlId) {
       const iframeTagSummary = response["iframe"];
       const htmlStr = getStrTagsHtml(frameTagSummary, iframeTagSummary);
       sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
-      // TODO rm old functions
-      //for (const sourceTag in response) {
-      //  listSourceTagSummary(sourceTag, response[sourceTag]);
-      //}
     }
-  }
-}
-
-function listSourceTagSummary(tag, sourceTagSummary) {
-  showSummaryText(sourceTagSummary.sourcesAllNumber, tag, getExtraText());
-  listSources();
-
-  function getExtraText() {
-    return sourceTagSummary.sourcesAllNumber === 0
-      ? ""
-      : sourceTagSummary.sourcesValid.length === 0
-        ? "Without not blacklisted sources."
-        : "Sources (not blacklisted):";
-  }
-
-  function showSummaryText(numberOfElements, tag, text) {
-    let entry = document.createElement("p");
-    let extraText = document.createElement("p");
-    let underlined = document.createElement("u");
-    let bold = document.createElement("b");
-    const underlined_text = numberOfElements === 1 ? "element" : "elements";
-    bold.textContent = tag;
-    extraText.textContent = text;
-    underlined.textContent = `${numberOfElements} ${underlined_text} with tag `;
-    underlined.appendChild(bold);
-    entry.appendChild(underlined);
-    entry.appendChild(extraText);
-    sourcesContainer.appendChild(entry);
-  }
-
-  function listSources() {
-    for (let index = 0; index < sourceTagSummary.sourcesValid.length; index++) {
-      listNewSource(index + 1, sourceTagSummary.sourcesValid[index]);
-    }
-  }
-
-  function listNewSource(index, url) {
-    var entry = document.createElement("div");
-    var hyperlink = document.createElement("a");
-    var info = document.createElement("p");
-    hyperlink.href = url;
-    hyperlink.textContent = url;
-    info.textContent = `${index} - `;
-    info.appendChild(hyperlink);
-    entry.appendChild(info);
-    sourcesContainer.appendChild(entry);
   }
 }
 
