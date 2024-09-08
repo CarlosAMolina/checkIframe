@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Improve the (i)frames informative text of the popup.
   - Improve the text of the icon titles.
   - Change some text.
+- Changed the popup when the web page cannot be analyzed.
 - Change front switches to buttons.
 - More efficient popup attributes.
 - The sources configuration is hidden until any radio button is clicked.
