@@ -23,3 +23,7 @@ Load extension in the browser:
 ```bash
 npm run web-ext
 ```
+
+## Documentation links
+
+[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
