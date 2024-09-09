@@ -28,3 +28,5 @@ You can install the Firefox add-on at:
 Please, read the docs to know how to configure the add-on, work with it and more information:
 
 <https://cmoli.es/projects/check-iframe/introduction.html>
+
+The documentation files are in the `docs` folder, they are converted to html later by another project.
