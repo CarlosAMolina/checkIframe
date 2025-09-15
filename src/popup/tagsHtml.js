@@ -33,8 +33,7 @@ function getTagHtml(tag, tagSummary) {
 function getUrlsHtml(tagSummary) {
   let elements = "";
   for (const url of tagSummary.sourcesValid) {
-    const urlHtml = `<a href="${url}">${url}</a>`;
-    elements += `\n  <li>${urlHtml}</li>`;
+    elements += `\n  <li><a href="${url}">${url}</a></li>`;
   }
   return `<ol>${elements}\n</ol>`;
 }
