@@ -129,3 +129,15 @@ p + p {
 #menuConfig {
   overflow: auto;
 }
+
+.copyButton {
+  display: flex;
+  align-items: center;
+  width: var(--SQUARE-BUTTON-WIDTH);
+  height: var(--BUTTON-HEIGHT);
+}
+
+.copyButton img {
+  width: var(--SQUARE-BUTTON-WIDTH);
+  height: var(--BUTTON-HEIGHT);
+}

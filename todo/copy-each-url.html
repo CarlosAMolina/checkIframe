@@ -6,36 +6,43 @@
   </head>
   <!-- TODO add margin without using section class-->
   <body>
- 
-<p>Total number of frames and iframes: 2</p>
-<p><u>Frame elements</u></p>
-<p>Total number of frames: 2</p>
-<p>Not blacklisted frames (2):</p>
-<ol>
-  <li><button class="copy-button">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
-  <li><button class="copy-button">copy</button> <a href="about:blank">about:blank</a></li>
-</ol>
-<p><u>IFrame elements</u></p>
-<p>Total number of iframes: 0</p>
-
-<script>
-  // Select all buttons with the class 'copy-button'
-  const buttons = document.querySelectorAll('.copy-button');
-
-  buttons.forEach(button => {
-    button.addEventListener('click', function() {
-      // Find the anchor tag in the same list item
-      const url = this.nextElementSibling.href;
-
-      // Copy the URL to the clipboard
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Copied to clipboard: ' + url);
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
+    <p>Total number of frames and iframes: 2</p>
+    <p>
+      <u>Frame elements</u>
+    </p>
+    <p>Total number of frames: 2</p>
+    <p>Not blacklisted frames (2):</p>
+    <ol>
+      <li>
+        <button class="copyButton">
+          <img src="copy.svg" alt="Button Icon" />copy </button>
+        <a href="https://frame1.com">https://frame1.com</a>
+      </li>
+      <li>
+        <button class="copyButton">
+          <img src="copy.svg" alt="Button Icon" />copy </button>
+        <a href="about:blank">about:blank</a>
+      </li>
+    </ol>
+    <p>
+      <u>IFrame elements</u>
+    </p>
+    <p>Total number of iframes: 0</p>
+    <script>
+      // Select all buttons with the class 'copy-button'
+      const buttons = document.querySelectorAll('.copyButton');
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Find the anchor tag in the same list item
+          const url = this.nextElementSibling.href;
+          // Copy the URL to the clipboard
+          navigator.clipboard.writeText(url).then(() => {
+            alert('Copied to clipboard: ' + url);
+          }).catch(err => {
+            console.error('Failed to copy: ', err);
+          });
+        });
       });
-    });
-  });
-</script>
-
+    </script>
   </body>
 </html>
