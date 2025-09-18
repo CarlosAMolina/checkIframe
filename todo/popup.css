@@ -131,8 +131,6 @@ p + p {
 }
 
 .copyButton {
-  display: flex;
-  align-items: center;
   width: var(--SQUARE-BUTTON-WIDTH);
   height: var(--BUTTON-HEIGHT);
 }
