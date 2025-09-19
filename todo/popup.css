@@ -134,6 +134,14 @@ p + p {
   display: flex;
   flex-direction: column;
   gap: var(--SPACE-BETWEEN-SECTIONS);
+  list-style: none;
+  padding-left: var(--MARGIN);
+}
+
+.detections li {
+  display: flex;
+  align-items: center;
+  gap: var(--MARGIN);
 }
 
 .detections button {
@@ -144,27 +152,3 @@ p + p {
   height: 100%;
   width: 100%;
 }
-
-.detections2 {
-  list-style: none;
-  padding-left: var(--MARGIN);
-  display: flex;
-  flex-direction: column;
-  gap: var(--SPACE-BETWEEN-SECTIONS);
-}
-
-.detections2 li {
-  display: flex;
-  align-items: center;
-  gap: var(--MARGIN);
-}
-
-.detections2 img {
-  height: 100%;
-  width: 100%;
-}
-
-.detections2 button {
-  width: var(--SQUARE-BUTTON-WIDTH);
-}
-
