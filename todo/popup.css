@@ -130,12 +130,11 @@ p + p {
   overflow: auto;
 }
 
-.copyButton {
+.detections button {
   width: var(--SQUARE-BUTTON-WIDTH);
-  height: var(--BUTTON-HEIGHT);
 }
 
-.copyButton img {
-  width: var(--SQUARE-BUTTON-WIDTH);
-  height: var(--BUTTON-HEIGHT);
+.detections img {
+  height: 100%;
+  width: 100%;
 }
