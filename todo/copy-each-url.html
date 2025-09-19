@@ -45,6 +45,16 @@
           }).catch(err => {
             console.error('Failed to copy: ', err);
           });
+          const image = this.parentElement.querySelector('button').img;
+          console.log('TODO modify img');
+          console.log(this.parentElement.querySelector('button'));
+          console.log(this.parentElement.querySelector('button').img);
+          const originalSrc = image.src;
+          const newSrc = 'ok.svg';
+          image.src = newSrc;
+          setTimeout(() => {
+              image.src = originalSrc;
+          }, 2000);
         });
       });
     </script>
