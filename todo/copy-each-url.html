@@ -34,11 +34,11 @@
     <p>Total number of iframes: 0</p>
     <script>
       // Select all buttons with the class 'copy-button'
-      const buttons = document.querySelectorAll('.copyButton');
+      const buttons = document.querySelectorAll('.detections button');
       buttons.forEach(button => {
         button.addEventListener('click', function() {
+          const url = this.parentElement.querySelector('a').href;
           // Find the anchor tag in the same list item
-          const url = this.nextElementSibling.href;
           // Copy the URL to the clipboard
           navigator.clipboard.writeText(url).then(() => {
             alert('Copied to clipboard: ' + url);
