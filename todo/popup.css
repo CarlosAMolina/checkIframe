@@ -130,6 +130,12 @@ p + p {
   overflow: auto;
 }
 
+.detections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--SPACE-BETWEEN-SECTIONS);
+}
+
 .detections button {
   width: var(--SQUARE-BUTTON-WIDTH);
 }
