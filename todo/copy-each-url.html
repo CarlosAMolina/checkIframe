@@ -41,20 +41,17 @@
           // Find the anchor tag in the same list item
           // Copy the URL to the clipboard
           navigator.clipboard.writeText(url).then(() => {
-            alert('Copied to clipboard: ' + url);
+            console.log('Copied to clipboard: ' + url);
+            const image = this.parentElement.querySelector('button').querySelector('img');
+            const originalSrc = image.src;
+            const newSrc = 'ok.svg';
+            image.src = newSrc;
+            setTimeout(() => {
+                image.src = originalSrc;
+            }, 1000);
           }).catch(err => {
             console.error('Failed to copy: ', err);
           });
-          const image = this.parentElement.querySelector('button').img;
-          console.log('TODO modify img');
-          console.log(this.parentElement.querySelector('button'));
-          console.log(this.parentElement.querySelector('button').img);
-          const originalSrc = image.src;
-          const newSrc = 'ok.svg';
-          image.src = newSrc;
-          setTimeout(() => {
-              image.src = originalSrc;
-          }, 2000);
         });
       });
     </script>
