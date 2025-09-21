@@ -22,7 +22,7 @@ export class HtmlBuilder {
     return this;
   }
 
-  with_element_number(name, number) {
+  with_number(name, number) {
     this._html += `\n<p>Total number of ${name}: ${number}</p>`;
     return this;
   }

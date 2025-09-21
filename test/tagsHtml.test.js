@@ -29,7 +29,7 @@ describe.only("Check getTagsHtml", () => {
     const expectedResult = `${new HtmlBuilder()
       .with_total(2)
       .with_element("Frame")
-      .with_element_number("frames", 2)
+      .with_number("frames", 2)
       .with_not_blacklisted("frames", 2)
       .build()}
 <ol>
@@ -72,10 +72,10 @@ describe.only("Check getTagsHtml", () => {
     const expectedResult = new HtmlBuilder()
       .with_total(5)
       .with_element("Frame")
-      .with_element_number("frames", 2)
+      .with_number("frames", 2)
       .with_all_blacklisted("frames")
       .with_element("IFrame")
-      .with_element_number("iframes", 3)
+      .with_number("iframes", 3)
       .with_all_blacklisted("iframes")
       .build();
     expect(result).toBe(expectedResult);
