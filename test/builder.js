@@ -16,4 +16,9 @@ export class HtmlBuilder {
     this._html += `\n<p><u>${name} elements</u></p>`;
     return this;
   }
+
+  with_element_number(name, number) {
+    this._html += `\n<p>Total number of ${name}: ${number}</p>`;
+    return this;
+  }
 }

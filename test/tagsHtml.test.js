@@ -61,8 +61,8 @@ describe.only("Check getTagsHtml", () => {
     const expectedResult = `${new HtmlBuilder()
       .with_total(5)
       .with_element("Frame")
+      .with_element_number("frames", 2)
       .build()}
-<p>Total number of frames: 2</p>
 <p>All frames are blacklisted</p>
 <p><u>IFrame elements</u></p>
 <p>Total number of iframes: 3</p>
