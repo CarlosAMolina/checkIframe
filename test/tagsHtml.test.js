@@ -1,5 +1,6 @@
 import { getStrTagsHtml } from "../src/popup/tagsHtml.js";
 import { getFileContent } from "./readFile.js";
+import { HtmlBuilder } from "./builder.js";
 
 describe.only("Check getTagsHtml", () => {
   it("Check expected HTML if no frame or iframe tags", function () {
@@ -12,7 +13,7 @@ describe.only("Check getTagsHtml", () => {
       sourcesValid: [],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = getFileContent("html/tags-no-results.html");
+    const expectedResult = new HtmlBuilder().with_total(0).build();
     expect(result).toBe(expectedResult);
   });
   it("Check expected HTML if only frame", function () {
