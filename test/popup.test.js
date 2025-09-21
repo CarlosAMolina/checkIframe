@@ -1,5 +1,5 @@
-import { getFileContent } from "./readFile.js";
 import { runMockDom } from "./mockDom.js";
+import { HtmlBuilder } from "./builder.js";
 
 function mockBrowser() {
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
@@ -283,7 +283,15 @@ describe("Check module import", () => {
             await Promise.all([button.run()]);
             runAfterRunExpects();
             const result = popupModule.__get__("sourcesContainer").innerHTML;
-            const expectedResult = getFileContent("html/tags-only-frame.html");
+            const expectedResult = new HtmlBuilder()
+              .with_total(2)
+              .with_element("Frame")
+              .with_number("frames", 2)
+              .with_not_blacklisted("frames", 2)
+              .with_urls(["https://frame1.com", "about:blank"])
+              .with_element("IFrame")
+              .with_number("iframes", 0)
+              .build();
             expect(result).toBe(expectedResult);
           });
         });
