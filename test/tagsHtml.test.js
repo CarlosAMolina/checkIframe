@@ -1,5 +1,4 @@
 import { getStrTagsHtml } from "../src/popup/tagsHtml.js";
-import { getFileContent } from "./readFile.js";
 import { HtmlBuilder } from "./builder.js";
 
 describe.only("Check getTagsHtml", () => {
@@ -51,7 +50,6 @@ describe.only("Check getTagsHtml", () => {
       ],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    // TODO rm getFileContent(
     const expectedResult = `<p>Total number of frames and iframes: 5</p>
 <p><u>Frame elements</u></p>
 <p>Total number of frames: 2</p>
