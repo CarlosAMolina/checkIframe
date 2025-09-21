@@ -11,4 +11,9 @@ export class HtmlBuilder {
     this._html += `<p>Total number of frames and iframes: ${number}</p>`;
     return this;
   }
+
+  with_element(name) {
+    this._html += `\n<p><u>${name} elements</u></p>`;
+    return this;
+  }
 }
