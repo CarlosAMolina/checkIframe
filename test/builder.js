@@ -12,7 +12,7 @@ export class HtmlBuilder {
     return this;
   }
 
-  with_element_all_blacklisted(name) {
+  with_all_blacklisted(name) {
     this._html += `\n<p>All ${name} are blacklisted</p>`;
     return this;
   }

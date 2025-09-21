@@ -73,10 +73,10 @@ describe.only("Check getTagsHtml", () => {
       .with_total(5)
       .with_element("Frame")
       .with_element_number("frames", 2)
-      .with_element_all_blacklisted("frames")
+      .with_all_blacklisted("frames")
       .with_element("IFrame")
       .with_element_number("iframes", 3)
-      .with_element_all_blacklisted("iframes")
+      .with_all_blacklisted("iframes")
       .build();
     expect(result).toBe(expectedResult);
   });
