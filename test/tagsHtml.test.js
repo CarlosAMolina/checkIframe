@@ -51,9 +51,23 @@ describe.only("Check getTagsHtml", () => {
       ],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = getFileContent(
-      "html/tags-multiple-frame-and-iframe.html",
-    );
+    // TODO rm getFileContent(
+    const expectedResult = `<p>Total number of frames and iframes: 5</p>
+<p><u>Frame elements</u></p>
+<p>Total number of frames: 2</p>
+<p>Not blacklisted frames (2):</p>
+<ol>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="about:blank">about:blank</a></li>
+</ol>
+<p><u>IFrame elements</u></p>
+<p>Total number of iframes: 3</p>
+<p>Not blacklisted iframes (3):</p>
+<ol>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://iframe1.com">https://iframe1.com</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://iframe2.com">https://iframe2.com</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://iframe3.com">https://iframe3.com</a></li>
+</ol>`;
     expect(result).toBe(expectedResult);
   });
   it("Check expected HTML if multiple frame and iframe tags but blacklisted", function () {
