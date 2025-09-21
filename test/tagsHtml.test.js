@@ -26,7 +26,7 @@ describe.only("Check getTagsHtml", () => {
       sourcesValid: [],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = `<p>Total number of frames and iframes: 2</p>
+    const expectedResult = `${new HtmlBuilder().with_total(2).build()}
 <p><u>Frame elements</u></p>
 <p>Total number of frames: 2</p>
 <p>Not blacklisted frames (2):</p>
