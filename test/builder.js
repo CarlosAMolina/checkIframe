@@ -21,4 +21,9 @@ export class HtmlBuilder {
     this._html += `\n<p>Total number of ${name}: ${number}</p>`;
     return this;
   }
+
+  with_element_not_blacklisted(name) {
+    this._html += `\n<p>All ${name} are blacklisted</p>`;
+    return this;
+  }
 }

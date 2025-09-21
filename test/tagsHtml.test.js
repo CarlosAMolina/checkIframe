@@ -62,8 +62,8 @@ describe.only("Check getTagsHtml", () => {
       .with_total(5)
       .with_element("Frame")
       .with_element_number("frames", 2)
+      .with_element_not_blacklisted("frames")
       .build()}
-<p>All frames are blacklisted</p>
 <p><u>IFrame elements</u></p>
 <p>Total number of iframes: 3</p>
 <p>All iframes are blacklisted</p>`;
