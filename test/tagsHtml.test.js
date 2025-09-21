@@ -50,22 +50,21 @@ describe.only("Check getTagsHtml", () => {
       ],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = `${new HtmlBuilder().with_total(5).build()}
-<p><u>Frame elements</u></p>
-<p>Total number of frames: 2</p>
-<p>Not blacklisted frames (2):</p>
-<ol>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="about:blank">about:blank</a></li>
-</ol>
-<p><u>IFrame elements</u></p>
-<p>Total number of iframes: 3</p>
-<p>Not blacklisted iframes (3):</p>
-<ol>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://iframe1.com">https://iframe1.com</a></li>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://iframe2.com">https://iframe2.com</a></li>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://iframe3.com">https://iframe3.com</a></li>
-</ol>`;
+    const expectedResult = new HtmlBuilder()
+      .with_total(5)
+      .with_element("Frame")
+      .with_number("frames", 2)
+      .with_not_blacklisted("frames", 2)
+      .with_urls(["https://frame1.com", "about:blank"])
+      .with_element("IFrame")
+      .with_number("iframes", 3)
+      .with_not_blacklisted("iframes", 3)
+      .with_urls([
+        "https://iframe1.com",
+        "https://iframe2.com",
+        "https://iframe3.com",
+      ])
+      .build();
     expect(result).toBe(expectedResult);
   });
   it("Check expected HTML if multiple frame and iframe tags but blacklisted", function () {
