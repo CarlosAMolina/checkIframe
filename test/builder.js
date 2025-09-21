@@ -7,13 +7,13 @@ export class HtmlBuilder {
     return this._html;
   }
 
-  with_total(number) {
-    this._html += `<p>Total number of frames and iframes: ${number}</p>`;
+  with_element(name) {
+    this._html += `\n<p><u>${name} elements</u></p>`;
     return this;
   }
 
-  with_element(name) {
-    this._html += `\n<p><u>${name} elements</u></p>`;
+  with_element_not_blacklisted(name) {
+    this._html += `\n<p>All ${name} are blacklisted</p>`;
     return this;
   }
 
@@ -22,8 +22,8 @@ export class HtmlBuilder {
     return this;
   }
 
-  with_element_not_blacklisted(name) {
-    this._html += `\n<p>All ${name} are blacklisted</p>`;
+  with_total(number) {
+    this._html += `<p>Total number of frames and iframes: ${number}</p>`;
     return this;
   }
 }
