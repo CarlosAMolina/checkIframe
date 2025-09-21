@@ -30,8 +30,8 @@ describe.only("Check getTagsHtml", () => {
       .with_total(2)
       .with_element("Frame")
       .with_element_number("frames", 2)
+      .with_element_blacklisted("frames", 2)
       .build()}
-<p>Not blacklisted frames (2):</p>
 <ol>
   <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
   <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="about:blank">about:blank</a></li>
