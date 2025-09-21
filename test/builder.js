@@ -31,4 +31,12 @@ export class HtmlBuilder {
     this._html += `<p>Total number of frames and iframes: ${number}</p>`;
     return this;
   }
+
+  with_urls(urls) {
+    this._html += `\n<ol>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="about:blank">about:blank</a></li>
+</ol>`;
+    return this;
+  }
 }
