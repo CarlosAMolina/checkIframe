@@ -26,7 +26,16 @@ describe.only("Check getTagsHtml", () => {
       sourcesValid: [],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = getFileContent("html/tags-only-frame.html");
+    const expectedResult = `<p>Total number of frames and iframes: 2</p>
+<p><u>Frame elements</u></p>
+<p>Total number of frames: 2</p>
+<p>Not blacklisted frames (2):</p>
+<ol>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="about:blank">about:blank</a></li>
+</ol>
+<p><u>IFrame elements</u></p>
+<p>Total number of iframes: 0</p>`;
     expect(result).toBe(expectedResult);
   });
   it("Check expected HTML if multiple frame and iframe tags", function () {
