@@ -34,8 +34,8 @@ export class HtmlBuilder {
 
   with_urls(urls) {
     this._html += `\n<ol>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="https://frame1.com">https://frame1.com</a></li>
-  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="about:blank">about:blank</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="${urls[0]}">${urls[0]}</a></li>
+  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="${urls[1]}">${urls[1]}</a></li>
 </ol>`;
     return this;
   }

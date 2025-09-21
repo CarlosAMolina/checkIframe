@@ -31,7 +31,7 @@ describe.only("Check getTagsHtml", () => {
       .with_element("Frame")
       .with_number("frames", 2)
       .with_not_blacklisted("frames", 2)
-      .with_urls([])
+      .with_urls(["https://frame1.com", "about:blank"])
       .with_element("IFrame")
       .with_number("iframes", 0)
       .build();
