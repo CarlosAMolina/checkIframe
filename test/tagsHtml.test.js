@@ -58,9 +58,13 @@ describe.only("Check getTagsHtml", () => {
       sourcesValid: [],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = getFileContent(
-      "html/tags-multiple-frame-and-iframe-blacklisted.html",
-    );
+    const expectedResult = `<p>Total number of frames and iframes: 5</p>
+<p><u>Frame elements</u></p>
+<p>Total number of frames: 2</p>
+<p>All frames are blacklisted</p>
+<p><u>IFrame elements</u></p>
+<p>Total number of iframes: 3</p>
+<p>All iframes are blacklisted</p>`;
     expect(result).toBe(expectedResult);
   });
 });
