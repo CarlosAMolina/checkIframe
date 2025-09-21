@@ -58,15 +58,15 @@ describe.only("Check getTagsHtml", () => {
       sourcesValid: [],
     };
     const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = `${new HtmlBuilder()
+    const expectedResult = new HtmlBuilder()
       .with_total(5)
       .with_element("Frame")
       .with_element_number("frames", 2)
       .with_element_not_blacklisted("frames")
-      .build()}
-<p><u>IFrame elements</u></p>
-<p>Total number of iframes: 3</p>
-<p>All iframes are blacklisted</p>`;
+      .with_element("IFrame")
+      .with_element_number("iframes", 3)
+      .with_element_not_blacklisted("iframes")
+      .build();
     expect(result).toBe(expectedResult);
   });
 });
