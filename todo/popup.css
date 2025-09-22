@@ -167,7 +167,7 @@ p + p {
   padding: 10px;
   position: absolute;
   top: var(--BUTTON-HEIGHT); /* Position above the button */
-  margin-left: 20px; /* Center the tooltip */
+  margin-left: 30px; /* Center the tooltip */
   transition: opacity 0.3s;
 }
 
