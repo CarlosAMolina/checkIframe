@@ -168,11 +168,10 @@ p + p {
   position: absolute;
   top: var(--BUTTON-HEIGHT); /* Position above the button */
   margin-left: 20px; /* Center the tooltip */
-  opacity: 0.8;
   transition: opacity 0.3s;
 }
 
 .tooltip.show .tooltiptext {
   visibility: visible;
-  opacity: 1;
+  opacity: 0.8;
 }
