@@ -14,16 +14,16 @@
     <p>Not blacklisted frames (2):</p>
     <ol class="detections">
       <li>
-        <button title="Copy to clipboard" class="tooltip">
-          <span class="tooltiptext">Copied</span>
+        <button class="tooltip">
+          <span class="tooltiptext">Copy to clipboard</span>
           <img src="copy.svg" />
         </button>
         <p>1.</p>
         <a href="https://frame1.com">https://frame1.com</a>
       </li>
       <li>
-        <button title="Copy to clipboard" class="tooltip">
-          <span class="tooltiptext">Copied</span>
+        <button class="tooltip">
+          <span class="tooltiptext">Copy to clipboard</span>
           <img src="copy.svg" />
         </button>
         <p>2.</p>
@@ -52,15 +52,14 @@
             console.log('Copied to clipboard: ' + url);
             const button = this.parentElement.querySelector('button');
             const image = button.querySelector('img');
+            const tooltip = button.querySelector('span');
+            const originalText = tooltip.textContent;
             const originalSrc = image.src;
-            const originalTitle = button.title;
-            button.title = button.querySelector('span').textContent;
             image.src = 'ok.svg';
-            button.classList.toggle('show');
+            tooltip.textContent = 'Copied';
             setTimeout(() => {
-                button.title = originalTitle;
                 image.src = originalSrc;
-                button.classList.toggle('show');
+                tooltip.textContent = originalText;
             }, 1000);
           }).catch(err => {
             console.error('Failed to copy: ', err);
