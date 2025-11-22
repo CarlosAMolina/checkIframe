@@ -57,9 +57,12 @@
             const originalSrc = image.src;
             image.src = 'ok.svg';
             tooltip.textContent = 'Copied';
+            // Avoid wrong behaviour if the user clicks when the temporal image is displayed.
+            button.disabled = true;
             setTimeout(() => {
                 image.src = originalSrc;
                 tooltip.textContent = originalText;
+                button.disabled = false;
             }, 1000);
           }).catch(err => {
             console.error('Failed to copy: ', err);
