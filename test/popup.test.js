@@ -861,42 +861,22 @@ describe("setupCopyButtonListeners", () => {
   beforeEach(() => {
     initializeMocks();
   });
-  it("copies url to clipboard and shows temporary feedback", async () => {
+  it("Copies url to clipboard and shows temporary feedback", async () => {
     jest.useFakeTimers();
     global.navigator.clipboard = {
       writeText: jest.fn().mockResolvedValue(undefined),
     };
-    // TODO use HtmlBuilder
-    // Build DOM matching expected structure:
-    // <ol class="detections">
-    //   <li>
-    //     <button><img src="/icons/copy.svg"/><span>Copy</span></button>
-    //     <a href="https://foo.com">https://foo.com</a>
-    //   </li>
-    // </ol>
-    const detections = document.createElement("ol");
-    detections.className = "detections";
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    const img = document.createElement("img");
-    img.src = "/icons/copy.svg";
-    const span = document.createElement("span");
-    span.textContent = "Copy";
-    btn.appendChild(img);
-    btn.appendChild(span);
-    const a = document.createElement("a");
-    a.href = "https://foo.com";
-    a.textContent = "https://foo.com";
-    li.appendChild(btn);
-    li.appendChild(a);
-    detections.appendChild(li);
-    document.body.appendChild(detections);
-    // Import module via rewire-style require already used in tests
+    const html = new HtmlBuilder().with_urls(["https://foo.com"]).build();
+    const container = document.createElement("div");
+    container.innerHTML = html;
+    document.body.appendChild(container.firstElementChild);
+    const btn = document.querySelector(".detections button");
+    const img = btn.querySelector("img");
+    const span = btn.querySelector(".tooltiptext");
     const setup = popupModule.__get__("setupCopyButtonListeners");
     setup();
     btn.click();
-    // Wait a microtask to let Promise.then() handlers run
-    await Promise.resolve();
+    await Promise.resolve(); // Wait a microtask to let Promise.then() handlers run
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
       "https://foo.com/",
     );
@@ -907,7 +887,7 @@ describe("setupCopyButtonListeners", () => {
     await Promise.resolve(); // Wait so the restoration code (in setTimeout) completes.
     expect(btn.disabled).toBe(false);
     expect(img.src.endsWith("/icons/copy.svg")).toBe(true);
-    expect(span.textContent).toBe("Copy");
+    expect(span.textContent).toBe("Copy to clipboard");
     jest.useRealTimers();
   });
 });
