@@ -881,7 +881,7 @@ describe("setupCopyButtonListeners", () => {
       "https://foo.com/",
     );
     expect(btn.disabled).toBe(true);
-    expect(img.src.endsWith("ok.svg")).toBe(true);
+    expect(img.src.endsWith("/icons/ok.svg")).toBe(true);
     expect(span.textContent).toBe("Copied");
     jest.runAllTimers(); // Advance timers to restore UI.
     await Promise.resolve(); // Wait so the restoration code (in setTimeout) completes.

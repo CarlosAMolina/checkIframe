@@ -607,7 +607,7 @@ function setupCopyButtonListeners() {
           const tooltip = button.querySelector("span");
           const originalText = tooltip.textContent;
           const originalSrc = image.src;
-          image.src = "ok.svg";
+          image.src = "/icons/ok.svg";
           tooltip.textContent = "Copied";
           // Avoid wrong behaviour if the user clicks when the temporal image is displayed.
           button.disabled = true;
