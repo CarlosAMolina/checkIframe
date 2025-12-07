@@ -38,9 +38,10 @@ export class HtmlBuilder {
         (url) =>
           `  <li>
   <button class="tooltip">
-  <span class="tooltiptext">Copy to clipboard</span>
-  <img src="/icons/copy.svg" />
-</button> <a href="${url}">${url}</a>
+    <span class="tooltiptext">Copy to clipboard</span>
+    <img src="/icons/copy.svg" />
+  </button>
+  <a href="${url}">${url}</a>
 </li>`,
       )
       .join("\n");
