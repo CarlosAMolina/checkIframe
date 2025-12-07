@@ -42,7 +42,8 @@ function getUrlsHtml(tagSummary) {
 }
 
 function getButtonHtmlCopyUrl() {
-  return `<button class="copy-button" title="Copy to clipboard">
-    copy
+  return `<button class="tooltip">
+    <span class="tooltiptext">Copy to clipboard</span>
+    <img src="/icons/copy.svg" />
   </button>`;
 }

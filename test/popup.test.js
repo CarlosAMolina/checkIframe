@@ -291,7 +291,8 @@ describe("Check module import", () => {
               .with_urls(["https://frame1.com", "about:blank"])
               .with_element("IFrame")
               .with_number("iframes", 0)
-              .build();
+              .build()
+              .replace(/svg" \//g, 'svg"');
             expect(result).toBe(expectedResult);
           });
         });
