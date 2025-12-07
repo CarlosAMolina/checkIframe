@@ -33,7 +33,7 @@ function getTagHtml(tag, tagSummary) {
 function getUrlsHtml(tagSummary) {
   const elements = [];
   for (const url of tagSummary.sourcesValid) {
-    const buttonHtml = createButtonHtmlCopyUrl();
+    const buttonHtml = getButtonHtmlCopyUrl();
     const urlHtml = `<a href="${url}">${url}</a>`;
     const li = `<li>${buttonHtml} ${urlHtml}</li>`;
     elements.push(`  ${li}`);
@@ -41,7 +41,7 @@ function getUrlsHtml(tagSummary) {
   return `<ol>\n${elements.join("\n")}\n</ol>`;
 }
 
-function createButtonHtmlCopyUrl() {
+function getButtonHtmlCopyUrl() {
   return `<button class="copy-button" title="Copy to clipboard">
     copy
   </button>`;
