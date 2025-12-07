@@ -33,7 +33,8 @@ function getTagHtml(tag, tagSummary) {
 function getUrlsHtml(tagSummary) {
   const elements = [];
   for (const url of tagSummary.sourcesValid) {
-    const element = `<li><button class="tooltip">
+    const element = `<li>
+  <button class="tooltip">
   <span class="tooltiptext">Copy to clipboard</span>
   <img src="/icons/copy.svg" />
 </button> <a href="${url}">${url}</a></li>`;
