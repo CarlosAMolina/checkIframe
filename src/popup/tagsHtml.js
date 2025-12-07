@@ -38,7 +38,7 @@ function getUrlsHtml(tagSummary) {
     const li = `<li>${buttonHtml} ${urlHtml}</li>`;
     elements.push(`  ${li}`);
   }
-  return `<ol>\n${elements.join("\n")}\n</ol>`;
+  return `<ol class="detections">\n${elements.join("\n")}\n</ol>`;
 }
 
 function getButtonHtmlCopyUrl() {

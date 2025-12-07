@@ -42,7 +42,7 @@ export class HtmlBuilder {
   </button> <a href="${url}">${url}</a></li>`,
       )
       .join("\n");
-    this._html += `\n<ol>\n${li}\n</ol>`;
+    this._html += `\n<ol class="detections">\n${li}\n</ol>`;
     return this;
   }
 }
