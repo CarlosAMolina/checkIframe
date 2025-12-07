@@ -857,6 +857,61 @@ describe("Check module import", () => {
   }
 });
 
+describe("setupCopyButtonListeners", () => {
+  beforeEach(() => {
+    initializeMocks();
+  });
+  it("copies url to clipboard and shows temporary feedback", async () => {
+    jest.useFakeTimers();
+    global.navigator.clipboard = {
+      writeText: jest.fn().mockResolvedValue(undefined),
+    };
+    // TODO use HtmlBuilder
+    // Build DOM matching expected structure:
+    // <ol class="detections">
+    //   <li>
+    //     <button><img src="/icons/copy.svg"/><span>Copy</span></button>
+    //     <a href="https://foo.com">https://foo.com</a>
+    //   </li>
+    // </ol>
+    const detections = document.createElement("ol");
+    detections.className = "detections";
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    const img = document.createElement("img");
+    img.src = "/icons/copy.svg";
+    const span = document.createElement("span");
+    span.textContent = "Copy";
+    btn.appendChild(img);
+    btn.appendChild(span);
+    const a = document.createElement("a");
+    a.href = "https://foo.com";
+    a.textContent = "https://foo.com";
+    li.appendChild(btn);
+    li.appendChild(a);
+    detections.appendChild(li);
+    document.body.appendChild(detections);
+    // Import module via rewire-style require already used in tests
+    const setup = popupModule.__get__("setupCopyButtonListeners");
+    setup();
+    btn.click();
+    // Wait a microtask to let Promise.then() handlers run
+    await Promise.resolve();
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+      "https://foo.com/",
+    );
+    expect(btn.disabled).toBe(true);
+    expect(img.src.endsWith("ok.svg")).toBe(true);
+    expect(span.textContent).toBe("Copied");
+    jest.runAllTimers(); // Advance timers to restore UI.
+    await Promise.resolve(); // Wait so the restoration code (in setTimeout) completes.
+    expect(btn.disabled).toBe(false);
+    expect(img.src.endsWith("/icons/copy.svg")).toBe(true);
+    expect(span.textContent).toBe("Copy");
+    jest.useRealTimers();
+  });
+});
+
 function initializeMocks() {
   const htmlPathName = "src/popup/popup.html";
   runMockDom(htmlPathName);
