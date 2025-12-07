@@ -37,9 +37,9 @@ export class HtmlBuilder {
       .map(
         (url) =>
           `  <li><button class="tooltip">
-    <span class="tooltiptext">Copy to clipboard</span>
-    <img src="/icons/copy.svg" />
-  </button> <a href="${url}">${url}</a></li>`,
+  <span class="tooltiptext">Copy to clipboard</span>
+  <img src="/icons/copy.svg" />
+</button> <a href="${url}">${url}</a></li>`,
       )
       .join("\n");
     this._html += `\n<ol class="detections">\n${li}\n</ol>`;
