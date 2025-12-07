@@ -32,6 +32,7 @@ function getTagHtml(tag, tagSummary) {
 
 function getUrlsHtml(tagSummary) {
   const elements = [];
+  // TODO set il number: 1., 2., etc
   for (const url of tagSummary.sourcesValid) {
     const element = `<li>
   <button class="tooltip">
