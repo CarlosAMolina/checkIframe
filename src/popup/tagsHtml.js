@@ -36,9 +36,8 @@ function getUrlsHtml(tagSummary) {
     const buttonHtml = `<button class="tooltip">
   <span class="tooltiptext">Copy to clipboard</span>
   <img src="/icons/copy.svg" />
-</button>`;
-    const urlHtml = `<a href="${url}">${url}</a>`;
-    const li = `<li>${buttonHtml} ${urlHtml}</li>`;
+</button> <a href="${url}">${url}</a>`;
+    const li = `<li>${buttonHtml}</li>`;
     elements.push(`  ${li}`);
   }
   return `<ol class="detections">\n${elements.join("\n")}\n</ol>`;
