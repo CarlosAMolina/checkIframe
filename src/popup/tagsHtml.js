@@ -35,7 +35,8 @@ function getUrlsHtml(tagSummary) {
   for (const url of tagSummary.sourcesValid) {
     const buttonHtml = createButtonHtmlCopyUrl();
     const urlHtml = `<a href="${url}">${url}</a>`;
-    elements += `\n  <li>${buttonHtml} ${urlHtml}</li>`;
+    const li = `<li>${buttonHtml} ${urlHtml}</li>`;
+    elements += `\n  ${li}`;
   }
   return `<ol>${elements}\n</ol>`;
 }
