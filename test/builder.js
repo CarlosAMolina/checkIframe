@@ -36,7 +36,9 @@ export class HtmlBuilder {
     const li = urls
       .map(
         (url) =>
-          `  <li><button class="copy-button" title="Copy to clipboard">copy</button> <a href="${url}">${url}</a></li>`,
+          `  <li><button class="copy-button" title="Copy to clipboard">
+    copy
+  </button> <a href="${url}">${url}</a></li>`,
       )
       .join("\n");
     this._html += `\n<ol>\n${li}\n</ol>`;
