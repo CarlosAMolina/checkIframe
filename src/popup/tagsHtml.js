@@ -31,14 +31,14 @@ function getTagHtml(tag, tagSummary) {
 }
 
 function getUrlsHtml(tagSummary) {
-  let elements = "";
+  const elements = [];
   for (const url of tagSummary.sourcesValid) {
     const buttonHtml = createButtonHtmlCopyUrl();
     const urlHtml = `<a href="${url}">${url}</a>`;
     const li = `<li>${buttonHtml} ${urlHtml}</li>`;
-    elements += `\n  ${li}`;
+    elements.push(`  ${li}`);
   }
-  return `<ol>${elements}\n</ol>`;
+  return `<ol>\n${elements.join("\n")}\n</ol>`;
 }
 
 function createButtonHtmlCopyUrl() {
