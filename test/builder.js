@@ -35,12 +35,13 @@ export class HtmlBuilder {
   with_urls(urls) {
     const li = urls
       .map(
-        (url) =>
+        (url, index) =>
           `  <li>
   <button class="tooltip">
     <span class="tooltiptext">Copy to clipboard</span>
     <img src="/icons/copy.svg" />
   </button>
+  <p>${index}.</p>
   <a href="${url}">${url}</a>
 </li>`,
       )
