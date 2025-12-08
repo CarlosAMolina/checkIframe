@@ -41,7 +41,7 @@ export class HtmlBuilder {
     <span class="tooltiptext">Copy to clipboard</span>
     <img src="/icons/copy.svg" />
   </button>
-  <p>${index}.</p>
+  <p>${index + 1}.</p>
   <a href="${url}">${url}</a>
 </li>`,
       )
