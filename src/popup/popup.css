@@ -143,8 +143,10 @@ p + p {
   gap: var(--MARGIN);
 }
 
+/* flex-shrink: to respect width if the UR~ is too long https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 .detections button {
   width: var(--SQUARE-BUTTON-WIDTH);
+  flex-shrink: 0;
 }
 
 .detections img {
