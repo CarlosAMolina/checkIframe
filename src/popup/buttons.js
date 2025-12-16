@@ -68,26 +68,32 @@ export class ButtonShowLogs extends OnOffButton {
     }
   }
 
+  // TODO extract to parent class
   setStyleOn() {
     setStyle(this._idHtml, "on");
   }
 
+  // TODO extract to parent class
   setStyleOff() {
     setStyle(this._idHtml, "off");
   }
 
+  // TODO extract to parent class
   get isOn() {
     return isOn(this._idHtml);
   }
 
+  // TODO extract to parent class
   get _idHtml() {
     return ButtonShowLogs.buttonIdHtml;
   }
 
+  // TODO extract to parent class
   get _idStorage() {
     return ButtonShowLogs._buttonIdStorage;
   }
 
+  // TODO extract to parent class
   activateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
@@ -97,6 +103,7 @@ export class ButtonShowLogs extends OnOffButton {
       .catch(console.error);
   }
 
+  // TODO extract to parent class
   deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
       info: this._idHtml,
@@ -104,6 +111,7 @@ export class ButtonShowLogs extends OnOffButton {
     });
   }
 
+  // TODO extract to parent class
   async getIsStoredOn() {
     return getIsStoredOn(this._idStorage);
   }
@@ -162,10 +170,12 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     }
   }
 
+  // TODO extract to parent class
   setStyleOn() {
     setStyle(this._idHtml, "on");
   }
 
+  // TODO extract to parent class
   setStyleOff() {
     setStyle(this._idHtml, "off");
   }
@@ -180,14 +190,17 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     unhideHtmlId("buttonScroll");
   }
 
+  // TODO extract to parent class
   get isOn() {
     return isOn(this._idHtml);
   }
 
+  // TODO extract to parent class
   get _idHtml() {
     return ButtonHighlightAllAutomatically.buttonIdHtml;
   }
 
+  // TODO extract to parent class
   get _idStorage() {
     return ButtonHighlightAllAutomatically._buttonIdStorage;
   }
@@ -208,6 +221,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
       .catch(console.error);
   }
 
+  // TODO extract to parent class
   async getIsStoredOn() {
     return getIsStoredOn(this._idStorage);
   }
