@@ -43,10 +43,10 @@ export class ButtonShowLogs extends OnOffButton {
         .catch(console.error);
     }
     await browser.storage.local
-      .set({ [ButtonShowLogs._buttonIdStorage]: this.isOn })
+      .set({ [this.idStorage]: this.isOn })
       .then(() => {
         console.log(
-          `The following value has been stored for ${ButtonShowLogs._buttonIdStorage}: ${this.isOn}`,
+          `The following value has been stored for ${this.idStorage}: ${this.isOn}`,
         );
       }, console.error);
   }
@@ -84,6 +84,10 @@ export class ButtonShowLogs extends OnOffButton {
     return ButtonShowLogs.buttonIdHtml;
   }
 
+  get idStorage() {
+    return ButtonShowLogs._buttonIdStorage;
+  }
+
   activateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
@@ -101,7 +105,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   async getIsStoredOn() {
-    return getIsStoredOn(ButtonShowLogs._buttonIdStorage);
+    return getIsStoredOn(this.idStorage);
   }
 }
 
