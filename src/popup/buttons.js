@@ -118,29 +118,27 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   async run() {
-    console.log(
-      `Clicked button ID Html: ${ButtonHighlightAllAutomatically.buttonIdHtml}`,
-    );
+    console.log(`Clicked button ID Html: ${this._idHtml}`);
     if (this.isOn) {
       this.setStyleOff();
       this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.deactivateHighlightAllAutomatically)
+        .then(this.deactivateHighlightAllAutomatically.bind(this))
         .catch(console.error);
     } else {
       this.setStyleOn();
       this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.activateHighlightAllAutomatically)
+        .then(this.activateHighlightAllAutomatically.bind(this))
         .catch(console.error);
     }
     await browser.storage.local
-      .set({ [ButtonHighlightAllAutomatically._buttonIdStorage]: this.isOn })
+      .set({ [this._idStorage]: this.isOn })
       .then(() => {
         console.log(
-          `The following value has been stored for ${ButtonHighlightAllAutomatically._buttonIdStorage}: ${this.isOn}`,
+          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
         );
       }, console.error);
   }
@@ -152,24 +150,24 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
       this.hideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.activateHighlightAllAutomatically)
+        .then(this.activateHighlightAllAutomatically.bind(this))
         .catch(console.error);
     } else {
       this.setStyleOff();
       this.unhideElementsForHighlightAllAutomatically();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.deactivateHighlightAllAutomatically)
+        .then(this.deactivateHighlightAllAutomatically.bind(this))
         .catch(console.error);
     }
   }
 
   setStyleOn() {
-    setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "on");
+    setStyle(this._idHtml, "on");
   }
 
   setStyleOff() {
-    setStyle(ButtonHighlightAllAutomatically.buttonIdHtml, "off");
+    setStyle(this._idHtml, "off");
   }
 
   hideElementsForHighlightAllAutomatically() {
@@ -183,12 +181,20 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   get isOn() {
-    return isOn(ButtonHighlightAllAutomatically.buttonIdHtml);
+    return isOn(this._idHtml);
+  }
+
+  get _idHtml() {
+    return ButtonHighlightAllAutomatically.buttonIdHtml;
+  }
+
+  get _idStorage() {
+    return ButtonHighlightAllAutomatically._buttonIdStorage;
   }
 
   activateHighlightAllAutomatically(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
-      info: ButtonHighlightAllAutomatically.buttonIdHtml,
+      info: this._idHtml,
       values: 1,
     });
   }
@@ -196,14 +202,14 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   deactivateHighlightAllAutomatically(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
-        info: ButtonHighlightAllAutomatically.buttonIdHtml,
+        info: this._idHtml,
         values: 0,
       })
       .catch(console.error);
   }
 
   async getIsStoredOn() {
-    return getIsStoredOn(ButtonHighlightAllAutomatically._buttonIdStorage);
+    return getIsStoredOn(this._idStorage);
   }
 }
 
