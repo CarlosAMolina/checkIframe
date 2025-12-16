@@ -28,7 +28,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   async run() {
-    console.log(`Clicked button ID Html: ${this.id}`);
+    console.log(`Clicked button ID Html: ${this.idHtml}`);
     if (this.isOn) {
       this.setStyleOff();
       await browser.tabs
@@ -69,25 +69,25 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   setStyleOn() {
-    setStyle(this.id, "on");
+    setStyle(this.idHtml, "on");
   }
 
   setStyleOff() {
-    setStyle(this.id, "off");
+    setStyle(this.idHtml, "off");
   }
 
   get isOn() {
-    return isOn(this.id);
+    return isOn(this.idHtml);
   }
 
-  get id() {
+  get idHtml() {
     return ButtonShowLogs.buttonIdHtml;
   }
 
   activateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
-        info: this.id,
+        info: this.idHtml,
         values: 1,
       })
       .catch(console.error);
@@ -95,7 +95,7 @@ export class ButtonShowLogs extends OnOffButton {
 
   deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
-      info: this.id,
+      info: this.idHtml,
       values: 0,
     });
   }
