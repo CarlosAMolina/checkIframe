@@ -28,7 +28,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   async run() {
-    console.log(`Clicked button ID Html: ${this.idHtml}`);
+    console.log(`Clicked button ID Html: ${this._idHtml}`);
     if (this.isOn) {
       this.setStyleOff();
       await browser.tabs
@@ -43,10 +43,10 @@ export class ButtonShowLogs extends OnOffButton {
         .catch(console.error);
     }
     await browser.storage.local
-      .set({ [this.idStorage]: this.isOn })
+      .set({ [this._idStorage]: this.isOn })
       .then(() => {
         console.log(
-          `The following value has been stored for ${this.idStorage}: ${this.isOn}`,
+          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
         );
       }, console.error);
   }
@@ -69,29 +69,29 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   setStyleOn() {
-    setStyle(this.idHtml, "on");
+    setStyle(this._idHtml, "on");
   }
 
   setStyleOff() {
-    setStyle(this.idHtml, "off");
+    setStyle(this._idHtml, "off");
   }
 
   get isOn() {
-    return isOn(this.idHtml);
+    return isOn(this._idHtml);
   }
 
-  get idHtml() {
+  get _idHtml() {
     return ButtonShowLogs.buttonIdHtml;
   }
 
-  get idStorage() {
+  get _idStorage() {
     return ButtonShowLogs._buttonIdStorage;
   }
 
   activateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
-        info: this.idHtml,
+        info: this._idHtml,
         values: 1,
       })
       .catch(console.error);
@@ -99,13 +99,13 @@ export class ButtonShowLogs extends OnOffButton {
 
   deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
-      info: this.idHtml,
+      info: this._idHtml,
       values: 0,
     });
   }
 
   async getIsStoredOn() {
-    return getIsStoredOn(this.idStorage);
+    return getIsStoredOn(this._idStorage);
   }
 }
 
