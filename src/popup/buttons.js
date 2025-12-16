@@ -28,18 +28,18 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   async run() {
-    console.log(`Clicked button ID Html: ${ButtonShowLogs.buttonIdHtml}`);
+    console.log(`Clicked button ID Html: ${this.id}`);
     if (this.isOn) {
       this.setStyleOff();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.deactivateLogs)
+        .then(this.deactivateLogs.bind(this))
         .catch(console.error);
     } else {
       this.setStyleOn();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.activateLogs)
+        .then(this.activateLogs.bind(this))
         .catch(console.error);
     }
     await browser.storage.local
@@ -57,33 +57,37 @@ export class ButtonShowLogs extends OnOffButton {
       this.setStyleOn();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.activateLogs)
+        .then(this.activateLogs.bind(this))
         .catch(console.error);
     } else {
       this.setStyleOff();
       await browser.tabs
         .query({ active: true, currentWindow: true })
-        .then(this.deactivateLogs)
+        .then(this.deactivateLogs.bind(this))
         .catch(console.error);
     }
   }
 
   setStyleOn() {
-    setStyle(ButtonShowLogs.buttonIdHtml, "on");
+    setStyle(this.id, "on");
   }
 
   setStyleOff() {
-    setStyle(ButtonShowLogs.buttonIdHtml, "off");
+    setStyle(this.id, "off");
   }
 
   get isOn() {
-    return isOn(ButtonShowLogs.buttonIdHtml);
+    return isOn(this.id);
+  }
+
+  get id() {
+    return ButtonShowLogs.buttonIdHtml;
   }
 
   activateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
-        info: ButtonShowLogs.buttonIdHtml,
+        info: this.id,
         values: 1,
       })
       .catch(console.error);
@@ -91,7 +95,7 @@ export class ButtonShowLogs extends OnOffButton {
 
   deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
-      info: ButtonShowLogs.buttonIdHtml,
+      info: this.id,
       values: 0,
     });
   }
