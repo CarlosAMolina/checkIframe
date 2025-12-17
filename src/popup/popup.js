@@ -89,34 +89,27 @@ function getUrls(results) {
 }
 
 function createButton(buttonIdHtml) {
-  switch (buttonIdHtml) {
-    case new ButtonRecheck().idHtml:
-      return new ButtonRecheck();
-    case new ButtonClean().idHtml:
-      return new ButtonClean();
-    case new ButtonScroll().idHtml:
-      return new ButtonScroll();
-    case new ButtonShowSources().idHtml:
-      return new ButtonShowSources();
-    case new ButtonShowConfig().idHtml:
-      return new ButtonShowConfig();
-    case new ButtonShowLogs().idHtml:
-      return new ButtonShowLogs();
-    case new ButtonHighlightAllAutomatically().idHtml:
-      return new ButtonHighlightAllAutomatically();
-    case new ButtonUrlsNotify().idHtml:
-      return new ButtonUrlsNotify();
-    case new ButtonUrlsBlacklist().idHtml:
-      return new ButtonUrlsBlacklist();
-    case new ButtonUrlsReferer().idHtml:
-      return new ButtonUrlsReferer();
-    case new ButtonAddUrl().idHtml:
-      return new ButtonAddUrl();
-    case new ButtonClearAll().idHtml:
-      return new ButtonClearAll();
-    default:
-      return false;
+  const buttonClasses = [
+    ButtonRecheck,
+    ButtonClean,
+    ButtonScroll,
+    ButtonShowSources,
+    ButtonShowConfig,
+    ButtonShowLogs,
+    ButtonHighlightAllAutomatically,
+    ButtonUrlsNotify,
+    ButtonUrlsBlacklist,
+    ButtonUrlsReferer,
+    ButtonAddUrl,
+    ButtonClearAll,
+  ];
+  for (const ButtonClass of buttonClasses) {
+    const buttonInstance = new ButtonClass();
+    if (buttonInstance.idHtml === buttonIdHtml) {
+      return buttonInstance;
+    }
   }
+  return false;
 }
 
 class ButtonClicked {
