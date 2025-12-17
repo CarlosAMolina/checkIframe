@@ -134,12 +134,8 @@ function createButton(buttonIdHtml) {
 }
 
 class ButtonClicked {
-  constructor(idHtml) {
-    this._idHtml = idHtml;
-  }
-
   get idHtml() {
-    return this._idHtml;
+    throw TypeError("Not implemented");
   }
 
   run() {
@@ -152,8 +148,8 @@ class ButtonClicked {
 }
 
 class ButtonRecheck extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_RECHECK);
+  get idHtml() {
+    return _BUTTON_ID_RECHECK;
   }
 
   run() {
@@ -168,8 +164,8 @@ class ButtonRecheck extends ButtonClicked {
 }
 
 class ButtonClean extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_CLEAN);
+  get idHtml() {
+    return _BUTTON_ID_CLEAN;
   }
 
   run() {
@@ -184,8 +180,8 @@ class ButtonClean extends ButtonClicked {
 }
 
 class ButtonScroll extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_SCROLL);
+  get idHtml() {
+    return _BUTTON_ID_SCROLL;
   }
 
   run() {
@@ -201,8 +197,8 @@ class ButtonScroll extends ButtonClicked {
 }
 
 class ButtonShowSources extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_SHOW_SOURCES);
+  get idHtml() {
+    return _BUTTON_ID_SHOW_SOURCES;
   }
 
   run() {
@@ -218,8 +214,8 @@ class ButtonShowSources extends ButtonClicked {
 }
 
 class ButtonShowConfig extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_SHOW_CONFIG);
+  get idHtml() {
+    return _BUTTON_ID_SHOW_CONFIG;
   }
 
   run() {
@@ -229,8 +225,8 @@ class ButtonShowConfig extends ButtonClicked {
 }
 
 class ButtonUrlsNotify extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_URLS_NOTIFY);
+  get idHtml() {
+    return _BUTTON_ID_URLS_NOTIFY;
   }
 
   run() {
@@ -243,8 +239,8 @@ class ButtonUrlsNotify extends ButtonClicked {
 }
 
 class ButtonUrlsBlacklist extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_URLS_BLACKLIST);
+  get idHtml() {
+    return _BUTTON_ID_URLS_BLACKLIST;
   }
 
   run() {
@@ -257,8 +253,8 @@ class ButtonUrlsBlacklist extends ButtonClicked {
 }
 
 class ButtonUrlsReferer extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_URLS_REFERER);
+  get idHtml() {
+    return _BUTTON_ID_URLS_REFERER;
   }
 
   run() {
@@ -271,8 +267,8 @@ class ButtonUrlsReferer extends ButtonClicked {
 }
 
 class ButtonAddUrl extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_ADD_URL);
+  get idHtml() {
+    return _BUTTON_ID_ADD_URL;
   }
 
   run() {
@@ -282,8 +278,8 @@ class ButtonAddUrl extends ButtonClicked {
 }
 
 class ButtonClearAll extends ButtonClicked {
-  constructor() {
-    super(_BUTTON_ID_CLEAR_ALL);
+  get idHtml() {
+    return _BUTTON_ID_CLEAR_ALL;
   }
 
   run() {

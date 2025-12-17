@@ -113,9 +113,13 @@ describe("Check module import", () => {
     });
     describe("Check ButtonClicked", () => {
       beforeAll(() => {
-        buttonType = popupModule.__get__("ButtonClicked");
-        const buttonIdHtml = "idTest";
-        button = new buttonType(buttonIdHtml);
+        const ButtonClickedBase = popupModule.__get__("ButtonClicked");
+        class TestButton extends ButtonClickedBase {
+          get idHtml() {
+            return "idTest";
+          }
+        }
+        button = new TestButton();
       });
       it("Check buttonIdHtml returns expected result", function () {
         const result = button.idHtml;
