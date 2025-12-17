@@ -27,11 +27,35 @@ class OnOffButton extends Button {
   }
 
   setStyleOn() {
-    setStyle(this._idHtml, "on");
+    this._setStyle("on");
   }
 
   setStyleOff() {
-    setStyle(this._idHtml, "off");
+    this._setStyle("off");
+  }
+
+  _setStyle(style) {
+    console.log("Setting style", style);
+    const styles = {
+      on: {
+        background: "green",
+        color: "lightgray",
+        textContent: "on",
+        checked: true,
+      },
+      off: {
+        background: "gray",
+        color: "lightgray",
+        textContent: "off",
+        checked: false,
+      },
+    };
+    document.getElementById(this._idHtml).style.background =
+      styles[style].background;
+    document.getElementById(this._idHtml).style.color = styles[style].color;
+    document.getElementById(this._idHtml).textContent =
+      styles[style].textContent;
+    document.getElementById(this._idHtml).checked = styles[style].checked;
   }
 
   get isOn() {
@@ -230,29 +254,6 @@ function isOn(buttonIdHtml) {
   const result = element.checked === undefined ? false : element.checked;
   console.log(`Is button ${buttonIdHtml} on? ${result}`);
   return result;
-}
-
-function setStyle(buttonIdHtml, style) {
-  console.log("Setting style", style);
-  const styles = {
-    on: {
-      background: "green",
-      color: "lightgray",
-      textContent: "on",
-      checked: true,
-    },
-    off: {
-      background: "gray",
-      color: "lightgray",
-      textContent: "off",
-      checked: false,
-    },
-  };
-  document.getElementById(buttonIdHtml).style.background =
-    styles[style].background;
-  document.getElementById(buttonIdHtml).style.color = styles[style].color;
-  document.getElementById(buttonIdHtml).textContent = styles[style].textContent;
-  document.getElementById(buttonIdHtml).checked = styles[style].checked;
 }
 
 // TODO extract to file (this and other files definition)
