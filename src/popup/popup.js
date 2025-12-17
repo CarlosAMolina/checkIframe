@@ -20,6 +20,20 @@ const urlTypeReferer = "referer";
 const urlTypes = [urlTypeBlacklist, urlTypeNotify, urlTypeReferer];
 var values2sendFromPopup;
 
+const _BUTTON_ID_RECHECK = "buttonRecheck";
+const _BUTTON_ID_CLEAN = "buttonClean";
+const _BUTTON_ID_SCROLL = "buttonScroll";
+const _BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
+const _BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
+const _BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
+const _BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY =
+  "buttonHighlightAllAutomatically";
+const _BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
+const _BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
+const _BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
+const _BUTTON_ID_ADD_URL = "buttonAddUrl";
+const _BUTTON_ID_CLEAR_ALL = "buttonClearAll";
+
 function popupMain() {
   // display previously saved stored info on start-up
   initializePopup();
@@ -90,29 +104,29 @@ function getUrls(results) {
 
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
-    case new ButtonRecheck().idHtml:
+    case _BUTTON_ID_RECHECK:
       return new ButtonRecheck();
-    case new ButtonClean().idHtml:
+    case _BUTTON_ID_CLEAN:
       return new ButtonClean();
-    case new ButtonScroll().idHtml:
+    case _BUTTON_ID_SCROLL:
       return new ButtonScroll();
-    case new ButtonShowSources().idHtml:
+    case _BUTTON_ID_SHOW_SOURCES:
       return new ButtonShowSources();
-    case new ButtonShowConfig().idHtml:
+    case _BUTTON_ID_SHOW_CONFIG:
       return new ButtonShowConfig();
-    case new ButtonShowLogs().idHtml:
+    case _BUTTON_ID_SHOW_LOGS:
       return new ButtonShowLogs();
-    case new ButtonHighlightAllAutomatically().idHtml:
+    case _BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
       return new ButtonHighlightAllAutomatically();
-    case new ButtonUrlsNotify().idHtml:
+    case _BUTTON_ID_URLS_NOTIFY:
       return new ButtonUrlsNotify();
-    case new ButtonUrlsBlacklist().idHtml:
+    case _BUTTON_ID_URLS_BLACKLIST:
       return new ButtonUrlsBlacklist();
-    case new ButtonUrlsReferer().idHtml:
+    case _BUTTON_ID_URLS_REFERER:
       return new ButtonUrlsReferer();
-    case new ButtonAddUrl().idHtml:
+    case _BUTTON_ID_ADD_URL:
       return new ButtonAddUrl();
-    case new ButtonClearAll().idHtml:
+    case _BUTTON_ID_CLEAR_ALL:
       return new ButtonClearAll();
     default:
       return false;
@@ -139,7 +153,7 @@ class ButtonClicked {
 
 class ButtonRecheck extends ButtonClicked {
   constructor() {
-    super("buttonRecheck");
+    super(_BUTTON_ID_RECHECK);
   }
 
   run() {
@@ -155,7 +169,7 @@ class ButtonRecheck extends ButtonClicked {
 
 class ButtonClean extends ButtonClicked {
   constructor() {
-    super("buttonClean");
+    super(_BUTTON_ID_CLEAN);
   }
 
   run() {
@@ -171,7 +185,7 @@ class ButtonClean extends ButtonClicked {
 
 class ButtonScroll extends ButtonClicked {
   constructor() {
-    super("buttonScroll");
+    super(_BUTTON_ID_SCROLL);
   }
 
   run() {
@@ -188,7 +202,7 @@ class ButtonScroll extends ButtonClicked {
 
 class ButtonShowSources extends ButtonClicked {
   constructor() {
-    super("buttonShowSources");
+    super(_BUTTON_ID_SHOW_SOURCES);
   }
 
   run() {
@@ -205,7 +219,7 @@ class ButtonShowSources extends ButtonClicked {
 
 class ButtonShowConfig extends ButtonClicked {
   constructor() {
-    super("buttonShowConfig");
+    super(_BUTTON_ID_SHOW_CONFIG);
   }
 
   run() {
@@ -216,7 +230,7 @@ class ButtonShowConfig extends ButtonClicked {
 
 class ButtonUrlsNotify extends ButtonClicked {
   constructor() {
-    super("buttonUrlsNotify");
+    super(_BUTTON_ID_URLS_NOTIFY);
   }
 
   run() {
@@ -230,7 +244,7 @@ class ButtonUrlsNotify extends ButtonClicked {
 
 class ButtonUrlsBlacklist extends ButtonClicked {
   constructor() {
-    super("buttonUrlsBlacklist");
+    super(_BUTTON_ID_URLS_BLACKLIST);
   }
 
   run() {
@@ -244,7 +258,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
 
 class ButtonUrlsReferer extends ButtonClicked {
   constructor() {
-    super("buttonUrlsReferer");
+    super(_BUTTON_ID_URLS_REFERER);
   }
 
   run() {
@@ -258,7 +272,7 @@ class ButtonUrlsReferer extends ButtonClicked {
 
 class ButtonAddUrl extends ButtonClicked {
   constructor() {
-    super("buttonAddUrl");
+    super(_BUTTON_ID_ADD_URL);
   }
 
   run() {
@@ -269,7 +283,7 @@ class ButtonAddUrl extends ButtonClicked {
 
 class ButtonClearAll extends ButtonClicked {
   constructor() {
-    super("buttonClearAll");
+    super(_BUTTON_ID_CLEAR_ALL);
   }
 
   run() {
