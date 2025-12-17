@@ -37,6 +37,10 @@ class OnOffButton extends Button {
   get isOn() {
     return isOn(this._idHtml);
   }
+
+  async getIsStoredOn() {
+    return getIsStoredOn(this._idStorage);
+  }
 }
 
 export class ButtonShowLogs extends OnOffButton {
@@ -112,11 +116,6 @@ export class ButtonShowLogs extends OnOffButton {
       info: this._idHtml,
       values: 0,
     });
-  }
-
-  // TODO extract to parent class
-  async getIsStoredOn() {
-    return getIsStoredOn(this._idStorage);
   }
 }
 
@@ -205,11 +204,6 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
         values: 0,
       })
       .catch(console.error);
-  }
-
-  // TODO extract to parent class
-  async getIsStoredOn() {
-    return getIsStoredOn(this._idStorage);
   }
 }
 
