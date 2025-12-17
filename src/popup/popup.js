@@ -102,6 +102,7 @@ function getUrls(results) {
   });
 }
 
+//TODO move createButton and all buttons to button.js and update tests.
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
     case _BUTTON_ID_RECHECK:
