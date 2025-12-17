@@ -55,7 +55,11 @@ class OnOffButton extends Button {
   }
 
   get isOn() {
-    return isOn(this._idHtml);
+    const element = document.getElementById(this._idHtml);
+    console.log(`Is button ${this._idHtml} checked? ${element.checked}`);
+    const result = element.checked === undefined ? false : element.checked;
+    console.log(`Is button ${this._idHtml} on? ${result}`);
+    return result;
   }
 
   async getIsStoredOn() {
@@ -235,14 +239,6 @@ async function getIsStoredOn(keyName) {
   const result =
     storedButtonIdStorage === undefined ? false : storedButtonIdStorage;
   console.log("Is stored on?", result);
-  return result;
-}
-
-function isOn(buttonIdHtml) {
-  const element = document.getElementById(buttonIdHtml);
-  console.log(`Is button ${buttonIdHtml} checked? ${element.checked}`);
-  const result = element.checked === undefined ? false : element.checked;
-  console.log(`Is button ${buttonIdHtml} on? ${result}`);
   return result;
 }
 
