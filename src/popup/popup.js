@@ -100,9 +100,9 @@ function createButton(buttonIdHtml) {
       return new ButtonShowSources();
     case new ButtonShowConfig().buttonIdHtml:
       return new ButtonShowConfig();
-    case ButtonShowLogs.buttonIdHtml:
+    case new ButtonShowLogs().buttonIdHtml:
       return new ButtonShowLogs();
-    case ButtonHighlightAllAutomatically.buttonIdHtml:
+    case new ButtonHighlightAllAutomatically().buttonIdHtml:
       return new ButtonHighlightAllAutomatically();
     case new ButtonUrlsNotify().buttonIdHtml:
       return new ButtonUrlsNotify();
