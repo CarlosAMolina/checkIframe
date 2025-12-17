@@ -14,10 +14,6 @@ class OnOffButton extends Button {
     throw TypeError("Not implemented: method initializePopup");
   }
 
-  static get _buttonIdStorage() {
-    throw TypeError("Not implemented");
-  }
-
   get _idHtml() {
     throw TypeError("Not implemented");
   }
@@ -71,9 +67,6 @@ export class ButtonShowLogs extends OnOffButton {
   static get buttonIdHtml() {
     return "buttonShowLogs";
   }
-  static get _buttonIdStorage() {
-    return "idShowLogs";
-  }
 
   async run() {
     console.log(`Clicked button ID Html: ${this._idHtml}`);
@@ -121,7 +114,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   get _idStorage() {
-    return ButtonShowLogs._buttonIdStorage;
+    return "idShowLogs";
   }
 
   // TODO extract to parent class
@@ -146,9 +139,6 @@ export class ButtonShowLogs extends OnOffButton {
 export class ButtonHighlightAllAutomatically extends OnOffButton {
   static get buttonIdHtml() {
     return "buttonHighlightAllAutomatically";
-  }
-  static get _buttonIdStorage() {
-    return "idHighlightAllAutomatically";
   }
 
   async run() {
@@ -211,7 +201,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   get _idStorage() {
-    return ButtonHighlightAllAutomatically._buttonIdStorage;
+    return "idHighlightAllAutomatically";
   }
 
   activateHighlightAllAutomatically(tabs) {
