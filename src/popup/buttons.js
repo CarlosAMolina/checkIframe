@@ -17,6 +17,14 @@ class OnOffButton extends Button {
   static get _buttonIdStorage() {
     throw TypeError("Not implemented");
   }
+
+  get _idHtml() {
+    throw TypeError("Not implemented");
+  }
+
+  get _idStorage() {
+    throw TypeError("Not implemented");
+  }
 }
 
 export class ButtonShowLogs extends OnOffButton {
@@ -83,12 +91,10 @@ export class ButtonShowLogs extends OnOffButton {
     return isOn(this._idHtml);
   }
 
-  // TODO extract to parent class
   get _idHtml() {
     return ButtonShowLogs.buttonIdHtml;
   }
 
-  // TODO extract to parent class
   get _idStorage() {
     return ButtonShowLogs._buttonIdStorage;
   }
@@ -195,12 +201,10 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     return isOn(this._idHtml);
   }
 
-  // TODO extract to parent class
   get _idHtml() {
     return ButtonHighlightAllAutomatically.buttonIdHtml;
   }
 
-  // TODO extract to parent class
   get _idStorage() {
     return ButtonHighlightAllAutomatically._buttonIdStorage;
   }
