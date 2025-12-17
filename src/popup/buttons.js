@@ -121,7 +121,6 @@ export class ButtonShowLogs extends OnOffButton {
     return "idShowLogs";
   }
 
-  // TODO extract to parent class
   activateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
@@ -131,7 +130,6 @@ export class ButtonShowLogs extends OnOffButton {
       .catch(console.error);
   }
 
-  // TODO extract to parent class
   deactivateLogs(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
       info: this._idHtml,
