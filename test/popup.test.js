@@ -93,7 +93,7 @@ describe("Check module import", () => {
       });
       // Parametrized test.
       it.each(buttonIdsHtml)("Check if valid button ID: %p", (buttonIdHtml) => {
-        const result = function_(buttonIdHtml)._idHtml;
+        const result = function_(buttonIdHtml).idHtml;
         expect(result).toBe(buttonIdHtml);
       });
       it("Check if invalid button ID", function () {
