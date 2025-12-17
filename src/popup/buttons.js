@@ -3,7 +3,7 @@ class Button {
     throw TypeError("Not implemented: method run");
   }
 
-  get buttonIdHtml() {
+  get idHtml() {
     throw TypeError("Not implemented");
   }
 }
@@ -68,7 +68,7 @@ class OnOffButton extends Button {
 }
 
 export class ButtonShowLogs extends OnOffButton {
-  get buttonIdHtml() {
+  get idHtml() {
     return "buttonShowLogs";
   }
 
@@ -114,7 +114,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   get _idHtml() {
-    return this.buttonIdHtml;
+    return this.idHtml;
   }
 
   get _idStorage() {
@@ -139,7 +139,7 @@ export class ButtonShowLogs extends OnOffButton {
 }
 
 export class ButtonHighlightAllAutomatically extends OnOffButton {
-  get buttonIdHtml() {
+  get idHtml() {
     return "buttonHighlightAllAutomatically";
   }
 
@@ -199,7 +199,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   get _idHtml() {
-    return this.buttonIdHtml;
+    return this.idHtml;
   }
 
   get _idStorage() {

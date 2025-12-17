@@ -90,29 +90,29 @@ function getUrls(results) {
 
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
-    case new ButtonRecheck().buttonIdHtml:
+    case new ButtonRecheck().idHtml:
       return new ButtonRecheck();
-    case new ButtonClean().buttonIdHtml:
+    case new ButtonClean().idHtml:
       return new ButtonClean();
-    case new ButtonScroll().buttonIdHtml:
+    case new ButtonScroll().idHtml:
       return new ButtonScroll();
-    case new ButtonShowSources().buttonIdHtml:
+    case new ButtonShowSources().idHtml:
       return new ButtonShowSources();
-    case new ButtonShowConfig().buttonIdHtml:
+    case new ButtonShowConfig().idHtml:
       return new ButtonShowConfig();
-    case new ButtonShowLogs().buttonIdHtml:
+    case new ButtonShowLogs().idHtml:
       return new ButtonShowLogs();
-    case new ButtonHighlightAllAutomatically().buttonIdHtml:
+    case new ButtonHighlightAllAutomatically().idHtml:
       return new ButtonHighlightAllAutomatically();
-    case new ButtonUrlsNotify().buttonIdHtml:
+    case new ButtonUrlsNotify().idHtml:
       return new ButtonUrlsNotify();
-    case new ButtonUrlsBlacklist().buttonIdHtml:
+    case new ButtonUrlsBlacklist().idHtml:
       return new ButtonUrlsBlacklist();
-    case new ButtonUrlsReferer().buttonIdHtml:
+    case new ButtonUrlsReferer().idHtml:
       return new ButtonUrlsReferer();
-    case new ButtonAddUrl().buttonIdHtml:
+    case new ButtonAddUrl().idHtml:
       return new ButtonAddUrl();
-    case new ButtonClearAll().buttonIdHtml:
+    case new ButtonClearAll().idHtml:
       return new ButtonClearAll();
     default:
       return false;
@@ -120,12 +120,12 @@ function createButton(buttonIdHtml) {
 }
 
 class ButtonClicked {
-  constructor(buttonIdHtml) {
-    this._buttonIdHtml = buttonIdHtml;
+  constructor(idHtml) {
+    this._idHtml = idHtml;
   }
 
-  get buttonIdHtml() {
-    return this._buttonIdHtml;
+  get idHtml() {
+    return this._idHtml;
   }
 
   run() {
@@ -133,7 +133,7 @@ class ButtonClicked {
   }
 
   get logButtonName() {
-    console.log(`Clicked button ID Html: ${this.buttonIdHtml}`);
+    console.log(`Clicked button ID Html: ${this.idHtml}`);
   }
 }
 
@@ -145,7 +145,7 @@ class ButtonRecheck extends ButtonClicked {
   run() {
     this.logButtonName;
     hideHtmlId("infoTags");
-    info2sendFromPopup = this.buttonIdHtml;
+    info2sendFromPopup = this.idHtml;
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfo)
@@ -160,7 +160,7 @@ class ButtonClean extends ButtonClicked {
 
   run() {
     this.logButtonName;
-    info2sendFromPopup = this.buttonIdHtml;
+    info2sendFromPopup = this.idHtml;
     hideHtmlId("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -177,7 +177,7 @@ class ButtonScroll extends ButtonClicked {
   run() {
     this.logButtonName;
     htmlIdToChange = "infoScroll";
-    info2sendFromPopup = this.buttonIdHtml;
+    info2sendFromPopup = this.idHtml;
     unhideHtmlId("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -194,7 +194,7 @@ class ButtonShowSources extends ButtonClicked {
   run() {
     this.logButtonName;
     htmlIdToChange = "infoTags";
-    info2sendFromPopup = this.buttonIdHtml;
+    info2sendFromPopup = this.idHtml;
     showOrHideInfo("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
