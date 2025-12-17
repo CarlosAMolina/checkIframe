@@ -25,6 +25,18 @@ class OnOffButton extends Button {
   get _idStorage() {
     throw TypeError("Not implemented");
   }
+
+  setStyleOn() {
+    setStyle(this._idHtml, "on");
+  }
+
+  setStyleOff() {
+    setStyle(this._idHtml, "off");
+  }
+
+  get isOn() {
+    return isOn(this._idHtml);
+  }
 }
 
 export class ButtonShowLogs extends OnOffButton {
@@ -74,21 +86,6 @@ export class ButtonShowLogs extends OnOffButton {
         .then(this.deactivateLogs.bind(this))
         .catch(console.error);
     }
-  }
-
-  // TODO extract to parent class
-  setStyleOn() {
-    setStyle(this._idHtml, "on");
-  }
-
-  // TODO extract to parent class
-  setStyleOff() {
-    setStyle(this._idHtml, "off");
-  }
-
-  // TODO extract to parent class
-  get isOn() {
-    return isOn(this._idHtml);
   }
 
   get _idHtml() {
@@ -176,16 +173,6 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     }
   }
 
-  // TODO extract to parent class
-  setStyleOn() {
-    setStyle(this._idHtml, "on");
-  }
-
-  // TODO extract to parent class
-  setStyleOff() {
-    setStyle(this._idHtml, "off");
-  }
-
   hideElementsForHighlightAllAutomatically() {
     hideHtmlId("buttonClean");
     hideHtmlId("buttonScroll");
@@ -194,11 +181,6 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   unhideElementsForHighlightAllAutomatically() {
     unhideHtmlId("buttonClean");
     unhideHtmlId("buttonScroll");
-  }
-
-  // TODO extract to parent class
-  get isOn() {
-    return isOn(this._idHtml);
   }
 
   get _idHtml() {
