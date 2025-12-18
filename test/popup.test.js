@@ -135,7 +135,7 @@ describe("Check module import", () => {
       });
       it("Check logButtonName logs expected message", function () {
         console.log = jest.fn();
-        button.logButtonName;
+        button.logButtonName();
         expect(console.log).toHaveBeenCalledWith(
           "Clicked button ID Html: idTest",
         );

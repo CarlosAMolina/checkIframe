@@ -143,7 +143,7 @@ class ButtonClicked {
     throw TypeError("Not implemented: method click");
   }
 
-  get logButtonName() {
+  logButtonName() {
     console.log(`Clicked button ID Html: ${this._idHtml}`);
   }
 }
@@ -154,7 +154,7 @@ class ButtonRecheck extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     hideHtmlId("infoTags");
     info2sendFromPopup = this._idHtml;
     browser.tabs
@@ -170,7 +170,7 @@ class ButtonClean extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     info2sendFromPopup = this._idHtml;
     hideHtmlId("infoScroll");
     browser.tabs
@@ -186,7 +186,7 @@ class ButtonScroll extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     htmlIdToChange = "infoScroll";
     info2sendFromPopup = this._idHtml;
     unhideHtmlId("infoScroll");
@@ -203,7 +203,7 @@ class ButtonShowSources extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     htmlIdToChange = "infoTags";
     info2sendFromPopup = this._idHtml;
     showOrHideInfo("infoTags");
@@ -220,7 +220,7 @@ class ButtonShowConfig extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     showOrHideInfo("menuConfig");
   }
 }
@@ -231,7 +231,7 @@ class ButtonUrlsNotify extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     urlType = urlTypeNotify;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
@@ -245,7 +245,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     urlType = urlTypeBlacklist;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
@@ -259,7 +259,7 @@ class ButtonUrlsReferer extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     urlType = urlTypeReferer;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
@@ -273,7 +273,7 @@ class ButtonAddUrl extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     saveUrl();
   }
 }
@@ -284,7 +284,7 @@ class ButtonClearAll extends ButtonClicked {
   }
 
   click() {
-    this.logButtonName;
+    this.logButtonName();
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(clearStorageInfo)
