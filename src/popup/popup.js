@@ -134,7 +134,7 @@ function createButton(buttonIdHtml) {
   }
 }
 
-class ButtonClicked {
+class Button {
   get _idHtml() {
     throw TypeError("Not implemented");
   }
@@ -148,7 +148,7 @@ class ButtonClicked {
   }
 }
 
-class ButtonRecheck extends ButtonClicked {
+class ButtonRecheck extends Button {
   get _idHtml() {
     return _BUTTON_ID_RECHECK;
   }
@@ -164,7 +164,7 @@ class ButtonRecheck extends ButtonClicked {
   }
 }
 
-class ButtonClean extends ButtonClicked {
+class ButtonClean extends Button {
   get _idHtml() {
     return _BUTTON_ID_CLEAN;
   }
@@ -180,7 +180,7 @@ class ButtonClean extends ButtonClicked {
   }
 }
 
-class ButtonScroll extends ButtonClicked {
+class ButtonScroll extends Button {
   get _idHtml() {
     return _BUTTON_ID_SCROLL;
   }
@@ -197,7 +197,7 @@ class ButtonScroll extends ButtonClicked {
   }
 }
 
-class ButtonShowSources extends ButtonClicked {
+class ButtonShowSources extends Button {
   get _idHtml() {
     return _BUTTON_ID_SHOW_SOURCES;
   }
@@ -214,7 +214,7 @@ class ButtonShowSources extends ButtonClicked {
   }
 }
 
-class ButtonShowConfig extends ButtonClicked {
+class ButtonShowConfig extends Button {
   get _idHtml() {
     return _BUTTON_ID_SHOW_CONFIG;
   }
@@ -225,7 +225,7 @@ class ButtonShowConfig extends ButtonClicked {
   }
 }
 
-class ButtonUrlsNotify extends ButtonClicked {
+class ButtonUrlsNotify extends Button {
   get _idHtml() {
     return _BUTTON_ID_URLS_NOTIFY;
   }
@@ -239,7 +239,7 @@ class ButtonUrlsNotify extends ButtonClicked {
   }
 }
 
-class ButtonUrlsBlacklist extends ButtonClicked {
+class ButtonUrlsBlacklist extends Button {
   get _idHtml() {
     return _BUTTON_ID_URLS_BLACKLIST;
   }
@@ -253,7 +253,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
   }
 }
 
-class ButtonUrlsReferer extends ButtonClicked {
+class ButtonUrlsReferer extends Button {
   get _idHtml() {
     return _BUTTON_ID_URLS_REFERER;
   }
@@ -267,7 +267,7 @@ class ButtonUrlsReferer extends ButtonClicked {
   }
 }
 
-class ButtonAddUrl extends ButtonClicked {
+class ButtonAddUrl extends Button {
   get _idHtml() {
     return _BUTTON_ID_ADD_URL;
   }
@@ -278,7 +278,7 @@ class ButtonAddUrl extends ButtonClicked {
   }
 }
 
-class ButtonClearAll extends ButtonClicked {
+class ButtonClearAll extends Button {
   get _idHtml() {
     return _BUTTON_ID_CLEAR_ALL;
   }

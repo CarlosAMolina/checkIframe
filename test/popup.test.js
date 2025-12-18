@@ -111,10 +111,10 @@ describe("Check module import", () => {
         button.click();
       });
     });
-    describe("Check ButtonClicked", () => {
+    describe("Check Button", () => {
       beforeAll(() => {
-        const ButtonClickedBase = popupModule.__get__("ButtonClicked");
-        class TestButton extends ButtonClickedBase {
+        const ButtonBase = popupModule.__get__("Button");
+        class TestButton extends ButtonBase {
           get _idHtml() {
             return "idTest";
           }
