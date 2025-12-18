@@ -4,7 +4,7 @@ import { runMockDom } from "./mockDom.js";
 
 describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
-    expect(new ButtonShowLogs().idHtml).toBe("buttonShowLogs");
+    expect(new ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
   });
   describe("Check run has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
@@ -30,7 +30,7 @@ describe("Check ButtonShowLogs", () => {
       runMockDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       const button = new ButtonShowLogs();
-      document.getElementById(button.idHtml).checked = true;
+      document.getElementById(button._idHtml).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -90,7 +90,7 @@ describe("Check ButtonShowLogs", () => {
 
 describe("Check ButtonHighlightAllAutomatically", () => {
   it("Check it has correct button ID value", function () {
-    expect(new ButtonHighlightAllAutomatically().idHtml).toBe(
+    expect(new ButtonHighlightAllAutomatically()._idHtml).toBe(
       "buttonHighlightAllAutomatically",
     );
   });
@@ -119,7 +119,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       global.browser = getBrowserMock();
       const button = new ButtonHighlightAllAutomatically();
       document.getElementById(
-        new ButtonHighlightAllAutomatically().idHtml,
+        new ButtonHighlightAllAutomatically()._idHtml,
       ).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);

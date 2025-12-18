@@ -93,7 +93,7 @@ describe("Check module import", () => {
       });
       // Parametrized test.
       it.each(buttonIdsHtml)("Check if valid button ID: %p", (buttonIdHtml) => {
-        const result = function_(buttonIdHtml).idHtml;
+        const result = function_(buttonIdHtml)._idHtml;
         expect(result).toBe(buttonIdHtml);
       });
       it("Check if invalid button ID", function () {
@@ -115,14 +115,14 @@ describe("Check module import", () => {
       beforeAll(() => {
         const ButtonClickedBase = popupModule.__get__("ButtonClicked");
         class TestButton extends ButtonClickedBase {
-          get idHtml() {
+          get _idHtml() {
             return "idTest";
           }
         }
         button = new TestButton();
       });
       it("Check buttonIdHtml returns expected result", function () {
-        const result = button.idHtml;
+        const result = button._idHtml;
         expect(result).toBe("idTest");
       });
       it("Check run throws error", function () {
@@ -147,7 +147,7 @@ describe("Check module import", () => {
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
-        expect(button.idHtml).toBe("buttonRecheck");
+        expect(button._idHtml).toBe("buttonRecheck");
       });
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoTags").classList.remove("hidden");
@@ -173,7 +173,7 @@ describe("Check module import", () => {
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
-        expect(button.idHtml).toBe("buttonClean");
+        expect(button._idHtml).toBe("buttonClean");
       });
       it("Check run has expected calls and values", async () => {
         document.querySelector("#infoScroll").classList.remove("hidden");
@@ -199,7 +199,7 @@ describe("Check module import", () => {
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
-        expect(button.idHtml).toBe("buttonScroll");
+        expect(button._idHtml).toBe("buttonScroll");
       });
       describe("Check button run", () => {
         describe("Check if all required data exists", () => {
@@ -260,7 +260,7 @@ describe("Check module import", () => {
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
-        expect(button.idHtml).toBe("buttonShowSources");
+        expect(button._idHtml).toBe("buttonShowSources");
       });
       describe("Check button run", () => {
         describe("Check if all required data exists", () => {
@@ -342,7 +342,7 @@ describe("Check module import", () => {
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
-        expect(button.idHtml).toBe("buttonShowConfig");
+        expect(button._idHtml).toBe("buttonShowConfig");
       });
       it("Check run has expected calls and values", function () {
         expect(document.getElementById("menuConfig").className).toBe(
@@ -360,7 +360,7 @@ describe("Check module import", () => {
         button = new classType();
       });
       it("Check it has correct button ID value", function () {
-        expect(button.idHtml).toBe("buttonUrlsNotify");
+        expect(button._idHtml).toBe("buttonUrlsNotify");
       });
       describe("Check run has expected calls and values", () => {
         describe("Test urltype global variable", () => {

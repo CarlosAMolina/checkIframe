@@ -3,7 +3,7 @@ class Button {
     throw TypeError("Not implemented: method run");
   }
 
-  get idHtml() {
+  get _idHtml() {
     throw TypeError("Not implemented");
   }
 }
@@ -12,10 +12,6 @@ class Button {
 class OnOffButton extends Button {
   initializePopup() {
     throw TypeError("Not implemented: method initializePopup");
-  }
-
-  get _idHtml() {
-    throw TypeError("Not implemented");
   }
 
   get _idStorage() {
@@ -69,7 +65,7 @@ class OnOffButton extends Button {
 
 export class ButtonShowLogs extends OnOffButton {
   // TODO use _BUTTON_ID_SHOW_LOGS in popup.js
-  get idHtml() {
+  get _idHtml() {
     return "buttonShowLogs";
   }
 
@@ -114,10 +110,6 @@ export class ButtonShowLogs extends OnOffButton {
     }
   }
 
-  get _idHtml() {
-    return this.idHtml;
-  }
-
   get _idStorage() {
     return "idShowLogs";
   }
@@ -141,7 +133,7 @@ export class ButtonShowLogs extends OnOffButton {
 
 export class ButtonHighlightAllAutomatically extends OnOffButton {
   // TODO use _BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY in popup.js
-  get idHtml() {
+  get _idHtml() {
     return "buttonHighlightAllAutomatically";
   }
 
@@ -198,10 +190,6 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   unhideElementsForHighlightAllAutomatically() {
     unhideHtmlId("buttonClean");
     unhideHtmlId("buttonScroll");
-  }
-
-  get _idHtml() {
-    return this.idHtml;
   }
 
   get _idStorage() {

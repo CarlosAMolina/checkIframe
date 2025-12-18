@@ -135,7 +135,7 @@ function createButton(buttonIdHtml) {
 }
 
 class ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     throw TypeError("Not implemented");
   }
 
@@ -144,19 +144,19 @@ class ButtonClicked {
   }
 
   get logButtonName() {
-    console.log(`Clicked button ID Html: ${this.idHtml}`);
+    console.log(`Clicked button ID Html: ${this._idHtml}`);
   }
 }
 
 class ButtonRecheck extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_RECHECK;
   }
 
   run() {
     this.logButtonName;
     hideHtmlId("infoTags");
-    info2sendFromPopup = this.idHtml;
+    info2sendFromPopup = this._idHtml;
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfo)
@@ -165,13 +165,13 @@ class ButtonRecheck extends ButtonClicked {
 }
 
 class ButtonClean extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_CLEAN;
   }
 
   run() {
     this.logButtonName;
-    info2sendFromPopup = this.idHtml;
+    info2sendFromPopup = this._idHtml;
     hideHtmlId("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -181,14 +181,14 @@ class ButtonClean extends ButtonClicked {
 }
 
 class ButtonScroll extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_SCROLL;
   }
 
   run() {
     this.logButtonName;
     htmlIdToChange = "infoScroll";
-    info2sendFromPopup = this.idHtml;
+    info2sendFromPopup = this._idHtml;
     unhideHtmlId("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -198,14 +198,14 @@ class ButtonScroll extends ButtonClicked {
 }
 
 class ButtonShowSources extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_SHOW_SOURCES;
   }
 
   run() {
     this.logButtonName;
     htmlIdToChange = "infoTags";
-    info2sendFromPopup = this.idHtml;
+    info2sendFromPopup = this._idHtml;
     showOrHideInfo("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -215,7 +215,7 @@ class ButtonShowSources extends ButtonClicked {
 }
 
 class ButtonShowConfig extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_SHOW_CONFIG;
   }
 
@@ -226,7 +226,7 @@ class ButtonShowConfig extends ButtonClicked {
 }
 
 class ButtonUrlsNotify extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_URLS_NOTIFY;
   }
 
@@ -240,7 +240,7 @@ class ButtonUrlsNotify extends ButtonClicked {
 }
 
 class ButtonUrlsBlacklist extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_URLS_BLACKLIST;
   }
 
@@ -254,7 +254,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
 }
 
 class ButtonUrlsReferer extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_URLS_REFERER;
   }
 
@@ -268,7 +268,7 @@ class ButtonUrlsReferer extends ButtonClicked {
 }
 
 class ButtonAddUrl extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_ADD_URL;
   }
 
@@ -279,7 +279,7 @@ class ButtonAddUrl extends ButtonClicked {
 }
 
 class ButtonClearAll extends ButtonClicked {
-  get idHtml() {
+  get _idHtml() {
     return _BUTTON_ID_CLEAR_ALL;
   }
 
