@@ -44,7 +44,7 @@ function popupMain() {
     buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
     let button = createButton(buttonIdHtml);
     if (button) {
-      button.run();
+      button.click();
     }
   });
 
@@ -139,8 +139,8 @@ class ButtonClicked {
     throw TypeError("Not implemented");
   }
 
-  run() {
-    throw TypeError("Not implemented: method run");
+  click() {
+    throw TypeError("Not implemented: method click");
   }
 
   get logButtonName() {
@@ -153,7 +153,7 @@ class ButtonRecheck extends ButtonClicked {
     return _BUTTON_ID_RECHECK;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     hideHtmlId("infoTags");
     info2sendFromPopup = this._idHtml;
@@ -169,7 +169,7 @@ class ButtonClean extends ButtonClicked {
     return _BUTTON_ID_CLEAN;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     info2sendFromPopup = this._idHtml;
     hideHtmlId("infoScroll");
@@ -185,7 +185,7 @@ class ButtonScroll extends ButtonClicked {
     return _BUTTON_ID_SCROLL;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     htmlIdToChange = "infoScroll";
     info2sendFromPopup = this._idHtml;
@@ -202,7 +202,7 @@ class ButtonShowSources extends ButtonClicked {
     return _BUTTON_ID_SHOW_SOURCES;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     htmlIdToChange = "infoTags";
     info2sendFromPopup = this._idHtml;
@@ -219,7 +219,7 @@ class ButtonShowConfig extends ButtonClicked {
     return _BUTTON_ID_SHOW_CONFIG;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     showOrHideInfo("menuConfig");
   }
@@ -230,7 +230,7 @@ class ButtonUrlsNotify extends ButtonClicked {
     return _BUTTON_ID_URLS_NOTIFY;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     urlType = urlTypeNotify;
     unhideSourcesConfigValues();
@@ -244,7 +244,7 @@ class ButtonUrlsBlacklist extends ButtonClicked {
     return _BUTTON_ID_URLS_BLACKLIST;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     urlType = urlTypeBlacklist;
     unhideSourcesConfigValues();
@@ -258,7 +258,7 @@ class ButtonUrlsReferer extends ButtonClicked {
     return _BUTTON_ID_URLS_REFERER;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     urlType = urlTypeReferer;
     unhideSourcesConfigValues();
@@ -272,7 +272,7 @@ class ButtonAddUrl extends ButtonClicked {
     return _BUTTON_ID_ADD_URL;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     saveUrl();
   }
@@ -283,7 +283,7 @@ class ButtonClearAll extends ButtonClicked {
     return _BUTTON_ID_CLEAR_ALL;
   }
 
-  run() {
+  click() {
     this.logButtonName;
     browser.tabs
       .query({ active: true, currentWindow: true })

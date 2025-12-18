@@ -102,13 +102,13 @@ describe("Check module import", () => {
         expect(result).toBe(false);
       });
     });
-    describe("Check buttons run without error", () => {
+    describe("Check buttons click without error", () => {
       it.each(buttonIdsHtml)("Check button ID %p ", (buttonIdHtml) => {
         console.log = jest.fn(); // Avoid lot of logs on the screen.
         console.error = jest.fn(); // Avoid lot of logs on the screen.
         const createButton = popupModule.__get__("createButton");
         const button = createButton(buttonIdHtml);
-        button.run();
+        button.click();
       });
     });
     describe("Check ButtonClicked", () => {
@@ -125,12 +125,12 @@ describe("Check module import", () => {
         const result = button._idHtml;
         expect(result).toBe("idTest");
       });
-      it("Check run throws error", function () {
+      it("Check click throws error", function () {
         try {
-          button.run();
+          button.click();
           expect(true).toBe(false);
         } catch (e) {
-          expect(e.message).toBe("Not implemented: method run");
+          expect(e.message).toBe("Not implemented: method click");
         }
       });
       it("Check logButtonName logs expected message", function () {
@@ -149,12 +149,12 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button._idHtml).toBe("buttonRecheck");
       });
-      it("Check run has expected calls and values", async () => {
+      it("Check click has expected calls and values", async () => {
         document.querySelector("#infoTags").classList.remove("hidden");
         expect(document.getElementById("infoTags").className).toBe(
           "section backgroundGray sources-container",
         );
-        await button.run();
+        await button.click();
         const buttonIdHtml = "buttonRecheck";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoTags").className).toBe(
@@ -175,12 +175,12 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button._idHtml).toBe("buttonClean");
       });
-      it("Check run has expected calls and values", async () => {
+      it("Check click has expected calls and values", async () => {
         document.querySelector("#infoScroll").classList.remove("hidden");
         expect(document.getElementById("infoScroll").className).toBe(
           "section backgroundGray",
         );
-        await button.run();
+        await button.click();
         const buttonIdHtml = "buttonClean";
         expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoScroll").className).toBe(
@@ -201,7 +201,7 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button._idHtml).toBe("buttonScroll");
       });
-      describe("Check button run", () => {
+      describe("Check button click", () => {
         describe("Check if all required data exists", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
@@ -211,7 +211,7 @@ describe("Check module import", () => {
           });
           it("Check expected calls and values", async () => {
             runBeforeRunExpects();
-            await Promise.all([button.run()]);
+            await Promise.all([button.click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
               "done sendMessage",
@@ -225,7 +225,7 @@ describe("Check module import", () => {
           });
           it("Check expected calls and values", async () => {
             runBeforeRunExpects();
-            await Promise.all([button.run()]);
+            await Promise.all([button.click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
               "Internal error. The action could not be executed",
@@ -262,7 +262,7 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button._idHtml).toBe("buttonShowSources");
       });
-      describe("Check button run", () => {
+      describe("Check button click", () => {
         describe("Check if all required data exists", () => {
           beforeEach(() => {
             popupModule.__set__("htmlIdToChange", undefined);
@@ -284,7 +284,7 @@ describe("Check module import", () => {
             expect(
               popupModule.__get__("sourcesContainer").firstChild.textContent,
             ).toBe("foo");
-            await Promise.all([button.run()]);
+            await Promise.all([button.click()]);
             runAfterRunExpects();
             const result = popupModule.__get__("sourcesContainer").innerHTML;
             const expectedResult = new HtmlBuilder()
@@ -307,7 +307,7 @@ describe("Check module import", () => {
           });
           it("Check expected calls and values", async () => {
             runBeforeRunExpects();
-            await Promise.all([button.run()]);
+            await Promise.all([button.click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoTags").textContent).toBe(
               "Internal error. The action could not be executed",
@@ -344,11 +344,11 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button._idHtml).toBe("buttonShowConfig");
       });
-      it("Check run has expected calls and values", function () {
+      it("Check click has expected calls and values", function () {
         expect(document.getElementById("menuConfig").className).toBe(
           "section backgroundGray hidden",
         );
-        button.run();
+        button.click();
         expect(document.getElementById("menuConfig").className).toBe(
           "section backgroundGray",
         );
@@ -362,14 +362,14 @@ describe("Check module import", () => {
       it("Check it has correct button ID value", function () {
         expect(button._idHtml).toBe("buttonUrlsNotify");
       });
-      describe("Check run has expected calls and values", () => {
+      describe("Check click has expected calls and values", () => {
         describe("Test urltype global variable", () => {
           beforeEach(() => {
             popupModule.__set__("urlType", "");
           });
           it("Test", async () => {
             expect(popupModule.__get__("urlType")).toEqual("");
-            button.run();
+            button.click();
             expect(popupModule.__get__("urlType")).toEqual("notify");
           });
         });
@@ -381,7 +381,7 @@ describe("Check module import", () => {
             expect(
               popupModule.__get__("infoContainer").firstChild.textContent,
             ).toBe("foo");
-            button.run();
+            button.click();
             expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
           });
         });
@@ -425,7 +425,7 @@ describe("Check module import", () => {
         );
       });
     });
-    describe("Buttons run correctly", () => {
+    describe("Buttons click works correctly", () => {
       beforeEach(() => {
         const url = popupModule.__get__("url");
         popupModule.__set__("urls", [
@@ -880,7 +880,7 @@ describe("setupCopyButtonListeners", () => {
     const setup = popupModule.__get__("setupCopyButtonListeners");
     setup();
     btn.click();
-    await Promise.resolve(); // Wait a microtask to let Promise.then() handlers run
+    await Promise.resolve(); // Wait a microtask to let Promise.then() handlers click
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
       "https://foo.com/",
     );

@@ -6,7 +6,7 @@ describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
     expect(new ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
   });
-  describe("Check run has expected calls and values", () => {
+  describe("Check click has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
       /* start test required configuration */
       runMockDom("src/popup/popup.html");
@@ -16,7 +16,7 @@ describe("Check ButtonShowLogs", () => {
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-      await Promise.all([button.run()]);
+      await Promise.all([button.click()]);
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls).toEqual([
         [{ idShowLogs: true }],
@@ -35,7 +35,7 @@ describe("Check ButtonShowLogs", () => {
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-      await Promise.all([button.run()]);
+      await Promise.all([button.click()]);
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls).toEqual([
         [{ idShowLogs: false }],
@@ -94,7 +94,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       "buttonHighlightAllAutomatically",
     );
   });
-  describe("Check run has expected calls and values", () => {
+  describe("Check click has expected calls and values", () => {
     it("If buttonHighlightAllAutomatically is clicked for the first time", async () => {
       /* start test required configuration */
       runMockDom("src/popup/popup.html");
@@ -104,7 +104,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-      await Promise.all([button.run()]);
+      await Promise.all([button.click()]);
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls).toEqual([
         [{ idHighlightAllAutomatically: true }],
@@ -125,7 +125,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-      await Promise.all([button.run()]);
+      await Promise.all([button.click()]);
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls).toEqual([
         [{ idHighlightAllAutomatically: false }],

@@ -1,6 +1,6 @@
 class Button {
-  run() {
-    throw TypeError("Not implemented: method run");
+  click() {
+    throw TypeError("Not implemented: method click");
   }
 
   get _idHtml() {
@@ -69,7 +69,7 @@ export class ButtonShowLogs extends OnOffButton {
     return "buttonShowLogs";
   }
 
-  async run() {
+  async click() {
     console.log(`Clicked button ID Html: ${this._idHtml}`);
     if (this.isOn) {
       this.setStyleOff();
@@ -137,7 +137,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
     return "buttonHighlightAllAutomatically";
   }
 
-  async run() {
+  async click() {
     console.log(`Clicked button ID Html: ${this._idHtml}`);
     if (this.isOn) {
       this.setStyleOff();
