@@ -3,6 +3,10 @@ class Button {
     throw TypeError("Not implemented: method click");
   }
 
+  logButtonName() {
+    console.log(`Clicked button ID Html: ${this._idHtml}`);
+  }
+
   get _idHtml() {
     throw TypeError("Not implemented");
   }
@@ -70,7 +74,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   async click() {
-    console.log(`Clicked button ID Html: ${this._idHtml}`);
+    this.logButtonName();
     if (this.isOn) {
       this.setStyleOff();
       await browser.tabs
@@ -138,7 +142,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   async click() {
-    console.log(`Clicked button ID Html: ${this._idHtml}`);
+    this.logButtonName();
     if (this.isOn) {
       this.setStyleOff();
       this.unhideElementsForHighlightAllAutomatically();
