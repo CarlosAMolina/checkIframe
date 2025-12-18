@@ -1,4 +1,5 @@
-class Button {
+export class Button {
+  // TODO rm export when all buttons are moved here.
   click() {
     throw TypeError("Not implemented: method click");
   }

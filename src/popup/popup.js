@@ -1,5 +1,6 @@
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 
 var buttonIdHtml;
@@ -131,20 +132,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll();
     default:
       return false;
-  }
-}
-
-class Button {
-  get _idHtml() {
-    throw TypeError("Not implemented");
-  }
-
-  click() {
-    throw TypeError("Not implemented: method click");
-  }
-
-  logButtonName() {
-    console.log(`Clicked button ID Html: ${this._idHtml}`);
   }
 }
 
