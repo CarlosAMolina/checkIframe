@@ -3,7 +3,6 @@ import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 
-var buttonIdHtml;
 let htmlIdToChange;
 var info2save; // string and array
 var info2sendFromPopup;
@@ -42,7 +41,7 @@ function popupMain() {
   // listen to clicks on the buttons, and send the appropriate message to
   // the content script in the web page.
   document.addEventListener("click", (e) => {
-    buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
+    let buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
     let button = createButton(buttonIdHtml);
     if (button) {
       button.click();
