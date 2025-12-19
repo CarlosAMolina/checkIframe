@@ -626,6 +626,6 @@ function setupCopyButtonListeners() {
 // and add a click handler.
 // if we couldn't inject the script, handle the error.
 browser.tabs
-  .executeScript({ file: "/checkAndBorder.js" })
+  .executeScript({ file: "../content_scripts/checkAndBorder.js" })
   .then(popupMain)
   .catch(reportExecuteScriptError);
