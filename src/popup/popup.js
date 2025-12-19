@@ -459,13 +459,13 @@ function sendInfoSaveAndShowAnswer(tabs) {
     browser.tabs
       .sendMessage(arrayValues.id, { info: info2sendFromPopup })
       .then((response) => {
-        changeParagraph(response.response, htmlIdToChange);
+        changeParagraph(info2sendFromPopup, response.response, htmlIdToChange);
       })
       .catch(reportError);
   });
 }
 
-function changeParagraph(response, htmlId) {
+function changeParagraph(info2sendFromPopup, response, htmlId) {
   if (response === undefined) {
     document.getElementById(htmlId).textContent =
       "Internal error. The action could not be executed";
