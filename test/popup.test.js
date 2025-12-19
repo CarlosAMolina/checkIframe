@@ -204,7 +204,6 @@ describe("Check module import", () => {
       describe("Check button click", () => {
         describe("Check if all required data exists", () => {
           beforeEach(() => {
-            popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() =>
               Promise.resolve({ response: "done sendMessage" }),
             );
@@ -220,7 +219,6 @@ describe("Check module import", () => {
         });
         describe("Check if undefined response.response", () => {
           beforeEach(() => {
-            popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
           });
           it("Check expected calls and values", async () => {
@@ -238,7 +236,6 @@ describe("Check module import", () => {
             "section backgroundGray hidden",
           );
           expect(infoScrollBeforeRun.textContent).toBe("");
-          expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
         }
         function runAfterRunExpects() {
           expect(popupModule.__get__("info2sendFromPopup")).toBe(
@@ -247,7 +244,6 @@ describe("Check module import", () => {
           expect(document.getElementById("infoScroll").className).toBe(
             "section backgroundGray",
           );
-          expect(popupModule.__get__("htmlIdToChange")).toEqual("infoScroll");
           expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
           const lastCall = browser.tabs.sendMessage.mock.lastCall;
           expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
@@ -265,7 +261,6 @@ describe("Check module import", () => {
       describe("Check button click", () => {
         describe("Check if all required data exists", () => {
           beforeEach(() => {
-            popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() =>
               Promise.resolve({
                 response: {
@@ -302,7 +297,6 @@ describe("Check module import", () => {
         });
         describe("Check if undefined response.response", () => {
           beforeEach(() => {
-            popupModule.__set__("htmlIdToChange", undefined);
             browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
           });
           it("Check expected calls and values", async () => {
@@ -321,7 +315,6 @@ describe("Check module import", () => {
           "section backgroundGray sources-container hidden",
         );
         expect(infoScrollBeforeRun.textContent).toBe("");
-        expect(popupModule.__get__("htmlIdToChange")).toBe(undefined);
       }
       function runAfterRunExpects() {
         expect(popupModule.__get__("info2sendFromPopup")).toBe(
@@ -330,7 +323,6 @@ describe("Check module import", () => {
         expect(document.getElementById("infoTags").className).toBe(
           "section backgroundGray sources-container",
         );
-        expect(popupModule.__get__("htmlIdToChange")).toEqual("infoTags");
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
@@ -712,7 +704,7 @@ describe("Check module import", () => {
     console.error = jest.fn();
     function_ = popupModule.__get__("sendInfoSaveAndShowAnswer");
     const tabs = [{ id: "a" }];
-    function_(tabs);
+    function_(tabs, "foo", "foo");
   });
   it("changeParagraph runs without error", function () {
     const frameTagsSummary = {

@@ -3,7 +3,6 @@ import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 
-let htmlIdToChange;
 var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
@@ -173,12 +172,14 @@ class ButtonScroll extends Button {
 
   click() {
     this.logButtonName();
-    htmlIdToChange = "infoScroll";
+    let htmlIdToChange = "infoScroll";
     info2sendFromPopup = this._idHtml;
     unhide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(sendInfoSaveAndShowAnswer)
+      .then((tabs) =>
+        sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, this._idHtml),
+      )
       .catch(reportError);
   }
 }
@@ -190,12 +191,14 @@ class ButtonShowSources extends Button {
 
   click() {
     this.logButtonName();
-    htmlIdToChange = "infoTags";
+    let htmlIdToChange = "infoTags";
     info2sendFromPopup = this._idHtml;
     showOrHideInfo("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(sendInfoSaveAndShowAnswer)
+      .then((tabs) =>
+        sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, this._idHtml),
+      )
       .catch(reportError);
   }
 }
@@ -453,7 +456,7 @@ function sendInfoAndValue(info2send, value2send) {
 }
 
 // TODO move login to the buttons.
-function sendInfoSaveAndShowAnswer(tabs) {
+function sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, info2sendFromPopup) {
   tabs.forEach(function (arrayValues) {
     browser.tabs
       .sendMessage(arrayValues.id, { info: info2sendFromPopup })
