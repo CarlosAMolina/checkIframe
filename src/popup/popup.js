@@ -142,7 +142,7 @@ class ButtonRecheck extends Button {
 
   click() {
     this.logButtonName();
-    hideHtmlId("infoTags");
+    hide("infoTags");
     info2sendFromPopup = this._idHtml;
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -159,7 +159,7 @@ class ButtonClean extends Button {
   click() {
     this.logButtonName();
     info2sendFromPopup = this._idHtml;
-    hideHtmlId("infoScroll");
+    hide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfo)
@@ -176,7 +176,7 @@ class ButtonScroll extends Button {
     this.logButtonName();
     htmlIdToChange = "infoScroll";
     info2sendFromPopup = this._idHtml;
-    unhideHtmlId("infoScroll");
+    unhide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then(sendInfoSaveAndShowAnswer)
@@ -303,7 +303,7 @@ function deleteAllUrlType(results) {
 }
 
 function unhideSourcesConfigValues() {
-  unhideHtmlId("sourcesConfigValues");
+  unhide("sourcesConfigValues");
 }
 
 function showStoredInfo(eKey, eValue) {
@@ -401,11 +401,11 @@ function showStoredInfo(eKey, eValue) {
   }
 }
 
-function hideHtmlId(htmlId) {
+function hide(htmlId) {
   document.querySelector("#" + htmlId).classList.add("hidden");
 }
 
-function unhideHtmlId(htmlId) {
+function unhide(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
@@ -425,9 +425,9 @@ function onSendInfoError(error) {
 
 function showOrHideInfo(htmlId) {
   if (document.getElementById(htmlId).classList.contains("hidden")) {
-    unhideHtmlId(htmlId);
+    unhide(htmlId);
   } else {
-    hideHtmlId(htmlId);
+    hide(htmlId);
   }
 }
 

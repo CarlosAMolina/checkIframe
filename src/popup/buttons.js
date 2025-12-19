@@ -188,13 +188,13 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
   }
 
   hideElementsForHighlightAllAutomatically() {
-    hideHtmlId("buttonClean");
-    hideHtmlId("buttonScroll");
+    hide("buttonClean");
+    hide("buttonScroll");
   }
 
   unhideElementsForHighlightAllAutomatically() {
-    unhideHtmlId("buttonClean");
-    unhideHtmlId("buttonScroll");
+    unhide("buttonClean");
+    unhide("buttonScroll");
   }
 
   get _idStorage() {
@@ -236,10 +236,10 @@ async function getIsStoredOn(keyName) {
 }
 
 // TODO extract to file (this and other files definition)
-function hideHtmlId(htmlId) {
+function hide(htmlId) {
   document.querySelector("#" + htmlId).classList.add("hidden");
 }
 
-function unhideHtmlId(htmlId) {
+function unhide(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
