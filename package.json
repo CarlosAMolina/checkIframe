@@ -2,7 +2,7 @@
   "name": "check_iframe",
   "version": "1.7.0",
   "description": "Tests for the project",
-  "main": "src/background.js",
+  "main": "src/background_scripts/background.js",
   "scripts": {
     "lint": "npx eslint src test",
     "lint:fix": "npm run lint -- --fix",
