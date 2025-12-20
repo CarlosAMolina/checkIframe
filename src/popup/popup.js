@@ -3,7 +3,6 @@ import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 
-var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
 function url(type, values) {
@@ -140,10 +139,9 @@ class ButtonRecheck extends Button {
   click() {
     this.logButtonName();
     hide("infoTags");
-    info2sendFromPopup = this._idHtml;
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendInfo(tabs, info2sendFromPopup))
+      .then((tabs) => sendInfo(tabs, this._idHtml))
       .catch(reportError);
   }
 }
@@ -155,11 +153,10 @@ class ButtonClean extends Button {
 
   click() {
     this.logButtonName();
-    info2sendFromPopup = this._idHtml;
     hide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendInfo(tabs, info2sendFromPopup))
+      .then((tabs) => sendInfo(tabs, this._idHtml))
       .catch(reportError);
   }
 }
@@ -172,7 +169,6 @@ class ButtonScroll extends Button {
   click() {
     this.logButtonName();
     let htmlIdToChange = "infoScroll";
-    info2sendFromPopup = this._idHtml;
     unhide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -191,7 +187,6 @@ class ButtonShowSources extends Button {
   click() {
     this.logButtonName();
     let htmlIdToChange = "infoTags";
-    info2sendFromPopup = this._idHtml;
     showOrHideInfo("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -445,12 +440,11 @@ function showStoredUrlsType(type2show) {
 }
 
 function sendInfoAndValue(info2send, value2send) {
-  info2sendFromPopup = info2send;
   values2sendFromPopup = value2send;
   console.log("Sending info", info2send, "and value", value2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then((tabs) => sendInfo(tabs, info2sendFromPopup))
+    .then((tabs) => sendInfo(tabs, info2send))
     .catch(reportError);
 }
 

@@ -155,7 +155,6 @@ describe("Check module import", () => {
         );
         await button.click();
         const buttonIdHtml = "buttonRecheck";
-        expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoTags").className).toBe(
           "section backgroundGray sources-container hidden",
         );
@@ -181,7 +180,6 @@ describe("Check module import", () => {
         );
         await button.click();
         const buttonIdHtml = "buttonClean";
-        expect(popupModule.__get__("info2sendFromPopup")).toBe(buttonIdHtml);
         expect(document.getElementById("infoScroll").className).toBe(
           "section backgroundGray hidden",
         );
@@ -237,9 +235,6 @@ describe("Check module import", () => {
           expect(infoScrollBeforeRun.textContent).toBe("");
         }
         function runAfterRunExpects() {
-          expect(popupModule.__get__("info2sendFromPopup")).toBe(
-            "buttonScroll",
-          );
           expect(document.getElementById("infoScroll").className).toBe(
             "section backgroundGray",
           );
@@ -316,9 +311,6 @@ describe("Check module import", () => {
         expect(infoScrollBeforeRun.textContent).toBe("");
       }
       function runAfterRunExpects() {
-        expect(popupModule.__get__("info2sendFromPopup")).toBe(
-          "buttonShowSources",
-        );
         expect(document.getElementById("infoTags").className).toBe(
           "section backgroundGray sources-container",
         );
@@ -715,10 +707,8 @@ describe("Check module import", () => {
     };
     const response = { frame: frameTagsSummary, iframe: iframeTagsSummary };
     const htmlId = "infoTags";
-    popupModule.__set__("info2sendFromPopup", "buttonShowSources");
     function_ = popupModule.__get__("changeParagraph");
-    function_(response, htmlId);
-    popupModule.__set__("info2sendFromPopup", "");
+    function_("buttonShowSources", response, htmlId);
   });
   describe("Check cleanShowSources", () => {
     beforeEach(() => {
