@@ -379,11 +379,6 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("clearStorageInfo");
     function_();
   });
-  it("deleteAllUrlType runs without error", function () {
-    function_ = popupModule.__get__("deleteAllUrlType");
-    const storageItems = {};
-    function_(storageItems);
-  });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
       beforeEach(() => {

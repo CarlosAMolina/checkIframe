@@ -281,24 +281,20 @@ class ButtonClearAll extends Button {
 function clearStorageInfo() {
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((storageItems) => {
-    deleteAllUrlType(storageItems);
+    var keysUrl = Object.keys(storageItems).filter((key) =>
+      key.includes(urlType + "_"),
+    ); //array
+    keysUrl.forEach(function (arrayValue) {
+      browser.storage.local.remove(arrayValue);
+      infoContainer.removeChild(infoContainer.firstChild);
+    });
+    urls.forEach(function (arrayValue) {
+      if (arrayValue.type == urlType) {
+        arrayValue.values = [];
+      }
+    });
+    sendInfoAndValue("urls", urls);
   }, reportError);
-}
-
-function deleteAllUrlType(storageItems) {
-  var keysUrl = Object.keys(storageItems).filter((key) =>
-    key.includes(urlType + "_"),
-  ); //array
-  keysUrl.forEach(function (arrayValue) {
-    browser.storage.local.remove(arrayValue);
-    infoContainer.removeChild(infoContainer.firstChild);
-  });
-  urls.forEach(function (arrayValue) {
-    if (arrayValue.type == urlType) {
-      arrayValue.values = [];
-    }
-  });
-  sendInfoAndValue("urls", urls);
 }
 
 function unhideSourcesConfigValues() {
