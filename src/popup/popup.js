@@ -280,13 +280,13 @@ class ButtonClearAll extends Button {
 
 function clearStorageInfo() {
   var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((results) => {
-    deleteAllUrlType(results);
+  gettingAllStorageItems.then((storageItems) => {
+    deleteAllUrlType(storageItems);
   }, reportError);
 }
 
-function deleteAllUrlType(results) {
-  var keysUrl = Object.keys(results).filter((key) =>
+function deleteAllUrlType(storageItems) {
+  var keysUrl = Object.keys(storageItems).filter((key) =>
     key.includes(urlType + "_"),
   ); //array
   keysUrl.forEach(function (arrayValue) {
