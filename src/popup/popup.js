@@ -330,7 +330,7 @@ function showStoredInfo(eKey, eValue) {
     // TODO can be this line deleted?
     // Maybe it doesn't do anything because the variable `urls` has
     // the url deleted before showStoredInfo is called.
-    deleteUrl(eKey);
+    urls = deleteUrl(eKey, urls);
     sendInfoAndValue("urls", urls);
   });
 
@@ -390,7 +390,7 @@ function showStoredInfo(eKey, eValue) {
     // TODO replace [id2save] -> id2save
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
     storingInfo.then(() => {
-      deleteUrl(id2change); // Delete url in `var urls`.
+      urls = deleteUrl(id2change, urls);
       var removingEntry = browser.storage.local.remove(id2change);
       removingEntry.then(() => {
         showStoredInfo(id2save, info2save);
@@ -495,8 +495,7 @@ function removeShownStoredUrls() {
   }
 }
 
-// Delete url in `var urls`.
-function deleteUrl(eKey) {
+function deleteUrl(eKey, urls) {
   urls.forEach(function (arrayValue) {
     if (arrayValue.type == urlType) {
       arrayValue.values = arrayValue.values.filter(
@@ -504,6 +503,7 @@ function deleteUrl(eKey) {
       );
     }
   });
+  return urls;
 }
 
 function addUrl(eKey) {
