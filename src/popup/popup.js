@@ -528,12 +528,12 @@ function saveUrl(enterKey) {
   }
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then(storeInfo)
+    .then(() => storeInfo(info2save))
     .catch(reportError);
 }
 
 // add a tag to the display, and storage
-function storeInfo() {
+function storeInfo(info2save) {
   function saveInfo(id2save, value2save) {
     addUrl(id2save);
     sendInfoAndValue("urls", urls);

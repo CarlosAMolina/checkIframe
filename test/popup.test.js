@@ -817,9 +817,8 @@ describe("Check module import", () => {
     function_();
   });
   it("storeInfo runs without error", function () {
-    popupModule.__set__("info2save", ["value_1"]);
     function_ = popupModule.__get__("storeInfo");
-    function_();
+    function_(["value_1"]);
   });
   it("reportError logs expected message", function () {
     function_ = popupModule.__get__("reportError");
