@@ -1,12 +1,15 @@
 import { runMockDom } from "./mockDom.js";
 import { HtmlBuilder } from "./builder.js";
 
-function mockBrowser() {
+function mockBrowser(storageItems = null) {
+  if (storageItems === null) {
+    storageItems = {};
+  }
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {
     storage: {
       local: {
-        get: jest.fn(() => Promise.resolve({})),
+        get: jest.fn(() => Promise.resolve(storageItems)),
         remove: jest.fn(() => Promise.resolve({})),
         set: jest.fn(() => Promise.resolve({})),
       },
@@ -375,9 +378,46 @@ describe("Check module import", () => {
       });
     });
   });
-  it("clearStorageInfo runs without error", function () {
+  it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
+    const storageItems = {
+      blacklist_url1: "url1",
+      blacklist_url2: "url2",
+      notify_url3: "url3", // Should not be removed
+    };
+    global.browser = mockBrowser(storageItems);
+    const containerFake = document.createElement("div");
+    containerFake.appendChild(document.createElement("div")); // First blacklisted url.
+    containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
+    popupModule.__set__("infoContainer", containerFake);
+    popupModule.__set__("urlType", "blacklist");
+    const url = popupModule.__get__("url");
+    popupModule.__set__("urls", [
+      new url("blacklist", ["url1", "url2"]),
+      new url("notify", ["url3"]),
+    ]);
+    popupModule.__set__("sendInfoAndValue", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
-    function_();
+    await function_();
+    // Check storage.remove.
+    expect(browser.storage.local.remove).toHaveBeenCalledWith("blacklist_url1");
+    expect(browser.storage.local.remove).toHaveBeenCalledWith("blacklist_url2");
+    expect(browser.storage.local.remove).not.toHaveBeenCalledWith(
+      "notify_url3",
+    );
+    // Assert infoContainer children were removed.
+    const container = popupModule.__get__("infoContainer");
+    expect(container.children.length).toBe(0);
+    // Assert urls were updated.
+    const urls = popupModule.__get__("urls");
+    const expectedUrls = [
+      new url("blacklist", []),
+      new url("notify", ["url3"]),
+    ];
+    expect(urls).toEqual(expectedUrls);
+    // Assert sendInfoAndValue was called with updated urls
+    const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
+    expect(sendInfoAndValue).toHaveBeenCalledWith("urls", expectedUrls);
+    global.browser = mockBrowser();
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
