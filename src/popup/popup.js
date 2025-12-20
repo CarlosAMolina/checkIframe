@@ -3,7 +3,9 @@ import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 
+// TODO var as const
 var infoContainer = document.querySelector(".info-container");
+// TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
 function url(type, values) {
   this.type = type;
