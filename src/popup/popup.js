@@ -143,7 +143,7 @@ class ButtonRecheck extends Button {
     info2sendFromPopup = this._idHtml;
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(sendInfo)
+      .then((tabs) => sendInfo(tabs, info2sendFromPopup))
       .catch(reportError);
   }
 }
@@ -159,7 +159,7 @@ class ButtonClean extends Button {
     hide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(sendInfo)
+      .then((tabs) => sendInfo(tabs, info2sendFromPopup))
       .catch(reportError);
   }
 }
@@ -410,7 +410,7 @@ function unhide(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
-function sendInfo(tabs) {
+function sendInfo(tabs, info2sendFromPopup) {
   browser.tabs
     .sendMessage(tabs[0].id, {
       info: info2sendFromPopup,
@@ -450,7 +450,7 @@ function sendInfoAndValue(info2send, value2send) {
   console.log("Sending info", info2send, "and value", value2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then(sendInfo)
+    .then((tabs) => sendInfo(tabs, info2sendFromPopup))
     .catch(reportError);
 }
 

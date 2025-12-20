@@ -657,7 +657,8 @@ describe("Check module import", () => {
     it("sendInfo has expected calls and values", async () => {
       function_ = popupModule.__get__("sendInfo");
       const tabs = [{ id: 1234 }];
-      await function_(tabs);
+      let info2sendFromPopup = "urls";
+      await function_(tabs, info2sendFromPopup);
       const url = popupModule.__get__("url");
       expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
         1234,
