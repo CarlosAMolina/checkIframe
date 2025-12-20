@@ -28,7 +28,6 @@ function getNewPromise(args) {
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
-let buttonType;
 let button;
 let function_;
 const buttonIdsHtml = [
@@ -581,14 +580,12 @@ describe("Check module import", () => {
           new url("notify", []),
           new url("referer", []),
         ]);
-        // TODO FIX ASSERT expect(popupModule.__get__("info2save")).toBe(undefined);
         expect(browser.storage.local.get.mock.calls.length).toBe(0);
         expect(browser.storage.local.set.mock.calls.length).toBe(0);
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
         expect(browser.tabs.query.mock.calls.length).toBe(0);
         expect(browser.tabs.query.mock.calls.length).toBe(0);
         await Promise.all([updateButton.click()]);
-        expect(popupModule.__get__("info2save")).toBe(entryEditInputValue);
         expect(browser.storage.local.get.mock.calls.length).toBe(1);
         const expectedId2save = "blacklist_https://new-url.com/test-2.html";
         expect(browser.storage.local.get.mock.lastCall).toEqual([

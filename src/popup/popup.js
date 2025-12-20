@@ -3,7 +3,6 @@ import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 
-var info2save; // string and array
 var info2sendFromPopup;
 var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
@@ -372,7 +371,7 @@ function showStoredInfo(eKey, eValue) {
   updateBtn.addEventListener("click", () => {
     if (entryEditInput.value !== eValue) {
       // type a different value
-      info2save = entryEditInput.value;
+      let info2save = entryEditInput.value;
       var id2save = eKey.split("_")[0] + "_" + info2save;
       var gettingItem = browser.storage.local.get(id2save);
       gettingItem.then((result) => {
@@ -520,7 +519,7 @@ function addUrl(eKey) {
 
 // save input box info
 function saveUrl(enterKey) {
-  info2save = document
+  let info2save = document
     .querySelector('textarea[id="inputUrl"]')
     .value.split("\n");
   if (enterKey == 1) {
