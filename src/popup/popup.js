@@ -11,11 +11,12 @@ function url(type, values) {
 }
 var urls = [];
 var urlType = "";
+var values2sendFromPopup;
+
 const urlTypeBlacklist = "blacklist";
 const urlTypeNotify = "notify";
 const urlTypeReferer = "referer";
 const urlTypes = [urlTypeBlacklist, urlTypeNotify, urlTypeReferer];
-var values2sendFromPopup;
 
 const _BUTTON_ID_RECHECK = "buttonRecheck";
 const _BUTTON_ID_CLEAN = "buttonClean";
