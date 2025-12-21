@@ -395,6 +395,7 @@ describe("Check module import", () => {
       new url("blacklist", ["url1", "url2"]),
       new url("notify", ["url3"]),
     ]);
+    sendInfoAndValueBackup = popupModule.__get__("sendInfoAndValue");
     popupModule.__set__("sendInfoAndValue", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
     await function_();
@@ -418,6 +419,7 @@ describe("Check module import", () => {
     const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
     expect(sendInfoAndValue).toHaveBeenCalledWith("urls", expectedUrls);
     global.browser = mockBrowser();
+    popupModule.__set__("sendInfoAndValue", sendInfoAndValueBackup);
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
@@ -714,9 +716,9 @@ describe("Check module import", () => {
   });
   it("sendInfoAndValue has expected calls and values", async () => {
     const info2send = "info 2 send";
-    const values2send = "value 2 send";
+    const value2send = "value 2 send";
     function_ = popupModule.__get__("sendInfoAndValue");
-    await function_(info2send, values2send);
+    await function_(info2send, value2send);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       tabId,
       {
