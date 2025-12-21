@@ -80,9 +80,9 @@ describe("Check module import", () => {
     const eventClick = { target: { id: 1 } };
     function_(eventClick);
   });
-  it("getUrls runs without error", function () {
+  it("getStoredUrls runs without error", function () {
     const results = {};
-    function_ = popupModule.__get__("getUrls");
+    function_ = popupModule.__get__("getStoredUrls");
     function_(results);
   });
   describe("Check buttons", () => {
