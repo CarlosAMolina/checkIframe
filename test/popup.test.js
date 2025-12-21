@@ -395,7 +395,7 @@ describe("Check module import", () => {
       new UrlsByType("blacklist", ["url1", "url2"]),
       new UrlsByType("notify", ["url3"]),
     ]);
-    sendInfoAndValueBackup = popupModule.__get__("sendInfoAndValue");
+    const sendInfoAndValueBackup = popupModule.__get__("sendInfoAndValue");
     popupModule.__set__("sendInfoAndValue", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
     await function_();
