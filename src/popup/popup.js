@@ -7,12 +7,6 @@ import { getStrTagsHtml } from "./tagsHtml.js";
 var infoContainer = document.querySelector(".info-container");
 // TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
-class _UrlsByType {
-  constructor(type, values) {
-    this.type = type;
-    this.values = values;
-  }
-}
 var urls = [];
 var urlType = "";
 var values2sendFromPopup;
@@ -35,6 +29,13 @@ const _BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const _BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const _BUTTON_ID_ADD_URL = "buttonAddUrl";
 const _BUTTON_ID_CLEAR_ALL = "buttonClearAll";
+
+class _UrlsByType {
+  constructor(type, values) {
+    this.type = type;
+    this.values = values;
+  }
+}
 
 function popupMain() {
   // display previously saved stored info on start-up
