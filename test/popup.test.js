@@ -58,7 +58,7 @@ describe("Check module import", () => {
     expect(popupModule.__get__("urlTypeBlacklist")).toEqual("blacklist");
   });
   it("url has expected attributes", function () {
-    const UrlsByType = popupModule.__get__("UrlsByType");
+    const UrlsByType = popupModule.__get__("_UrlsByType");
     const type = "notify";
     const values = ["url_1", "url_2"];
     const urls_by_type = new UrlsByType(type, values);
@@ -390,7 +390,7 @@ describe("Check module import", () => {
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
     popupModule.__set__("infoContainer", containerFake);
     popupModule.__set__("urlType", "blacklist");
-    const UrlsByType = popupModule.__get__("UrlsByType");
+    const UrlsByType = popupModule.__get__("_UrlsByType");
     popupModule.__set__("urls", [
       new UrlsByType("blacklist", ["url1", "url2"]),
       new UrlsByType("notify", ["url3"]),
@@ -447,7 +447,7 @@ describe("Check module import", () => {
     });
     describe("Buttons click works correctly", () => {
       beforeEach(() => {
-        const UrlsByType = popupModule.__get__("UrlsByType");
+        const UrlsByType = popupModule.__get__("_UrlsByType");
         popupModule.__set__("urls", [
           new UrlsByType("blacklist", []),
           new UrlsByType("notify", []),
@@ -473,7 +473,7 @@ describe("Check module import", () => {
         expect(buttons[2].title).toBe("Cancel update");
         const deleteButton = buttons[0];
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
-        const UrlsByType = popupModule.__get__("UrlsByType");
+        const UrlsByType = popupModule.__get__("_UrlsByType");
         expect(popupModule.__get__("urls")).toEqual([
           new UrlsByType("blacklist", []),
           new UrlsByType("notify", []),
@@ -571,7 +571,7 @@ describe("Check module import", () => {
         popupModule.__set__("urlType", "blacklist");
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        const UrlsByType = popupModule.__get__("UrlsByType");
+        const UrlsByType = popupModule.__get__("_UrlsByType");
         expect(popupModule.__get__("urls")).toStrictEqual([
           new UrlsByType("blacklist", []),
           new UrlsByType("notify", []),
@@ -675,7 +675,7 @@ describe("Check module import", () => {
   });
   describe("Check sendInfo", () => {
     beforeEach(() => {
-      const UrlsByType = popupModule.__get__("UrlsByType");
+      const UrlsByType = popupModule.__get__("_UrlsByType");
       // The first time the popup is initialized I think it has these values.
       popupModule.__set__("values2sendFromPopup", [
         new UrlsByType("blacklist", []),
@@ -688,7 +688,7 @@ describe("Check module import", () => {
       const tabs = [{ id: 1234 }];
       let info2sendFromPopup = "urls";
       await function_(tabs, info2sendFromPopup);
-      const UrlsByType = popupModule.__get__("UrlsByType");
+      const UrlsByType = popupModule.__get__("_UrlsByType");
       expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
         1234,
         {
@@ -783,7 +783,7 @@ describe("Check module import", () => {
     describe("deleteUrl runs without error", () => {
       it("Test", function () {
         expect(popupModule.__get__("urlType")).toBe("blacklist");
-        const UrlsByType = popupModule.__get__("UrlsByType");
+        const UrlsByType = popupModule.__get__("_UrlsByType");
         const urls = [
           new UrlsByType("blacklist", [
             "https://foo.com/foo.html",

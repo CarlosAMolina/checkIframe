@@ -7,7 +7,7 @@ import { getStrTagsHtml } from "./tagsHtml.js";
 var infoContainer = document.querySelector(".info-container");
 // TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
-function UrlsByType(type, values) {
+function _UrlsByType(type, values) {
   this.type = type;
   this.values = values;
 }
@@ -96,7 +96,7 @@ function getStoredUrls(storageItems) {
       key.includes(urlType + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
-    const urls_by_type = new UrlsByType(urlType, urls2save);
+    const urls_by_type = new _UrlsByType(urlType, urls2save);
     result.push(urls_by_type);
   });
   return result;
