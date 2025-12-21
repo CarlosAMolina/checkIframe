@@ -66,7 +66,7 @@ function initializePopup() {
   new ButtonHighlightAllAutomatically().initializePopup();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((storageItems) => {
-    getStoredUrls(storageItems);
+    urls = getStoredUrls(storageItems);
     sendInfoAndValue("urls", urls);
   }, reportError);
 }
@@ -89,16 +89,17 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
   return eventClick.target.id || eventClick.target.parentElement.id;
 }
 
-// get saved urls
 function getStoredUrls(storageItems) {
+  let result = [];
   urlTypes.forEach(function (urlType) {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
-    var result = new url(urlType, urls2save);
-    urls.push(result);
+    const url_ = new url(urlType, urls2save);
+    result.push(url_);
   });
+  return result;
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
