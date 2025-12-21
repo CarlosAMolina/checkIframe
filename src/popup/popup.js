@@ -67,6 +67,7 @@ function initializePopup() {
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((storageItems) => {
     getStoredUrls(storageItems);
+    sendInfoAndValue("urls", urls);
   }, reportError);
 }
 
@@ -97,7 +98,6 @@ function getStoredUrls(storageItems) {
     var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
     var result = new url(urlType, urls2save);
     urls.push(result);
-    sendInfoAndValue("urls", urls);
   });
 }
 
