@@ -65,8 +65,8 @@ function initializePopup() {
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
   var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((results) => {
-    getUrls(results);
+  gettingAllStorageItems.then((storageItems) => {
+    getUrls(storageItems);
   }, reportError);
 }
 
@@ -89,10 +89,9 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
 }
 
 // get saved urls
-function getUrls(results) {
-  // results: object of keys and values
+function getUrls(storageItems) {
   urlTypes.forEach(function (arrayValue) {
-    var keysUrl = Object.keys(results).filter((key) =>
+    var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(arrayValue + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => results[keysUrl]); // array
