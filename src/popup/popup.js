@@ -90,12 +90,12 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
 
 // get saved urls
 function getUrls(storageItems) {
-  urlTypes.forEach(function (arrayValue) {
+  urlTypes.forEach(function (urlType) {
     var keysUrl = Object.keys(storageItems).filter((key) =>
-      key.includes(arrayValue + "_"),
+      key.includes(urlType + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => results[keysUrl]); // array
-    var result = new url(arrayValue, urls2save);
+    var result = new url(urlType, urls2save);
     urls.push(result);
     sendInfoAndValue("urls", urls);
   });
