@@ -30,7 +30,7 @@ const _BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const _BUTTON_ID_ADD_URL = "buttonAddUrl";
 const _BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 
-class _UrlsByType {
+class _UrlsOfType {
   constructor(type, values) {
     this.type = type;
     this.values = values;
@@ -99,8 +99,8 @@ function getStoredUrls(storageItems) {
       key.includes(urlType + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
-    const urls_by_type = new _UrlsByType(urlType, urls2save);
-    result.push(urls_by_type);
+    const urls_of_type = new _UrlsOfType(urlType, urls2save);
+    result.push(urls_of_type);
   });
   return result;
 }
