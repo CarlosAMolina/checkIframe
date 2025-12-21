@@ -7,9 +7,11 @@ import { getStrTagsHtml } from "./tagsHtml.js";
 var infoContainer = document.querySelector(".info-container");
 // TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
-function _UrlsByType(type, values) {
-  this.type = type;
-  this.values = values;
+class _UrlsByType {
+  constructor(type, values) {
+    this.type = type;
+    this.values = values;
+  }
 }
 var urls = [];
 var urlType = "";
