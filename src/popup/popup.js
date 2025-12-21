@@ -94,7 +94,7 @@ function getUrls(storageItems) {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
-    var urls2save = keysUrl.map((keysUrl) => results[keysUrl]); // array
+    var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
     var result = new url(urlType, urls2save);
     urls.push(result);
     sendInfoAndValue("urls", urls);
