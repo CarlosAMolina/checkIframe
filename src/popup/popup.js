@@ -12,9 +12,9 @@ var urlType = "";
 var values2sendFromPopup;
 
 const URL_TYPE_BLACKLIST = "blacklist";
-const urlTypeNotify = "notify";
+const URL_TYPE_NOTIFY = "notify";
 const urlTypeReferer = "referer";
-const urlTypes = [URL_TYPE_BLACKLIST, urlTypeNotify, urlTypeReferer];
+const urlTypes = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, urlTypeReferer];
 
 const BUTTON_ID_RECHECK = "buttonRecheck";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -220,7 +220,7 @@ class ButtonUrlsNotify extends Button {
 
   click() {
     this.logButtonName();
-    urlType = urlTypeNotify;
+    urlType = URL_TYPE_NOTIFY;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");
