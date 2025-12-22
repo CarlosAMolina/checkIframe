@@ -781,7 +781,6 @@ describe("Check module import", () => {
     });
     describe("deleteUrl runs without error", () => {
       it("Test", function () {
-        expect(popupModule.__get__("urlType")).toBe("blacklist");
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
         const urls = [
           new UrlsOfType("blacklist", [
@@ -799,7 +798,7 @@ describe("Check module import", () => {
         ];
         function_ = popupModule.__get__("deleteUrl");
         const eKey = "blacklist_https://foo.com/foo.html";
-        const result = function_(eKey, urls);
+        const result = function_(eKey, urls, "blacklist");
         expectedResult = [
           new UrlsOfType("blacklist", ["https://foo.com/foo-2.html"]),
           new UrlsOfType("notify", [
