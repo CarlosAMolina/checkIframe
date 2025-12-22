@@ -389,7 +389,6 @@ describe("Check module import", () => {
     containerFake.appendChild(document.createElement("div")); // First blacklisted url.
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
     popupModule.__set__("infoContainer", containerFake);
-    popupModule.__set__("urlType", "blacklist");
     const UrlsOfType = popupModule.__get__("_UrlsOfType");
     popupModule.__set__("urls", [
       new UrlsOfType("blacklist", ["url1", "url2"]),
@@ -398,7 +397,7 @@ describe("Check module import", () => {
     const sendInfoAndValueBackup = popupModule.__get__("sendInfoAndValue");
     popupModule.__set__("sendInfoAndValue", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
-    await function_();
+    await function_("blacklist");
     // Check storage.remove.
     expect(browser.storage.local.remove).toHaveBeenCalledWith("blacklist_url1");
     expect(browser.storage.local.remove).toHaveBeenCalledWith("blacklist_url2");

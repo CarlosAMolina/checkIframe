@@ -274,12 +274,12 @@ class ButtonClearAll extends Button {
     this.logButtonName();
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(clearStorageInfo)
+      .then(() => clearStorageInfo(urlType))
       .catch(reportError);
   }
 }
 
-function clearStorageInfo() {
+function clearStorageInfo(urlType) {
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((storageItems) => {
     var keysUrl = Object.keys(storageItems).filter((key) =>
