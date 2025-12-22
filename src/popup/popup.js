@@ -16,19 +16,18 @@ const urlTypeNotify = "notify";
 const urlTypeReferer = "referer";
 const urlTypes = [urlTypeBlacklist, urlTypeNotify, urlTypeReferer];
 
-const _BUTTON_ID_RECHECK = "buttonRecheck";
-const _BUTTON_ID_CLEAN = "buttonClean";
-const _BUTTON_ID_SCROLL = "buttonScroll";
-const _BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
-const _BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
-const _BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
-const _BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY =
-  "buttonHighlightAllAutomatically";
-const _BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
-const _BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
-const _BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
-const _BUTTON_ID_ADD_URL = "buttonAddUrl";
-const _BUTTON_ID_CLEAR_ALL = "buttonClearAll";
+const BUTTON_ID_RECHECK = "buttonRecheck";
+const BUTTON_ID_CLEAN = "buttonClean";
+const BUTTON_ID_SCROLL = "buttonScroll";
+const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
+const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
+const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
+const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
+const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
+const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
+const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
+const BUTTON_ID_ADD_URL = "buttonAddUrl";
+const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 
 class _UrlsOfType {
   constructor(type, values) {
@@ -108,29 +107,29 @@ function getStoredUrls(storageItems) {
 //TODO move createButton and all buttons to button.js and update tests.
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
-    case _BUTTON_ID_RECHECK:
+    case BUTTON_ID_RECHECK:
       return new ButtonRecheck();
-    case _BUTTON_ID_CLEAN:
+    case BUTTON_ID_CLEAN:
       return new ButtonClean();
-    case _BUTTON_ID_SCROLL:
+    case BUTTON_ID_SCROLL:
       return new ButtonScroll();
-    case _BUTTON_ID_SHOW_SOURCES:
+    case BUTTON_ID_SHOW_SOURCES:
       return new ButtonShowSources();
-    case _BUTTON_ID_SHOW_CONFIG:
+    case BUTTON_ID_SHOW_CONFIG:
       return new ButtonShowConfig();
-    case _BUTTON_ID_SHOW_LOGS:
+    case BUTTON_ID_SHOW_LOGS:
       return new ButtonShowLogs();
-    case _BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
+    case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
       return new ButtonHighlightAllAutomatically();
-    case _BUTTON_ID_URLS_NOTIFY:
+    case BUTTON_ID_URLS_NOTIFY:
       return new ButtonUrlsNotify();
-    case _BUTTON_ID_URLS_BLACKLIST:
+    case BUTTON_ID_URLS_BLACKLIST:
       return new ButtonUrlsBlacklist();
-    case _BUTTON_ID_URLS_REFERER:
+    case BUTTON_ID_URLS_REFERER:
       return new ButtonUrlsReferer();
-    case _BUTTON_ID_ADD_URL:
+    case BUTTON_ID_ADD_URL:
       return new ButtonAddUrl();
-    case _BUTTON_ID_CLEAR_ALL:
+    case BUTTON_ID_CLEAR_ALL:
       return new ButtonClearAll();
     default:
       return false;
@@ -139,7 +138,7 @@ function createButton(buttonIdHtml) {
 
 class ButtonRecheck extends Button {
   get _idHtml() {
-    return _BUTTON_ID_RECHECK;
+    return BUTTON_ID_RECHECK;
   }
 
   click() {
@@ -154,7 +153,7 @@ class ButtonRecheck extends Button {
 
 class ButtonClean extends Button {
   get _idHtml() {
-    return _BUTTON_ID_CLEAN;
+    return BUTTON_ID_CLEAN;
   }
 
   click() {
@@ -169,7 +168,7 @@ class ButtonClean extends Button {
 
 class ButtonScroll extends Button {
   get _idHtml() {
-    return _BUTTON_ID_SCROLL;
+    return BUTTON_ID_SCROLL;
   }
 
   click() {
@@ -187,7 +186,7 @@ class ButtonScroll extends Button {
 
 class ButtonShowSources extends Button {
   get _idHtml() {
-    return _BUTTON_ID_SHOW_SOURCES;
+    return BUTTON_ID_SHOW_SOURCES;
   }
 
   click() {
@@ -205,7 +204,7 @@ class ButtonShowSources extends Button {
 
 class ButtonShowConfig extends Button {
   get _idHtml() {
-    return _BUTTON_ID_SHOW_CONFIG;
+    return BUTTON_ID_SHOW_CONFIG;
   }
 
   click() {
@@ -216,7 +215,7 @@ class ButtonShowConfig extends Button {
 
 class ButtonUrlsNotify extends Button {
   get _idHtml() {
-    return _BUTTON_ID_URLS_NOTIFY;
+    return BUTTON_ID_URLS_NOTIFY;
   }
 
   click() {
@@ -230,7 +229,7 @@ class ButtonUrlsNotify extends Button {
 
 class ButtonUrlsBlacklist extends Button {
   get _idHtml() {
-    return _BUTTON_ID_URLS_BLACKLIST;
+    return BUTTON_ID_URLS_BLACKLIST;
   }
 
   click() {
@@ -244,7 +243,7 @@ class ButtonUrlsBlacklist extends Button {
 
 class ButtonUrlsReferer extends Button {
   get _idHtml() {
-    return _BUTTON_ID_URLS_REFERER;
+    return BUTTON_ID_URLS_REFERER;
   }
 
   click() {
@@ -258,7 +257,7 @@ class ButtonUrlsReferer extends Button {
 
 class ButtonAddUrl extends Button {
   get _idHtml() {
-    return _BUTTON_ID_ADD_URL;
+    return BUTTON_ID_ADD_URL;
   }
 
   click() {
@@ -269,7 +268,7 @@ class ButtonAddUrl extends Button {
 
 class ButtonClearAll extends Button {
   get _idHtml() {
-    return _BUTTON_ID_CLEAR_ALL;
+    return BUTTON_ID_CLEAR_ALL;
   }
 
   click() {

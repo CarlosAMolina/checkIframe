@@ -69,7 +69,7 @@ class OnOffButton extends Button {
 }
 
 export class ButtonShowLogs extends OnOffButton {
-  // TODO use _BUTTON_ID_SHOW_LOGS in popup.js
+  // TODO use BUTTON_ID_SHOW_LOGS in popup.js
   get _idHtml() {
     return "buttonShowLogs";
   }
@@ -137,7 +137,7 @@ export class ButtonShowLogs extends OnOffButton {
 }
 
 export class ButtonHighlightAllAutomatically extends OnOffButton {
-  // TODO use _BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY in popup.js
+  // TODO use BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY in popup.js
   get _idHtml() {
     return "buttonHighlightAllAutomatically";
   }
