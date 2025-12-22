@@ -11,23 +11,22 @@ var urls = [];
 var urlType = "";
 var values2sendFromPopup;
 
+const BUTTON_ID_ADD_URL = "buttonAddUrl";
+const BUTTON_ID_CLEAN = "buttonClean";
+const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
+const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
+const BUTTON_ID_RECHECK = "buttonRecheck";
+const BUTTON_ID_SCROLL = "buttonScroll";
+const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
+const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
+const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
+const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
+const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
+const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const URL_TYPE_BLACKLIST = "blacklist";
 const URL_TYPE_NOTIFY = "notify";
 const URL_TYPE_REFERER = "referer";
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
-
-const BUTTON_ID_RECHECK = "buttonRecheck";
-const BUTTON_ID_CLEAN = "buttonClean";
-const BUTTON_ID_SCROLL = "buttonScroll";
-const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
-const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
-const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
-const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
-const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
-const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
-const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
-const BUTTON_ID_ADD_URL = "buttonAddUrl";
-const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 
 class _UrlsOfType {
   constructor(type, values) {
