@@ -14,7 +14,8 @@ var refererSources = [];
 var showLogs = false;
 var highlightAllAutomatically = false;
 var tags2Search = ["iframe", "frame"];
-var urlTypeBlacklist = "blacklist";
+// TODO re defined in other files
+const URL_TYPE_BLACKLIST = "blacklist";
 var urlTypeNotify = "notify";
 var urlTypeReferer = "referer";
 
@@ -36,7 +37,7 @@ function initializeContentScript() {
       highlightAllAutomatically = results.idHighlightAllAutomatically;
     }
     invalidSources = Object.keys(results).filter((key) =>
-      key.includes(urlTypeBlacklist + "_"),
+      key.includes(URL_TYPE_BLACKLIST + "_"),
     ); //array
     invalidSources = invalidSources.map((source) => results[source]); // array
     notifySources = Object.keys(results).filter((key) =>
@@ -302,7 +303,7 @@ initializeContentScript();
       }
     } else if (message.info === "urls") {
       invalidSources = message.values.filter((values) =>
-        values.type.includes(urlTypeBlacklist),
+        values.type.includes(URL_TYPE_BLACKLIST),
       )[0].values; //array
       notifySources = message.values.filter((values) =>
         values.type.includes(urlTypeNotify),

@@ -11,10 +11,10 @@ var urls = [];
 var urlType = "";
 var values2sendFromPopup;
 
-const urlTypeBlacklist = "blacklist";
+const URL_TYPE_BLACKLIST = "blacklist";
 const urlTypeNotify = "notify";
 const urlTypeReferer = "referer";
-const urlTypes = [urlTypeBlacklist, urlTypeNotify, urlTypeReferer];
+const urlTypes = [URL_TYPE_BLACKLIST, urlTypeNotify, urlTypeReferer];
 
 const BUTTON_ID_RECHECK = "buttonRecheck";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -234,7 +234,7 @@ class ButtonUrlsBlacklist extends Button {
 
   click() {
     this.logButtonName();
-    urlType = urlTypeBlacklist;
+    urlType = URL_TYPE_BLACKLIST;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");

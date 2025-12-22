@@ -30,7 +30,7 @@ describe("Check module import", () => {
     checkAndBorderModule = require(jsPathName);
   });
   it("The module should be imported without errors and has expected values", function () {
-    const result = checkAndBorderModule.__get__("urlTypeBlacklist");
+    const result = checkAndBorderModule.__get__("URL_TYPE_BLACKLIST");
     expect(result).toEqual("blacklist");
   });
   it("element runs without error", function () {
