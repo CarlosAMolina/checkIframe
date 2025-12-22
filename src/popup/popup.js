@@ -13,8 +13,8 @@ var values2sendFromPopup;
 
 const URL_TYPE_BLACKLIST = "blacklist";
 const URL_TYPE_NOTIFY = "notify";
-const urlTypeReferer = "referer";
-const urlTypes = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, urlTypeReferer];
+const URL_TYPE_REFERER = "referer";
+const urlTypes = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
 const BUTTON_ID_RECHECK = "buttonRecheck";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -248,7 +248,7 @@ class ButtonUrlsReferer extends Button {
 
   click() {
     this.logButtonName();
-    urlType = urlTypeReferer;
+    urlType = URL_TYPE_REFERER;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
     showStoredUrlsType(urlType + "_");

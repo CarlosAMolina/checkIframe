@@ -17,7 +17,7 @@ var tags2Search = ["iframe", "frame"];
 // TODO re defined in other files
 const URL_TYPE_BLACKLIST = "blacklist";
 const URL_TYPE_NOTIFY = "notify";
-var urlTypeReferer = "referer";
+const URL_TYPE_REFERER = "referer";
 
 function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);
@@ -45,7 +45,7 @@ function initializeContentScript() {
     ); //array
     notifySources = notifySources.map((source) => results[source]); // array
     refererSources = Object.keys(results).filter((key) =>
-      key.includes(urlTypeReferer + "_"),
+      key.includes(URL_TYPE_REFERER + "_"),
     ); //array
     refererSources = refererSources.map((source) => results[source]); // array
     logs();
