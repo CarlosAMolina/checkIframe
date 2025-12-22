@@ -493,9 +493,9 @@ function removeShownStoredUrls() {
 }
 
 function deleteUrl(eKey, urls) {
-  urls.forEach(function (arrayValue) {
-    if (arrayValue.type == urlType) {
-      arrayValue.values = arrayValue.values.filter(
+  urls.forEach(function (url) {
+    if (url.type == urlType) {
+      url.values = url.values.filter(
         (value) => value != eKey.replace(urlType + "_", ""),
       );
     }
