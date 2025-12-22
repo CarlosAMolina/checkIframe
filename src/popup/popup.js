@@ -14,7 +14,7 @@ var values2sendFromPopup;
 const URL_TYPE_BLACKLIST = "blacklist";
 const URL_TYPE_NOTIFY = "notify";
 const URL_TYPE_REFERER = "referer";
-const urlTypes = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
+const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
 const BUTTON_ID_RECHECK = "buttonRecheck";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -93,7 +93,7 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
 
 function getStoredUrls(storageItems) {
   let result = [];
-  urlTypes.forEach(function (urlType) {
+  URL_TYPES.forEach(function (urlType) {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
