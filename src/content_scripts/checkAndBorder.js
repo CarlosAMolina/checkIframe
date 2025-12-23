@@ -15,9 +15,9 @@ var showLogs = false;
 var highlightAllAutomatically = false;
 var tags2Search = ["iframe", "frame"];
 // TODO re defined in other files
-const URL_TYPE_BLACKLIST = "blacklist";
-const URL_TYPE_NOTIFY = "notify";
-const URL_TYPE_REFERER = "referer";
+var URL_TYPE_BLACKLIST = "blacklist";
+var URL_TYPE_NOTIFY = "notify";
+var URL_TYPE_REFERER = "referer";
 
 function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);

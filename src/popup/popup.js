@@ -23,9 +23,9 @@ const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
 const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
-const URL_TYPE_BLACKLIST = "blacklist";
-const URL_TYPE_NOTIFY = "notify";
-const URL_TYPE_REFERER = "referer";
+var URL_TYPE_BLACKLIST = "blacklist";
+var URL_TYPE_NOTIFY = "notify";
+var URL_TYPE_REFERER = "referer";
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
 class _UrlsOfType {
