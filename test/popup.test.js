@@ -349,16 +349,6 @@ describe("Check module import", () => {
         expect(button._idHtml).toBe("buttonUrlsNotify");
       });
       describe("Check click has expected calls and values", () => {
-        describe("Test urltype global variable", () => {
-          beforeEach(() => {
-            popupModule.__set__("urlType", "");
-          });
-          it("Test", async () => {
-            expect(popupModule.__get__("urlType")).toEqual("");
-            button.click();
-            expect(popupModule.__get__("urlType")).toEqual("notify");
-          });
-        });
         describe("Test removeShownStoredUrls call", () => {
           beforeEach(() => {
             mockNotEmptyInfoContainer();

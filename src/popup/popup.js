@@ -219,9 +219,9 @@ class ButtonUrlsNotify extends Button {
 
   click() {
     this.logButtonName();
-    urlType = URL_TYPE_NOTIFY;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
+    const urlType = URL_TYPE_NOTIFY;
     showStoredUrlsType(urlType + "_");
   }
 }
@@ -233,9 +233,9 @@ class ButtonUrlsBlacklist extends Button {
 
   click() {
     this.logButtonName();
-    urlType = URL_TYPE_BLACKLIST;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
+    const urlType = URL_TYPE_BLACKLIST;
     showStoredUrlsType(urlType + "_");
   }
 }
@@ -247,9 +247,9 @@ class ButtonUrlsReferer extends Button {
 
   click() {
     this.logButtonName();
-    urlType = URL_TYPE_REFERER;
     unhideSourcesConfigValues();
     removeShownStoredUrls();
+    const urlType = URL_TYPE_REFERER;
     showStoredUrlsType(urlType + "_");
   }
 }
@@ -446,12 +446,12 @@ function showOrHideInfo(htmlId) {
   }
 }
 
-function showStoredUrlsType(type2show) {
+function showStoredUrlsType(urlType) {
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     var keys = Object.keys(results);
     keys.forEach(function (arrayValue) {
-      if (arrayValue.includes(type2show)) {
+      if (arrayValue.includes(urlType)) {
         showStoredInfo(arrayValue, results[arrayValue]);
       }
     });
