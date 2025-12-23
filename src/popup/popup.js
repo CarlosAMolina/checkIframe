@@ -316,14 +316,7 @@ function showStoredInfo(eKey, eValue) {
   entryDisplay.appendChild(deleteBtn);
   entryDisplay.appendChild(entryValue);
   entry.appendChild(entryDisplay);
-  let urlType = "";
-  if (document.getElementById("buttonUrlsBlacklist").checked) {
-    urlType = URL_TYPE_BLACKLIST;
-  } else if (document.getElementById("buttonUrlsNotify").checked) {
-    urlType = URL_TYPE_NOTIFY;
-  } else if (document.getElementById("buttonUrlsReferer").checked) {
-    urlType = URL_TYPE_REFERER;
-  }
+  const urlType = getUrlTypeToShow();
   // set up listener for the delete functionality
   deleteBtn.addEventListener("click", (e) => {
     const evtTgt = e.target;
@@ -401,6 +394,16 @@ function showStoredInfo(eKey, eValue) {
       }, reportError);
     }, reportError);
     sendInfoAndValue("urls", urls);
+  }
+}
+
+function getUrlTypeToShow() {
+  if (document.getElementById("buttonUrlsBlacklist").checked) {
+    return URL_TYPE_BLACKLIST;
+  } else if (document.getElementById("buttonUrlsNotify").checked) {
+    return URL_TYPE_NOTIFY;
+  } else if (document.getElementById("buttonUrlsReferer").checked) {
+    return URL_TYPE_REFERER;
   }
 }
 
