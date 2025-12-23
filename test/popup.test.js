@@ -556,8 +556,6 @@ describe("Check module import", () => {
         ).toBe("https://foo.com/test.html");
       });
       it("Test click updateBtn", async () => {
-        // TODO move to beforeEach
-        popupModule.__set__("urlType", "blacklist");
         document.getElementById("buttonUrlsBlacklist").checked = true;
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
@@ -765,12 +763,6 @@ describe("Check module import", () => {
     });
   });
   describe("Check modify urls", () => {
-    beforeAll(() => {
-      popupModule.__set__("urlType", "blacklist");
-    });
-    afterEach(() => {
-      popupModule.__set__("urlType", "");
-    });
     describe("deleteUrl runs without error", () => {
       it("Test", function () {
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
