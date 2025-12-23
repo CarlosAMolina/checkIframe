@@ -764,6 +764,7 @@ describe("Check module import", () => {
   });
   describe("Check modify urls", () => {
     describe("deleteUrl runs without error", () => {
+      // TODO remove this it, replace with previous describe
       it("Test", function () {
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
         const urls = [
@@ -797,10 +798,25 @@ describe("Check module import", () => {
         expect(result).toEqual(expectedResult);
       });
     });
-    it("addUrl runs without error", function () {
+    it("addUrl adds url", function () {
+      const UrlsOfType = popupModule.__get__("_UrlsOfType");
+      const urls = [
+        new UrlsOfType("blacklist", ["https://foo.com/foo.html"]),
+        new UrlsOfType("notify", []),
+        new UrlsOfType("referer", []),
+      ];
       function_ = popupModule.__get__("addUrl");
-      const eKey = "blacklist_foo";
-      function_(eKey);
+      const eKey = "blacklist_https://foo.com/foo-2.html";
+      const result = function_(eKey, urls, "blacklist");
+      expectedResult = [
+        new UrlsOfType("blacklist", [
+          "https://foo.com/foo.html",
+          "https://foo.com/foo-2.html",
+        ]),
+        new UrlsOfType("notify", []),
+        new UrlsOfType("referer", []),
+      ];
+      expect(result).toEqual(expectedResult);
     });
   });
   it("saveUrl runs without error", function () {

@@ -387,7 +387,7 @@ function showStoredInfo(eKey, eValue) {
 
   // update
   function updateEntry(id2change, id2save, info2save, urlType) {
-    addUrl(id2save, urlType);
+    urls = addUrl(id2save, urls, urlType);
     // TODO replace [id2save] -> id2save
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
     storingInfo.then(() => {
@@ -524,12 +524,13 @@ function deleteUrl(eKey, urls, urlType) {
   return urls;
 }
 
-function addUrl(eKey, urlType) {
+function addUrl(eKey, urls, urlType) {
   urls.forEach(function (url) {
     if (url.type == urlType) {
       url.values.push(eKey.replace(urlType + "_", ""));
     }
   });
+  return urls;
 }
 
 // save input box info
@@ -549,7 +550,7 @@ function saveUrl(enterKey, urlType) {
 // add a tag to the display, and storage
 function storeInfo(info2save, urlType) {
   function saveInfo(id2save, value2save) {
-    addUrl(id2save, urlType);
+    urls = addUrl(id2save, urls, urlType);
     sendInfoAndValue("urls", urls);
     var storingInfo = browser.storage.local.set({ [id2save]: value2save });
     storingInfo.then(() => {
