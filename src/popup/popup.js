@@ -291,9 +291,9 @@ function clearStorageInfo(urlType) {
       browser.storage.local.remove(arrayValue);
       infoContainer.removeChild(infoContainer.firstChild);
     });
-    urls.forEach(function (arrayValue) {
-      if (arrayValue.type == urlType) {
-        arrayValue.values = [];
+    urls.forEach(function (url) {
+      if (url.type == urlType) {
+        url.values = [];
       }
     });
     sendInfoAndValue("urls", urls);
