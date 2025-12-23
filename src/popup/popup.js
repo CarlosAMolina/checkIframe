@@ -8,7 +8,6 @@ var infoContainer = document.querySelector(".info-container");
 // TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
 var urls = [];
-var urlType = "";
 var values2sendFromPopup;
 
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
