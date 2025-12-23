@@ -8,7 +8,6 @@ var infoContainer = document.querySelector(".info-container");
 // TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
 var urls = [];
-var values2sendFromPopup;
 
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -144,7 +143,7 @@ class ButtonRecheck extends Button {
     hide("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendInfo(tabs, this._idHtml))
+      .then((tabs) => sendInfo(tabs, this._idHtml, undefined))
       .catch(reportError);
   }
 }
@@ -159,7 +158,7 @@ class ButtonClean extends Button {
     hide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendInfo(tabs, this._idHtml))
+      .then((tabs) => sendInfo(tabs, this._idHtml, undefined))
       .catch(reportError);
   }
 }
@@ -385,7 +384,6 @@ function showStoredInfo(eKey, eValue) {
     }
   });
 
-  // update
   function updateEntry(id2change, id2save, info2save, urlType) {
     urls = addUrl(id2save, urls, urlType);
     // TODO replace [id2save] -> id2save
@@ -426,7 +424,7 @@ function unhide(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
-function sendInfo(tabs, info2sendFromPopup) {
+function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
   browser.tabs
     .sendMessage(tabs[0].id, {
       info: info2sendFromPopup,
@@ -460,12 +458,11 @@ function showStoredUrlsType(urlType) {
   }, reportError);
 }
 
-function sendInfoAndValue(info2send, value2send) {
-  values2sendFromPopup = value2send;
-  console.log("Sending info", info2send, "and value", value2send);
+function sendInfoAndValue(info2send, values2send) {
+  console.log("Sending info", info2send, "and value", values2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then((tabs) => sendInfo(tabs, info2send))
+    .then((tabs) => sendInfo(tabs, info2send, values2send))
     .catch(reportError);
 }
 

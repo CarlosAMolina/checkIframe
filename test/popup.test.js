@@ -662,36 +662,31 @@ describe("Check module import", () => {
       "section backgroundGray",
     );
   });
-  describe("Check sendInfo", () => {
-    beforeEach(() => {
-      const UrlsOfType = popupModule.__get__("_UrlsOfType");
-      // The first time the popup is initialized I think it has these values.
-      popupModule.__set__("values2sendFromPopup", [
-        new UrlsOfType("blacklist", []),
-        new UrlsOfType("notify", []),
-        new UrlsOfType("referer", []),
-      ]);
-    });
-    it("sendInfo has expected calls and values", async () => {
-      function_ = popupModule.__get__("sendInfo");
-      const tabs = [{ id: 1234 }];
-      let info2sendFromPopup = "urls";
-      await function_(tabs, info2sendFromPopup);
-      const UrlsOfType = popupModule.__get__("_UrlsOfType");
-      expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-        1234,
-        {
-          info: "urls",
-          values: [
-            new UrlsOfType("blacklist", []),
-            new UrlsOfType("notify", []),
-            new UrlsOfType("referer", []),
-          ],
-        },
-      ]);
-      expect(browser.tabs.sendMessage.mock.results[0].value).resolves.toEqual({
-        data: "done sendMessage",
-      });
+  it("sendInfo has expected calls and values", async () => {
+    const UrlsOfType = popupModule.__get__("_UrlsOfType");
+    // The first time the popup is initialized I think it has these values.
+    function_ = popupModule.__get__("sendInfo");
+    const tabs = [{ id: 1234 }];
+    let info2sendFromPopup = "urls";
+    const values2sendFromPopup = [
+      new UrlsOfType("blacklist", []),
+      new UrlsOfType("notify", []),
+      new UrlsOfType("referer", []),
+    ];
+    await function_(tabs, info2sendFromPopup, values2sendFromPopup);
+    expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+      1234,
+      {
+        info: "urls",
+        values: [
+          new UrlsOfType("blacklist", []),
+          new UrlsOfType("notify", []),
+          new UrlsOfType("referer", []),
+        ],
+      },
+    ]);
+    expect(browser.tabs.sendMessage.mock.results[0].value).resolves.toEqual({
+      data: "done sendMessage",
     });
   });
   it("showOrHideInfo runs without error", function () {
