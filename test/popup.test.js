@@ -568,6 +568,7 @@ describe("Check module import", () => {
       it("Test click updateBtn", async () => {
         // TODO move to beforeEach
         popupModule.__set__("urlType", "blacklist");
+        document.getElementById("buttonUrlsBlacklist").checked = true;
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
