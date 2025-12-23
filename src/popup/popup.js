@@ -323,7 +323,7 @@ function showStoredInfo(eKey, eValue) {
       evtTgt.parentNode.parentNode,
     );
     browser.storage.local.remove(eKey);
-    const urlType = getUrlTypeToShow();
+    const urlType = getUrlTypeActive();
     // TODO can be this line deleted?
     // Maybe it doesn't do anything because the variable `urls` has
     // the url deleted before showStoredInfo is called.
@@ -397,14 +397,19 @@ function showStoredInfo(eKey, eValue) {
   }
 }
 
-function getUrlTypeToShow() {
-  if (document.getElementById("buttonUrlsBlacklist").checked) {
-    return URL_TYPE_BLACKLIST;
-  } else if (document.getElementById("buttonUrlsNotify").checked) {
-    return URL_TYPE_NOTIFY;
-  } else if (document.getElementById("buttonUrlsReferer").checked) {
-    return URL_TYPE_REFERER;
+function getUrlTypeActive() {
+  const idTypeMap = [
+    { idHtml: "buttonUrlsBlacklist", urlType: URL_TYPE_BLACKLIST },
+    { idHtml: "buttonUrlsNotify", urlType: URL_TYPE_NOTIFY },
+    { idHtml: "buttonUrlsReferer", urlType: URL_TYPE_REFERER },
+  ];
+  for (let i = 0; i < idTypeMap.length; i++) {
+    const { idHtml, urlType } = idTypeMap[i];
+    if (document.getElementById(idHtml).checked) {
+      return urlType;
+    }
   }
+  return null;
 }
 
 function hide(htmlId) {
