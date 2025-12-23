@@ -375,8 +375,9 @@ function showStoredInfo(eKey, eValue) {
       gettingItem.then((result) => {
         // result: empty object if the searched value is not stored
         var searchInStorage = Object.keys(result); // array with the searched value if it is stored
+        // searchInStorage.length < 1 -> no stored
         if (searchInStorage.length < 1) {
-          // searchInStorage.length < 1 -> no stored
+          const urlType = getUrlTypeActive();
           updateEntry(eKey, id2save, info2save, urlType);
           entry.parentNode.removeChild(entry);
         }
