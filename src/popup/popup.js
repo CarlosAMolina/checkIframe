@@ -375,7 +375,7 @@ function showStoredInfo(eKey, eValue) {
         var searchInStorage = Object.keys(result); // array with the searched value if it is stored
         if (searchInStorage.length < 1) {
           // searchInStorage.length < 1 -> no stored
-          updateEntry(eKey, id2save, info2save);
+          updateEntry(eKey, id2save, info2save, urlType);
           entry.parentNode.removeChild(entry);
         }
       });
@@ -383,7 +383,7 @@ function showStoredInfo(eKey, eValue) {
   });
 
   // update
-  function updateEntry(id2change, id2save, info2save) {
+  function updateEntry(id2change, id2save, info2save, urlType) {
     addUrl(id2save, urlType);
     // TODO replace [id2save] -> id2save
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
