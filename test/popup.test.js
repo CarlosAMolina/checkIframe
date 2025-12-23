@@ -641,6 +641,7 @@ describe("Check module import", () => {
             ],
           },
         ]);
+        document.getElementById("buttonUrlsBlacklist").checked = false;
         // TODO not tested entry.parentNode.removeChild(entry);
       });
     });
