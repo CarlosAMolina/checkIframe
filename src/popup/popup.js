@@ -261,6 +261,7 @@ class ButtonAddUrl extends Button {
 
   click() {
     this.logButtonName();
+    const urlType = getUrlTypeActive();
     saveUrl(undefined, urlType);
   }
 }
