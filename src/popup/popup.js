@@ -520,9 +520,9 @@ function deleteUrl(eKey, urls, urlType) {
 }
 
 function addUrl(eKey) {
-  urls.forEach(function (arrayValue) {
-    if (arrayValue.type == urlType) {
-      arrayValue.values.push(eKey.replace(urlType + "_", ""));
+  urls.forEach(function (url) {
+    if (url.type == urlType) {
+      url.values.push(eKey.replace(urlType + "_", ""));
     }
   });
 }
