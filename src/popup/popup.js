@@ -48,7 +48,7 @@ function popupMain() {
       button.click();
     }
   });
-
+  const urlType = getUrlTypeActive();
   // set up listener for the input box
   document
     .getElementById("inputUrl")
