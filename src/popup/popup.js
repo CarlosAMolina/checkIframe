@@ -280,6 +280,7 @@ class ButtonClearAll extends Button {
   }
 }
 
+// TODO as ButtonClearAll private method
 function clearStorageInfo(urlType) {
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((storageItems) => {
