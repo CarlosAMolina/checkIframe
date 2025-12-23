@@ -56,7 +56,7 @@ function popupMain() {
       event.preventDefault();
       // enter key
       if (event.keyCode === 13) {
-        saveUrl(1);
+        saveUrl(1, urlType);
       }
     });
 }
@@ -261,7 +261,7 @@ class ButtonAddUrl extends Button {
 
   click() {
     this.logButtonName();
-    saveUrl();
+    saveUrl(undefined, urlType);
   }
 }
 
@@ -531,7 +531,7 @@ function addUrl(eKey, urlType) {
 }
 
 // save input box info
-function saveUrl(enterKey) {
+function saveUrl(enterKey, urlType) {
   let info2save = document
     .querySelector('textarea[id="inputUrl"]')
     .value.split("\n");
