@@ -316,7 +316,6 @@ function showStoredInfo(eKey, eValue) {
   entryDisplay.appendChild(deleteBtn);
   entryDisplay.appendChild(entryValue);
   entry.appendChild(entryDisplay);
-  const urlType = getUrlTypeToShow();
   // set up listener for the delete functionality
   deleteBtn.addEventListener("click", (e) => {
     const evtTgt = e.target;
@@ -324,6 +323,7 @@ function showStoredInfo(eKey, eValue) {
       evtTgt.parentNode.parentNode,
     );
     browser.storage.local.remove(eKey);
+    const urlType = getUrlTypeToShow();
     // TODO can be this line deleted?
     // Maybe it doesn't do anything because the variable `urls` has
     // the url deleted before showStoredInfo is called.
