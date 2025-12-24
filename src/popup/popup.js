@@ -562,7 +562,9 @@ function saveUrl(enterKey, urlType) {
 // add a tag to the display, and storage
 function storeInfo(info2save, urlType) {
   function saveInfo(id2save, value2save) {
+    let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
+    setUrls(urls);
     sendInfoAndValue("urls", urls);
     var storingInfo = browser.storage.local.set({ [id2save]: value2save });
     storingInfo.then(() => {
