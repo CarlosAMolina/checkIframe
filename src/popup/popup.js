@@ -26,6 +26,14 @@ var URL_TYPE_NOTIFY = "notify";
 var URL_TYPE_REFERER = "referer";
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
+function getUrls() {
+  return urls;
+}
+
+function setUrls(values) {
+  urls = values;
+}
+
 class _UrlsOfType {
   constructor(type, values) {
     this.type = type;
@@ -65,7 +73,8 @@ function initializePopup() {
   new ButtonHighlightAllAutomatically().initializePopup();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((storageItems) => {
-    urls = getStoredUrls(storageItems);
+    let urls = getStoredUrls(storageItems);
+    setUrls(urls);
     sendInfoAndValue("urls", urls);
   }, reportError);
 }
