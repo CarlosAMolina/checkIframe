@@ -398,6 +398,7 @@ function showStoredInfo(eKey, eValue) {
   });
 
   function updateEntry(id2change, id2save, info2save, urlType) {
+    let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
     // TODO replace [id2save] -> id2save
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
@@ -409,6 +410,7 @@ function showStoredInfo(eKey, eValue) {
       }, reportError);
     }, reportError);
     sendInfoAndValue("urls", urls);
+    setUrls(urls);
   }
 }
 
