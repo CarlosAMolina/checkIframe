@@ -2,12 +2,13 @@ import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
+import { getUrls } from "./url.js";
+import { setUrls } from "./url.js";
 
 // TODO var as const
 var infoContainer = document.querySelector(".info-container");
 // TODO var as const
 var sourcesContainer = document.querySelector(".sources-container");
-var urls = [];
 
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -25,14 +26,6 @@ var URL_TYPE_BLACKLIST = "blacklist";
 var URL_TYPE_NOTIFY = "notify";
 var URL_TYPE_REFERER = "referer";
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
-
-function getUrls() {
-  return urls;
-}
-
-function setUrls(values) {
-  urls = values;
-}
 
 class _UrlsOfType {
   constructor(type, values) {

@@ -380,7 +380,8 @@ describe("Check module import", () => {
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
     popupModule.__set__("infoContainer", containerFake);
     const UrlsOfType = popupModule.__get__("_UrlsOfType");
-    popupModule.__set__("urls", [
+    setUrls = popupModule.__get__("setUrls");
+    setUrls([
       new UrlsOfType("blacklist", ["url1", "url2"]),
       new UrlsOfType("notify", ["url3"]),
     ]);
@@ -398,12 +399,12 @@ describe("Check module import", () => {
     const container = popupModule.__get__("infoContainer");
     expect(container.children.length).toBe(0);
     // Assert urls were updated.
-    const urls = popupModule.__get__("urls");
+    getUrls = popupModule.__get__("getUrls");
     const expectedUrls = [
       new UrlsOfType("blacklist", []),
       new UrlsOfType("notify", ["url3"]),
     ];
-    expect(urls).toEqual(expectedUrls);
+    expect(getUrls()).toEqual(expectedUrls);
     // Assert sendInfoAndValue was called with updated urls
     const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
     expect(sendInfoAndValue).toHaveBeenCalledWith("urls", expectedUrls);
@@ -437,7 +438,8 @@ describe("Check module import", () => {
     describe("Buttons click works correctly", () => {
       beforeEach(() => {
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
-        popupModule.__set__("urls", [
+        setUrls = popupModule.__get__("setUrls");
+        setUrls([
           new UrlsOfType("blacklist", []),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
@@ -463,7 +465,9 @@ describe("Check module import", () => {
         const deleteButton = buttons[0];
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
-        expect(popupModule.__get__("urls")).toEqual([
+
+        getUrls = popupModule.__get__("getUrls");
+        expect(getUrls()).toEqual([
           new UrlsOfType("blacklist", []),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
@@ -475,7 +479,8 @@ describe("Check module import", () => {
         expect(buttonsAfterClick.length).toBe(0);
         expect(browser.storage.local.remove.mock.calls.length).toBe(1);
         expect(browser.storage.local.remove.mock.lastCall).toEqual([eKey]);
-        expect(popupModule.__get__("urls")).toEqual([
+        getUrls = popupModule.__get__("getUrls");
+        expect(getUrls()).toEqual([
           new UrlsOfType("blacklist", []),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
@@ -560,17 +565,19 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
         const UrlsOfType = popupModule.__get__("_UrlsOfType");
-        expect(popupModule.__get__("urls")).toStrictEqual([
+        getUrls = popupModule.__get__("getUrls");
+        expect(getUrls()).toStrictEqual([
           new UrlsOfType("blacklist", []),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
         ]);
-        popupModule.__set__("urls", [
+        setUrls = popupModule.__get__("setUrls");
+        setUrls([
           new UrlsOfType("blacklist", [eValue]),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
         ]);
-        expect(popupModule.__get__("urls")).toStrictEqual([
+        expect(getUrls()).toStrictEqual([
           new UrlsOfType("blacklist", ["https://foo.com/test.html"]),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
@@ -592,7 +599,7 @@ describe("Check module import", () => {
           popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
             .value,
         ).toBe(entryEditInputValue);
-        expect(popupModule.__get__("urls")).toStrictEqual([
+        expect(getUrls()).toStrictEqual([
           new UrlsOfType("blacklist", ["https://foo.com/test.html"]),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
@@ -610,7 +617,7 @@ describe("Check module import", () => {
         ]);
         // Test updateEntry
         // Test addUrl
-        expect(popupModule.__get__("urls")).toStrictEqual([
+        expect(getUrls()).toStrictEqual([
           new UrlsOfType("blacklist", ["https://new-url.com/test-2.html"]),
           new UrlsOfType("notify", []),
           new UrlsOfType("referer", []),
