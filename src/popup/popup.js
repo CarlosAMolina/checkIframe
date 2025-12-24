@@ -93,10 +93,10 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
 function getStoredUrls(storageItems) {
   let result = [];
   URL_TYPES.forEach(function (urlType) {
-    var keysUrl = Object.keys(storageItems).filter((key) =>
+    const keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
-    var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
+    const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
     const urls_of_type = new UrlsOfType(urlType, urls2save);
     result.push(urls_of_type);
   });
