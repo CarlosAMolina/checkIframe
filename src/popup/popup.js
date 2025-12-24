@@ -337,10 +337,12 @@ function showStoredInfo(eKey, eValue) {
     );
     browser.storage.local.remove(eKey);
     const urlType = getUrlTypeActive();
+    let urls = getUrls();
     // TODO can be this line deleted?
     // Maybe it doesn't do anything because the variable `urls` has
     // the url deleted before showStoredInfo is called.
     urls = deleteUrl(eKey, urls, urlType);
+    setUrls(urls);
     sendInfoAndValue("urls", urls);
   });
 
