@@ -27,7 +27,7 @@ var URL_TYPE_NOTIFY = "notify";
 var URL_TYPE_REFERER = "referer";
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
-class _UrlsOfType {
+class UrlsOfType {
   constructor(type, values) {
     this.type = type;
     this.values = values;
@@ -97,7 +97,7 @@ function getStoredUrls(storageItems) {
       key.includes(urlType + "_"),
     ); //array
     var urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]); // array
-    const urls_of_type = new _UrlsOfType(urlType, urls2save);
+    const urls_of_type = new UrlsOfType(urlType, urls2save);
     result.push(urls_of_type);
   });
   return result;
