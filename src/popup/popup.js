@@ -299,12 +299,14 @@ function clearStorageInfo(urlType) {
       browser.storage.local.remove(arrayValue);
       infoContainer.removeChild(infoContainer.firstChild);
     });
+    let urls = getUrls();
     // TODO? replace with deleteUrl
     urls.forEach(function (url) {
       if (url.type == urlType) {
         url.values = [];
       }
     });
+    setUrls(urls);
     sendInfoAndValue("urls", urls);
   }, reportError);
 }
