@@ -3,6 +3,10 @@ export class BrowserRepository {
     this._browser = browser;
   }
 
+  delete(key) {
+    return this._browser.storage.local.remove(key);
+  }
+
   getAll() {
     return this._browser.storage.local.get(null);
   }

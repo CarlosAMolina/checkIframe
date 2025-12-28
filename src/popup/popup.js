@@ -267,7 +267,7 @@ function clearStorageInfo(urlType) {
       key.includes(urlType + "_"),
     ); //array
     keysUrl.forEach(function (arrayValue) {
-      browser.storage.local.remove(arrayValue);
+      new BrowserRepository(browser).delete(arrayValue);
       infoContainer.removeChild(infoContainer.firstChild);
     });
     let urls = getUrls();
