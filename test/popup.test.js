@@ -51,7 +51,7 @@ const tabId = 1;
 
 describe("Check module import", () => {
   beforeEach(() => {
-    initializeMocks();
+    initializeMocksAndVariables();
   });
   it("The DOM has expected values", function () {
     expect(document.getElementById("pInput").textContent).toBe("New values");
@@ -100,7 +100,7 @@ describe("Check module import", () => {
   });
   describe("Check buttons", () => {
     beforeAll(() => {
-      initializeMocks();
+      initializeMocksAndVariables();
     });
     describe("Check createButton", () => {
       beforeAll(() => {
@@ -865,7 +865,7 @@ describe("Check module import", () => {
 
 describe("setupCopyButtonListeners", () => {
   beforeEach(() => {
-    initializeMocks();
+    initializeMocksAndVariables();
   });
   it("Copies url to clipboard and shows temporary feedback", async () => {
     jest.useFakeTimers();
@@ -898,7 +898,7 @@ describe("setupCopyButtonListeners", () => {
   });
 });
 
-function initializeMocks() {
+function initializeMocksAndVariables() {
   const htmlPathName = "src/popup/popup.html";
   runMockDom(htmlPathName);
   global.browser = mockBrowser();
