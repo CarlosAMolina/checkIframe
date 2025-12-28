@@ -262,7 +262,7 @@ class ButtonClearAll extends Button {
 
 // TODO as ButtonClearAll private method
 function clearStorageInfo(urlType) {
-  new BrowserRepository(browser).getItems().then((storageItems) => {
+  new BrowserRepository(browser).getAll().then((storageItems) => {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
@@ -432,7 +432,7 @@ function showOrHideInfo(htmlId) {
 }
 
 function showStoredUrlsType(urlType) {
-  new BrowserRepository(browser).getItems().then((results) => {
+  new BrowserRepository(browser).getAll().then((results) => {
     var keys = Object.keys(results);
     keys.forEach(function (arrayValue) {
       if (arrayValue.includes(urlType)) {

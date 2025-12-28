@@ -7,7 +7,7 @@ export class BrowserRepository {
     return this._browser.storage.local.get(key);
   }
 
-  getItems() {
+  getAll() {
     return this._browser.storage.local.get(null);
   }
 }
