@@ -1,4 +1,5 @@
 import { BrowserRepository } from "./repository.js";
+import { UrlsOfType } from "./model.js";
 
 var URL_TYPE_BLACKLIST = "blacklist";
 var URL_TYPE_NOTIFY = "notify";
@@ -31,11 +32,4 @@ export function getUrls() {
 // TODO? rm, store in memory and work with getStoredUrls
 export function setUrls(values) {
   urls = values;
-}
-
-class UrlsOfType {
-  constructor(type, values) {
-    this.type = type;
-    this.values = values;
-  }
 }
