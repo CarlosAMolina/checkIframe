@@ -64,25 +64,26 @@ function initializePopup() {
   setNewElementsMaxWidth();
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
-  var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((storageItems) => {
-    let urls = getStoredUrls(storageItems);
+  getStoredUrls(browser).then((urls) => {
     setUrls(urls);
     sendInfoAndValue("urls", urls);
   }, reportError);
 }
 
-function getStoredUrls(storageItems) {
+function getStoredUrls(browser) {
   let result = [];
-  URL_TYPES.forEach(function (urlType) {
-    const keysUrl = Object.keys(storageItems).filter((key) =>
-      key.includes(urlType + "_"),
-    );
-    const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
-    const urls_of_type = new UrlsOfType(urlType, urls2save);
-    result.push(urls_of_type);
+  var gettingAllStorageItems = browser.storage.local.get(null);
+  return gettingAllStorageItems.then((storageItems) => {
+    URL_TYPES.forEach(function (urlType) {
+      const keysUrl = Object.keys(storageItems).filter((key) =>
+        key.includes(urlType + "_"),
+      );
+      const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
+      const urls_of_type = new UrlsOfType(urlType, urls2save);
+      result.push(urls_of_type);
+    });
+    return result;
   });
-  return result;
 }
 
 // This is necessay to avoid changes in the pop-up width.

@@ -94,8 +94,9 @@ describe("Check module import", () => {
       new UrlsOfType("referer", ["url4"]),
     ];
     function_ = popupModule.__get__("getStoredUrls");
-    const result = function_(storageItems);
-    expect(result).toEqual(expectedResult);
+    function_(mockBrowser(storageItems)).then((result) => {
+      expect(result).toEqual(expectedResult);
+    });
   });
   describe("Check buttons", () => {
     beforeAll(() => {
