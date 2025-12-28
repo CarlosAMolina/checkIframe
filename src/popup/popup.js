@@ -72,6 +72,19 @@ function initializePopup() {
   }, reportError);
 }
 
+function getStoredUrls(storageItems) {
+  let result = [];
+  URL_TYPES.forEach(function (urlType) {
+    const keysUrl = Object.keys(storageItems).filter((key) =>
+      key.includes(urlType + "_"),
+    );
+    const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
+    const urls_of_type = new UrlsOfType(urlType, urls2save);
+    result.push(urls_of_type);
+  });
+  return result;
+}
+
 // This is necessay to avoid changes in the pop-up width.
 function setNewElementsMaxWidth() {
   const maxWidthCurrentWindow =
@@ -88,19 +101,6 @@ function setNewElementsMaxWidth() {
 
 function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
   return eventClick.target.id || eventClick.target.parentElement.id;
-}
-
-function getStoredUrls(storageItems) {
-  let result = [];
-  URL_TYPES.forEach(function (urlType) {
-    const keysUrl = Object.keys(storageItems).filter((key) =>
-      key.includes(urlType + "_"),
-    );
-    const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
-    const urls_of_type = new UrlsOfType(urlType, urls2save);
-    result.push(urls_of_type);
-  });
-  return result;
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
