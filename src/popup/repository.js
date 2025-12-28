@@ -3,11 +3,11 @@ export class BrowserRepository {
     this._browser = browser;
   }
 
-  getStoredItem(key) {
+  getItem(key) {
     return this._browser.storage.local.get(key);
   }
 
-  getStoredItems() {
+  getItems() {
     return this._browser.storage.local.get(null);
   }
 }
