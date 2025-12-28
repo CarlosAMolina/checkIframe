@@ -3,7 +3,7 @@ export class BrowserRepository {
     this._browser = browser;
   }
 
-  getItem(key) {
+  getByKey(key) {
     return this._browser.storage.local.get(key);
   }
 

@@ -354,7 +354,7 @@ function showStoredInfo(eKey, eValue) {
       // type a different value
       let info2save = entryEditInput.value;
       var id2save = eKey.split("_")[0] + "_" + info2save;
-      new BrowserRepository(browser).getItem(id2save).then((result) => {
+      new BrowserRepository(browser).getByKey(id2save).then((result) => {
         // result: empty object if the searched value is not stored
         var searchInStorage = Object.keys(result); // array with the searched value if it is stored
         // searchInStorage.length < 1 -> no stored
@@ -546,7 +546,7 @@ function storeInfo(info2save, urlType) {
   });
   info2save.forEach(function (arrayValue) {
     var id2save = urlType + "_" + arrayValue;
-    new BrowserRepository(browser).getItem(id2save).then((result) => {
+    new BrowserRepository(browser).getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
       if (searchInStorage.length < 1) {

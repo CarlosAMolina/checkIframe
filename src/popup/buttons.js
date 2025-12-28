@@ -223,7 +223,7 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
 async function getIsStoredOn(keyName) {
   let resultGetStorage = {};
   try {
-    resultGetStorage = await new BrowserRepository(browser).getItem(keyName);
+    resultGetStorage = await new BrowserRepository(browser).getByKey(keyName);
   } catch (e) {
     console.error(e);
   }
