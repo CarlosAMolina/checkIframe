@@ -4,8 +4,6 @@ export class BrowserRepository {
   }
 
   getStoredItems() {
-    return this._browser.storage.local.get(null).then((result) => {
-      return result;
-    });
+    return this._browser.storage.local.get(null);
   }
 }
