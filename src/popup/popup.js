@@ -546,8 +546,7 @@ function storeInfo(info2save, urlType) {
   });
   info2save.forEach(function (arrayValue) {
     var id2save = urlType + "_" + arrayValue;
-    var gettingItem = browser.storage.local.get(id2save);
-    gettingItem.then((result) => {
+    new BrowserRepository(browser).getStoredItem(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
       if (searchInStorage.length < 1) {
