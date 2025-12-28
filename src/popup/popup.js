@@ -262,12 +262,13 @@ class ButtonClearAll extends Button {
 
 // TODO as ButtonClearAll private method
 function clearStorageInfo(urlType) {
-  new BrowserRepository(browser).getAll().then((storageItems) => {
+  const repository = new BrowserRepository(browser);
+  repository.getAll().then((storageItems) => {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
     keysUrl.forEach(function (arrayValue) {
-      new BrowserRepository(browser).delete(arrayValue).catch((error) => {
+      repository.delete(arrayValue).catch((error) => {
         reportError(error);
       });
       infoContainer.removeChild(infoContainer.firstChild);
