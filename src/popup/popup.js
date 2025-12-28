@@ -1,3 +1,4 @@
+import { BrowserRepository } from "./repository.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
@@ -261,8 +262,7 @@ class ButtonClearAll extends Button {
 
 // TODO as ButtonClearAll private method
 function clearStorageInfo(urlType) {
-  var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((storageItems) => {
+  new BrowserRepository(browser).getStoredItems().then((storageItems) => {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
