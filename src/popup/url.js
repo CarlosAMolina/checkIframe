@@ -20,10 +20,11 @@ export function getStoredUrls(browser) {
   });
 }
 
+// TODO? rm work with getStoredUrls
 export function getUrls() {
   return urls;
 }
-
+// TODO? rm, store in memory and work with getStoredUrls
 export function setUrls(values) {
   urls = values;
 }

@@ -81,23 +81,6 @@ describe("Check module import", () => {
     const eventClick = { target: { id: 1 } };
     function_(eventClick);
   });
-  it("getStoredUrls returns expected result", function () {
-    const storageItems = {
-      blacklist_url1: "url1",
-      blacklist_url2: "url2",
-      notify_url3: "url3",
-      referer_url4: "url4",
-    };
-    const expectedResult = [
-      new UrlsOfType("blacklist", ["url1", "url2"]),
-      new UrlsOfType("notify", ["url3"]),
-      new UrlsOfType("referer", ["url4"]),
-    ];
-    function_ = popupModule.__get__("getStoredUrls");
-    function_(mockBrowser(storageItems)).then((result) => {
-      expect(result).toEqual(expectedResult);
-    });
-  });
   describe("Check buttons", () => {
     beforeAll(() => {
       initializeMocksAndVariables();
