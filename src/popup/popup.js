@@ -72,8 +72,7 @@ function initializePopup() {
 
 function getStoredUrls(browser) {
   let result = [];
-  var gettingAllStorageItems = browser.storage.local.get(null);
-  return gettingAllStorageItems.then((storageItems) => {
+  return browser.storage.local.get(null).then((storageItems) => {
     URL_TYPES.forEach(function (urlType) {
       const keysUrl = Object.keys(storageItems).filter((key) =>
         key.includes(urlType + "_"),
