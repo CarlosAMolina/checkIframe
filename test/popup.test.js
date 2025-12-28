@@ -32,6 +32,7 @@ function getNewPromise(args) {
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
 let urlModule;
+let UrlsOfType;
 let button;
 let function_;
 const buttonIdsHtml = [
@@ -59,7 +60,6 @@ describe("Check module import", () => {
     expect(popupModule.__get__("URL_TYPE_BLACKLIST")).toEqual("blacklist");
   });
   it("url has expected attributes", function () {
-    const UrlsOfType = urlModule.__get__("UrlsOfType");
     const type = "notify";
     const values = ["url_1", "url_2"];
     const urls_of_type = new UrlsOfType(type, values);
@@ -88,7 +88,6 @@ describe("Check module import", () => {
       notify_url3: "url3",
       referer_url4: "url4",
     };
-    const UrlsOfType = urlModule.__get__("UrlsOfType");
     const expectedResult = [
       new UrlsOfType("blacklist", ["url1", "url2"]),
       new UrlsOfType("notify", ["url3"]),
@@ -393,7 +392,6 @@ describe("Check module import", () => {
     containerFake.appendChild(document.createElement("div")); // First blacklisted url.
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
     popupModule.__set__("infoContainer", containerFake);
-    const UrlsOfType = urlModule.__get__("UrlsOfType");
     setUrls = popupModule.__get__("setUrls");
     setUrls([
       new UrlsOfType("blacklist", ["url1", "url2"]),
@@ -451,7 +449,6 @@ describe("Check module import", () => {
     });
     describe("Buttons click works correctly", () => {
       beforeEach(() => {
-        const UrlsOfType = urlModule.__get__("UrlsOfType");
         setUrls = popupModule.__get__("setUrls");
         setUrls([
           new UrlsOfType("blacklist", []),
@@ -478,7 +475,6 @@ describe("Check module import", () => {
         expect(buttons[2].title).toBe("Cancel update");
         const deleteButton = buttons[0];
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
-        const UrlsOfType = urlModule.__get__("UrlsOfType");
         getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toEqual([
           new UrlsOfType("blacklist", []),
@@ -577,7 +573,6 @@ describe("Check module import", () => {
         document.getElementById("buttonUrlsBlacklist").checked = true;
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        const UrlsOfType = urlModule.__get__("UrlsOfType");
         getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toStrictEqual([
           new UrlsOfType("blacklist", []),
@@ -683,7 +678,6 @@ describe("Check module import", () => {
     );
   });
   it("sendInfo has expected calls and values", async () => {
-    const UrlsOfType = urlModule.__get__("UrlsOfType");
     // The first time the popup is initialized I think it has these values.
     function_ = popupModule.__get__("sendInfo");
     const tabs = [{ id: 1234 }];
@@ -779,7 +773,6 @@ describe("Check module import", () => {
   });
   describe("Check modify urls", () => {
     it("deleteUrl deletes url", () => {
-      const UrlsOfType = urlModule.__get__("UrlsOfType");
       const urls = [
         new UrlsOfType("blacklist", [
           "https://foo.com/foo.html",
@@ -811,7 +804,6 @@ describe("Check module import", () => {
       expect(result).toEqual(expectedResult);
     });
     it("addUrl adds url", function () {
-      const UrlsOfType = urlModule.__get__("UrlsOfType");
       const urls = [
         new UrlsOfType("blacklist", ["https://foo.com/foo.html"]),
         new UrlsOfType("notify", []),
@@ -912,4 +904,5 @@ function initializeMocks() {
   global.browser = mockBrowser();
   popupModule = require("../src/popup/popup.js");
   urlModule = require("../src/popup/url.js");
+  UrlsOfType = urlModule.__get__("UrlsOfType");
 }
