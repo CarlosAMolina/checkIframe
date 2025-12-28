@@ -539,8 +539,7 @@ function storeInfo(info2save, urlType) {
     urls = addUrl(id2save, urls, urlType);
     setUrls(urls);
     sendInfoAndValue("urls", urls);
-    var storingInfo = browser.storage.local.set({ [id2save]: value2save });
-    storingInfo.then(() => {
+    new BrowserRepository(browser).save(id2save, value2save).then(() => {
       showStoredInfo(id2save, value2save);
     }, reportError);
   }

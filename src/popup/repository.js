@@ -14,4 +14,8 @@ export class BrowserRepository {
   getByKey(key) {
     return this._browser.storage.local.get(key);
   }
+
+  save(key, value) {
+    return this._browser.storage.local.set({ [key]: value });
+  }
 }
