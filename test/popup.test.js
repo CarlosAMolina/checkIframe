@@ -773,7 +773,7 @@ describe("Check module import", () => {
       function_ = popupModule.__get__("deleteUrl");
       const eKey = "blacklist_https://foo.com/foo.html";
       const result = function_(eKey, urls, "blacklist");
-      expectedResult = [
+      const expectedResult = [
         new UrlsOfType("blacklist", ["https://foo.com/foo-2.html"]),
         new UrlsOfType("notify", [
           "https://foo.com/foo-3.html",
@@ -795,7 +795,7 @@ describe("Check module import", () => {
       function_ = popupModule.__get__("addUrl");
       const eKey = "blacklist_https://foo.com/foo-2.html";
       const result = function_(eKey, urls, "blacklist");
-      expectedResult = [
+      const expectedResult = [
         new UrlsOfType("blacklist", [
           "https://foo.com/foo.html",
           "https://foo.com/foo-2.html",

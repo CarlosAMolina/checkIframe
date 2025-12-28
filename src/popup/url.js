@@ -1,3 +1,5 @@
+import { BrowserRepository } from "./repository.js";
+
 var URL_TYPE_BLACKLIST = "blacklist";
 var URL_TYPE_NOTIFY = "notify";
 var URL_TYPE_REFERER = "referer";
@@ -7,17 +9,19 @@ const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
 export function getStoredUrls(browser) {
   let result = [];
-  return browser.storage.local.get(null).then((storageItems) => {
-    URL_TYPES.forEach(function (urlType) {
-      const keysUrl = Object.keys(storageItems).filter((key) =>
-        key.includes(urlType + "_"),
-      );
-      const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
-      const urls_of_type = new UrlsOfType(urlType, urls2save);
-      result.push(urls_of_type);
+  return new BrowserRepository(browser)
+    .getStoredItems()
+    .then((storageItems) => {
+      URL_TYPES.forEach(function (urlType) {
+        const keysUrl = Object.keys(storageItems).filter((key) =>
+          key.includes(urlType + "_"),
+        );
+        const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
+        const urls_of_type = new UrlsOfType(urlType, urls2save);
+        result.push(urls_of_type);
+      });
+      return result;
     });
-    return result;
-  });
 }
 
 // TODO? rm work with getStoredUrls
