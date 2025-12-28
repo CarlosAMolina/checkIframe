@@ -373,11 +373,12 @@ function showStoredInfo(eKey, eValue) {
   });
 
   function updateEntry(id2change, id2save, info2save, urlType) {
+    const repository = new BrowserRepository(browser);
     let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
-    new BrowserRepository(browser).save(id2save, info2save).then(() => {
+    repository.save(id2save, info2save).then(() => {
       urls = deleteUrl(id2change, urls, urlType);
-      new BrowserRepository(browser).delete(id2change).then(() => {
+      repository.delete(id2change).then(() => {
         showStoredInfo(id2save, info2save);
       }, reportError);
     }, reportError);
