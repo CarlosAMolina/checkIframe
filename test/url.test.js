@@ -1,4 +1,5 @@
-import * as UrlModule from "../src/popup/url.js";
+import * as urlModule from "../src/popup/url.js";
+import * as modelModule from "../src/popup/model.js";
 
 function mockBrowser(storageItems = null) {
   if (storageItems === null) {
@@ -28,9 +29,6 @@ function getNewPromise(args) {
   });
 }
 
-// Import private code.
-const UrlsOfType = require("../src/popup/url.js").__get__("UrlsOfType");
-
 it("getStoredUrls returns expected result", function () {
   const storageItems = {
     blacklist_url1: "url1",
@@ -39,11 +37,11 @@ it("getStoredUrls returns expected result", function () {
     referer_url4: "url4",
   };
   const expectedResult = [
-    new UrlsOfType("blacklist", ["url1", "url2"]),
-    new UrlsOfType("notify", ["url3"]),
-    new UrlsOfType("referer", ["url4"]),
+    new modelModule.UrlsOfType("blacklist", ["url1", "url2"]),
+    new modelModule.UrlsOfType("notify", ["url3"]),
+    new modelModule.UrlsOfType("referer", ["url4"]),
   ];
-  UrlModule.getStoredUrls(mockBrowser(storageItems)).then((result) => {
+  urlModule.getStoredUrls(mockBrowser(storageItems)).then((result) => {
     expect(result).toEqual(expectedResult);
   });
 });
