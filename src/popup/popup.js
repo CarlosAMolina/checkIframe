@@ -534,12 +534,13 @@ function saveUrl(enterKey, urlType) {
 
 // add a tag to the display, and storage
 function storeInfo(info2save, urlType) {
+  const repository = new BrowserRepository(browser);
   function saveInfo(id2save, value2save) {
     let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
     setUrls(urls);
     sendInfoAndValue("urls", urls);
-    new BrowserRepository(browser).save(id2save, value2save).then(() => {
+    repository.save(id2save, value2save).then(() => {
       showStoredInfo(id2save, value2save);
     }, reportError);
   }
@@ -549,7 +550,7 @@ function storeInfo(info2save, urlType) {
   });
   info2save.forEach(function (arrayValue) {
     var id2save = urlType + "_" + arrayValue;
-    new BrowserRepository(browser).getByKey(id2save).then((result) => {
+    repository.getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
       if (searchInStorage.length < 1) {
