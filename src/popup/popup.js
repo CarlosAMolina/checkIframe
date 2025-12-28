@@ -379,8 +379,7 @@ function showStoredInfo(eKey, eValue) {
     var storingInfo = browser.storage.local.set({ [id2save]: info2save });
     storingInfo.then(() => {
       urls = deleteUrl(id2change, urls, urlType);
-      var removingEntry = browser.storage.local.remove(id2change);
-      removingEntry.then(() => {
+      new BrowserRepository(browser).delete(id2change).then(() => {
         showStoredInfo(id2save, info2save);
       }, reportError);
     }, reportError);
