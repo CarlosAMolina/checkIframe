@@ -1,6 +1,7 @@
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { Button } from "./buttons.js";
+import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 import { getUrls } from "./url.js";
 import { setUrls } from "./url.js";
@@ -22,17 +23,9 @@ const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
 const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
-var URL_TYPE_BLACKLIST = "blacklist";
-var URL_TYPE_NOTIFY = "notify";
-var URL_TYPE_REFERER = "referer";
-const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
-
-class UrlsOfType {
-  constructor(type, values) {
-    this.type = type;
-    this.values = values;
-  }
-}
+var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
+var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
+var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js
 
 function popupMain() {
   // display previously saved stored info on start-up
@@ -68,21 +61,6 @@ function initializePopup() {
     setUrls(urls);
     sendInfoAndValue("urls", urls);
   }, reportError);
-}
-
-function getStoredUrls(browser) {
-  let result = [];
-  return browser.storage.local.get(null).then((storageItems) => {
-    URL_TYPES.forEach(function (urlType) {
-      const keysUrl = Object.keys(storageItems).filter((key) =>
-        key.includes(urlType + "_"),
-      );
-      const urls2save = keysUrl.map((keysUrl) => storageItems[keysUrl]);
-      const urls_of_type = new UrlsOfType(urlType, urls2save);
-      result.push(urls_of_type);
-    });
-    return result;
-  });
 }
 
 // This is necessay to avoid changes in the pop-up width.
