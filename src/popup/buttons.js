@@ -1,3 +1,5 @@
+import { BrowserRepository } from "./repository";
+
 export class Button {
   // TODO rm export when all buttons are moved here.
   click() {
@@ -221,7 +223,9 @@ export class ButtonHighlightAllAutomatically extends OnOffButton {
 async function getIsStoredOn(keyName) {
   let resultGetStorage = {};
   try {
-    resultGetStorage = await browser.storage.local.get(keyName);
+    resultGetStorage = await new BrowserRepository(browser).getStoredItem(
+      keyName,
+    );
   } catch (e) {
     console.error(e);
   }
