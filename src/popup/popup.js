@@ -309,7 +309,9 @@ function showStoredInfo(eKey, eValue) {
     evtTgt.parentNode.parentNode.parentNode.removeChild(
       evtTgt.parentNode.parentNode,
     );
-    browser.storage.local.remove(eKey);
+    new BrowserRepository(browser).delete(eKey).catch((error) => {
+      reportError(error);
+    });
     const urlType = getUrlTypeActive();
     let urls = getUrls();
     // TODO can be this line deleted?
