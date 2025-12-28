@@ -433,8 +433,7 @@ function showOrHideInfo(htmlId) {
 }
 
 function showStoredUrlsType(urlType) {
-  var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((results) => {
+  new BrowserRepository(browser).getStoredItems().then((results) => {
     var keys = Object.keys(results);
     keys.forEach(function (arrayValue) {
       if (arrayValue.includes(urlType)) {
