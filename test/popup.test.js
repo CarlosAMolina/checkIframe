@@ -1,5 +1,6 @@
 import { runMockDom } from "./mockDom.js";
 import { HtmlBuilder } from "./builder.js";
+import * as modelModule from "../src/popup/model.js";
 
 function mockBrowser(storageItems = null) {
   if (storageItems === null) {
@@ -31,8 +32,6 @@ function getNewPromise(args) {
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
-let urlModule;
-let UrlsOfType;
 let button;
 let function_;
 const buttonIdsHtml = [
@@ -62,7 +61,7 @@ describe("Check module import", () => {
   it("url has expected attributes", function () {
     const type = "notify";
     const values = ["url_1", "url_2"];
-    const urls_of_type = new UrlsOfType(type, values);
+    const urls_of_type = new modelModule.UrlsOfType(type, values);
     expect(urls_of_type.type).toEqual("notify");
     expect(urls_of_type.values).toEqual(["url_1", "url_2"]);
   });
@@ -377,8 +376,8 @@ describe("Check module import", () => {
     popupModule.__set__("infoContainer", containerFake);
     setUrls = popupModule.__get__("setUrls");
     setUrls([
-      new UrlsOfType("blacklist", ["url1", "url2"]),
-      new UrlsOfType("notify", ["url3"]),
+      new modelModule.UrlsOfType("blacklist", ["url1", "url2"]),
+      new modelModule.UrlsOfType("notify", ["url3"]),
     ]);
     const sendInfoAndValueBackup = popupModule.__get__("sendInfoAndValue");
     popupModule.__set__("sendInfoAndValue", jest.fn());
@@ -396,8 +395,8 @@ describe("Check module import", () => {
     // Assert urls were updated.
     getUrls = popupModule.__get__("getUrls");
     const expectedUrls = [
-      new UrlsOfType("blacklist", []),
-      new UrlsOfType("notify", ["url3"]),
+      new modelModule.UrlsOfType("blacklist", []),
+      new modelModule.UrlsOfType("notify", ["url3"]),
     ];
     expect(getUrls()).toEqual(expectedUrls);
     // Assert sendInfoAndValue was called with updated urls
@@ -434,9 +433,9 @@ describe("Check module import", () => {
       beforeEach(() => {
         setUrls = popupModule.__get__("setUrls");
         setUrls([
-          new UrlsOfType("blacklist", []),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", []),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         browser.tabs.sendMessage = jest.fn(() =>
           Promise.resolve({ data: "done sendMessage" }),
@@ -460,9 +459,9 @@ describe("Check module import", () => {
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
         getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toEqual([
-          new UrlsOfType("blacklist", []),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", []),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
         await deleteButton.click();
@@ -473,9 +472,9 @@ describe("Check module import", () => {
         expect(browser.storage.local.remove.mock.lastCall).toEqual([eKey]);
         getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toEqual([
-          new UrlsOfType("blacklist", []),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", []),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
@@ -483,9 +482,9 @@ describe("Check module import", () => {
           {
             info: "urls",
             values: [
-              new UrlsOfType("blacklist", []),
-              new UrlsOfType("notify", []),
-              new UrlsOfType("referer", []),
+              new modelModule.UrlsOfType("blacklist", []),
+              new modelModule.UrlsOfType("notify", []),
+              new modelModule.UrlsOfType("referer", []),
             ],
           },
         ]);
@@ -558,20 +557,22 @@ describe("Check module import", () => {
         const eKey = "blacklist_https://foo.com/test.html";
         getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toStrictEqual([
-          new UrlsOfType("blacklist", []),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", []),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         setUrls = popupModule.__get__("setUrls");
         setUrls([
-          new UrlsOfType("blacklist", [eValue]),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", [eValue]),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         expect(getUrls()).toStrictEqual([
-          new UrlsOfType("blacklist", ["https://foo.com/test.html"]),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", [
+            "https://foo.com/test.html",
+          ]),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         function_ = popupModule.__get__("showStoredInfo");
         function_(eKey, eValue);
@@ -591,9 +592,11 @@ describe("Check module import", () => {
             .value,
         ).toBe(entryEditInputValue);
         expect(getUrls()).toStrictEqual([
-          new UrlsOfType("blacklist", ["https://foo.com/test.html"]),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", [
+            "https://foo.com/test.html",
+          ]),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         expect(browser.storage.local.get.mock.calls.length).toBe(0);
         expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -609,9 +612,11 @@ describe("Check module import", () => {
         // Test updateEntry
         // Test addUrl
         expect(getUrls()).toStrictEqual([
-          new UrlsOfType("blacklist", ["https://new-url.com/test-2.html"]),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", [
+            "https://new-url.com/test-2.html",
+          ]),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ]);
         expect(browser.storage.local.set.mock.calls.length).toBe(1);
         const expectedInfo2save = "https://new-url.com/test-2.html";
@@ -631,9 +636,11 @@ describe("Check module import", () => {
           {
             info: "urls",
             values: [
-              new UrlsOfType("blacklist", ["https://new-url.com/test-2.html"]),
-              new UrlsOfType("notify", []),
-              new UrlsOfType("referer", []),
+              new modelModule.UrlsOfType("blacklist", [
+                "https://new-url.com/test-2.html",
+              ]),
+              new modelModule.UrlsOfType("notify", []),
+              new modelModule.UrlsOfType("referer", []),
             ],
           },
         ]);
@@ -666,9 +673,9 @@ describe("Check module import", () => {
     const tabs = [{ id: 1234 }];
     let info2sendFromPopup = "urls";
     const values2sendFromPopup = [
-      new UrlsOfType("blacklist", []),
-      new UrlsOfType("notify", []),
-      new UrlsOfType("referer", []),
+      new modelModule.UrlsOfType("blacklist", []),
+      new modelModule.UrlsOfType("notify", []),
+      new modelModule.UrlsOfType("referer", []),
     ];
     await function_(tabs, info2sendFromPopup, values2sendFromPopup);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
@@ -676,9 +683,9 @@ describe("Check module import", () => {
       {
         info: "urls",
         values: [
-          new UrlsOfType("blacklist", []),
-          new UrlsOfType("notify", []),
-          new UrlsOfType("referer", []),
+          new modelModule.UrlsOfType("blacklist", []),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
         ],
       },
     ]);
@@ -757,15 +764,15 @@ describe("Check module import", () => {
   describe("Check modify urls", () => {
     it("deleteUrl deletes url", () => {
       const urls = [
-        new UrlsOfType("blacklist", [
+        new modelModule.UrlsOfType("blacklist", [
           "https://foo.com/foo.html",
           "https://foo.com/foo-2.html",
         ]),
-        new UrlsOfType("notify", [
+        new modelModule.UrlsOfType("notify", [
           "https://foo.com/foo-3.html",
           "https://foo.com/foo-4.html",
         ]),
-        new UrlsOfType("referer", [
+        new modelModule.UrlsOfType("referer", [
           "https://foo.com/foo-5.html",
           "https://foo.com/foo-6.html",
         ]),
@@ -774,12 +781,12 @@ describe("Check module import", () => {
       const eKey = "blacklist_https://foo.com/foo.html";
       const result = function_(eKey, urls, "blacklist");
       const expectedResult = [
-        new UrlsOfType("blacklist", ["https://foo.com/foo-2.html"]),
-        new UrlsOfType("notify", [
+        new modelModule.UrlsOfType("blacklist", ["https://foo.com/foo-2.html"]),
+        new modelModule.UrlsOfType("notify", [
           "https://foo.com/foo-3.html",
           "https://foo.com/foo-4.html",
         ]),
-        new UrlsOfType("referer", [
+        new modelModule.UrlsOfType("referer", [
           "https://foo.com/foo-5.html",
           "https://foo.com/foo-6.html",
         ]),
@@ -788,20 +795,20 @@ describe("Check module import", () => {
     });
     it("addUrl adds url", function () {
       const urls = [
-        new UrlsOfType("blacklist", ["https://foo.com/foo.html"]),
-        new UrlsOfType("notify", []),
-        new UrlsOfType("referer", []),
+        new modelModule.UrlsOfType("blacklist", ["https://foo.com/foo.html"]),
+        new modelModule.UrlsOfType("notify", []),
+        new modelModule.UrlsOfType("referer", []),
       ];
       function_ = popupModule.__get__("addUrl");
       const eKey = "blacklist_https://foo.com/foo-2.html";
       const result = function_(eKey, urls, "blacklist");
       const expectedResult = [
-        new UrlsOfType("blacklist", [
+        new modelModule.UrlsOfType("blacklist", [
           "https://foo.com/foo.html",
           "https://foo.com/foo-2.html",
         ]),
-        new UrlsOfType("notify", []),
-        new UrlsOfType("referer", []),
+        new modelModule.UrlsOfType("notify", []),
+        new modelModule.UrlsOfType("referer", []),
       ];
       expect(result).toEqual(expectedResult);
     });
@@ -886,6 +893,4 @@ function initializeMocksAndVariables() {
   runMockDom(htmlPathName);
   global.browser = mockBrowser();
   popupModule = require("../src/popup/popup.js");
-  urlModule = require("../src/popup/url.js");
-  UrlsOfType = urlModule.__get__("UrlsOfType");
 }
