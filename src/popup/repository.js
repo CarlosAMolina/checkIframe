@@ -16,6 +16,7 @@ export class BrowserRepository {
   }
 
   save(key, value) {
+    // TODO? replace [key] -> key
     return this._browser.storage.local.set({ [key]: value });
   }
 }

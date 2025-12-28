@@ -375,9 +375,7 @@ function showStoredInfo(eKey, eValue) {
   function updateEntry(id2change, id2save, info2save, urlType) {
     let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
-    // TODO replace [id2save] -> id2save
-    var storingInfo = browser.storage.local.set({ [id2save]: info2save });
-    storingInfo.then(() => {
+    new BrowserRepository(browser).save(id2save, info2save).then(() => {
       urls = deleteUrl(id2change, urls, urlType);
       new BrowserRepository(browser).delete(id2change).then(() => {
         showStoredInfo(id2save, info2save);
