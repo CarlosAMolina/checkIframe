@@ -199,7 +199,7 @@ class ButtonUrlsNotify extends Button {
 
   click() {
     this.logButtonName();
-    unhideSourcesConfigValues();
+    unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
     const urlType = URL_TYPE_NOTIFY;
     showStoredUrlsType(urlType + "_");
@@ -213,7 +213,7 @@ class ButtonUrlsBlacklist extends Button {
 
   click() {
     this.logButtonName();
-    unhideSourcesConfigValues();
+    unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
     const urlType = URL_TYPE_BLACKLIST;
     showStoredUrlsType(urlType + "_");
@@ -227,7 +227,7 @@ class ButtonUrlsReferer extends Button {
 
   click() {
     this.logButtonName();
-    unhideSourcesConfigValues();
+    unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
     const urlType = URL_TYPE_REFERER;
     showStoredUrlsType(urlType + "_");
@@ -284,10 +284,6 @@ function clearStorageInfo(urlType) {
     setUrls(urls);
     sendInfoAndValue("urls", urls);
   }, reportError);
-}
-
-function unhideSourcesConfigValues() {
-  unhide(HTML_ID_SOURCES_CONFIG);
 }
 
 function showStoredInfo(eKey, eValue) {
