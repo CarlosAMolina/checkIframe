@@ -53,6 +53,32 @@ describe("Check module import", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
   });
+  describe("dom", () => {
+    it("hide should add hidden", function () {
+      const htmlId = "buttonRecheck";
+      expect(document.getElementById(htmlId).className).toBe("");
+      domModule.hide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe("hidden");
+    });
+    it("hideOrUnhide should add and remove hidden", function () {
+      const htmlId = "buttonRecheck";
+      expect(document.getElementById(htmlId).className).toBe("");
+      domModule.hideOrUnhide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe("hidden");
+      domModule.hideOrUnhide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe("");
+    });
+    it("unhide should remove hidden", function () {
+      const htmlId = "infoScroll";
+      expect(document.getElementById(htmlId).className).toBe(
+        "section backgroundGray hidden",
+      );
+      domModule.unhide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe(
+        "section backgroundGray",
+      );
+    });
+  });
   it("The DOM has expected values", function () {
     expect(document.getElementById("pInput").textContent).toBe("New values");
   });
@@ -648,32 +674,6 @@ describe("Check module import", () => {
         document.getElementById("buttonUrlsBlacklist").checked = false;
         // TODO not tested entry.parentNode.removeChild(entry);
       });
-    });
-  });
-  describe("dom", () => {
-    it("hide should add hidden", function () {
-      const htmlId = "buttonRecheck";
-      expect(document.getElementById(htmlId).className).toBe("");
-      domModule.hide(htmlId);
-      expect(document.getElementById(htmlId).className).toBe("hidden");
-    });
-    it("hideOrUnhide should add and remove hidden", function () {
-      const htmlId = "buttonRecheck";
-      expect(document.getElementById(htmlId).className).toBe("");
-      domModule.hideOrUnhide(htmlId);
-      expect(document.getElementById(htmlId).className).toBe("hidden");
-      domModule.hideOrUnhide(htmlId);
-      expect(document.getElementById(htmlId).className).toBe("");
-    });
-    it("unhide should remove hidden", function () {
-      const htmlId = "infoScroll";
-      expect(document.getElementById(htmlId).className).toBe(
-        "section backgroundGray hidden",
-      );
-      domModule.unhide(htmlId);
-      expect(document.getElementById(htmlId).className).toBe(
-        "section backgroundGray",
-      );
     });
   });
   it("sendInfo has expected calls and values", async () => {
