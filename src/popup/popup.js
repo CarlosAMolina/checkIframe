@@ -574,7 +574,6 @@ function setupCopyButtonListeners() {
       navigator.clipboard
         .writeText(url)
         .then(() => {
-          console.log("Copied to clipboard: " + url);
           const button = this.parentElement.querySelector("button");
           const image = button.querySelector("img");
           const tooltip = button.querySelector("span");
