@@ -658,9 +658,8 @@ describe("Check module import", () => {
       expect(document.getElementById(htmlId).className).toBe("hidden");
     });
     it("hideOrUnhide runs without error", function () {
-      function_ = popupModule.__get__("hideOrUnhide");
       const htmlId = "infoScroll";
-      function_(htmlId);
+      domModule.hideOrUnhide(htmlId);
     });
     it("unhide should remove hidden", function () {
       const htmlId = "infoScroll";
