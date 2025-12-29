@@ -738,59 +738,6 @@ describe("Check module import", () => {
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
   });
-  // TODO move to url.test.js
-  describe("Check modify urls", () => {
-    it("deleteUrl deletes url", () => {
-      const urls = [
-        new modelModule.UrlsOfType("blacklist", [
-          "https://foo.com/foo.html",
-          "https://foo.com/foo-2.html",
-        ]),
-        new modelModule.UrlsOfType("notify", [
-          "https://foo.com/foo-3.html",
-          "https://foo.com/foo-4.html",
-        ]),
-        new modelModule.UrlsOfType("referer", [
-          "https://foo.com/foo-5.html",
-          "https://foo.com/foo-6.html",
-        ]),
-      ];
-      function_ = popupModule.__get__("deleteUrl");
-      const eKey = "blacklist_https://foo.com/foo.html";
-      const result = function_(eKey, urls, "blacklist");
-      const expectedResult = [
-        new modelModule.UrlsOfType("blacklist", ["https://foo.com/foo-2.html"]),
-        new modelModule.UrlsOfType("notify", [
-          "https://foo.com/foo-3.html",
-          "https://foo.com/foo-4.html",
-        ]),
-        new modelModule.UrlsOfType("referer", [
-          "https://foo.com/foo-5.html",
-          "https://foo.com/foo-6.html",
-        ]),
-      ];
-      expect(result).toEqual(expectedResult);
-    });
-    it("addUrl adds url", function () {
-      const urls = [
-        new modelModule.UrlsOfType("blacklist", ["https://foo.com/foo.html"]),
-        new modelModule.UrlsOfType("notify", []),
-        new modelModule.UrlsOfType("referer", []),
-      ];
-      function_ = popupModule.__get__("addUrl");
-      const eKey = "blacklist_https://foo.com/foo-2.html";
-      const result = function_(eKey, urls, "blacklist");
-      const expectedResult = [
-        new modelModule.UrlsOfType("blacklist", [
-          "https://foo.com/foo.html",
-          "https://foo.com/foo-2.html",
-        ]),
-        new modelModule.UrlsOfType("notify", []),
-        new modelModule.UrlsOfType("referer", []),
-      ];
-      expect(result).toEqual(expectedResult);
-    });
-  });
   it("saveUrl runs without error", function () {
     function_ = popupModule.__get__("saveUrl");
     function_();

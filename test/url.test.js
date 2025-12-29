@@ -29,6 +29,56 @@ function getNewPromise(args) {
   });
 }
 
+it("addUrl should add url", function () {
+  const urls = [
+    new modelModule.UrlsOfType("blacklist", ["https://foo.com/foo.html"]),
+    new modelModule.UrlsOfType("notify", []),
+    new modelModule.UrlsOfType("referer", []),
+  ];
+  const eKey = "blacklist_https://foo.com/foo-2.html";
+  const result = urlModule.addUrl(eKey, urls, "blacklist");
+  const expectedResult = [
+    new modelModule.UrlsOfType("blacklist", [
+      "https://foo.com/foo.html",
+      "https://foo.com/foo-2.html",
+    ]),
+    new modelModule.UrlsOfType("notify", []),
+    new modelModule.UrlsOfType("referer", []),
+  ];
+  expect(result).toEqual(expectedResult);
+});
+
+it("deleteUrl should delete url", () => {
+  const urls = [
+    new modelModule.UrlsOfType("blacklist", [
+      "https://foo.com/foo.html",
+      "https://foo.com/foo-2.html",
+    ]),
+    new modelModule.UrlsOfType("notify", [
+      "https://foo.com/foo-3.html",
+      "https://foo.com/foo-4.html",
+    ]),
+    new modelModule.UrlsOfType("referer", [
+      "https://foo.com/foo-5.html",
+      "https://foo.com/foo-6.html",
+    ]),
+  ];
+  const eKey = "blacklist_https://foo.com/foo.html";
+  const result = urlModule.deleteUrl(eKey, urls, "blacklist");
+  const expectedResult = [
+    new modelModule.UrlsOfType("blacklist", ["https://foo.com/foo-2.html"]),
+    new modelModule.UrlsOfType("notify", [
+      "https://foo.com/foo-3.html",
+      "https://foo.com/foo-4.html",
+    ]),
+    new modelModule.UrlsOfType("referer", [
+      "https://foo.com/foo-5.html",
+      "https://foo.com/foo-6.html",
+    ]),
+  ];
+  expect(result).toEqual(expectedResult);
+});
+
 it("getStoredUrls returns expected result", function () {
   const storageItems = {
     blacklist_url1: "url1",
