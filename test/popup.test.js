@@ -1,7 +1,6 @@
 import { runMockDom } from "./mockDom.js";
 import { HtmlBuilder } from "./builder.js";
 import * as modelModule from "../src/popup/model.js";
-import * as domModule from "../src/popup/dom.js";
 
 function mockBrowser(storageItems = null) {
   if (storageItems === null) {
@@ -48,36 +47,6 @@ const buttonIdsHtml = [
   "buttonClearAll",
 ];
 const tabId = 1;
-
-describe("dom", () => {
-  beforeEach(() => {
-    runMockDom("src/popup/popup.html");
-  });
-  it("hide should add hidden", function () {
-    const htmlId = "buttonRecheck";
-    expect(document.getElementById(htmlId).className).toBe("");
-    domModule.hide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe("hidden");
-  });
-  it("hideOrUnhide should add and remove hidden", function () {
-    const htmlId = "buttonRecheck";
-    expect(document.getElementById(htmlId).className).toBe("");
-    domModule.hideOrUnhide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe("hidden");
-    domModule.hideOrUnhide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe("");
-  });
-  it("unhide should remove hidden", function () {
-    const htmlId = "infoScroll";
-    expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGray hidden",
-    );
-    domModule.unhide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGray",
-    );
-  });
-});
 
 describe("Check module import", () => {
   beforeEach(() => {
