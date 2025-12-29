@@ -51,7 +51,7 @@ const tabId = 1;
 
 describe("dom", () => {
   beforeEach(() => {
-    initializeMocksAndVariables();
+    runMockDom("src/popup/popup.html");
   });
   it("hide should add hidden", function () {
     const htmlId = "buttonRecheck";
