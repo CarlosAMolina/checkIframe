@@ -6,6 +6,9 @@ import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 import { getUrls } from "./url.js";
 import { setUrls } from "./url.js";
+import { hide } from "./dom.js";
+import { unhide } from "./dom.js";
+import { showOrHideInfo } from "./dom.js";
 
 // TODO var as const
 var infoContainer = document.querySelector(".info-container");
@@ -401,14 +404,6 @@ function getUrlTypeActive() {
   return null;
 }
 
-function hide(htmlId) {
-  document.querySelector("#" + htmlId).classList.add("hidden");
-}
-
-function unhide(htmlId) {
-  document.querySelector("#" + htmlId).classList.remove("hidden");
-}
-
 function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
   browser.tabs
     .sendMessage(tabs[0].id, {
@@ -421,14 +416,6 @@ function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
 function onSendInfoError(error) {
   console.error(error);
   updateElementsWhenIncompatibleWebPage();
-}
-
-function showOrHideInfo(htmlId) {
-  if (document.getElementById(htmlId).classList.contains("hidden")) {
-    unhide(htmlId);
-  } else {
-    hide(htmlId);
-  }
 }
 
 function showStoredUrlsType(urlType) {
