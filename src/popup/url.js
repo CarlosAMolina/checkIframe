@@ -15,8 +15,8 @@ export function getStoredUrls(browser) {
       const keysUrl = Object.keys(storageItems).filter((key) =>
         key.includes(urlType + "_"),
       );
-      const urls2save = keysUrl.map((key) => storageItems[key]);
-      const urls_of_type = new UrlsOfType(urlType, urls2save);
+      const urls = keysUrl.map((key) => storageItems[key]);
+      const urls_of_type = new UrlsOfType(urlType, urls);
       result.push(urls_of_type);
     });
     return result;
