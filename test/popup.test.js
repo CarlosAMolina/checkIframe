@@ -693,8 +693,8 @@ describe("Check module import", () => {
       data: "done sendMessage",
     });
   });
-  it("showOrHideInfo runs without error", function () {
-    function_ = popupModule.__get__("showOrHideInfo");
+  it("hideOrUnhide runs without error", function () {
+    function_ = popupModule.__get__("hideOrUnhide");
     const htmlId = "infoScroll";
     function_(htmlId);
   });

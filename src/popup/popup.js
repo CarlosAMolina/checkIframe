@@ -7,7 +7,7 @@ import { getStrTagsHtml } from "./tagsHtml.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { setUrls } from "./url.js";
-import { showOrHideInfo } from "./dom.js";
+import { hideOrUnhide } from "./dom.js";
 import { unhide } from "./dom.js";
 
 // TODO var as const
@@ -174,7 +174,7 @@ class ButtonShowSources extends Button {
   click() {
     this.logButtonName();
     let htmlIdToChange = "infoTags";
-    showOrHideInfo("infoTags");
+    hideOrUnhide("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then((tabs) =>
@@ -191,7 +191,7 @@ class ButtonShowConfig extends Button {
 
   click() {
     this.logButtonName();
-    showOrHideInfo("menuConfig");
+    hideOrUnhide("menuConfig");
   }
 }
 

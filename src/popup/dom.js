@@ -6,7 +6,7 @@ export function unhide(htmlId) {
   document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
-export function showOrHideInfo(htmlId) {
+export function hideOrUnhide(htmlId) {
   if (document.getElementById(htmlId).classList.contains("hidden")) {
     unhide(htmlId);
   } else {
