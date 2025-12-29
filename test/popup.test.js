@@ -897,8 +897,7 @@ describe("setupCopyButtonListeners", () => {
 });
 
 function initializeMocksAndVariables() {
-  const htmlPathName = "src/popup/popup.html";
-  runMockDom(htmlPathName);
+  runMockDom("src/popup/popup.html");
   global.browser = mockBrowser();
   popupModule = require("../src/popup/popup.js");
 }
