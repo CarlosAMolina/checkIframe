@@ -6,9 +6,10 @@ import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
-import { setUrls } from "./url.js";
 import { hideOrUnhide } from "./dom.js";
+import { setUrls } from "./url.js";
 import { unhide } from "./dom.js";
+import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO var as const
 var infoContainer = document.querySelector(".info-container");
@@ -555,18 +556,6 @@ function reportExecuteScriptError(error) {
   console.error(`Failed to check this web page: ${error.message}`);
   updateElementsWhenIncompatibleWebPage();
   popupMain();
-}
-
-function updateElementsWhenIncompatibleWebPage() {
-  unhide("error-content");
-  const elementsToHide = [
-    "popup-content div.oneLineButtons",
-    "infoScroll",
-    "buttonShowSources",
-  ];
-  for (const element of elementsToHide) {
-    hide(element);
-  }
 }
 
 function setupCopyButtonListeners() {
