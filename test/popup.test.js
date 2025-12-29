@@ -656,6 +656,11 @@ describe("Check module import", () => {
     domModule.hide(htmlId);
     expect(document.getElementById(htmlId).className).toBe("hidden");
   });
+  it("hideOrUnhide runs without error", function () {
+    function_ = popupModule.__get__("hideOrUnhide");
+    const htmlId = "infoScroll";
+    function_(htmlId);
+  });
   it("unhide removes class", function () {
     const htmlId = "infoScroll";
     expect(document.getElementById(htmlId).className).toBe(
@@ -691,11 +696,6 @@ describe("Check module import", () => {
     expect(browser.tabs.sendMessage.mock.results[0].value).resolves.toEqual({
       data: "done sendMessage",
     });
-  });
-  it("hideOrUnhide runs without error", function () {
-    function_ = popupModule.__get__("hideOrUnhide");
-    const htmlId = "infoScroll";
-    function_(htmlId);
   });
   it("showStoredUrlsType runs without error", function () {
     function_ = popupModule.__get__("showStoredUrlsType");
