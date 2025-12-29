@@ -24,6 +24,7 @@ const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
 const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
+const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
 var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
 var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js
@@ -286,7 +287,7 @@ function clearStorageInfo(urlType) {
 }
 
 function unhideSourcesConfigValues() {
-  unhide("sourcesConfigValues");
+  unhide(HTML_ID_SOURCES_CONFIG);
 }
 
 function showStoredInfo(eKey, eValue) {
