@@ -657,12 +657,11 @@ describe("Check module import", () => {
     expect(document.getElementById(htmlId).className).toBe("hidden");
   });
   it("unhide removes class", function () {
-    function_ = popupModule.__get__("unhide");
     const htmlId = "infoScroll";
     expect(document.getElementById(htmlId).className).toBe(
       "section backgroundGray hidden",
     );
-    function_(htmlId);
+    domModule.unhide(htmlId);
     expect(document.getElementById(htmlId).className).toBe(
       "section backgroundGray",
     );
