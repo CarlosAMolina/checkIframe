@@ -738,6 +738,7 @@ describe("Check module import", () => {
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
   });
+  // TODO move to url.test.js
   describe("Check modify urls", () => {
     it("deleteUrl deletes url", () => {
       const urls = [

@@ -8,6 +8,26 @@ var urls = []; // TODO rm
 
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
+export function addUrl(eKey, urls, urlType) {
+  urls.forEach(function (url) {
+    if (url.type == urlType) {
+      url.values.push(eKey.replace(urlType + "_", ""));
+    }
+  });
+  return urls;
+}
+
+export function deleteUrl(eKey, urls, urlType) {
+  urls.forEach(function (url) {
+    if (url.type == urlType) {
+      url.values = url.values.filter(
+        (value) => value != eKey.replace(urlType + "_", ""),
+      );
+    }
+  });
+  return urls;
+}
+
 export function getStoredUrls(browser) {
   let result = [];
   return new BrowserRepository(browser).getAll().then((storageItems) => {

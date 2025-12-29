@@ -2,6 +2,8 @@ import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { addUrl } from "./url.js";
+import { deleteUrl } from "./url.js";
 import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 import { getUrls } from "./url.js";
@@ -482,26 +484,6 @@ function removeShownStoredUrls() {
   while (infoContainer.firstChild) {
     infoContainer.removeChild(infoContainer.firstChild);
   }
-}
-
-function deleteUrl(eKey, urls, urlType) {
-  urls.forEach(function (url) {
-    if (url.type == urlType) {
-      url.values = url.values.filter(
-        (value) => value != eKey.replace(urlType + "_", ""),
-      );
-    }
-  });
-  return urls;
-}
-
-function addUrl(eKey, urls, urlType) {
-  urls.forEach(function (url) {
-    if (url.type == urlType) {
-      url.values.push(eKey.replace(urlType + "_", ""));
-    }
-  });
-  return urls;
 }
 
 // save input box info
