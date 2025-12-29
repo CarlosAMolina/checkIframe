@@ -558,14 +558,14 @@ function reportExecuteScriptError(error) {
 }
 
 function updateElementsWhenIncompatibleWebPage() {
-  document.querySelector("#error-content").classList.remove("hidden");
+  unhide("error-content");
   const elementsToHide = [
-    "#popup-content div.oneLineButtons",
-    "#infoScroll",
-    "#buttonShowSources",
+    "popup-content div.oneLineButtons",
+    "infoScroll",
+    "buttonShowSources",
   ];
   for (const element of elementsToHide) {
-    document.querySelector(element).classList.add("hidden");
+    hide(element);
   }
 }
 
