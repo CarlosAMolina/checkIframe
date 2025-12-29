@@ -1,14 +1,14 @@
 import { BrowserRepository } from "./repository.js";
+import { Button } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
-import { Button } from "./buttons.js";
 import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tagsHtml.js";
 import { getUrls } from "./url.js";
-import { setUrls } from "./url.js";
 import { hide } from "./dom.js";
-import { unhide } from "./dom.js";
+import { setUrls } from "./url.js";
 import { showOrHideInfo } from "./dom.js";
+import { unhide } from "./dom.js";
 
 // TODO var as const
 var infoContainer = document.querySelector(".info-container");
