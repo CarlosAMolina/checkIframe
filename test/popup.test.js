@@ -1,6 +1,7 @@
 import { runMockDom } from "./mockDom.js";
 import { HtmlBuilder } from "./builder.js";
 import * as modelModule from "../src/popup/model.js";
+import * as domModule from "../src/popup/dom.js";
 
 function mockBrowser(storageItems = null) {
   if (storageItems === null) {
@@ -650,10 +651,9 @@ describe("Check module import", () => {
     });
   });
   it("hide adds class", function () {
-    function_ = popupModule.__get__("hide");
     const htmlId = "buttonRecheck";
     expect(document.getElementById(htmlId).className).toBe("");
-    function_(htmlId);
+    domModule.hide(htmlId);
     expect(document.getElementById(htmlId).className).toBe("hidden");
   });
   it("unhide removes class", function () {
