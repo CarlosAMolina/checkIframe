@@ -285,6 +285,7 @@ function clearStorageInfo(urlType) {
       repository.delete(keyUrl).catch((error) => {
         reportError(error);
       });
+      // TODO? use removeShownStoredUrls
       infoContainer.removeChild(infoContainer.firstChild);
     });
     sendInfoAndValue("urls", urls);
