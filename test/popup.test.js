@@ -830,6 +830,7 @@ describe("Check module import", () => {
   }
 });
 
+// TODO move to buttons.test.js
 describe("setupCopyButtonListeners", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
