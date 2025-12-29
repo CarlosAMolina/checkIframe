@@ -650,26 +650,28 @@ describe("Check module import", () => {
       });
     });
   });
-  it("hide adds class", function () {
-    const htmlId = "buttonRecheck";
-    expect(document.getElementById(htmlId).className).toBe("");
-    domModule.hide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe("hidden");
-  });
-  it("hideOrUnhide runs without error", function () {
-    function_ = popupModule.__get__("hideOrUnhide");
-    const htmlId = "infoScroll";
-    function_(htmlId);
-  });
-  it("unhide removes class", function () {
-    const htmlId = "infoScroll";
-    expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGray hidden",
-    );
-    domModule.unhide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGray",
-    );
+  describe("dom", () => {
+    it("hide should add hidden", function () {
+      const htmlId = "buttonRecheck";
+      expect(document.getElementById(htmlId).className).toBe("");
+      domModule.hide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe("hidden");
+    });
+    it("hideOrUnhide runs without error", function () {
+      function_ = popupModule.__get__("hideOrUnhide");
+      const htmlId = "infoScroll";
+      function_(htmlId);
+    });
+    it("unhide should remove hidden", function () {
+      const htmlId = "infoScroll";
+      expect(document.getElementById(htmlId).className).toBe(
+        "section backgroundGray hidden",
+      );
+      domModule.unhide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe(
+        "section backgroundGray",
+      );
+    });
   });
   it("sendInfo has expected calls and values", async () => {
     // The first time the popup is initialized I think it has these values.
