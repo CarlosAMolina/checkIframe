@@ -267,8 +267,8 @@ function clearStorageInfo(urlType) {
     var keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     ); //array
-    keysUrl.forEach(function (arrayValue) {
-      repository.delete(arrayValue).catch((error) => {
+    keysUrl.forEach(function (keyUrl) {
+      repository.delete(keyUrl).catch((error) => {
         reportError(error);
       });
       infoContainer.removeChild(infoContainer.firstChild);
