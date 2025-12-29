@@ -1,4 +1,6 @@
 import { BrowserRepository } from "./repository";
+import { hide } from "./dom.js";
+import { unhide } from "./dom.js";
 
 export class Button {
   // TODO rm export when all buttons are moved here.
@@ -235,16 +237,6 @@ async function getIsStoredOn(keyName) {
     storedButtonIdStorage === undefined ? false : storedButtonIdStorage;
   console.log("Is stored on?", result);
   return result;
-}
-
-// TODO use dom.js
-function hide(htmlId) {
-  document.querySelector("#" + htmlId).classList.add("hidden");
-}
-
-// TODO use dom.js
-function unhide(htmlId) {
-  document.querySelector("#" + htmlId).classList.remove("hidden");
 }
 
 export function setupCopyButtonListeners() {
