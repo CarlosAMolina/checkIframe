@@ -657,9 +657,13 @@ describe("Check module import", () => {
       domModule.hide(htmlId);
       expect(document.getElementById(htmlId).className).toBe("hidden");
     });
-    it("hideOrUnhide runs without error", function () {
-      const htmlId = "infoScroll";
+    it("hideOrUnhide should add and remove hidden", function () {
+      const htmlId = "buttonRecheck";
+      expect(document.getElementById(htmlId).className).toBe("");
       domModule.hideOrUnhide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe("hidden");
+      domModule.hideOrUnhide(htmlId);
+      expect(document.getElementById(htmlId).className).toBe("");
     });
     it("unhide should remove hidden", function () {
       const htmlId = "infoScroll";
