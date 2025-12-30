@@ -725,16 +725,9 @@ describe("Check buttons", () => {
         });
       });
       describe("Check error message is set if incorrect response", () => {
-        beforeEach(() => {
-          assertHtmlInitialValues();
-        });
-        afterEach(function () {
-          runAfterRunExpects();
-          fakeModule.runFakeDom("src/popup/popup.html");
-          browser = fakeModule.fakeBrowser();
-        });
         it("Check error message is set if incorrect response", async () => {
           // Previous steps.
+          assertHtmlInitialValues();
           browser = fakeModule.fakeBrowser({
             sendMessageResponse: {},
           });
@@ -743,6 +736,10 @@ describe("Check buttons", () => {
           expect(document.getElementById("infoTags").textContent).toBe(
             "Internal error. The action could not be executed",
           );
+          // Final steps.
+          runAfterRunExpects();
+          fakeModule.runFakeDom("src/popup/popup.html");
+          browser = fakeModule.fakeBrowser();
         });
       });
     });
