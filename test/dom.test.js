@@ -1,4 +1,4 @@
-import { runMockDom } from "./mockDom.js";
+import { runMockDom } from "./mock.js";
 import * as domModule from "../src/popup/dom.js";
 
 describe("dom", () => {
