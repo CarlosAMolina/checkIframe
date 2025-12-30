@@ -10,7 +10,7 @@ describe("message-mediator", () => {
     const info2send = "info 2 send";
     const value2send = "value 2 send";
     const message = modelModule.Message(info2send, value2send);
-    await messageMediatorModule.sendMessage(message);
+    const result = await messageMediatorModule.sendMessage(message);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       1,
       {
@@ -18,8 +18,6 @@ describe("message-mediator", () => {
         values: "value 2 send",
       },
     ]);
-    expect(browser.tabs.sendMessage.mock.results[0].value).resolves.toEqual({
-      data: "done sendMessage",
-    });
+    expect(result).toEqual({ data: "done sendMessage" });
   });
 });
