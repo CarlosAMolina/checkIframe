@@ -672,7 +672,7 @@ describe("Check buttons", () => {
   beforeAll(() => {
     initializeMocksAndVariables();
   });
-  describe("Check ButtonShowSources", () => {
+  describe("ButtonShowSources", () => {
     beforeAll(() => {
       const classType = popupModule.__get__("ButtonShowSources");
       button = new classType();
