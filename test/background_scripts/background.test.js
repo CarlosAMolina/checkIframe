@@ -1,4 +1,4 @@
-import * as fakeModule from "./fake.js";
+import * as fakeModule from "../fake.js";
 
 let backgroundModule;
 
@@ -6,7 +6,7 @@ describe("Check module import", () => {
   beforeAll(() => {
     global.browser = fakeModule.fakeBrowser();
     fakeModule.runNoHtmlFakeDom();
-    const jsPathName = "../src/background_scripts/background.js";
+    const jsPathName = "../../src/background_scripts/background.js";
     backgroundModule = require(jsPathName);
     console.error = jest.fn();
     console.log = jest.fn();
