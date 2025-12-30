@@ -4,7 +4,7 @@ import * as messageMediatorModule from "../../src/popup/message-mediator.js";
 
 describe("Check module import", () => {
   beforeEach(() => {
-    initializeMocksAndVariables();
+    global.browser = fakeModule.fakeBrowser();
   });
   it("sendInfo has expected calls and values", function () {
     // The first time the popup is initialized I think it has these values.
@@ -36,8 +36,3 @@ describe("Check module import", () => {
     });
   });
 });
-
-function initializeMocksAndVariables() {
-  fakeModule.runFakeDom("src/popup/popup.html");
-  global.browser = fakeModule.fakeBrowser();
-}
