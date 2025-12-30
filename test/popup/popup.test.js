@@ -685,15 +685,18 @@ describe("Check buttons", () => {
         fakeModule.runFakeDom("src/popup/popup.html");
       });
       afterEach(function () {
-        expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGray sources-container",
-        );
+        assertIsHidden("infoTags");
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
         fakeModule.runFakeDom("src/popup/popup.html");
         browser = fakeModule.fakeBrowser();
       });
+      function assertIsHidden(htmlId) {
+        expect(document.getElementById(htmlId).className).toBe(
+          "section backgroundGray sources-container",
+        );
+      }
       it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
         const sendMessageResponse = {
