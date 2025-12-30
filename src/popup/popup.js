@@ -134,7 +134,7 @@ class ButtonRecheck extends Button {
   click() {
     this.logButtonName();
     hide("infoTags");
-    const message = Message(this._idHtml, undefined);
+    const message = Message(this._idHtml);
     sendMessage(message);
   }
 }
@@ -147,7 +147,7 @@ class ButtonClean extends Button {
   click() {
     this.logButtonName();
     hide("infoScroll");
-    const message = Message(this._idHtml, undefined);
+    const message = Message(this._idHtml);
     sendMessage(message);
   }
 }
