@@ -682,7 +682,11 @@ describe("Check buttons", () => {
     });
     describe("Check button click", () => {
       beforeEach(() => {
-        assertHtmlInitialValues();
+        const infoScrollBeforeRun = document.getElementById("infoTags");
+        expect(infoScrollBeforeRun.className).toBe(
+          "section backgroundGray sources-container hidden",
+        );
+        expect(infoScrollBeforeRun.textContent).toBe("");
       });
       afterEach(function () {
         runAfterRunExpects();
@@ -734,13 +738,6 @@ describe("Check buttons", () => {
         );
       });
     });
-    function assertHtmlInitialValues() {
-      const infoScrollBeforeRun = document.getElementById("infoTags");
-      expect(infoScrollBeforeRun.className).toBe(
-        "section backgroundGray sources-container hidden",
-      );
-      expect(infoScrollBeforeRun.textContent).toBe("");
-    }
     function runAfterRunExpects() {
       assertHtmlFinalValues();
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
