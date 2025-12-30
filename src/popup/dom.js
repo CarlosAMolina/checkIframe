@@ -7,7 +7,7 @@ export function toggleHide(htmlId) {
 }
 
 export function unhide(htmlId) {
-  document.querySelector("#" + htmlId).classList.remove("hidden");
+  document.getElementById(htmlId).classList.remove("hidden");
 }
 
 export function updateElementsWhenIncompatibleWebPage() {
