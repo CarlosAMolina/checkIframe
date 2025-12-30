@@ -696,12 +696,13 @@ describe("Check buttons", () => {
             sendMessageResponse: sendMessageResponse,
           });
           mockNotEmptySourcesContainer();
+          runBeforeRunExpects();
         });
         afterEach(function () {
+          runAfterRunExpects();
           browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
-          runBeforeRunExpects();
           expect(
             popupModule.__get__("sourcesContainer").firstChild.textContent,
           ).toBe("foo");
@@ -718,7 +719,6 @@ describe("Check buttons", () => {
             .build()
             .replace(/svg" \//g, 'svg"');
           expect(result).toBe(expectedResult);
-          runAfterRunExpects();
         });
       });
       describe("Check error message is set if incorrect response", () => {
@@ -729,17 +729,17 @@ describe("Check buttons", () => {
           browser = fakeModule.fakeBrowser({
             sendMessageResponse: {},
           });
+          runBeforeRunExpects();
         });
         afterEach(function () {
+          runAfterRunExpects();
           browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
-          runBeforeRunExpects();
           await Promise.all([button.click()]);
           expect(document.getElementById("infoTags").textContent).toBe(
             "Internal error. The action could not be executed",
           );
-          runAfterRunExpects();
         });
       });
     });
