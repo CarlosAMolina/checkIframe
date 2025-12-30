@@ -214,81 +214,6 @@ describe("Check module import", () => {
         }
       });
     });
-    describe("Check ButtonShowSources", () => {
-      beforeAll(() => {
-        const classType = popupModule.__get__("ButtonShowSources");
-        button = new classType();
-      });
-      it("Check it has correct button ID value", function () {
-        expect(button._idHtml).toBe("buttonShowSources");
-      });
-      describe("Check button click", () => {
-        describe("Check if all required data exists", () => {
-          beforeEach(() => {
-            browser.tabs.sendMessage = jest.fn(() =>
-              Promise.resolve({
-                response: {
-                  frame: {
-                    sourcesAllNumber: 2,
-                    sourcesValid: ["https://frame1.com", "about:blank"],
-                  },
-                  iframe: { sourcesAllNumber: 0, sourcesValid: [] },
-                },
-              }),
-            );
-            mockNotEmptySourcesContainer();
-          });
-          it("Check expected calls and values", async () => {
-            runBeforeRunExpects();
-            expect(
-              popupModule.__get__("sourcesContainer").firstChild.textContent,
-            ).toBe("foo");
-            await Promise.all([button.click()]);
-            runAfterRunExpects();
-            const result = popupModule.__get__("sourcesContainer").innerHTML;
-            const expectedResult = new htmlBuilderModule.HtmlBuilder()
-              .with_total(2)
-              .with_element("Frame")
-              .with_number("frames", 2)
-              .with_not_blacklisted("frames", 2)
-              .with_urls(["https://frame1.com", "about:blank"])
-              .with_element("IFrame")
-              .with_number("iframes", 0)
-              .build()
-              .replace(/svg" \//g, 'svg"');
-            expect(result).toBe(expectedResult);
-          });
-        });
-        describe("Check if undefined response.response", () => {
-          beforeEach(() => {
-            browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
-          });
-          it("Check expected calls and values", async () => {
-            runBeforeRunExpects();
-            await Promise.all([button.click()]);
-            runAfterRunExpects();
-            expect(document.getElementById("infoTags").textContent).toBe(
-              "Internal error. The action could not be executed",
-            );
-          });
-        });
-      });
-      function runBeforeRunExpects() {
-        const infoScrollBeforeRun = document.getElementById("infoTags");
-        expect(infoScrollBeforeRun.className).toBe(
-          "section backgroundGray sources-container hidden",
-        );
-        expect(infoScrollBeforeRun.textContent).toBe("");
-      }
-      function runAfterRunExpects() {
-        expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGray sources-container",
-        );
-        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-        const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
-      }
-    });
     describe("Check ButtonShowConfig", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonShowConfig");
@@ -691,13 +616,6 @@ describe("Check module import", () => {
     const error = {};
     function_(error);
   });
-  function mockNotEmptySourcesContainer() {
-    let entryElement = document.createElement("p");
-    let extraTextElement = document.createElement("p");
-    extraTextElement.textContent = "foo";
-    entryElement.appendChild(extraTextElement);
-    popupModule.__set__("sourcesContainer", entryElement);
-  }
   function mockEmptyInfoContainer() {
     let element = document.createElement("div");
     element.setAttribute("class", "info-container");
@@ -750,8 +668,100 @@ describe("setupCopyButtonListeners", () => {
   });
 });
 
+describe("Check buttons", () => {
+  beforeAll(() => {
+    initializeMocksAndVariables();
+  });
+  describe("Check ButtonShowSources", () => {
+    beforeAll(() => {
+      const classType = popupModule.__get__("ButtonShowSources");
+      button = new classType();
+    });
+    it("Check it has correct button ID value", function () {
+      expect(button._idHtml).toBe("buttonShowSources");
+    });
+    describe("Check button click", () => {
+      describe("Check if all required data exists", () => {
+        beforeEach(() => {
+          browser.tabs.sendMessage = jest.fn(() =>
+            Promise.resolve({
+              response: {
+                frame: {
+                  sourcesAllNumber: 2,
+                  sourcesValid: ["https://frame1.com", "about:blank"],
+                },
+                iframe: { sourcesAllNumber: 0, sourcesValid: [] },
+              },
+            }),
+          );
+          mockNotEmptySourcesContainer();
+        });
+        it("Check expected calls and values", async () => {
+          runBeforeRunExpects();
+          expect(
+            popupModule.__get__("sourcesContainer").firstChild.textContent,
+          ).toBe("foo");
+          await Promise.all([button.click()]);
+          runAfterRunExpects();
+          const result = popupModule.__get__("sourcesContainer").innerHTML;
+          const expectedResult = new htmlBuilderModule.HtmlBuilder()
+            .with_total(2)
+            .with_element("Frame")
+            .with_number("frames", 2)
+            .with_not_blacklisted("frames", 2)
+            .with_urls(["https://frame1.com", "about:blank"])
+            .with_element("IFrame")
+            .with_number("iframes", 0)
+            .build()
+            .replace(/svg" \//g, 'svg"');
+          expect(result).toBe(expectedResult);
+        });
+      });
+      describe("Check if undefined response.response", () => {
+        beforeEach(() => {
+          // TODO try to drop, mock popup.html only once in all tests (the
+          // TODO tests must revert the dom modifications when they finish.
+          fakeModule.runFakeDom("src/popup/popup.html");
+          browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
+        });
+        it("Check expected calls and values", async () => {
+          runBeforeRunExpects();
+          await Promise.all([button.click()]);
+          runAfterRunExpects();
+          expect(document.getElementById("infoTags").textContent).toBe(
+            "Internal error. The action could not be executed",
+          );
+        });
+      });
+    });
+    function runBeforeRunExpects() {
+      const infoScrollBeforeRun = document.getElementById("infoTags");
+      expect(infoScrollBeforeRun.className).toBe(
+        "section backgroundGray sources-container hidden",
+      );
+      expect(infoScrollBeforeRun.textContent).toBe("");
+    }
+    function runAfterRunExpects() {
+      expect(document.getElementById("infoTags").className).toBe(
+        "section backgroundGray sources-container",
+      );
+      expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+      const lastCall = browser.tabs.sendMessage.mock.lastCall;
+      expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
+    }
+  });
+});
+
 function initializeMocksAndVariables() {
   fakeModule.runFakeDom("src/popup/popup.html");
   global.browser = fakeModule.fakeBrowser();
   popupModule = require("../../src/popup/popup.js");
+}
+
+function mockNotEmptySourcesContainer() {
+  let entryElement = document.createElement("p");
+  let extraTextElement = document.createElement("p");
+  extraTextElement.textContent = "foo";
+  entryElement.appendChild(extraTextElement);
+  popupModule.__set__("sourcesContainer", entryElement);
 }
