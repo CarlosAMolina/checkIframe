@@ -699,6 +699,7 @@ describe("Check buttons", () => {
         });
         afterEach(function () {
           runAfterRunExpects();
+          fakeModule.runFakeDom("src/popup/popup.html");
           browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
@@ -725,12 +726,6 @@ describe("Check buttons", () => {
       });
       describe("Check error message is set if incorrect response", () => {
         beforeEach(() => {
-          // TODO try to drop, mock popup.html only once in all tests (the
-          // TODO tests must revert the dom modifications when they finish.
-          fakeModule.runFakeDom("src/popup/popup.html");
-          browser = fakeModule.fakeBrowser({
-            sendMessageResponse: {},
-          });
           assertHtmlInitialValues();
         });
         afterEach(function () {
@@ -738,6 +733,11 @@ describe("Check buttons", () => {
           browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
+          // Previous steps.
+          browser = fakeModule.fakeBrowser({
+            sendMessageResponse: {},
+          });
+          // Test.
           await Promise.all([button.click()]);
           expect(document.getElementById("infoTags").textContent).toBe(
             "Internal error. The action could not be executed",
