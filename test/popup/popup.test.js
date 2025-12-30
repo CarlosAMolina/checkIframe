@@ -692,10 +692,13 @@ describe("Check buttons", () => {
               iframe: { sourcesAllNumber: 0, sourcesValid: [] },
             },
           };
-          browser.tabs.sendMessage = jest.fn(() =>
-            Promise.resolve(sendMessageResponse),
-          );
+          browser = fakeModule.fakeBrowser({
+            sendMessageResponse: sendMessageResponse,
+          });
           mockNotEmptySourcesContainer();
+        });
+        afterEach(function () {
+          browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
           runBeforeRunExpects();

@@ -6,9 +6,13 @@ import { JSDOM } from "jsdom";
 
 export function fakeBrowser(config) {
   let storageItems = {};
+  let sendMessageResponse = { data: "done sendMessage" };
   if (config !== undefined) {
     if ("storageItems" in config) {
       storageItems = config.storageItems;
+    }
+    if ("sendMessageResponse" in config) {
+      sendMessageResponse = config.sendMessageResponse;
     }
   }
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
@@ -42,7 +46,7 @@ export function fakeBrowser(config) {
         removeListener: jest.fn(),
       },
       query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
+      sendMessage: jest.fn(() => Promise.resolve(sendMessageResponse)),
       update: getNewPromise,
     },
     windows: {
