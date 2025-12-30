@@ -11,7 +11,7 @@ import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
 import { Message } from "./model.js";
 import { reportError } from "./log.js";
-import { sendMessage, sendMessageNew } from "./message-mediator.js";
+import { sendMessageNew } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
 import { unhide } from "./dom.js";
