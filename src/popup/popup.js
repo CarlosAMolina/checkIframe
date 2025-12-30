@@ -136,7 +136,7 @@ class ButtonRecheck extends Button {
     const message = Message(this._idHtml, undefined);
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendMessage(tabs, message))
+      .then((tabs) => sendMessage(tabs[0], message))
       .catch(reportError);
   }
 }
@@ -152,7 +152,7 @@ class ButtonClean extends Button {
     const message = Message(this._idHtml, undefined);
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendMessage(tabs, message))
+      .then((tabs) => sendMessage(tabs[0], message))
       .catch(reportError);
   }
 }
@@ -430,7 +430,7 @@ function sendInfoAndValue(info2send, values2send) {
   const message = Message(info2send, values2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then((tabs) => sendMessage(tabs, message))
+    .then((tabs) => sendMessage(tabs[0], message))
     .catch(reportError);
 }
 

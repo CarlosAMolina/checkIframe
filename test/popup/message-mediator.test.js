@@ -8,7 +8,7 @@ describe("message-mediator", () => {
   });
   it("sendMessage has expected calls and values", function () {
     // The first time the popup is initialized I think it has these values.
-    const tabs = [{ id: 1234 }];
+    const tab = { id: 1234 };
     const info2sendFromPopup = "urls";
     const values2sendFromPopup = [
       new modelModule.UrlsOfType("blacklist", []),
@@ -19,7 +19,7 @@ describe("message-mediator", () => {
       info2sendFromPopup,
       values2sendFromPopup,
     );
-    messageMediatorModule.sendMessage(tabs, message);
+    messageMediatorModule.sendMessage(tab, message);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       1234,
       {
