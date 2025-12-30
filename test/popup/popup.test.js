@@ -695,7 +695,6 @@ describe("Check buttons", () => {
           browser = fakeModule.fakeBrowser({
             sendMessageResponse: sendMessageResponse,
           });
-          mockNotEmptySourcesContainer();
           assertHtmlInitialValues();
         });
         afterEach(function () {
@@ -703,9 +702,12 @@ describe("Check buttons", () => {
           browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
+          // Previous steps.
+          mockNotEmptySourcesContainer();
           expect(
             popupModule.__get__("sourcesContainer").firstChild.textContent,
           ).toBe("foo");
+          // Test.
           await Promise.all([button.click()]);
           const result = popupModule.__get__("sourcesContainer").innerHTML;
           const expectedResult = new htmlBuilderModule.HtmlBuilder()
