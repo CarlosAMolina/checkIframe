@@ -2,18 +2,18 @@ import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { Message } from "./model.js";
 import { addUrl } from "./url.js";
 import { deleteUrl } from "./url.js";
 import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
-import { hideOrUnhide } from "./dom.js";
-import { Message } from "./model.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
+import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
@@ -174,7 +174,7 @@ class ButtonShowSources extends Button {
   click() {
     this.logButtonName();
     let htmlIdToChange = "infoTags";
-    hideOrUnhide("infoTags");
+    toggleHide("infoTags");
     const message = Message(this._idHtml);
     sendInfoSaveAndShowAnswer(htmlIdToChange, message);
   }
@@ -187,7 +187,7 @@ class ButtonShowConfig extends Button {
 
   click() {
     this.logButtonName();
-    hideOrUnhide("menuConfig");
+    toggleHide("menuConfig");
   }
 }
 

@@ -11,12 +11,12 @@ describe("dom", () => {
     domModule.hide(htmlId);
     expect(document.getElementById(htmlId).className).toBe("hidden");
   });
-  it("hideOrUnhide should add and remove hidden", function () {
+  it("toggleHide should add and remove hidden", function () {
     const htmlId = "buttonRecheck";
     expect(document.getElementById(htmlId).className).toBe("");
-    domModule.hideOrUnhide(htmlId);
+    domModule.toggleHide(htmlId);
     expect(document.getElementById(htmlId).className).toBe("hidden");
-    domModule.hideOrUnhide(htmlId);
+    domModule.toggleHide(htmlId);
     expect(document.getElementById(htmlId).className).toBe("");
   });
   it("unhide should remove hidden", function () {
