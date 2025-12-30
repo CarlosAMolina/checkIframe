@@ -423,7 +423,6 @@ function showStoredUrlsType(urlType) {
   }, reportError);
 }
 
-// TODO move login to the buttons.
 function sendInfoSaveAndShowAnswer(tab, htmlIdToChange, info2sendFromPopup) {
   // TODO use message-mediator.sendMessage
   browser.tabs
