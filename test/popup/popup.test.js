@@ -689,7 +689,7 @@ describe("Check buttons", () => {
         fakeModule.runFakeDom("src/popup/popup.html");
         browser = fakeModule.fakeBrowser();
       });
-      it("Check created HTML if all required data exists", async () => {
+      it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
         const sendMessageResponse = {
           response: {
@@ -722,7 +722,7 @@ describe("Check buttons", () => {
           .replace(/svg" \//g, 'svg"');
         expect(result).toBe(expectedResult);
       });
-      it("Check error message is set if incorrect response", async () => {
+      it("should set error message in HTML if incorrect response", async () => {
         // Previous steps.
         browser = fakeModule.fakeBrowser({
           sendMessageResponse: {},
