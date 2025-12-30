@@ -351,8 +351,8 @@ describe("Check module import", () => {
       new modelModule.UrlsOfType("blacklist", ["url1", "url2"]),
       new modelModule.UrlsOfType("notify", ["url3"]),
     ]);
-    const sendInfoAndValueBackup = popupModule.__get__("sendInfoAndValue");
-    popupModule.__set__("sendInfoAndValue", jest.fn());
+    const sendMessageBackup = popupModule.__get__("sendMessage");
+    popupModule.__set__("sendMessage", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
     await function_("blacklist");
     // Check storage.remove.
@@ -371,12 +371,12 @@ describe("Check module import", () => {
       new modelModule.UrlsOfType("notify", ["url3"]),
     ];
     expect(getUrls()).toEqual(expectedUrls);
-    // Assert sendInfoAndValue was called with updated urls
-    const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
+    // Assert sendMessage was called with updated urls
+    const sendMessage = popupModule.__get__("sendMessage");
     const message = modelModule.Message("urls", expectedUrls);
-    expect(sendInfoAndValue).toHaveBeenCalledWith(message);
+    expect(sendMessage).toHaveBeenCalledWith(message);
     global.browser = fakeModule.fakeBrowser();
-    popupModule.__set__("sendInfoAndValue", sendInfoAndValueBackup);
+    popupModule.__set__("sendMessage", sendMessageBackup);
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
@@ -601,7 +601,7 @@ describe("Check module import", () => {
           "blacklist_https://foo.com/test.html",
         ]);
         // TODO not tested (is executed after the test ends): removingEntry.then(() => { showStoredInfo
-        // Test sendInfoAndValue
+        // Test sendMessage
         expect(browser.tabs.query.mock.calls.length).toBe(1);
         expect(browser.tabs.query.mock.calls.length).toBe(1);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
