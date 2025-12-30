@@ -629,9 +629,8 @@ describe("Check module import", () => {
   it("sendInfoSaveAndShowAnswer runs without error", function () {
     console.error = jest.fn();
     function_ = popupModule.__get__("sendInfoSaveAndShowAnswer");
-    const tab = { id: "a" };
     const message = modelModule.Message("foo");
-    function_(tab, "foo", message);
+    function_("foo", message);
   });
   it("changeParagraph runs without error", function () {
     const frameTagsSummary = {
