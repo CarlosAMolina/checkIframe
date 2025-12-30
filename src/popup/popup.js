@@ -422,10 +422,7 @@ function showStoredUrlsType(urlType) {
 function sendInfoAndValue(info2send, values2send) {
   console.log("Sending info", info2send, "and value", values2send);
   const message = Message(info2send, values2send);
-  browser.tabs
-    .query({ active: true, currentWindow: true })
-    .then((tabs) => sendMessage(tabs[0], message))
-    .catch(reportError);
+  sendMessageNew(message);
 }
 
 // TODO move login to the buttons.
