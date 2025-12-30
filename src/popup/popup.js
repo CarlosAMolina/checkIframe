@@ -416,7 +416,12 @@ function showStoredUrlsType(urlType) {
 }
 
 function sendInfoSaveAndShowAnswer(htmlIdToChange, message) {
-  // TODO use message-mediator.sendMessage
+  // TODO use message-mediator.sendMessage:
+  // TODO sendMessage(message)
+  // TODO   .then((response) =>
+  // TODO     changeParagraph(message.info, response.response, htmlIdToChange),
+  // TODO   )
+  // TODO   .catch(reportError);
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then((tabs) =>

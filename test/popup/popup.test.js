@@ -682,11 +682,10 @@ describe("check buttons", () => {
     });
     describe("click behaviour is correct", () => {
       beforeEach(() => {
-        fakeModule.runFakeDom("src/popup/popup.html");
+        initializeDomAndBrowser();
       });
-      afterEach(function () {
-        fakeModule.runFakeDom("src/popup/popup.html");
-        browser = fakeModule.fakeBrowser();
+      afterEach(() => {
+        initializeDomAndBrowser();
       });
       it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
@@ -751,9 +750,13 @@ describe("check buttons", () => {
 });
 
 function initializeMocksAndVariables() {
+  initializeDomAndBrowser();
+  popupModule = require("../../src/popup/popup.js");
+}
+
+function initializeDomAndBrowser() {
   fakeModule.runFakeDom("src/popup/popup.html");
   global.browser = fakeModule.fakeBrowser();
-  popupModule = require("../../src/popup/popup.js");
 }
 
 function mockNotEmptySourcesContainer() {
