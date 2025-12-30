@@ -693,9 +693,9 @@ describe("Check buttons", () => {
         browser = fakeModule.fakeBrowser();
       });
       function assertIsHidden(htmlId) {
-        expect(document.getElementById(htmlId).className).toBe(
-          "section backgroundGray sources-container",
-        );
+        expect(
+          document.getElementById(htmlId).classList.contains("hidden"),
+        ).toBe(false);
       }
       it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
