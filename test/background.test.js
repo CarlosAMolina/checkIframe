@@ -1,50 +1,11 @@
-import { runNoHtmlFakeDom } from "./fake.js";
-
-function fakeBrowser() {
-  return {
-    browserAction: {
-      getTitle: getNewPromise,
-      setIcon: jest.fn(),
-      setTitle: jest.fn(),
-    },
-    runtime: {
-      onMessage: {
-        addListener: jest.fn(),
-      },
-    },
-    tabs: {
-      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      onActivated: {
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      },
-      onUpdated: {
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      },
-      sendMessage: getNewPromise,
-      update: getNewPromise,
-    },
-    windows: {
-      onFocusChanged: {
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      },
-    },
-  };
-  function getNewPromise(args) {
-    return new Promise(function (resolve, reject) {
-      resolve("Start of new Promise");
-    });
-  }
-}
+import * as fakeModule from "./fake.js";
 
 let backgroundModule;
 
 describe("Check module import", () => {
   beforeAll(() => {
-    global.browser = fakeBrowser();
-    runNoHtmlFakeDom();
+    global.browser = fakeModule.fakeBrowser();
+    fakeModule.runNoHtmlFakeDom();
     const jsPathName = "../src/background_scripts/background.js";
     backgroundModule = require(jsPathName);
     console.error = jest.fn();

@@ -10,6 +10,16 @@ export function fakeBrowser(storageItems = null) {
   }
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {
+    browserAction: {
+      getTitle: getNewPromise,
+      setIcon: jest.fn(),
+      setTitle: jest.fn(),
+    },
+    runtime: {
+      onMessage: {
+        addListener: jest.fn(),
+      },
+    },
     storage: {
       local: {
         get: jest.fn(() => Promise.resolve(storageItems)),
@@ -20,8 +30,23 @@ export function fakeBrowser(storageItems = null) {
     tabs: {
       executeScript: getNewPromise,
       // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
+      onActivated: {
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      },
+      onUpdated: {
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      },
       query: jest.fn(() => Promise.resolve([{ id: 1 }])),
       sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
+      update: getNewPromise,
+    },
+    windows: {
+      onFocusChanged: {
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      },
     },
   };
 }
