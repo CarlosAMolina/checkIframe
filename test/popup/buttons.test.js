@@ -1,18 +1,17 @@
-import { ButtonHighlightAllAutomatically } from "../src/popup/buttons.js";
-import { ButtonShowLogs } from "../src/popup/buttons.js";
-import { runFakeDom } from "./fake.js";
+import * as buttonsModule from "../../src/popup/buttons.js";
+import * as fakeModule from "../fake.js";
 
 describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
-    expect(new ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
+    expect(new buttonsModule.ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
   });
   describe("Check click has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new ButtonShowLogs();
+      const button = new buttonsModule.ButtonShowLogs();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
@@ -27,9 +26,9 @@ describe("Check ButtonShowLogs", () => {
     });
     it("If buttonShowLogs is active and clicked to deactivate it", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
-      const button = new ButtonShowLogs();
+      const button = new buttonsModule.ButtonShowLogs();
       document.getElementById(button._idHtml).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);
@@ -48,10 +47,10 @@ describe("Check ButtonShowLogs", () => {
   describe("Check initializePopup has expected calls and values", () => {
     it("If buttonShowLogs must be off because the button has never been clicked", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new ButtonShowLogs();
+      const button = new buttonsModule.ButtonShowLogs();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -66,13 +65,13 @@ describe("Check ButtonShowLogs", () => {
     });
     it("If buttonShowLogs must be on because the button was clicked previously", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       browser.storage.local.get = jest.fn(() =>
         Promise.resolve({ idShowLogs: true }),
       );
       /* end test required configuration */
-      const button = new ButtonShowLogs();
+      const button = new buttonsModule.ButtonShowLogs();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -90,17 +89,17 @@ describe("Check ButtonShowLogs", () => {
 
 describe("Check ButtonHighlightAllAutomatically", () => {
   it("Check it has correct button ID value", function () {
-    expect(new ButtonHighlightAllAutomatically()._idHtml).toBe(
+    expect(new buttonsModule.ButtonHighlightAllAutomatically()._idHtml).toBe(
       "buttonHighlightAllAutomatically",
     );
   });
   describe("Check click has expected calls and values", () => {
     it("If buttonHighlightAllAutomatically is clicked for the first time", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new ButtonHighlightAllAutomatically();
+      const button = new buttonsModule.ButtonHighlightAllAutomatically();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
@@ -115,11 +114,11 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     });
     it("If buttonHighlightAllAutomatically is active and clicked to deactivate it", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
-      const button = new ButtonHighlightAllAutomatically();
+      const button = new buttonsModule.ButtonHighlightAllAutomatically();
       document.getElementById(
-        new ButtonHighlightAllAutomatically()._idHtml,
+        new buttonsModule.ButtonHighlightAllAutomatically()._idHtml,
       ).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);
@@ -138,10 +137,10 @@ describe("Check ButtonHighlightAllAutomatically", () => {
   describe("Check initializePopup has expected calls and values", () => {
     it("If buttonHighlightAllAutomatically must be off because the button has never been clicked", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new ButtonHighlightAllAutomatically();
+      const button = new buttonsModule.ButtonHighlightAllAutomatically();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -156,13 +155,13 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     });
     it("If buttonHighlightAllAutomatically must be on because the button was clicked previously", async () => {
       /* start test required configuration */
-      runFakeDom("src/popup/popup.html");
+      fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       browser.storage.local.get = jest.fn(() =>
         Promise.resolve({ idHighlightAllAutomatically: true }),
       );
       /* end test required configuration */
-      const button = new ButtonHighlightAllAutomatically();
+      const button = new buttonsModule.ButtonHighlightAllAutomatically();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
