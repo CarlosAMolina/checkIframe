@@ -72,7 +72,7 @@ function initializePopup() {
   getStoredUrls(browser).then((urls) => {
     setUrls(urls);
     const message = Message("urls", urls);
-    sendInfoAndValue(message);
+    sendMessage(message);
   }, reportError);
 }
 
@@ -291,7 +291,7 @@ function clearStorageInfo(urlType) {
       infoContainer.removeChild(infoContainer.firstChild);
     });
     const message = Message("urls", urls);
-    sendInfoAndValue(message);
+    sendMessage(message);
   }, reportError);
 }
 
@@ -326,7 +326,7 @@ function showStoredInfo(eKey, eValue) {
     urls = deleteUrl(eKey, urls, urlType);
     setUrls(urls);
     const message = Message("urls", urls);
-    sendInfoAndValue(message);
+    sendMessage(message);
   });
 
   // edit box
@@ -390,7 +390,7 @@ function showStoredInfo(eKey, eValue) {
       }, reportError);
     }, reportError);
     const message = Message("urls", urls);
-    sendInfoAndValue(message);
+    sendMessage(message);
     setUrls(urls);
   }
 }
@@ -421,11 +421,6 @@ function showStoredUrlsType(urlType) {
       }
     });
   }, reportError);
-}
-
-function sendInfoAndValue(message) {
-  console.log("Sending:", message);
-  sendMessage(message);
 }
 
 // TODO move login to the buttons.
@@ -495,7 +490,7 @@ function storeInfo(info2save, urlType) {
     urls = addUrl(id2save, urls, urlType);
     setUrls(urls);
     const message = Message("urls", urls);
-    sendInfoAndValue(message);
+    sendMessage(message);
     repository.save(id2save, value2save).then(() => {
       showStoredInfo(id2save, value2save);
     }, reportError);
