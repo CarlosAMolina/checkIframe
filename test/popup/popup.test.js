@@ -730,6 +730,7 @@ describe("Check buttons", () => {
         });
         afterEach(function () {
           runAfterRunExpects();
+          fakeModule.runFakeDom("src/popup/popup.html");
           browser = fakeModule.fakeBrowser();
         });
         it("Check error message is set if incorrect response", async () => {
