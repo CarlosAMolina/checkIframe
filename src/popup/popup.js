@@ -11,7 +11,7 @@ import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
 import { Message } from "./model.js";
 import { reportError } from "./log.js";
-import { sendMessage } from "./message-mediator.js";
+import { sendMessage, sendMessageNew } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
 import { unhide } from "./dom.js";
@@ -134,10 +134,7 @@ class ButtonRecheck extends Button {
     this.logButtonName();
     hide("infoTags");
     const message = Message(this._idHtml, undefined);
-    browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then((tabs) => sendMessage(tabs[0], message))
-      .catch(reportError);
+    sendMessageNew(message);
   }
 }
 
