@@ -4,9 +4,12 @@ import fs from "fs";
 import path from "path";
 import { JSDOM } from "jsdom";
 
-export function fakeBrowser(storageItems = null) {
-  if (storageItems === null) {
-    storageItems = {};
+export function fakeBrowser(config) {
+  let storageItems = {};
+  if (config !== undefined) {
+    if ("storageItems" in config) {
+      storageItems = config.storageItems;
+    }
   }
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {

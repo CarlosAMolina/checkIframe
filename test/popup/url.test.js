@@ -65,7 +65,7 @@ it("getStoredUrls returns expected result", function () {
     new modelModule.UrlsOfType("referer", ["url4"]),
   ];
   urlModule
-    .getStoredUrls(fakeModule.fakeBrowser(storageItems))
+    .getStoredUrls(fakeModule.fakeBrowser({ storageItems: storageItems }))
     .then((result) => {
       expect(result).toEqual(expectedResult);
     });

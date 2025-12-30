@@ -266,7 +266,7 @@ describe("Check module import", () => {
       blacklist_url2: "url2",
       notify_url3: "url3", // Should not be removed
     };
-    global.browser = fakeModule.fakeBrowser(storageItems);
+    global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
     const containerFake = document.createElement("div");
     containerFake.appendChild(document.createElement("div")); // First blacklisted url.
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
