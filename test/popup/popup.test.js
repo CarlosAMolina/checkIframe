@@ -721,7 +721,7 @@ describe("Check buttons", () => {
           expect(result).toBe(expectedResult);
         });
       });
-      describe("Check if undefined response.response", () => {
+      describe("Check error message is set if incorrect response", () => {
         beforeEach(() => {
           // TODO try to drop, mock popup.html only once in all tests (the
           // TODO tests must revert the dom modifications when they finish.
