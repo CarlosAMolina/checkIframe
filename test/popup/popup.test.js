@@ -668,7 +668,7 @@ describe("setupCopyButtonListeners", () => {
   });
 });
 
-describe("Check buttons", () => {
+describe("check buttons", () => {
   beforeAll(() => {
     initializeMocksAndVariables();
   });
@@ -677,10 +677,10 @@ describe("Check buttons", () => {
       const classType = popupModule.__get__("ButtonShowSources");
       button = new classType();
     });
-    it("Check it has correct button ID value", function () {
+    it("has expected button ID value", function () {
       expect(button._idHtml).toBe("buttonShowSources");
     });
-    describe("Check button click", () => {
+    describe("click behaviour is correct", () => {
       beforeEach(() => {
         fakeModule.runFakeDom("src/popup/popup.html");
       });
