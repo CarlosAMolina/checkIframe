@@ -724,23 +724,21 @@ describe("Check buttons", () => {
           expect(result).toBe(expectedResult);
         });
       });
-      describe("Check error message is set if incorrect response", () => {
-        it("Check error message is set if incorrect response", async () => {
-          // Previous steps.
-          assertHtmlInitialValues();
-          browser = fakeModule.fakeBrowser({
-            sendMessageResponse: {},
-          });
-          // Test.
-          await Promise.all([button.click()]);
-          expect(document.getElementById("infoTags").textContent).toBe(
-            "Internal error. The action could not be executed",
-          );
-          // Final steps.
-          runAfterRunExpects();
-          fakeModule.runFakeDom("src/popup/popup.html");
-          browser = fakeModule.fakeBrowser();
+      it("Check error message is set if incorrect response", async () => {
+        // Previous steps.
+        assertHtmlInitialValues();
+        browser = fakeModule.fakeBrowser({
+          sendMessageResponse: {},
         });
+        // Test.
+        await Promise.all([button.click()]);
+        expect(document.getElementById("infoTags").textContent).toBe(
+          "Internal error. The action could not be executed",
+        );
+        // Final steps.
+        runAfterRunExpects();
+        fakeModule.runFakeDom("src/popup/popup.html");
+        browser = fakeModule.fakeBrowser();
       });
     });
     function assertHtmlInitialValues() {
