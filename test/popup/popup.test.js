@@ -373,7 +373,8 @@ describe("Check module import", () => {
     expect(getUrls()).toEqual(expectedUrls);
     // Assert sendInfoAndValue was called with updated urls
     const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
-    expect(sendInfoAndValue).toHaveBeenCalledWith("urls", expectedUrls);
+    const message = modelModule.Message("urls", expectedUrls);
+    expect(sendInfoAndValue).toHaveBeenCalledWith(message);
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendInfoAndValue", sendInfoAndValueBackup);
   });
@@ -628,8 +629,9 @@ describe("Check module import", () => {
   it("sendInfoAndValue has expected calls and values", async () => {
     const info2send = "info 2 send";
     const value2send = "value 2 send";
+    const message = modelModule.Message(info2send, value2send);
     function_ = popupModule.__get__("sendInfoAndValue");
-    await function_(info2send, value2send);
+    await function_(message);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       tabId,
       {

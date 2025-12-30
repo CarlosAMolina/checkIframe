@@ -71,7 +71,8 @@ function initializePopup() {
   new ButtonHighlightAllAutomatically().initializePopup();
   getStoredUrls(browser).then((urls) => {
     setUrls(urls);
-    sendInfoAndValue("urls", urls);
+    const message = Message("urls", urls);
+    sendInfoAndValue(message);
   }, reportError);
 }
 
@@ -289,7 +290,8 @@ function clearStorageInfo(urlType) {
       // TODO? use removeShownStoredUrls
       infoContainer.removeChild(infoContainer.firstChild);
     });
-    sendInfoAndValue("urls", urls);
+    const message = Message("urls", urls);
+    sendInfoAndValue(message);
   }, reportError);
 }
 
@@ -323,7 +325,8 @@ function showStoredInfo(eKey, eValue) {
     // the url deleted before showStoredInfo is called.
     urls = deleteUrl(eKey, urls, urlType);
     setUrls(urls);
-    sendInfoAndValue("urls", urls);
+    const message = Message("urls", urls);
+    sendInfoAndValue(message);
   });
 
   // edit box
@@ -386,7 +389,8 @@ function showStoredInfo(eKey, eValue) {
         showStoredInfo(id2save, info2save);
       }, reportError);
     }, reportError);
-    sendInfoAndValue("urls", urls);
+    const message = Message("urls", urls);
+    sendInfoAndValue(message);
     setUrls(urls);
   }
 }
@@ -419,9 +423,8 @@ function showStoredUrlsType(urlType) {
   }, reportError);
 }
 
-function sendInfoAndValue(info2send, values2send) {
-  console.log("Sending info", info2send, "and value", values2send);
-  const message = Message(info2send, values2send);
+function sendInfoAndValue(message) {
+  console.log("Sending:", message);
   sendMessage(message);
 }
 
@@ -491,7 +494,8 @@ function storeInfo(info2save, urlType) {
     let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
     setUrls(urls);
-    sendInfoAndValue("urls", urls);
+    const message = Message("urls", urls);
+    sendInfoAndValue(message);
     repository.save(id2save, value2save).then(() => {
       showStoredInfo(id2save, value2save);
     }, reportError);
