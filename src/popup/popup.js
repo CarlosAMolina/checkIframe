@@ -424,9 +424,11 @@ function showStoredUrlsType(urlType) {
 }
 
 function sendInfoSaveAndShowAnswer(tab, htmlIdToChange, info2sendFromPopup) {
+  // TODO use model.Message (only info, no value arg)
+  const message = { info: info2sendFromPopup };
   // TODO use message-mediator.sendMessage
   browser.tabs
-    .sendMessage(tab.id, { info: info2sendFromPopup })
+    .sendMessage(tab.id, message)
     .then((response) => {
       changeParagraph(info2sendFromPopup, response.response, htmlIdToChange);
     })
