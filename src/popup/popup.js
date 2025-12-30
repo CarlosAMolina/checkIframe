@@ -164,7 +164,7 @@ class ButtonScroll extends Button {
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then((tabs) =>
-        sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, this._idHtml),
+        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, this._idHtml),
       )
       .catch(reportError);
   }
@@ -182,7 +182,7 @@ class ButtonShowSources extends Button {
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then((tabs) =>
-        sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, this._idHtml),
+        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, this._idHtml),
       )
       .catch(reportError);
   }
@@ -424,16 +424,14 @@ function showStoredUrlsType(urlType) {
 }
 
 // TODO move login to the buttons.
-function sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, info2sendFromPopup) {
-  tabs.forEach(function (tab) {
-    // TODO use message-mediator.sendMessage
-    browser.tabs
-      .sendMessage(tab.id, { info: info2sendFromPopup })
-      .then((response) => {
-        changeParagraph(info2sendFromPopup, response.response, htmlIdToChange);
-      })
-      .catch(reportError);
-  });
+function sendInfoSaveAndShowAnswer(tab, htmlIdToChange, info2sendFromPopup) {
+  // TODO use message-mediator.sendMessage
+  browser.tabs
+    .sendMessage(tab.id, { info: info2sendFromPopup })
+    .then((response) => {
+      changeParagraph(info2sendFromPopup, response.response, htmlIdToChange);
+    })
+    .catch(reportError);
 }
 
 function changeParagraph(info2sendFromPopup, response, htmlId) {
