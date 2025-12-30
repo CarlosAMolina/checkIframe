@@ -1,5 +1,10 @@
 export function Message(info, values) {
-  return { info: info, values: values };
+  const result = { info: info };
+  if (values === undefined) {
+    return result;
+  }
+  result.values = values;
+  return result;
 }
 
 export class UrlsOfType {
