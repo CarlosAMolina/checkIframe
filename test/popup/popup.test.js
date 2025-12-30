@@ -683,6 +683,15 @@ describe("Check buttons", () => {
     describe("Check button click", () => {
       describe("Check if all required data exists", () => {
         beforeEach(() => {
+          assertHtmlInitialValues();
+        });
+        afterEach(function () {
+          runAfterRunExpects();
+          fakeModule.runFakeDom("src/popup/popup.html");
+          browser = fakeModule.fakeBrowser();
+        });
+        it("Check created HTML if all required data exists", async () => {
+          // Previous steps.
           const sendMessageResponse = {
             response: {
               frame: {
@@ -695,15 +704,6 @@ describe("Check buttons", () => {
           browser = fakeModule.fakeBrowser({
             sendMessageResponse: sendMessageResponse,
           });
-          assertHtmlInitialValues();
-        });
-        afterEach(function () {
-          runAfterRunExpects();
-          fakeModule.runFakeDom("src/popup/popup.html");
-          browser = fakeModule.fakeBrowser();
-        });
-        it("Check created HTML if all required data exists", async () => {
-          // Previous steps.
           mockNotEmptySourcesContainer();
           expect(
             popupModule.__get__("sourcesContainer").firstChild.textContent,
