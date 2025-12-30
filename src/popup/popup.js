@@ -160,7 +160,7 @@ class ButtonScroll extends Button {
   click() {
     this.logButtonName();
     let htmlIdToChange = "infoScroll";
-    unhide("infoScroll");
+    unhide(htmlIdToChange);
     const message = Message(this._idHtml);
     return sendMessage(message)
       .then((response) =>
@@ -178,7 +178,8 @@ class ButtonShowSources extends Button {
   click() {
     this.logButtonName();
     let htmlIdToChange = "infoTags";
-    toggleHide("infoTags");
+    toggleHide(htmlIdToChange);
+    // TODO? avoid send message when hidding
     const message = Message(this._idHtml);
     return sendMessage(message)
       .then((response) =>
