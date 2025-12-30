@@ -9,6 +9,7 @@ import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
+import { reportError } from "./log.js";
 import { sendInfo } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
@@ -514,10 +515,6 @@ function storeInfo(info2save, urlType) {
       }
     }, reportError);
   });
-}
-
-function reportError(error) {
-  console.error(`Error: ${error}`);
 }
 
 // there was an error executing the script.

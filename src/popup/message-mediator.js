@@ -1,3 +1,4 @@
+import { reportError } from "./log.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 export function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
@@ -10,6 +11,6 @@ export function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
 }
 
 function onSendInfoError(error) {
-  console.error(error);
+  reportError(error);
   updateElementsWhenIncompatibleWebPage();
 }
