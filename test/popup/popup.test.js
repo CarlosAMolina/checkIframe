@@ -751,12 +751,15 @@ describe("Check buttons", () => {
       expect(infoScrollBeforeRun.textContent).toBe("");
     }
     function runAfterRunExpects() {
+      assertHtmlFinalValues();
+      const lastCall = browser.tabs.sendMessage.mock.lastCall;
+      expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
+    }
+    function assertHtmlFinalValues() {
       expect(document.getElementById("infoTags").className).toBe(
         "section backgroundGray sources-container",
       );
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-      const lastCall = browser.tabs.sendMessage.mock.lastCall;
-      expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
     }
   });
 });
