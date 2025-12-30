@@ -1,4 +1,4 @@
-import * as fakeModule from "./fake.js";
+import * as fakeModule from "../fake.js";
 
 let checkAndBorderModule;
 
@@ -6,7 +6,7 @@ describe("Check module import", () => {
   beforeAll(() => {
     global.browser = fakeModule.fakeBrowser();
     fakeModule.runNoHtmlFakeDom();
-    const jsPathName = "../src/content_scripts/check-and-border.js";
+    const jsPathName = "../../src/content_scripts/check-and-border.js";
     checkAndBorderModule = require(jsPathName);
   });
   it("The module should be imported without errors and has expected values", function () {
