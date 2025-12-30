@@ -1,17 +1,13 @@
 import * as fakeModule from "../fake.js";
 import * as modelModule from "../../src/popup/model.js";
-
-// https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
-let popupModule;
-let function_;
+import * as messageMediatorModule from "../../src/popup/message-mediator.js";
 
 describe("Check module import", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
   });
-  it("sendInfo has expected calls and values", async () => {
+  it("sendInfo has expected calls and values", function () {
     // The first time the popup is initialized I think it has these values.
-    function_ = popupModule.__get__("sendInfo");
     const tabs = [{ id: 1234 }];
     let info2sendFromPopup = "urls";
     const values2sendFromPopup = [
@@ -19,7 +15,11 @@ describe("Check module import", () => {
       new modelModule.UrlsOfType("notify", []),
       new modelModule.UrlsOfType("referer", []),
     ];
-    await function_(tabs, info2sendFromPopup, values2sendFromPopup);
+    messageMediatorModule.sendInfo(
+      tabs,
+      info2sendFromPopup,
+      values2sendFromPopup,
+    );
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       1234,
       {
@@ -40,5 +40,4 @@ describe("Check module import", () => {
 function initializeMocksAndVariables() {
   fakeModule.runFakeDom("src/popup/popup.html");
   global.browser = fakeModule.fakeBrowser();
-  popupModule = require("../../src/popup/popup.js");
 }
