@@ -425,10 +425,10 @@ function showStoredUrlsType(urlType) {
 
 // TODO move login to the buttons.
 function sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, info2sendFromPopup) {
-  tabs.forEach(function (arrayValues) {
+  tabs.forEach(function (tab) {
     // TODO use message-mediator.sendMessage
     browser.tabs
-      .sendMessage(arrayValues.id, { info: info2sendFromPopup })
+      .sendMessage(tab.id, { info: info2sendFromPopup })
       .then((response) => {
         changeParagraph(info2sendFromPopup, response.response, htmlIdToChange);
       })
