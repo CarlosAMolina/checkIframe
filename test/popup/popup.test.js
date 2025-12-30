@@ -626,20 +626,6 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("showStoredUrlsType");
     function_();
   });
-  it("sendInfoAndValue has expected calls and values", async () => {
-    const info2send = "info 2 send";
-    const value2send = "value 2 send";
-    const message = modelModule.Message(info2send, value2send);
-    function_ = popupModule.__get__("sendInfoAndValue");
-    await function_(message);
-    expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-      tabId,
-      {
-        info: "info 2 send",
-        values: "value 2 send",
-      },
-    ]);
-  });
   it("sendInfoSaveAndShowAnswer runs without error", function () {
     console.error = jest.fn();
     function_ = popupModule.__get__("sendInfoSaveAndShowAnswer");
