@@ -176,7 +176,7 @@ describe("Check module import", () => {
             );
           });
           it("Check expected calls and values", async () => {
-            runBeforeRunExpects();
+            assertHtmlInitialValues();
             await Promise.all([button.click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
@@ -189,7 +189,7 @@ describe("Check module import", () => {
             browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
           });
           it("Check expected calls and values", async () => {
-            runBeforeRunExpects();
+            assertHtmlInitialValues();
             await Promise.all([button.click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
@@ -197,7 +197,7 @@ describe("Check module import", () => {
             );
           });
         });
-        function runBeforeRunExpects() {
+        function assertHtmlInitialValues() {
           const infoScrollBeforeRun = document.getElementById("infoScroll");
           expect(infoScrollBeforeRun.className).toBe(
             "section backgroundGray hidden",
@@ -696,7 +696,7 @@ describe("Check buttons", () => {
             sendMessageResponse: sendMessageResponse,
           });
           mockNotEmptySourcesContainer();
-          runBeforeRunExpects();
+          assertHtmlInitialValues();
         });
         afterEach(function () {
           runAfterRunExpects();
@@ -729,7 +729,7 @@ describe("Check buttons", () => {
           browser = fakeModule.fakeBrowser({
             sendMessageResponse: {},
           });
-          runBeforeRunExpects();
+          assertHtmlInitialValues();
         });
         afterEach(function () {
           runAfterRunExpects();
@@ -743,7 +743,7 @@ describe("Check buttons", () => {
         });
       });
     });
-    function runBeforeRunExpects() {
+    function assertHtmlInitialValues() {
       const infoScrollBeforeRun = document.getElementById("infoTags");
       expect(infoScrollBeforeRun.className).toBe(
         "section backgroundGray sources-container hidden",
