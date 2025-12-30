@@ -3,11 +3,7 @@ export function hide(htmlId) {
 }
 
 export function toggleHide(htmlId) {
-  if (document.getElementById(htmlId).classList.contains("hidden")) {
-    unhide(htmlId);
-  } else {
-    hide(htmlId);
-  }
+  document.getElementById(htmlId).classList.toggle("hidden");
 }
 
 export function unhide(htmlId) {
