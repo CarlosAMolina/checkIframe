@@ -13,7 +13,7 @@ function fakeBrowser() {
       },
     },
     tabs: {
-      query: getNewPromise,
+      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
       onActivated: {
         addListener: jest.fn(),
         removeListener: jest.fn(),
