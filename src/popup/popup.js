@@ -162,12 +162,7 @@ class ButtonScroll extends Button {
     let htmlIdToChange = "infoScroll";
     unhide("infoScroll");
     const message = Message(this._idHtml);
-    browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then((tabs) =>
-        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, message),
-      )
-      .catch(reportError);
+    sendInfoSaveAndShowAnswer(htmlIdToChange, message);
   }
 }
 
@@ -181,12 +176,7 @@ class ButtonShowSources extends Button {
     let htmlIdToChange = "infoTags";
     hideOrUnhide("infoTags");
     const message = Message(this._idHtml);
-    browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then((tabs) =>
-        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, message),
-      )
-      .catch(reportError);
+    sendInfoSaveAndShowAnswer(htmlIdToChange, message);
   }
 }
 
@@ -425,13 +415,15 @@ function showStoredUrlsType(urlType) {
   }, reportError);
 }
 
-function sendInfoSaveAndShowAnswer(tab, htmlIdToChange, message) {
+function sendInfoSaveAndShowAnswer(htmlIdToChange, message) {
   // TODO use message-mediator.sendMessage
   browser.tabs
-    .sendMessage(tab.id, message)
-    .then((response) => {
-      changeParagraph(message.info, response.response, htmlIdToChange);
-    })
+    .query({ active: true, currentWindow: true })
+    .then((tabs) =>
+      browser.tabs.sendMessage(tabs[0].id, message).then((response) => {
+        changeParagraph(message.info, response.response, htmlIdToChange);
+      }),
+    )
     .catch(reportError);
 }
 
