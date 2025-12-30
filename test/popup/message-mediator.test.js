@@ -18,6 +18,9 @@ describe("message-mediator", () => {
         values: "value 2 send",
       },
     ]);
+    expect(browser.tabs.sendMessage.mock.results[0].value).resolves.toEqual({
+      data: "done sendMessage",
+    });
   });
   it("sendMessage has expected calls and values", function () {
     // The first time the popup is initialized I think it has these values.
