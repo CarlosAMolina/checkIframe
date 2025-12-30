@@ -1,5 +1,5 @@
-import { getStrTagsHtml } from "../src/popup/tags-html.js";
-import { HtmlBuilder } from "./builder.js";
+import * as tagsHtmlModule from "../../src/popup/tags-html.js";
+import * as htmlBuilderModule from "../builder.js";
 
 describe.only("Check getTagsHtml", () => {
   it("Check expected HTML if no frame or iframe tags", function () {
@@ -11,8 +11,13 @@ describe.only("Check getTagsHtml", () => {
       sourcesAllNumber: 0,
       sourcesValid: [],
     };
-    const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = new HtmlBuilder().with_total(0).build();
+    const result = tagsHtmlModule.getStrTagsHtml(
+      frameTagsSummary,
+      iframeTagsSummary,
+    );
+    const expectedResult = new htmlBuilderModule.HtmlBuilder()
+      .with_total(0)
+      .build();
     expect(result).toBe(expectedResult);
   });
   it("Check expected HTML if only frame", function () {
@@ -24,8 +29,11 @@ describe.only("Check getTagsHtml", () => {
       sourcesAllNumber: 0,
       sourcesValid: [],
     };
-    const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = new HtmlBuilder()
+    const result = tagsHtmlModule.getStrTagsHtml(
+      frameTagsSummary,
+      iframeTagsSummary,
+    );
+    const expectedResult = new htmlBuilderModule.HtmlBuilder()
       .with_total(2)
       .with_element("Frame")
       .with_number("frames", 2)
@@ -49,8 +57,11 @@ describe.only("Check getTagsHtml", () => {
         "https://iframe3.com",
       ],
     };
-    const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = new HtmlBuilder()
+    const result = tagsHtmlModule.getStrTagsHtml(
+      frameTagsSummary,
+      iframeTagsSummary,
+    );
+    const expectedResult = new htmlBuilderModule.HtmlBuilder()
       .with_total(5)
       .with_element("Frame")
       .with_number("frames", 2)
@@ -76,8 +87,11 @@ describe.only("Check getTagsHtml", () => {
       sourcesAllNumber: 3,
       sourcesValid: [],
     };
-    const result = getStrTagsHtml(frameTagsSummary, iframeTagsSummary);
-    const expectedResult = new HtmlBuilder()
+    const result = tagsHtmlModule.getStrTagsHtml(
+      frameTagsSummary,
+      iframeTagsSummary,
+    );
+    const expectedResult = new htmlBuilderModule.HtmlBuilder()
       .with_total(5)
       .with_element("Frame")
       .with_number("frames", 2)
