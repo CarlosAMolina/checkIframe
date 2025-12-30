@@ -1,6 +1,6 @@
-import * as urlModule from "../src/popup/url.js";
-import * as modelModule from "../src/popup/model.js";
-import * as fakeModule from "./fake.js";
+import * as urlModule from "../../src/popup/url.js";
+import * as modelModule from "../../src/popup/model.js";
+import * as fakeModule from "../fake.js";
 
 it("addUrl should add url", function () {
   const urls = [
