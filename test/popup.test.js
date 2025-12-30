@@ -2,7 +2,7 @@ import { runFakeDom } from "./fake.js";
 import { HtmlBuilder } from "./builder.js";
 import * as modelModule from "../src/popup/model.js";
 
-function mockBrowser(storageItems = null) {
+function fakeBrowser(storageItems = null) {
   if (storageItems === null) {
     storageItems = {};
   }
@@ -369,7 +369,7 @@ describe("Check module import", () => {
       blacklist_url2: "url2",
       notify_url3: "url3", // Should not be removed
     };
-    global.browser = mockBrowser(storageItems);
+    global.browser = fakeBrowser(storageItems);
     const containerFake = document.createElement("div");
     containerFake.appendChild(document.createElement("div")); // First blacklisted url.
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
@@ -402,7 +402,7 @@ describe("Check module import", () => {
     // Assert sendInfoAndValue was called with updated urls
     const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
     expect(sendInfoAndValue).toHaveBeenCalledWith("urls", expectedUrls);
-    global.browser = mockBrowser();
+    global.browser = fakeBrowser();
     popupModule.__set__("sendInfoAndValue", sendInfoAndValueBackup);
   });
   describe("Check function showStoredInfo", () => {
@@ -816,6 +816,6 @@ describe("setupCopyButtonListeners", () => {
 
 function initializeMocksAndVariables() {
   runFakeDom("src/popup/popup.html");
-  global.browser = mockBrowser();
+  global.browser = fakeBrowser();
   popupModule = require("../src/popup/popup.js");
 }

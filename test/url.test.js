@@ -1,7 +1,7 @@
 import * as urlModule from "../src/popup/url.js";
 import * as modelModule from "../src/popup/model.js";
 
-function mockBrowser(storageItems = null) {
+function fakeBrowser(storageItems = null) {
   if (storageItems === null) {
     storageItems = {};
   }
@@ -91,7 +91,7 @@ it("getStoredUrls returns expected result", function () {
     new modelModule.UrlsOfType("notify", ["url3"]),
     new modelModule.UrlsOfType("referer", ["url4"]),
   ];
-  urlModule.getStoredUrls(mockBrowser(storageItems)).then((result) => {
+  urlModule.getStoredUrls(fakeBrowser(storageItems)).then((result) => {
     expect(result).toEqual(expectedResult);
   });
 });

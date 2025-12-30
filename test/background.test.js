@@ -1,6 +1,6 @@
 import { runNoHtmlFakeDom } from "./fake.js";
 
-function mockBrowser() {
+function fakeBrowser() {
   return {
     browserAction: {
       getTitle: getNewPromise,
@@ -43,7 +43,7 @@ let backgroundModule;
 
 describe("Check module import", () => {
   beforeAll(() => {
-    global.browser = mockBrowser();
+    global.browser = fakeBrowser();
     runNoHtmlFakeDom();
     const jsPathName = "../src/background_scripts/background.js";
     backgroundModule = require(jsPathName);

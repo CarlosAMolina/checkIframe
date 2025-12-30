@@ -1,6 +1,6 @@
 import { runNoHtmlFakeDom } from "./fake.js";
 
-function mockBrowser() {
+function fakeBrowser() {
   return {
     runtime: {
       onMessage: {
@@ -24,7 +24,7 @@ let checkAndBorderModule;
 
 describe("Check module import", () => {
   beforeAll(() => {
-    global.browser = mockBrowser();
+    global.browser = fakeBrowser();
     runNoHtmlFakeDom();
     const jsPathName = "../src/content_scripts/checkAndBorder.js";
     checkAndBorderModule = require(jsPathName);
