@@ -635,7 +635,7 @@ describe("setupCopyButtonListeners", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
   });
-  it("Copies url to clipboard and shows temporary feedback", async () => {
+  it("should copy the url to clipboard and show temporary feedback", async () => {
     jest.useFakeTimers();
     global.navigator.clipboard = {
       writeText: jest.fn().mockResolvedValue(undefined),
