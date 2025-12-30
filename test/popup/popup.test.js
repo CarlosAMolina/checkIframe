@@ -706,7 +706,6 @@ describe("Check buttons", () => {
             popupModule.__get__("sourcesContainer").firstChild.textContent,
           ).toBe("foo");
           await Promise.all([button.click()]);
-          runAfterRunExpects();
           const result = popupModule.__get__("sourcesContainer").innerHTML;
           const expectedResult = new htmlBuilderModule.HtmlBuilder()
             .with_total(2)
@@ -719,6 +718,7 @@ describe("Check buttons", () => {
             .build()
             .replace(/svg" \//g, 'svg"');
           expect(result).toBe(expectedResult);
+          runAfterRunExpects();
         });
       });
       describe("Check error message is set if incorrect response", () => {
@@ -736,10 +736,10 @@ describe("Check buttons", () => {
         it("Check expected calls and values", async () => {
           runBeforeRunExpects();
           await Promise.all([button.click()]);
-          runAfterRunExpects();
           expect(document.getElementById("infoTags").textContent).toBe(
             "Internal error. The action could not be executed",
           );
+          runAfterRunExpects();
         });
       });
     });
