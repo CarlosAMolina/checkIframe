@@ -681,59 +681,57 @@ describe("Check buttons", () => {
       expect(button._idHtml).toBe("buttonShowSources");
     });
     describe("Check button click", () => {
-      describe("Check if all required data exists", () => {
-        beforeEach(() => {
-          assertHtmlInitialValues();
-        });
-        afterEach(function () {
-          runAfterRunExpects();
-          fakeModule.runFakeDom("src/popup/popup.html");
-          browser = fakeModule.fakeBrowser();
-        });
-        it("Check created HTML if all required data exists", async () => {
-          // Previous steps.
-          const sendMessageResponse = {
-            response: {
-              frame: {
-                sourcesAllNumber: 2,
-                sourcesValid: ["https://frame1.com", "about:blank"],
-              },
-              iframe: { sourcesAllNumber: 0, sourcesValid: [] },
+      beforeEach(() => {
+        assertHtmlInitialValues();
+      });
+      afterEach(function () {
+        runAfterRunExpects();
+        fakeModule.runFakeDom("src/popup/popup.html");
+        browser = fakeModule.fakeBrowser();
+      });
+      it("Check created HTML if all required data exists", async () => {
+        // Previous steps.
+        const sendMessageResponse = {
+          response: {
+            frame: {
+              sourcesAllNumber: 2,
+              sourcesValid: ["https://frame1.com", "about:blank"],
             },
-          };
-          browser = fakeModule.fakeBrowser({
-            sendMessageResponse: sendMessageResponse,
-          });
-          mockNotEmptySourcesContainer();
-          expect(
-            popupModule.__get__("sourcesContainer").firstChild.textContent,
-          ).toBe("foo");
-          // Test.
-          await Promise.all([button.click()]);
-          const result = popupModule.__get__("sourcesContainer").innerHTML;
-          const expectedResult = new htmlBuilderModule.HtmlBuilder()
-            .with_total(2)
-            .with_element("Frame")
-            .with_number("frames", 2)
-            .with_not_blacklisted("frames", 2)
-            .with_urls(["https://frame1.com", "about:blank"])
-            .with_element("IFrame")
-            .with_number("iframes", 0)
-            .build()
-            .replace(/svg" \//g, 'svg"');
-          expect(result).toBe(expectedResult);
+            iframe: { sourcesAllNumber: 0, sourcesValid: [] },
+          },
+        };
+        browser = fakeModule.fakeBrowser({
+          sendMessageResponse: sendMessageResponse,
         });
-        it("Check error message is set if incorrect response", async () => {
-          // Previous steps.
-          browser = fakeModule.fakeBrowser({
-            sendMessageResponse: {},
-          });
-          // Test.
-          await Promise.all([button.click()]);
-          expect(document.getElementById("infoTags").textContent).toBe(
-            "Internal error. The action could not be executed",
-          );
+        mockNotEmptySourcesContainer();
+        expect(
+          popupModule.__get__("sourcesContainer").firstChild.textContent,
+        ).toBe("foo");
+        // Test.
+        await Promise.all([button.click()]);
+        const result = popupModule.__get__("sourcesContainer").innerHTML;
+        const expectedResult = new htmlBuilderModule.HtmlBuilder()
+          .with_total(2)
+          .with_element("Frame")
+          .with_number("frames", 2)
+          .with_not_blacklisted("frames", 2)
+          .with_urls(["https://frame1.com", "about:blank"])
+          .with_element("IFrame")
+          .with_number("iframes", 0)
+          .build()
+          .replace(/svg" \//g, 'svg"');
+        expect(result).toBe(expectedResult);
+      });
+      it("Check error message is set if incorrect response", async () => {
+        // Previous steps.
+        browser = fakeModule.fakeBrowser({
+          sendMessageResponse: {},
         });
+        // Test.
+        await Promise.all([button.click()]);
+        expect(document.getElementById("infoTags").textContent).toBe(
+          "Internal error. The action could not be executed",
+        );
       });
     });
     function assertHtmlInitialValues() {
