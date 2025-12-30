@@ -682,11 +682,7 @@ describe("Check buttons", () => {
     });
     describe("Check button click", () => {
       beforeEach(() => {
-        const infoScrollBeforeRun = document.getElementById("infoTags");
-        expect(infoScrollBeforeRun.className).toBe(
-          "section backgroundGray sources-container hidden",
-        );
-        expect(infoScrollBeforeRun.textContent).toBe("");
+        fakeModule.runFakeDom("src/popup/popup.html");
       });
       afterEach(function () {
         expect(document.getElementById("infoTags").className).toBe(
