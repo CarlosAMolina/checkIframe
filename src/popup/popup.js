@@ -419,7 +419,7 @@ function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
 }
 
 function onSendInfoError(error) {
-  console.error(error);
+  reportError(error);
   updateElementsWhenIncompatibleWebPage();
 }
 
@@ -536,8 +536,7 @@ function reportError(error) {
 // there was an error executing the script.
 // display the pop-up's error message, and hide the normal UI.
 function reportExecuteScriptError(error) {
-  // TODO replace with reportError
-  console.error(`Failed to check this web page: ${error.message}`);
+  reportError(`Failed to check this web page: ${error.message}`);
   updateElementsWhenIncompatibleWebPage();
   popupMain();
 }
