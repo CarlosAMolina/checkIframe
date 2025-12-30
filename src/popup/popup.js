@@ -161,10 +161,11 @@ class ButtonScroll extends Button {
     this.logButtonName();
     let htmlIdToChange = "infoScroll";
     unhide("infoScroll");
+    const message = Message(this._idHtml);
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then((tabs) =>
-        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, this._idHtml),
+        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, message),
       )
       .catch(reportError);
   }
@@ -179,10 +180,11 @@ class ButtonShowSources extends Button {
     this.logButtonName();
     let htmlIdToChange = "infoTags";
     hideOrUnhide("infoTags");
+    const message = Message(this._idHtml);
     browser.tabs
       .query({ active: true, currentWindow: true })
       .then((tabs) =>
-        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, this._idHtml),
+        sendInfoSaveAndShowAnswer(tabs[0], htmlIdToChange, message),
       )
       .catch(reportError);
   }
@@ -423,13 +425,12 @@ function showStoredUrlsType(urlType) {
   }, reportError);
 }
 
-function sendInfoSaveAndShowAnswer(tab, htmlIdToChange, info2sendFromPopup) {
-  const message = Message(info2sendFromPopup);
+function sendInfoSaveAndShowAnswer(tab, htmlIdToChange, message) {
   // TODO use message-mediator.sendMessage
   browser.tabs
     .sendMessage(tab.id, message)
     .then((response) => {
-      changeParagraph(info2sendFromPopup, response.response, htmlIdToChange);
+      changeParagraph(message.info, response.response, htmlIdToChange);
     })
     .catch(reportError);
 }
