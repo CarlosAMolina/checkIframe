@@ -1,6 +1,6 @@
-import { HtmlBuilder } from "./builder.js";
-import * as modelModule from "../src/popup/model.js";
-import * as fakeModule from "./fake.js";
+import * as fakeModule from "../fake.js";
+import * as htmlBuilderModule from "../builder.js";
+import * as modelModule from "../../src/popup/model.js";
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
@@ -246,7 +246,7 @@ describe("Check module import", () => {
             await Promise.all([button.click()]);
             runAfterRunExpects();
             const result = popupModule.__get__("sourcesContainer").innerHTML;
-            const expectedResult = new HtmlBuilder()
+            const expectedResult = new htmlBuilderModule.HtmlBuilder()
               .with_total(2)
               .with_element("Frame")
               .with_number("frames", 2)
@@ -760,7 +760,9 @@ describe("setupCopyButtonListeners", () => {
     global.navigator.clipboard = {
       writeText: jest.fn().mockResolvedValue(undefined),
     };
-    const html = new HtmlBuilder().with_urls(["https://foo.com"]).build();
+    const html = new htmlBuilderModule.HtmlBuilder()
+      .with_urls(["https://foo.com"])
+      .build();
     const container = document.createElement("div");
     container.innerHTML = html;
     document.body.appendChild(container.firstElementChild);
@@ -789,5 +791,5 @@ describe("setupCopyButtonListeners", () => {
 function initializeMocksAndVariables() {
   fakeModule.runFakeDom("src/popup/popup.html");
   global.browser = fakeModule.fakeBrowser();
-  popupModule = require("../src/popup/popup.js");
+  popupModule = require("../../src/popup/popup.js");
 }
