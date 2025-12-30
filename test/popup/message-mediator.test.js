@@ -6,11 +6,11 @@ describe("message-mediator", () => {
   beforeEach(() => {
     global.browser = fakeModule.fakeBrowser();
   });
-  it("sendMessageNew has expected calls and values", async () => {
+  it("sendMessage has expected calls and values", async () => {
     const info2send = "info 2 send";
     const value2send = "value 2 send";
     const message = modelModule.Message(info2send, value2send);
-    await messageMediatorModule.sendMessageNew(message);
+    await messageMediatorModule.sendMessage(message);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       1,
       {

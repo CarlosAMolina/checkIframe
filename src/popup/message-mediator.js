@@ -1,8 +1,7 @@
 import { reportError } from "./log.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
-// TODO drop New and drop old sendMessage
-export function sendMessageNew(message) {
+export function sendMessage(message) {
   browser.tabs
     .query({ active: true, currentWindow: true }) // Send to current tab.
     .then((tabs) => browser.tabs.sendMessage(tabs[0].id, message))

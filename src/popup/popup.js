@@ -11,7 +11,7 @@ import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
 import { Message } from "./model.js";
 import { reportError } from "./log.js";
-import { sendMessageNew } from "./message-mediator.js";
+import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
 import { unhide } from "./dom.js";
@@ -134,7 +134,7 @@ class ButtonRecheck extends Button {
     this.logButtonName();
     hide("infoTags");
     const message = Message(this._idHtml, undefined);
-    sendMessageNew(message);
+    sendMessage(message);
   }
 }
 
@@ -147,7 +147,7 @@ class ButtonClean extends Button {
     this.logButtonName();
     hide("infoScroll");
     const message = Message(this._idHtml, undefined);
-    sendMessageNew(message);
+    sendMessage(message);
   }
 }
 
@@ -422,7 +422,7 @@ function showStoredUrlsType(urlType) {
 function sendInfoAndValue(info2send, values2send) {
   console.log("Sending info", info2send, "and value", values2send);
   const message = Message(info2send, values2send);
-  sendMessageNew(message);
+  sendMessage(message);
 }
 
 // TODO move login to the buttons.
