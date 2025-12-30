@@ -9,6 +9,7 @@ import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
+import { sendInfo } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
 import { unhide } from "./dom.js";
@@ -407,20 +408,6 @@ function getUrlTypeActive() {
     }
   }
   return null;
-}
-
-function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
-  browser.tabs
-    .sendMessage(tabs[0].id, {
-      info: info2sendFromPopup,
-      values: values2sendFromPopup,
-    })
-    .catch(onSendInfoError);
-}
-
-function onSendInfoError(error) {
-  reportError(error);
-  updateElementsWhenIncompatibleWebPage();
 }
 
 function showStoredUrlsType(urlType) {
