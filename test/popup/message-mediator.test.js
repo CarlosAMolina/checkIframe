@@ -15,11 +15,11 @@ describe("message-mediator", () => {
       new modelModule.UrlsOfType("notify", []),
       new modelModule.UrlsOfType("referer", []),
     ];
-    messageMediatorModule.sendMessage(
-      tabs,
+    const message = modelModule.Message(
       info2sendFromPopup,
       values2sendFromPopup,
     );
+    messageMediatorModule.sendMessage(tabs, message);
     expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
       1234,
       {

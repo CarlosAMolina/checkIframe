@@ -9,6 +9,7 @@ import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
+import { Message } from "./model.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
@@ -132,9 +133,10 @@ class ButtonRecheck extends Button {
   click() {
     this.logButtonName();
     hide("infoTags");
+    const message = Message(this._idHtml, undefined);
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendMessage(tabs, this._idHtml, undefined))
+      .then((tabs) => sendMessage(tabs, message))
       .catch(reportError);
   }
 }
@@ -147,9 +149,10 @@ class ButtonClean extends Button {
   click() {
     this.logButtonName();
     hide("infoScroll");
+    const message = Message(this._idHtml, undefined);
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendMessage(tabs, this._idHtml, undefined))
+      .then((tabs) => sendMessage(tabs, message))
       .catch(reportError);
   }
 }
@@ -424,15 +427,17 @@ function showStoredUrlsType(urlType) {
 
 function sendInfoAndValue(info2send, values2send) {
   console.log("Sending info", info2send, "and value", values2send);
+  const message = Message(info2send, values2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then((tabs) => sendMessage(tabs, info2send, values2send))
+    .then((tabs) => sendMessage(tabs, message))
     .catch(reportError);
 }
 
 // TODO move login to the buttons.
 function sendInfoSaveAndShowAnswer(tabs, htmlIdToChange, info2sendFromPopup) {
   tabs.forEach(function (arrayValues) {
+    // TODO use message-mediator.sendMessage
     browser.tabs
       .sendMessage(arrayValues.id, { info: info2sendFromPopup })
       .then((response) => {

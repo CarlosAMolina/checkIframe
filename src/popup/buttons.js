@@ -124,6 +124,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 
   activateLogs(tabs) {
+    // TODO use message mediator, search all code to replace
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
