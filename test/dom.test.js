@@ -1,4 +1,4 @@
-import { runFakeDom } from "./mock.js";
+import { runFakeDom } from "./fake.js";
 import * as domModule from "../src/popup/dom.js";
 
 describe("dom", () => {

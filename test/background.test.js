@@ -1,4 +1,4 @@
-import { runNoHtmlFakeDom } from "./mock.js";
+import { runNoHtmlFakeDom } from "./fake.js";
 
 function mockBrowser() {
   return {

@@ -1,6 +1,6 @@
 import { ButtonHighlightAllAutomatically } from "../src/popup/buttons.js";
 import { ButtonShowLogs } from "../src/popup/buttons.js";
-import { runFakeDom } from "./mock.js";
+import { runFakeDom } from "./fake.js";
 
 describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {

@@ -1,4 +1,4 @@
-import { runFakeDom } from "./mock.js";
+import { runFakeDom } from "./fake.js";
 import { HtmlBuilder } from "./builder.js";
 import * as modelModule from "../src/popup/model.js";
 
