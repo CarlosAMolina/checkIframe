@@ -71,7 +71,7 @@ function getElementsByTags() {
 // logs
 function logs() {
   if (showLogs) {
-    console.log("checkIframe) checkAndBorder) tags info: ", elements);
+    console.log("checkIframe) check-and-border) tags info: ", elements);
   }
 }
 

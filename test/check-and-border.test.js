@@ -26,7 +26,7 @@ describe("Check module import", () => {
   beforeAll(() => {
     global.browser = fakeBrowser();
     runNoHtmlFakeDom();
-    const jsPathName = "../src/content_scripts/checkAndBorder.js";
+    const jsPathName = "../src/content_scripts/check-and-border.js";
     checkAndBorderModule = require(jsPathName);
   });
   it("The module should be imported without errors and has expected values", function () {
