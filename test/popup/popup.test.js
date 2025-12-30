@@ -723,22 +723,17 @@ describe("Check buttons", () => {
             .replace(/svg" \//g, 'svg"');
           expect(result).toBe(expectedResult);
         });
-      });
-      it("Check error message is set if incorrect response", async () => {
-        // Previous steps.
-        assertHtmlInitialValues();
-        browser = fakeModule.fakeBrowser({
-          sendMessageResponse: {},
+        it("Check error message is set if incorrect response", async () => {
+          // Previous steps.
+          browser = fakeModule.fakeBrowser({
+            sendMessageResponse: {},
+          });
+          // Test.
+          await Promise.all([button.click()]);
+          expect(document.getElementById("infoTags").textContent).toBe(
+            "Internal error. The action could not be executed",
+          );
         });
-        // Test.
-        await Promise.all([button.click()]);
-        expect(document.getElementById("infoTags").textContent).toBe(
-          "Internal error. The action could not be executed",
-        );
-        // Final steps.
-        runAfterRunExpects();
-        fakeModule.runFakeDom("src/popup/popup.html");
-        browser = fakeModule.fakeBrowser();
       });
     });
     function assertHtmlInitialValues() {
