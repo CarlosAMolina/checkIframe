@@ -726,7 +726,12 @@ describe("Check buttons", () => {
           // TODO try to drop, mock popup.html only once in all tests (the
           // TODO tests must revert the dom modifications when they finish.
           fakeModule.runFakeDom("src/popup/popup.html");
-          browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
+          browser = fakeModule.fakeBrowser({
+            sendMessageResponse: {},
+          });
+        });
+        afterEach(function () {
+          browser = fakeModule.fakeBrowser();
         });
         it("Check expected calls and values", async () => {
           runBeforeRunExpects();
