@@ -3,8 +3,11 @@ import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 export function sendMessage(message) {
   browser.tabs
-    .query({ active: true, currentWindow: true }) // Get current tab.
-    .then((tabs) => browser.tabs.sendMessage(tabs[0].id, message))
+    .query({ active: true, currentWindow: true })
+    .then((tabs) => {
+      const activeTab = tabs[0];
+      browser.tabs.sendMessage(activeTab.id, message);
+    })
     .catch(onSendInfoError);
 }
 
