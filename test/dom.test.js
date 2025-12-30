@@ -1,9 +1,9 @@
-import { runMockDom } from "./mock.js";
+import { runFakeDom } from "./mock.js";
 import * as domModule from "../src/popup/dom.js";
 
 describe("dom", () => {
   beforeEach(() => {
-    runMockDom("src/popup/popup.html");
+    runFakeDom("src/popup/popup.html");
   });
   it("hide should add hidden", function () {
     const htmlId = "buttonRecheck";

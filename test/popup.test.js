@@ -1,4 +1,4 @@
-import { runMockDom } from "./mock.js";
+import { runFakeDom } from "./mock.js";
 import { HtmlBuilder } from "./builder.js";
 import * as modelModule from "../src/popup/model.js";
 
@@ -815,7 +815,7 @@ describe("setupCopyButtonListeners", () => {
 });
 
 function initializeMocksAndVariables() {
-  runMockDom("src/popup/popup.html");
+  runFakeDom("src/popup/popup.html");
   global.browser = mockBrowser();
   popupModule = require("../src/popup/popup.js");
 }

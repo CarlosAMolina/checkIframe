@@ -1,6 +1,6 @@
 import { ButtonHighlightAllAutomatically } from "../src/popup/buttons.js";
 import { ButtonShowLogs } from "../src/popup/buttons.js";
-import { runMockDom } from "./mock.js";
+import { runFakeDom } from "./mock.js";
 
 describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
@@ -9,7 +9,7 @@ describe("Check ButtonShowLogs", () => {
   describe("Check click has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
       const button = new ButtonShowLogs();
@@ -27,7 +27,7 @@ describe("Check ButtonShowLogs", () => {
     });
     it("If buttonShowLogs is active and clicked to deactivate it", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       const button = new ButtonShowLogs();
       document.getElementById(button._idHtml).checked = true;
@@ -48,7 +48,7 @@ describe("Check ButtonShowLogs", () => {
   describe("Check initializePopup has expected calls and values", () => {
     it("If buttonShowLogs must be off because the button has never been clicked", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
       const button = new ButtonShowLogs();
@@ -66,7 +66,7 @@ describe("Check ButtonShowLogs", () => {
     });
     it("If buttonShowLogs must be on because the button was clicked previously", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       browser.storage.local.get = jest.fn(() =>
         Promise.resolve({ idShowLogs: true }),
@@ -97,7 +97,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
   describe("Check click has expected calls and values", () => {
     it("If buttonHighlightAllAutomatically is clicked for the first time", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
       const button = new ButtonHighlightAllAutomatically();
@@ -115,7 +115,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     });
     it("If buttonHighlightAllAutomatically is active and clicked to deactivate it", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       const button = new ButtonHighlightAllAutomatically();
       document.getElementById(
@@ -138,7 +138,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
   describe("Check initializePopup has expected calls and values", () => {
     it("If buttonHighlightAllAutomatically must be off because the button has never been clicked", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
       const button = new ButtonHighlightAllAutomatically();
@@ -156,7 +156,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     });
     it("If buttonHighlightAllAutomatically must be on because the button was clicked previously", async () => {
       /* start test required configuration */
-      runMockDom("src/popup/popup.html");
+      runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       browser.storage.local.get = jest.fn(() =>
         Promise.resolve({ idHighlightAllAutomatically: true }),

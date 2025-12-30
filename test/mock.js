@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { JSDOM } from "jsdom";
 
-export function runMockDom(htmlPathName) {
+export function runFakeDom(htmlPathName) {
   const __dirname = path.resolve();
   const htmlPath = path.resolve(__dirname, htmlPathName);
   const html = fs.readFileSync(htmlPath, "utf8");
