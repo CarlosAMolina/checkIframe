@@ -702,7 +702,7 @@ describe("Check buttons", () => {
           fakeModule.runFakeDom("src/popup/popup.html");
           browser = fakeModule.fakeBrowser();
         });
-        it("Check expected calls and values", async () => {
+        it("Check created HTML if all required data exists", async () => {
           // Previous steps.
           mockNotEmptySourcesContainer();
           expect(
@@ -732,7 +732,7 @@ describe("Check buttons", () => {
           runAfterRunExpects();
           browser = fakeModule.fakeBrowser();
         });
-        it("Check expected calls and values", async () => {
+        it("Check error message is set if incorrect response", async () => {
           // Previous steps.
           browser = fakeModule.fakeBrowser({
             sendMessageResponse: {},
