@@ -1,9 +1,9 @@
-import { runFakeDom } from "./fake.js";
-import * as domModule from "../src/popup/dom.js";
+import * as domModule from "../../src/popup/dom.js";
+import * as fakeModule from "../fake.js";
 
 describe("dom", () => {
   beforeEach(() => {
-    runFakeDom("src/popup/popup.html");
+    fakeModule.runFakeDom("src/popup/popup.html");
   });
   it("hide should add hidden", function () {
     const htmlId = "buttonRecheck";
