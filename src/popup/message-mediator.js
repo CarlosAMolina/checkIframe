@@ -9,10 +9,6 @@ export function sendMessageNew(message) {
     .catch(onSendInfoError);
 }
 
-export function sendMessage(tab, message) {
-  browser.tabs.sendMessage(tab.id, message).catch(onSendInfoError);
-}
-
 function onSendInfoError(error) {
   reportError(error);
   updateElementsWhenIncompatibleWebPage();
