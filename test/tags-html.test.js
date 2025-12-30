@@ -1,4 +1,4 @@
-import { getStrTagsHtml } from "../src/popup/tagsHtml.js";
+import { getStrTagsHtml } from "../src/popup/tags-html.js";
 import { HtmlBuilder } from "./builder.js";
 
 describe.only("Check getTagsHtml", () => {

@@ -5,7 +5,7 @@ import { ButtonShowLogs } from "./buttons.js";
 import { addUrl } from "./url.js";
 import { deleteUrl } from "./url.js";
 import { getStoredUrls } from "./url.js";
-import { getStrTagsHtml } from "./tagsHtml.js";
+import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
