@@ -1,31 +1,11 @@
-import { runNoHtmlFakeDom } from "./fake.js";
-
-function fakeBrowser() {
-  return {
-    runtime: {
-      onMessage: {
-        addListener: jest.fn(),
-      },
-    },
-    storage: {
-      local: {
-        get: getNewPromise,
-      },
-    },
-  };
-  function getNewPromise(args) {
-    return new Promise(function (resolve, reject) {
-      resolve("Start of new Promise");
-    });
-  }
-}
+import * as fakeModule from "./fake.js";
 
 let checkAndBorderModule;
 
 describe("Check module import", () => {
   beforeAll(() => {
-    global.browser = fakeBrowser();
-    runNoHtmlFakeDom();
+    global.browser = fakeModule.fakeBrowser();
+    fakeModule.runNoHtmlFakeDom();
     const jsPathName = "../src/content_scripts/check-and-border.js";
     checkAndBorderModule = require(jsPathName);
   });
