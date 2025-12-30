@@ -147,10 +147,7 @@ class ButtonClean extends Button {
     this.logButtonName();
     hide("infoScroll");
     const message = Message(this._idHtml, undefined);
-    browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then((tabs) => sendMessage(tabs[0], message))
-      .catch(reportError);
+    sendMessageNew(message);
   }
 }
 
