@@ -685,18 +685,12 @@ describe("Check buttons", () => {
         fakeModule.runFakeDom("src/popup/popup.html");
       });
       afterEach(function () {
-        assertIsHidden("infoTags");
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
         fakeModule.runFakeDom("src/popup/popup.html");
         browser = fakeModule.fakeBrowser();
       });
-      function assertIsHidden(htmlId) {
-        expect(
-          document.getElementById(htmlId).classList.contains("hidden"),
-        ).toBe(false);
-      }
       it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
         const sendMessageResponse = {
@@ -729,6 +723,7 @@ describe("Check buttons", () => {
           .build()
           .replace(/svg" \//g, 'svg"');
         expect(result).toBe(expectedResult);
+        assertIsHidden("infoTags");
       });
       it("should set error message in HTML if incorrect response", async () => {
         // Previous steps.
@@ -740,6 +735,7 @@ describe("Check buttons", () => {
         expect(document.getElementById("infoTags").textContent).toBe(
           "Internal error. The action could not be executed",
         );
+        assertIsHidden("infoTags");
       });
     });
   });
@@ -757,4 +753,10 @@ function mockNotEmptySourcesContainer() {
   extraTextElement.textContent = "foo";
   entryElement.appendChild(extraTextElement);
   popupModule.__set__("sourcesContainer", entryElement);
+}
+
+function assertIsHidden(htmlId) {
+  expect(document.getElementById(htmlId).classList.contains("hidden")).toBe(
+    false,
+  );
 }
