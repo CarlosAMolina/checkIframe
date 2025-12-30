@@ -9,7 +9,7 @@ describe("Check module import", () => {
   it("sendInfo has expected calls and values", function () {
     // The first time the popup is initialized I think it has these values.
     const tabs = [{ id: 1234 }];
-    let info2sendFromPopup = "urls";
+    const info2sendFromPopup = "urls";
     const values2sendFromPopup = [
       new modelModule.UrlsOfType("blacklist", []),
       new modelModule.UrlsOfType("notify", []),
