@@ -95,6 +95,7 @@ function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
+//TODO improve, instead of liste to all clicked elements, add listen only to buttons.
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
     case BUTTON_ID_RECHECK:
