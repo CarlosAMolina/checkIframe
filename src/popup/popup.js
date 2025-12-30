@@ -10,7 +10,7 @@ import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { hideOrUnhide } from "./dom.js";
 import { reportError } from "./log.js";
-import { sendInfo } from "./message-mediator.js";
+import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
 import { unhide } from "./dom.js";
@@ -134,7 +134,7 @@ class ButtonRecheck extends Button {
     hide("infoTags");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendInfo(tabs, this._idHtml, undefined))
+      .then((tabs) => sendMessage(tabs, this._idHtml, undefined))
       .catch(reportError);
   }
 }
@@ -149,7 +149,7 @@ class ButtonClean extends Button {
     hide("infoScroll");
     browser.tabs
       .query({ active: true, currentWindow: true })
-      .then((tabs) => sendInfo(tabs, this._idHtml, undefined))
+      .then((tabs) => sendMessage(tabs, this._idHtml, undefined))
       .catch(reportError);
   }
 }
@@ -426,7 +426,7 @@ function sendInfoAndValue(info2send, values2send) {
   console.log("Sending info", info2send, "and value", values2send);
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then((tabs) => sendInfo(tabs, info2send, values2send))
+    .then((tabs) => sendMessage(tabs, info2send, values2send))
     .catch(reportError);
 }
 

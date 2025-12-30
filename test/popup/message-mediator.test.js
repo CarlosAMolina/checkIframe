@@ -6,7 +6,7 @@ describe("message-mediator", () => {
   beforeEach(() => {
     global.browser = fakeModule.fakeBrowser();
   });
-  it("sendInfo has expected calls and values", function () {
+  it("sendMessage has expected calls and values", function () {
     // The first time the popup is initialized I think it has these values.
     const tabs = [{ id: 1234 }];
     const info2sendFromPopup = "urls";
@@ -15,7 +15,7 @@ describe("message-mediator", () => {
       new modelModule.UrlsOfType("notify", []),
       new modelModule.UrlsOfType("referer", []),
     ];
-    messageMediatorModule.sendInfo(
+    messageMediatorModule.sendMessage(
       tabs,
       info2sendFromPopup,
       values2sendFromPopup,

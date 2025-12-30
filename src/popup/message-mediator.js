@@ -1,7 +1,7 @@
 import { reportError } from "./log.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
-export function sendInfo(tabs, info2sendFromPopup, values2sendFromPopup) {
+export function sendMessage(tabs, info2sendFromPopup, values2sendFromPopup) {
   browser.tabs
     .sendMessage(tabs[0].id, {
       info: info2sendFromPopup,
