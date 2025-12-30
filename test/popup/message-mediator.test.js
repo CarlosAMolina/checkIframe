@@ -1,6 +1,6 @@
 import * as fakeModule from "../fake.js";
-import * as modelModule from "../../src/popup/model.js";
 import * as messageMediatorModule from "../../src/popup/message-mediator.js";
+import * as modelModule from "../../src/popup/model.js";
 
 describe("message-mediator", () => {
   beforeEach(() => {
