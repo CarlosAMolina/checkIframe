@@ -2,7 +2,7 @@ import * as fakeModule from "../fake.js";
 import * as modelModule from "../../src/popup/model.js";
 import * as messageMediatorModule from "../../src/popup/message-mediator.js";
 
-describe("Check module import", () => {
+describe("message-mediator", () => {
   beforeEach(() => {
     global.browser = fakeModule.fakeBrowser();
   });
