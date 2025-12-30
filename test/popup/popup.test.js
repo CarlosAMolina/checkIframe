@@ -677,7 +677,7 @@ describe("check buttons", () => {
       const classType = popupModule.__get__("ButtonShowSources");
       button = new classType();
     });
-    it("has expected button ID value", function () {
+    it("has expected button ID", function () {
       expect(button._idHtml).toBe("buttonShowSources");
     });
     describe("click behaviour is correct", () => {
