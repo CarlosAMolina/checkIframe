@@ -683,16 +683,17 @@ describe("Check buttons", () => {
     describe("Check button click", () => {
       describe("Check if all required data exists", () => {
         beforeEach(() => {
-          browser.tabs.sendMessage = jest.fn(() =>
-            Promise.resolve({
-              response: {
-                frame: {
-                  sourcesAllNumber: 2,
-                  sourcesValid: ["https://frame1.com", "about:blank"],
-                },
-                iframe: { sourcesAllNumber: 0, sourcesValid: [] },
+          const sendMessageResponse = {
+            response: {
+              frame: {
+                sourcesAllNumber: 2,
+                sourcesValid: ["https://frame1.com", "about:blank"],
               },
-            }),
+              iframe: { sourcesAllNumber: 0, sourcesValid: [] },
+            },
+          };
+          browser.tabs.sendMessage = jest.fn(() =>
+            Promise.resolve(sendMessageResponse),
           );
           mockNotEmptySourcesContainer();
         });
