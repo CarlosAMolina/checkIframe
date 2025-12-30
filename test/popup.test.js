@@ -1,34 +1,6 @@
-import { runFakeDom } from "./fake.js";
 import { HtmlBuilder } from "./builder.js";
 import * as modelModule from "../src/popup/model.js";
-
-function fakeBrowser(storageItems = null) {
-  if (storageItems === null) {
-    storageItems = {};
-  }
-  // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  return {
-    storage: {
-      local: {
-        get: jest.fn(() => Promise.resolve(storageItems)),
-        remove: jest.fn(() => Promise.resolve({})),
-        set: jest.fn(() => Promise.resolve({})),
-      },
-    },
-    tabs: {
-      executeScript: getNewPromise,
-      // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
-      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
-    },
-  };
-}
-
-function getNewPromise(args) {
-  return new Promise(function (resolve, reject) {
-    resolve("Start of new Promise");
-  });
-}
+import * as fakeModule from "./fake.js";
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
@@ -369,7 +341,7 @@ describe("Check module import", () => {
       blacklist_url2: "url2",
       notify_url3: "url3", // Should not be removed
     };
-    global.browser = fakeBrowser(storageItems);
+    global.browser = fakeModule.fakeBrowser(storageItems);
     const containerFake = document.createElement("div");
     containerFake.appendChild(document.createElement("div")); // First blacklisted url.
     containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
@@ -402,7 +374,7 @@ describe("Check module import", () => {
     // Assert sendInfoAndValue was called with updated urls
     const sendInfoAndValue = popupModule.__get__("sendInfoAndValue");
     expect(sendInfoAndValue).toHaveBeenCalledWith("urls", expectedUrls);
-    global.browser = fakeBrowser();
+    global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendInfoAndValue", sendInfoAndValueBackup);
   });
   describe("Check function showStoredInfo", () => {
@@ -815,7 +787,7 @@ describe("setupCopyButtonListeners", () => {
 });
 
 function initializeMocksAndVariables() {
-  runFakeDom("src/popup/popup.html");
-  global.browser = fakeBrowser();
+  fakeModule.runFakeDom("src/popup/popup.html");
+  global.browser = fakeModule.fakeBrowser();
   popupModule = require("../src/popup/popup.js");
 }

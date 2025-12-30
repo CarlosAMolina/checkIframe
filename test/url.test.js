@@ -1,33 +1,6 @@
 import * as urlModule from "../src/popup/url.js";
 import * as modelModule from "../src/popup/model.js";
-
-function fakeBrowser(storageItems = null) {
-  if (storageItems === null) {
-    storageItems = {};
-  }
-  // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  return {
-    storage: {
-      local: {
-        get: jest.fn(() => Promise.resolve(storageItems)),
-        remove: jest.fn(() => Promise.resolve({})),
-        set: jest.fn(() => Promise.resolve({})),
-      },
-    },
-    tabs: {
-      executeScript: getNewPromise,
-      // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
-      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
-    },
-  };
-}
-
-function getNewPromise(args) {
-  return new Promise(function (resolve, reject) {
-    resolve("Start of new Promise");
-  });
-}
+import * as fakeModule from "./fake.js";
 
 it("addUrl should add url", function () {
   const urls = [
@@ -91,7 +64,9 @@ it("getStoredUrls returns expected result", function () {
     new modelModule.UrlsOfType("notify", ["url3"]),
     new modelModule.UrlsOfType("referer", ["url4"]),
   ];
-  urlModule.getStoredUrls(fakeBrowser(storageItems)).then((result) => {
-    expect(result).toEqual(expectedResult);
-  });
+  urlModule
+    .getStoredUrls(fakeModule.fakeBrowser(storageItems))
+    .then((result) => {
+      expect(result).toEqual(expectedResult);
+    });
 });
