@@ -6,7 +6,7 @@ export function sendMessageNew(message) {
   browser.tabs
     .query({ active: true, currentWindow: true }) // Send to current tab.
     .then((tabs) => browser.tabs.sendMessage(tabs[0].id, message))
-    .catch(reportError); // TODO use onSendInfoError
+    .catch(onSendInfoError);
 }
 
 export function sendMessage(tab, message) {
