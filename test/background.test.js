@@ -1,4 +1,4 @@
-import { runNoHtmlMockDom } from "./mock.js";
+import { runNoHtmlFakeDom } from "./mock.js";
 
 function mockBrowser() {
   return {
@@ -44,7 +44,7 @@ let backgroundModule;
 describe("Check module import", () => {
   beforeAll(() => {
     global.browser = mockBrowser();
-    runNoHtmlMockDom();
+    runNoHtmlFakeDom();
     const jsPathName = "../src/background_scripts/background.js";
     backgroundModule = require(jsPathName);
     console.error = jest.fn();

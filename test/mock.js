@@ -13,7 +13,7 @@ export function runFakeDom(htmlPathName) {
   global.window = dom.window;
 }
 
-export function runNoHtmlMockDom() {
+export function runNoHtmlFakeDom() {
   const dom = new JSDOM();
   global.document = dom.window.document;
   global.window = dom.window;
