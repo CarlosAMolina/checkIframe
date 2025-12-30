@@ -551,12 +551,6 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("showStoredUrlsType");
     function_();
   });
-  it("sendInfoSaveAndShowAnswer runs without error", function () {
-    console.error = jest.fn();
-    function_ = popupModule.__get__("sendInfoSaveAndShowAnswer");
-    const message = modelModule.Message("foo");
-    function_("foo", message);
-  });
   it("changeParagraph runs without error", function () {
     const frameTagsSummary = {
       sourcesAllNumber: 2,

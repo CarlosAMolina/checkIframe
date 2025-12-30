@@ -162,7 +162,11 @@ class ButtonScroll extends Button {
     let htmlIdToChange = "infoScroll";
     unhide("infoScroll");
     const message = Message(this._idHtml);
-    return sendInfoSaveAndShowAnswer(htmlIdToChange, message);
+    return sendMessage(message)
+      .then((response) =>
+        changeParagraph(message.info, response.response, htmlIdToChange),
+      )
+      .catch(reportError);
   }
 }
 
@@ -176,7 +180,11 @@ class ButtonShowSources extends Button {
     let htmlIdToChange = "infoTags";
     toggleHide("infoTags");
     const message = Message(this._idHtml);
-    return sendInfoSaveAndShowAnswer(htmlIdToChange, message);
+    return sendMessage(message)
+      .then((response) =>
+        changeParagraph(message.info, response.response, htmlIdToChange),
+      )
+      .catch(reportError);
   }
 }
 
@@ -413,14 +421,6 @@ function showStoredUrlsType(urlType) {
       }
     });
   }, reportError);
-}
-
-function sendInfoSaveAndShowAnswer(htmlIdToChange, message) {
-  return sendMessage(message)
-    .then((response) =>
-      changeParagraph(message.info, response.response, htmlIdToChange),
-    )
-    .catch(reportError);
 }
 
 function changeParagraph(info2sendFromPopup, response, htmlId) {
