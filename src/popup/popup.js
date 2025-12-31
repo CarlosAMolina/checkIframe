@@ -284,13 +284,23 @@ function clearStorageInfo(urlType) {
   repository.getAll().then((storageItems) => {
     const keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
-    ); //array
+    );
+    keysUrl.forEach(() => {
+      // TODO? use removeShownStoredUrls
+      infoContainer.removeChild(infoContainer.firstChild);
+    });
+    // TODO use:
+    //const deletePromises = keysUrl.map((keyUrl) => {
+    //  return repository.delete(keyUrl);
+    //});
+    //Promise.all(deletePromises).then(() => {
+    //  const message = Message("urls", urls);
+    //  sendMessage(message);
+    //}, reportError);
     keysUrl.forEach(function (keyUrl) {
       repository.delete(keyUrl).catch((error) => {
         reportError(error);
       });
-      // TODO? use removeShownStoredUrls
-      infoContainer.removeChild(infoContainer.firstChild);
     });
     const message = Message("urls", urls);
     sendMessage(message);
