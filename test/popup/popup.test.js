@@ -272,12 +272,6 @@ describe("Check module import", () => {
       "infoContainer",
       fakeInfoContainer(numberOfBlacklistedUrls),
     );
-    setUrls = popupModule.__get__("setUrls");
-    setUrls([
-      new modelModule.UrlsOfType("blacklist", ["url1", "url2"]),
-      new modelModule.UrlsOfType("notify", ["url3"]),
-      new modelModule.UrlsOfType("referer", []),
-    ]);
     const sendMessageBackup = popupModule.__get__("sendMessage");
     popupModule.__set__("sendMessage", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
