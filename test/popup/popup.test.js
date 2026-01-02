@@ -276,8 +276,7 @@ describe("Check module import", () => {
     const sendMessageBackup = popupModule.__get__("sendMessage");
     popupModule.__set__("sendMessage", jest.fn());
     // Test.
-    function_ = popupModule.__get__("clearStorageInfo");
-    const result = await function_("blacklist");
+    const result = await popupModule.__get__("clearStorageInfo")("blacklist");
     const expectedUrls = [
       new modelModule.UrlsOfType("blacklist", []),
       new modelModule.UrlsOfType("notify", ["url3"]),
