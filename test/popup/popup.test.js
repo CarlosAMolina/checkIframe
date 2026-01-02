@@ -298,13 +298,7 @@ describe("Check module import", () => {
     expect(sendMessage).toHaveBeenCalledWith(message);
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
-    // TODO rename, drop TODO and drop old variable expectedUrls
-    const expectedUrlsTODO = [
-      new modelModule.UrlsOfType("blacklist", []),
-      new modelModule.UrlsOfType("notify", ["url3"]),
-      new modelModule.UrlsOfType("referer", []),
-    ];
-    expect(result).toStrictEqual(expectedUrlsTODO);
+    expect(result).toStrictEqual(expectedUrls);
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
