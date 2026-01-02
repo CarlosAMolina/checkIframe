@@ -641,7 +641,7 @@ describe("check buttons", () => {
       popupModule.__set__("sendMessage", jest.fn());
       // Test.
       const storedUrls =
-        await getButtonClearAll()._clearStorageInfo("blacklist");
+        await createButton("ButtonClearAll")._clearStorageInfo("blacklist");
       const expectedUrls = [
         new modelModule.UrlsOfType("blacklist", []),
         new modelModule.UrlsOfType("notify", ["url3"]),
@@ -659,10 +659,6 @@ describe("check buttons", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       popupModule.__set__("sendMessage", sendMessageBackup);
     });
-    function getButtonClearAll() {
-      const buttonClass = popupModule.__get__("ButtonClearAll");
-      return new buttonClass();
-    }
   });
   describe("ButtonShowSources", () => {
     it("has expected button ID", function () {
