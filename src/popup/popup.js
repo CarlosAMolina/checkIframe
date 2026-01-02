@@ -298,7 +298,6 @@ class ButtonClearAll extends Button {
 
 function showStoredInfo(eKey, eValue) {
   // display box
-  var entry = document.createElement("div");
   var entryDisplay = document.createElement("div");
   var entryValue = document.createElement("p");
   var deleteBtn = document.createElement("button");
@@ -309,6 +308,7 @@ function showStoredInfo(eKey, eValue) {
   deleteBtn.setAttribute("title", "Delete");
   entryDisplay.appendChild(deleteBtn);
   entryDisplay.appendChild(entryValue);
+  var entry = document.createElement("div");
   entry.appendChild(entryDisplay);
   // set up listener for the delete functionality
   deleteBtn.addEventListener("click", (e) => {
