@@ -267,10 +267,11 @@ describe("Check module import", () => {
       notify_url3: "url3", // Should not be removed
     };
     global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
-    const containerFake = document.createElement("div");
-    containerFake.appendChild(document.createElement("div")); // First blacklisted url.
-    containerFake.appendChild(document.createElement("div")); // Second blacklisted url.
-    popupModule.__set__("infoContainer", containerFake);
+    const numberOfBlacklistedUrls = 2;
+    popupModule.__set__(
+      "infoContainer",
+      fakeInfoContainer(numberOfBlacklistedUrls),
+    );
     setUrls = popupModule.__get__("setUrls");
     setUrls([
       new modelModule.UrlsOfType("blacklist", ["url1", "url2"]),
@@ -755,4 +756,12 @@ function mockNotEmptySourcesContainer() {
   extraTextElement.textContent = "foo";
   entryElement.appendChild(extraTextElement);
   popupModule.__set__("sourcesContainer", entryElement);
+}
+
+function fakeInfoContainer(urlsCount) {
+  const containerFake = document.createElement("div");
+  for (let i = 0; i < urlsCount; i++) {
+    containerFake.appendChild(document.createElement("div"));
+  }
+  return containerFake;
 }
