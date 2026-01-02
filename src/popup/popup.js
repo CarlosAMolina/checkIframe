@@ -300,10 +300,7 @@ function showStoredInfo(eKey, eValue) {
   // display box
   const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
-  deleteBtn.setAttribute("title", "Delete");
+  const deleteBtn = createButtonDelete();
   entryDisplay.appendChild(deleteBtn);
   const entryValue = document.createElement("p");
   entryValue.textContent = eValue;
@@ -379,6 +376,14 @@ function showStoredInfo(eKey, eValue) {
       });
     }
   });
+
+  function createButtonDelete() {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
+    deleteBtn.setAttribute("title", "Delete");
+    return deleteBtn;
+  }
 
   function updateEntry(id2change, id2save, info2save, urlType) {
     const repository = new BrowserRepository(browser);
