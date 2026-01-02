@@ -332,12 +332,12 @@ function showStoredInfo(eKey, eValue) {
 
   // edit box
   var entryEdit = document.createElement("div");
-  var entryEditInput = document.createElement("input");
-  var updateBtn = document.createElement("button");
   entryEdit.setAttribute("class", "section sourceConfig");
+  var entryEditInput = document.createElement("input");
+  entryEdit.appendChild(entryEditInput);
+  var updateBtn = document.createElement("button");
   updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
-  entryEdit.appendChild(entryEditInput);
   entryEdit.appendChild(updateBtn);
   var cancelBtn = document.createElement("button");
   cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
