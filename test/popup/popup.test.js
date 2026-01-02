@@ -292,10 +292,9 @@ describe("Check module import", () => {
       new modelModule.UrlsOfType("referer", []),
     ];
     expect(getUrls()).toEqual(expectedUrls);
-    // Assert sendMessage was called with updated urls
-    const sendMessage = popupModule.__get__("sendMessage");
-    const message = modelModule.Message("urls", expectedUrls);
-    expect(sendMessage).toHaveBeenCalledWith(message);
+    expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
+      modelModule.Message("urls", expectedUrls),
+    );
     expect(result).toStrictEqual(expectedUrls);
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
