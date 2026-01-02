@@ -296,6 +296,7 @@ function clearStorageInfo(urlType) {
       const message = Message("urls", urls);
       sendMessage(message);
       return getStoredUrls(browser).then((result) => {
+        setUrls(result);
         return result;
       }, reportError);
     }, reportError);

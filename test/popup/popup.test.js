@@ -275,6 +275,7 @@ describe("Check module import", () => {
     setUrls([
       new modelModule.UrlsOfType("blacklist", ["url1", "url2"]),
       new modelModule.UrlsOfType("notify", ["url3"]),
+      new modelModule.UrlsOfType("referer", []),
     ]);
     const sendMessageBackup = popupModule.__get__("sendMessage");
     popupModule.__set__("sendMessage", jest.fn());
@@ -288,6 +289,7 @@ describe("Check module import", () => {
     const expectedUrls = [
       new modelModule.UrlsOfType("blacklist", []),
       new modelModule.UrlsOfType("notify", ["url3"]),
+      new modelModule.UrlsOfType("referer", []),
     ];
     expect(getUrls()).toEqual(expectedUrls);
     // Assert sendMessage was called with updated urls
@@ -296,6 +298,7 @@ describe("Check module import", () => {
     expect(sendMessage).toHaveBeenCalledWith(message);
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
+    // TODO rename, drop TODO and drop old variable expectedUrls
     const expectedUrlsTODO = [
       new modelModule.UrlsOfType("blacklist", []),
       new modelModule.UrlsOfType("notify", ["url3"]),
