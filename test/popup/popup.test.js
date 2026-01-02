@@ -278,20 +278,18 @@ describe("Check module import", () => {
     // Test.
     function_ = popupModule.__get__("clearStorageInfo");
     const result = await function_("blacklist");
-    // Assert infoContainer URLs were removed.
-    expect(popupModule.__get__("infoContainer").children.length).toBe(0);
-    // Assert urls were updated.
-    getUrls = popupModule.__get__("getUrls");
     const expectedUrls = [
       new modelModule.UrlsOfType("blacklist", []),
       new modelModule.UrlsOfType("notify", ["url3"]),
       new modelModule.UrlsOfType("referer", []),
     ];
-    expect(getUrls()).toEqual(expectedUrls);
+    expect(result).toStrictEqual(expectedUrls);
+    expect(popupModule.__get__("getUrls")()).toEqual(expectedUrls);
     expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
       modelModule.Message("urls", expectedUrls),
     );
-    expect(result).toStrictEqual(expectedUrls);
+    // Assert infoContainer URLs were removed.
+    expect(popupModule.__get__("infoContainer").children.length).toBe(0);
     // Undo test specific config.
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
