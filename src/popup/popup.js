@@ -293,10 +293,10 @@ function clearStorageInfo(urlType) {
       return repository.delete(keyUrl);
     });
     return Promise.all(deletePromises).then(() => {
-      const message = Message("urls", urls);
-      sendMessage(message);
       return getStoredUrls(browser).then((result) => {
         setUrls(result);
+        const message = Message("urls", result);
+        sendMessage(message);
         return result;
       }, reportError);
     }, reportError);
