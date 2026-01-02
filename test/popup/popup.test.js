@@ -662,8 +662,8 @@ describe("check buttons", () => {
   });
   describe("ButtonShowSources", () => {
     beforeAll(() => {
-      const classType = popupModule.__get__("ButtonShowSources");
-      button = new classType();
+      const buttonClass = popupModule.__get__("ButtonShowSources");
+      button = new buttonClass();
     });
     it("has expected button ID", function () {
       expect(button._idHtml).toBe("buttonShowSources");
