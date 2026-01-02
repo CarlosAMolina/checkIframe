@@ -261,10 +261,11 @@ describe("Check module import", () => {
     });
   });
   it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
+    // Test previous config.
     const storageItems = {
       blacklist_url1: "url1",
       blacklist_url2: "url2",
-      notify_url3: "url3", // Should not be removed
+      notify_url3: "url3", // Should not be removed.
     };
     global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
     const numberOfBlacklistedUrls = 2;
@@ -274,11 +275,11 @@ describe("Check module import", () => {
     );
     const sendMessageBackup = popupModule.__get__("sendMessage");
     popupModule.__set__("sendMessage", jest.fn());
+    // Test.
     function_ = popupModule.__get__("clearStorageInfo");
     const result = await function_("blacklist");
-    // Assert infoContainer children were removed.
-    const container = popupModule.__get__("infoContainer");
-    expect(container.children.length).toBe(0);
+    // Assert infoContainer URLs were removed.
+    expect(popupModule.__get__("infoContainer").children.length).toBe(0);
     // Assert urls were updated.
     getUrls = popupModule.__get__("getUrls");
     const expectedUrls = [
@@ -291,6 +292,7 @@ describe("Check module import", () => {
       modelModule.Message("urls", expectedUrls),
     );
     expect(result).toStrictEqual(expectedUrls);
+    // Undo test specific config.
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
   });
