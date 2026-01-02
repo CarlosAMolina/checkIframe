@@ -641,7 +641,7 @@ describe("check buttons", () => {
       popupModule.__set__("sendMessage", jest.fn());
       // Test.
       const storedUrls =
-        await createButton("ButtonClearAll")._clearStorageInfo("blacklist");
+        await initializeButton("ButtonClearAll")._clearStorageInfo("blacklist");
       const expectedUrls = [
         new modelModule.UrlsOfType("blacklist", []),
         new modelModule.UrlsOfType("notify", ["url3"]),
@@ -662,7 +662,7 @@ describe("check buttons", () => {
   });
   describe("ButtonShowSources", () => {
     it("has expected button ID", function () {
-      expect(createButton("ButtonShowSources")._idHtml).toBe(
+      expect(initializeButton("ButtonShowSources")._idHtml).toBe(
         "buttonShowSources",
       );
     });
@@ -692,7 +692,7 @@ describe("check buttons", () => {
           popupModule.__get__("sourcesContainer").firstChild.textContent,
         ).toBe("foo");
         // Test.
-        await Promise.all([createButton("ButtonShowSources").click()]);
+        await Promise.all([initializeButton("ButtonShowSources").click()]);
         const result = popupModule.__get__("sourcesContainer").innerHTML;
         const expectedResult = new htmlBuilderModule.HtmlBuilder()
           .with_total(2)
@@ -714,7 +714,7 @@ describe("check buttons", () => {
           sendMessageResponse: {},
         });
         // Test.
-        await Promise.all([createButton("ButtonShowSources").click()]);
+        await Promise.all([initializeButton("ButtonShowSources").click()]);
         expect(document.getElementById("infoTags").textContent).toBe(
           "Internal error. The action could not be executed",
         );
@@ -733,7 +733,7 @@ describe("check buttons", () => {
       }
     });
   });
-  function createButton(buttonStr) {
+  function initializeButton(buttonStr) {
     const buttonClass = popupModule.__get__(buttonStr);
     return new buttonClass();
   }
