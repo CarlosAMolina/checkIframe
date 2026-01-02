@@ -17,6 +17,8 @@ import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
+// TODO replace var in this file with let or const.
+
 // TODO var as const
 var infoContainer = document.querySelector(".info-container");
 // TODO var as const
@@ -332,14 +334,14 @@ function showStoredInfo(eKey, eValue) {
   var entryEdit = document.createElement("div");
   var entryEditInput = document.createElement("input");
   var updateBtn = document.createElement("button");
-  var cancelBtn = document.createElement("button");
   entryEdit.setAttribute("class", "section sourceConfig");
   updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
-  cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
-  cancelBtn.setAttribute("title", "Cancel update");
   entryEdit.appendChild(entryEditInput);
   entryEdit.appendChild(updateBtn);
+  var cancelBtn = document.createElement("button");
+  cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
+  cancelBtn.setAttribute("title", "Cancel update");
   entryEdit.appendChild(cancelBtn);
   entry.appendChild(entryEdit);
   entryEditInput.value = eValue;
