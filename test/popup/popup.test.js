@@ -661,12 +661,8 @@ describe("check buttons", () => {
     });
   });
   describe("ButtonShowSources", () => {
-    beforeAll(() => {
-      const buttonClass = popupModule.__get__("ButtonShowSources");
-      button = new buttonClass();
-    });
     it("has expected button ID", function () {
-      expect(button._idHtml).toBe("buttonShowSources");
+      expect(getButtonShowSources()._idHtml).toBe("buttonShowSources");
     });
     describe("click behaviour is correct", () => {
       beforeEach(() => {
@@ -694,7 +690,7 @@ describe("check buttons", () => {
           popupModule.__get__("sourcesContainer").firstChild.textContent,
         ).toBe("foo");
         // Test.
-        await Promise.all([button.click()]);
+        await Promise.all([getButtonShowSources().click()]);
         const result = popupModule.__get__("sourcesContainer").innerHTML;
         const expectedResult = new htmlBuilderModule.HtmlBuilder()
           .with_total(2)
@@ -716,7 +712,7 @@ describe("check buttons", () => {
           sendMessageResponse: {},
         });
         // Test.
-        await Promise.all([button.click()]);
+        await Promise.all([getButtonShowSources().click()]);
         expect(document.getElementById("infoTags").textContent).toBe(
           "Internal error. The action could not be executed",
         );
@@ -734,6 +730,10 @@ describe("check buttons", () => {
         expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
       }
     });
+    function getButtonShowSources() {
+      const buttonClass = popupModule.__get__("ButtonShowSources");
+      return new buttonClass();
+    }
   });
 });
 
