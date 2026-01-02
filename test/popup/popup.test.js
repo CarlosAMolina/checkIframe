@@ -276,13 +276,14 @@ describe("Check module import", () => {
     const sendMessageBackup = popupModule.__get__("sendMessage");
     popupModule.__set__("sendMessage", jest.fn());
     // Test.
-    const result = await popupModule.__get__("clearStorageInfo")("blacklist");
+    const storedUrls =
+      await popupModule.__get__("clearStorageInfo")("blacklist");
     const expectedUrls = [
       new modelModule.UrlsOfType("blacklist", []),
       new modelModule.UrlsOfType("notify", ["url3"]),
       new modelModule.UrlsOfType("referer", []),
     ];
-    expect(result).toStrictEqual(expectedUrls);
+    expect(storedUrls).toStrictEqual(expectedUrls);
     expect(popupModule.__get__("getUrls")()).toEqual(expectedUrls);
     expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
       modelModule.Message("urls", expectedUrls),

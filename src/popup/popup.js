@@ -285,11 +285,11 @@ function clearStorageInfo(urlType) {
       return repository.delete(keyUrl);
     });
     return Promise.all(deletePromises).then(() => {
-      return getStoredUrls(browser).then((result) => {
-        setUrls(result);
-        const message = Message("urls", result);
+      return getStoredUrls(browser).then((storedUrls) => {
+        setUrls(storedUrls);
+        const message = Message("urls", storedUrls);
         sendMessage(message);
-        return result;
+        return storedUrls;
       }, reportError);
     }, reportError);
   }, reportError);
