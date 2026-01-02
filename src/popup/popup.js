@@ -298,15 +298,15 @@ class ButtonClearAll extends Button {
 
 function showStoredInfo(eKey, eValue) {
   // display box
-  var entryValue = document.createElement("p");
   var deleteBtn = document.createElement("button");
-  entryValue.textContent = eValue;
   deleteBtn.textContent = "Delete";
   deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
   deleteBtn.setAttribute("title", "Delete");
   var entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
   entryDisplay.appendChild(deleteBtn);
+  var entryValue = document.createElement("p");
+  entryValue.textContent = eValue;
   entryDisplay.appendChild(entryValue);
   var entry = document.createElement("div");
   entry.appendChild(entryDisplay);
