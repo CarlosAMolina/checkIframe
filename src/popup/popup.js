@@ -332,13 +332,9 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.setAttribute("class", "section sourceConfig");
   const entryEditInput = document.createElement("input");
   entryEdit.appendChild(entryEditInput);
-  const updateBtn = document.createElement("button");
-  updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
-  updateBtn.setAttribute("title", "Update");
+  const updateBtn = createButtonUpdate();
   entryEdit.appendChild(updateBtn);
-  const cancelBtn = document.createElement("button");
-  cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
-  cancelBtn.setAttribute("title", "Cancel update");
+  const cancelBtn = createButtonCancel();
   entryEdit.appendChild(cancelBtn);
   entry.appendChild(entryEdit);
   entryEditInput.value = eValue;
@@ -383,6 +379,20 @@ function showStoredInfo(eKey, eValue) {
     deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
     deleteBtn.setAttribute("title", "Delete");
     return deleteBtn;
+  }
+
+  function createButtonUpdate() {
+    const updateBtn = document.createElement("button");
+    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
+    updateBtn.setAttribute("title", "Update");
+    return updateBtn;
+  }
+
+  function createButtonCancel() {
+    const cancelBtn = document.createElement("button");
+    cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
+    cancelBtn.setAttribute("title", "Cancel update");
+    return cancelBtn;
   }
 
   function updateEntry(id2change, id2save, info2save, urlType) {
