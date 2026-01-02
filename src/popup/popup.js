@@ -298,17 +298,17 @@ class ButtonClearAll extends Button {
 
 function showStoredInfo(eKey, eValue) {
   // display box
-  var entryDisplay = document.createElement("div");
+  const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
-  var deleteBtn = document.createElement("button");
+  const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
   deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
   deleteBtn.setAttribute("title", "Delete");
   entryDisplay.appendChild(deleteBtn);
-  var entryValue = document.createElement("p");
+  const entryValue = document.createElement("p");
   entryValue.textContent = eValue;
   entryDisplay.appendChild(entryValue);
-  var entry = document.createElement("div");
+  const entry = document.createElement("div");
   entry.appendChild(entryDisplay);
   // set up listener for the delete functionality
   deleteBtn.addEventListener("click", (e) => {
@@ -331,15 +331,15 @@ function showStoredInfo(eKey, eValue) {
   });
 
   // edit box
-  var entryEdit = document.createElement("div");
+  const entryEdit = document.createElement("div");
   entryEdit.setAttribute("class", "section sourceConfig");
-  var entryEditInput = document.createElement("input");
+  const entryEditInput = document.createElement("input");
   entryEdit.appendChild(entryEditInput);
-  var updateBtn = document.createElement("button");
+  const updateBtn = document.createElement("button");
   updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
   updateBtn.setAttribute("title", "Update");
   entryEdit.appendChild(updateBtn);
-  var cancelBtn = document.createElement("button");
+  const cancelBtn = document.createElement("button");
   cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
   cancelBtn.setAttribute("title", "Cancel update");
   entryEdit.appendChild(cancelBtn);
