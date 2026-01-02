@@ -260,41 +260,6 @@ describe("Check module import", () => {
       });
     });
   });
-  it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
-    // Test configuration.
-    const storageItems = {
-      blacklist_url1: "url1",
-      blacklist_url2: "url2",
-      notify_url3: "url3", // Should not be removed.
-    };
-    global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
-    const numberOfBlacklistedUrls = 2;
-    popupModule.__set__(
-      "infoContainer",
-      fakeInfoContainer(numberOfBlacklistedUrls),
-    );
-    const sendMessageBackup = popupModule.__get__("sendMessage");
-    popupModule.__set__("sendMessage", jest.fn());
-    // Test.
-    const buttonClass = popupModule.__get__("ButtonClearAll");
-    const storedUrls = await new buttonClass()._clearStorageInfo("blacklist");
-    const expectedUrls = [
-      new modelModule.UrlsOfType("blacklist", []),
-      new modelModule.UrlsOfType("notify", ["url3"]),
-      new modelModule.UrlsOfType("referer", []),
-    ];
-    expect(storedUrls).toStrictEqual(expectedUrls);
-    expect(popupModule.__get__("getUrls")()).toEqual(expectedUrls);
-    expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
-      modelModule.Message("urls", expectedUrls),
-    );
-    // Assert infoContainer URLs were removed.
-    expect(popupModule.__get__("infoContainer").children.length).toBe(0);
-    // Undo test specific config.
-    global.browser = fakeModule.fakeBrowser();
-    fakeModule.runFakeDom("src/popup/popup.html");
-    popupModule.__set__("sendMessage", sendMessageBackup);
-  });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
       beforeEach(() => {
@@ -657,6 +622,43 @@ describe("setupCopyButtonListeners", () => {
 describe("check buttons", () => {
   beforeAll(() => {
     initializeMocksAndVariables();
+  });
+  describe("ButtonClearAll", () => {
+    it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
+      // Test configuration.
+      const storageItems = {
+        blacklist_url1: "url1",
+        blacklist_url2: "url2",
+        notify_url3: "url3", // Should not be removed.
+      };
+      global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
+      const numberOfBlacklistedUrls = 2;
+      popupModule.__set__(
+        "infoContainer",
+        fakeInfoContainer(numberOfBlacklistedUrls),
+      );
+      const sendMessageBackup = popupModule.__get__("sendMessage");
+      popupModule.__set__("sendMessage", jest.fn());
+      // Test.
+      const buttonClass = popupModule.__get__("ButtonClearAll");
+      const storedUrls = await new buttonClass()._clearStorageInfo("blacklist");
+      const expectedUrls = [
+        new modelModule.UrlsOfType("blacklist", []),
+        new modelModule.UrlsOfType("notify", ["url3"]),
+        new modelModule.UrlsOfType("referer", []),
+      ];
+      expect(storedUrls).toStrictEqual(expectedUrls);
+      expect(popupModule.__get__("getUrls")()).toEqual(expectedUrls);
+      expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
+        modelModule.Message("urls", expectedUrls),
+      );
+      // Assert infoContainer URLs were removed.
+      expect(popupModule.__get__("infoContainer").children.length).toBe(0);
+      // Undo test specific config.
+      global.browser = fakeModule.fakeBrowser();
+      fakeModule.runFakeDom("src/popup/popup.html");
+      popupModule.__set__("sendMessage", sendMessageBackup);
+    });
   });
   describe("ButtonShowSources", () => {
     beforeAll(() => {
