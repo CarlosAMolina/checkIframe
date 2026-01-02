@@ -261,7 +261,7 @@ describe("Check module import", () => {
     });
   });
   it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
-    // Test previous config.
+    // Test configuration.
     const storageItems = {
       blacklist_url1: "url1",
       blacklist_url2: "url2",
@@ -292,6 +292,7 @@ describe("Check module import", () => {
     expect(popupModule.__get__("infoContainer").children.length).toBe(0);
     // Undo test specific config.
     global.browser = fakeModule.fakeBrowser();
+    fakeModule.runFakeDom("src/popup/popup.html");
     popupModule.__set__("sendMessage", sendMessageBackup);
   });
   describe("Check function showStoredInfo", () => {
