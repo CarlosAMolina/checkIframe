@@ -296,9 +296,9 @@ describe("Check module import", () => {
     const sendMessage = popupModule.__get__("sendMessage");
     const message = modelModule.Message("urls", expectedUrls);
     expect(sendMessage).toHaveBeenCalledWith(message);
+    expect(result).toStrictEqual(expectedUrls);
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
-    expect(result).toStrictEqual(expectedUrls);
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
