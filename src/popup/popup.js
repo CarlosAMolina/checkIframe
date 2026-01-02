@@ -265,34 +265,33 @@ class ButtonClearAll extends Button {
     const urlType = getUrlTypeActive();
     return browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(() => clearStorageInfo(urlType))
+      .then(() => this._clearStorageInfo(urlType))
       .catch(reportError);
   }
-}
 
-// TODO as ButtonClearAll private method
-function clearStorageInfo(urlType) {
-  const repository = new BrowserRepository(browser);
-  return repository.getAll().then((storageItems) => {
-    const keysUrl = Object.keys(storageItems).filter((key) =>
-      key.includes(urlType + "_"),
-    );
-    keysUrl.forEach(() => {
-      // TODO? use removeShownStoredUrls
-      infoContainer.removeChild(infoContainer.firstChild);
-    });
-    const deletePromises = keysUrl.map((keyUrl) => {
-      return repository.delete(keyUrl);
-    });
-    return Promise.all(deletePromises).then(() => {
-      return getStoredUrls(browser).then((storedUrls) => {
-        setUrls(storedUrls);
-        const message = Message("urls", storedUrls);
-        sendMessage(message);
-        return storedUrls;
+  _clearStorageInfo(urlType) {
+    const repository = new BrowserRepository(browser);
+    return repository.getAll().then((storageItems) => {
+      const keysUrl = Object.keys(storageItems).filter((key) =>
+        key.includes(urlType + "_"),
+      );
+      keysUrl.forEach(() => {
+        // TODO? use removeShownStoredUrls
+        infoContainer.removeChild(infoContainer.firstChild);
+      });
+      const deletePromises = keysUrl.map((keyUrl) => {
+        return repository.delete(keyUrl);
+      });
+      return Promise.all(deletePromises).then(() => {
+        return getStoredUrls(browser).then((storedUrls) => {
+          setUrls(storedUrls);
+          const message = Message("urls", storedUrls);
+          sendMessage(message);
+          return storedUrls;
+        }, reportError);
       }, reportError);
     }, reportError);
-  }, reportError);
+  }
 }
 
 function showStoredInfo(eKey, eValue) {
