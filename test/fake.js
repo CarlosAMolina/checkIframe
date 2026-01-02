@@ -30,7 +30,7 @@ export function fakeBrowser(config) {
     storage: {
       local: {
         get: jest.fn(() => Promise.resolve(storageItems)),
-        remove: jest.fn(() => Promise.resolve({})),
+        remove: jest.fn((key) => removeItem(key, storageItems)),
         set: jest.fn(() => Promise.resolve({})),
       },
     },
@@ -76,5 +76,12 @@ export function runNoHtmlFakeDom() {
 function getNewPromise(args) {
   return new Promise(function (resolve, reject) {
     resolve("Start of new Promise");
+  });
+}
+
+function removeItem(key, storageItems) {
+  return new Promise((resolve, reject) => {
+    delete storageItems[key];
+    resolve(storageItems);
   });
 }

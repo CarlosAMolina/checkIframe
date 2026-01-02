@@ -279,13 +279,7 @@ describe("Check module import", () => {
     const sendMessageBackup = popupModule.__get__("sendMessage");
     popupModule.__set__("sendMessage", jest.fn());
     function_ = popupModule.__get__("clearStorageInfo");
-    await function_("blacklist");
-    // Check storage.remove.
-    expect(browser.storage.local.remove).toHaveBeenCalledWith("blacklist_url1");
-    expect(browser.storage.local.remove).toHaveBeenCalledWith("blacklist_url2");
-    expect(browser.storage.local.remove).not.toHaveBeenCalledWith(
-      "notify_url3",
-    );
+    const result = await function_("blacklist");
     // Assert infoContainer children were removed.
     const container = popupModule.__get__("infoContainer");
     expect(container.children.length).toBe(0);
@@ -302,6 +296,12 @@ describe("Check module import", () => {
     expect(sendMessage).toHaveBeenCalledWith(message);
     global.browser = fakeModule.fakeBrowser();
     popupModule.__set__("sendMessage", sendMessageBackup);
+    const expectedUrlsTODO = [
+      new modelModule.UrlsOfType("blacklist", []),
+      new modelModule.UrlsOfType("notify", ["url3"]),
+      new modelModule.UrlsOfType("referer", []),
+    ];
+    expect(result).toStrictEqual(expectedUrlsTODO);
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {

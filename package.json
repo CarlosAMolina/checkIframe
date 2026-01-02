@@ -10,7 +10,7 @@
     "prettier": "npx prettier src test --check",
     "prettier:fix": "npm run prettier -- --write",
     "test": "jest ./test",
-    "testfilter": "jest ./test -t ButtonShowSources",
+    "testfilter": "jest ./test -t clearStorageInfo",
     "web-ext": "cd src && ../node_modules/web-ext/bin/web-ext.js run -u https://html.com/tags/iframe/",
     "prepare": "husky install"
   },
