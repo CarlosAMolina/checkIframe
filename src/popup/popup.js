@@ -307,7 +307,22 @@ function showStoredInfo(eKey, eValue) {
   entryDisplay.appendChild(entryValue);
   const entry = document.createElement("div");
   entry.appendChild(entryDisplay);
-  // set up listener for the delete functionality
+
+  // edit box
+  const entryEdit = document.createElement("div");
+  entryEdit.setAttribute("class", "section sourceConfig");
+  const entryEditInput = document.createElement("input");
+  entryEdit.appendChild(entryEditInput);
+  const updateBtn = createButtonUpdate();
+  entryEdit.appendChild(updateBtn);
+  const cancelBtn = createButtonCancel();
+  entryEdit.appendChild(cancelBtn);
+  entry.appendChild(entryEdit);
+  entryEditInput.value = eValue;
+  entryEdit.style.display = "none";
+
+  infoContainer.appendChild(entry);
+
   deleteBtn.addEventListener("click", (e) => {
     const evtTgt = e.target;
     evtTgt.parentNode.parentNode.parentNode.removeChild(
@@ -327,22 +342,6 @@ function showStoredInfo(eKey, eValue) {
     sendMessage(message);
   });
 
-  // edit box
-  const entryEdit = document.createElement("div");
-  entryEdit.setAttribute("class", "section sourceConfig");
-  const entryEditInput = document.createElement("input");
-  entryEdit.appendChild(entryEditInput);
-  const updateBtn = createButtonUpdate();
-  entryEdit.appendChild(updateBtn);
-  const cancelBtn = createButtonCancel();
-  entryEdit.appendChild(cancelBtn);
-  entry.appendChild(entryEdit);
-  entryEditInput.value = eValue;
-  entryEdit.style.display = "none";
-
-  infoContainer.appendChild(entry);
-
-  // set up listeners for the update functionality
   entryValue.addEventListener("click", () => {
     entryDisplay.style.display = "none";
     entryEdit.style.display = "";
