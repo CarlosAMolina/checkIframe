@@ -263,7 +263,7 @@ class ButtonClearAll extends Button {
   click() {
     this.logButtonName();
     const urlType = getUrlTypeActive();
-    browser.tabs
+    return browser.tabs
       .query({ active: true, currentWindow: true })
       .then(() => clearStorageInfo(urlType))
       .catch(reportError);
@@ -281,7 +281,7 @@ function clearStorageInfo(urlType) {
   });
   setUrls(urls);
   const repository = new BrowserRepository(browser);
-  repository.getAll().then((storageItems) => {
+  return repository.getAll().then((storageItems) => {
     const keysUrl = Object.keys(storageItems).filter((key) =>
       key.includes(urlType + "_"),
     );
@@ -289,21 +289,13 @@ function clearStorageInfo(urlType) {
       // TODO? use removeShownStoredUrls
       infoContainer.removeChild(infoContainer.firstChild);
     });
-    // TODO use:
-    //const deletePromises = keysUrl.map((keyUrl) => {
-    //  return repository.delete(keyUrl);
-    //});
-    //Promise.all(deletePromises).then(() => {
-    //  const message = Message("urls", urls);
-    //  sendMessage(message);
-    //}, reportError);
-    keysUrl.forEach(function (keyUrl) {
-      repository.delete(keyUrl).catch((error) => {
-        reportError(error);
-      });
+    const deletePromises = keysUrl.map((keyUrl) => {
+      return repository.delete(keyUrl);
     });
-    const message = Message("urls", urls);
-    sendMessage(message);
+    return Promise.all(deletePromises).then(() => {
+      const message = Message("urls", urls);
+      sendMessage(message);
+    }, reportError);
   }, reportError);
 }
 
