@@ -350,9 +350,8 @@ function showStoredInfo(eKey, eValue) {
   infoContainer.appendChild(entry);
 
   deleteBtn.addEventListener("click", (e) => {
-    const evtTgt = e.target;
-    evtTgt.parentNode.parentNode.parentNode.removeChild(
-      evtTgt.parentNode.parentNode,
+    e.target.parentNode.parentNode.parentNode.removeChild(
+      e.target.parentNode.parentNode,
     );
     new BrowserRepository(browser).delete(eKey).catch((error) => {
       reportError(error);
