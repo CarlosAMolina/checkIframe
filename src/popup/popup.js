@@ -21,6 +21,7 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
+import { setNewElementsMaxWidth } from "./dom.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
@@ -82,20 +83,6 @@ function initializePopup() {
     const message = Message("urls", urls);
     sendMessage(message);
   }, reportError);
-}
-
-// This is necessay to avoid changes in the pop-up width.
-function setNewElementsMaxWidth() {
-  const maxWidthCurrentWindow =
-    document.getElementById("buttonShowConfig").offsetWidth;
-  const widthToReduceToAvoidVisualSizeChange = 5;
-  const maxWidthNewElements =
-    maxWidthCurrentWindow - widthToReduceToAvoidVisualSizeChange;
-  const maxWidthNewElementsStr = `${maxWidthNewElements}px`;
-  const htmlIdsToModify = ["infoScroll", "menuConfig", "infoTags"];
-  for (const htmlId of htmlIdsToModify) {
-    document.getElementById(htmlId).style.maxWidth = maxWidthNewElementsStr;
-  }
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
