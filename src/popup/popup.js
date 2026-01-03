@@ -18,7 +18,7 @@ import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
-// TODO replace var in this file with let or const.
+// TODO replace all `var` in this file with let or const.
 
 // TODO var as const
 var infoContainer = document.querySelector(".info-container");
@@ -204,8 +204,7 @@ class ButtonUpdate extends DynamicButton {
     if (info2save === this._storageValue) {
       return;
     }
-    // TODO avoid id2save as global variable (maybe it's used later)
-    var id2save = this._storageKey.split("_")[0] + "_" + info2save;
+    const id2save = this._storageKey.split("_")[0] + "_" + info2save;
   }
 
   // TODO rm static when this method is only used in the class.
@@ -436,8 +435,7 @@ function showStoredInfo(storageKey, storageValue) {
   updateBtn.addEventListener("click", () => {
     const button = new ButtonUpdate(); // TODO rm when moved to button class.
     const info2save = entryEditInput.value;
-    // TODO avoid id2save as global variable (maybe it's used later)
-    var id2save = storageKey.split("_")[0] + "_" + info2save;
+    const id2save = storageKey.split("_")[0] + "_" + info2save;
     new ButtonUpdate(entryEditInput, storageKey, storageValue).click();
     new BrowserRepository(browser).getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
