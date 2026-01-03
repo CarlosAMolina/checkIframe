@@ -1,4 +1,4 @@
-import { BrowserRepository } from "./repository";
+import { BrowserRepository } from "./repository.js";
 import { hide } from "./dom.js";
 import { unhide } from "./dom.js";
 
