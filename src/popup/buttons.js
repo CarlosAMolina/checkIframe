@@ -114,6 +114,7 @@ export class ButtonDelete extends DynamicButton {
   constructor(event, storageKey) {
     super();
     this._event = event;
+    this._repository = new BrowserRepository(browser);
     this._storageKey = storageKey;
   }
 
@@ -129,7 +130,7 @@ export class ButtonDelete extends DynamicButton {
     this._event.target.parentNode.parentNode.parentNode.removeChild(
       this._event.target.parentNode.parentNode,
     );
-    new BrowserRepository(browser).delete(this._storageKey).catch((error) => {
+    this._repository.delete(this._storageKey).catch((error) => {
       reportError(error);
     });
     const urlType = getUrlTypeActive();
