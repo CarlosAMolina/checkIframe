@@ -195,6 +195,23 @@ class ButtonUpdate extends DynamicButton {
   click() {
     // TODO
   }
+
+  // TODO rm static when this method is only used in the class.
+  // TODO private.
+  static updateEntry(id2change, id2save, info2save, urlType) {
+    const repository = new BrowserRepository(browser);
+    let urls = getUrls();
+    urls = addUrl(id2save, urls, urlType);
+    repository.save(id2save, info2save).then(() => {
+      urls = deleteUrl(id2change, urls, urlType);
+      repository.delete(id2change).then(() => {
+        showStoredInfo(id2save, info2save);
+      }, reportError);
+    }, reportError);
+    const message = Message("urls", urls);
+    sendMessage(message);
+    setUrls(urls);
+  }
 }
 
 class ButtonRecheck extends Button {
@@ -408,6 +425,7 @@ function showStoredInfo(storageKey, storageValue) {
     if (entryEditInput.value !== storageValue) {
       // type a different value
       let info2save = entryEditInput.value;
+      // TODO avoid id2save as global variable (maybe it's used later)
       var id2save = storageKey.split("_")[0] + "_" + info2save;
       new BrowserRepository(browser).getByKey(id2save).then((result) => {
         // result: empty object if the searched value is not stored
@@ -415,27 +433,12 @@ function showStoredInfo(storageKey, storageValue) {
         // searchInStorage.length < 1 -> no stored
         if (searchInStorage.length < 1) {
           const urlType = getUrlTypeActive();
-          updateEntry(storageKey, id2save, info2save, urlType);
+          ButtonUpdate.updateEntry(storageKey, id2save, info2save, urlType);
           entry.parentNode.removeChild(entry);
         }
       });
     }
   });
-
-  function updateEntry(id2change, id2save, info2save, urlType) {
-    const repository = new BrowserRepository(browser);
-    let urls = getUrls();
-    urls = addUrl(id2save, urls, urlType);
-    repository.save(id2save, info2save).then(() => {
-      urls = deleteUrl(id2change, urls, urlType);
-      repository.delete(id2change).then(() => {
-        showStoredInfo(id2save, info2save);
-      }, reportError);
-    }, reportError);
-    const message = Message("urls", urls);
-    sendMessage(message);
-    setUrls(urls);
-  }
 }
 
 // TODO sometimes it is called once and an inner function calls it again,
