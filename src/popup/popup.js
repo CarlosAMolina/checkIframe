@@ -341,14 +341,14 @@ class ButtonClearAll extends Button {
   }
 }
 
-function showStoredInfo(eKey, eValue) {
+function showStoredInfo(storageKey, storageValue) {
   // display box
   const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
   const deleteBtn = ButtonDelete.createDom();
   entryDisplay.appendChild(deleteBtn);
   const entryValue = document.createElement("p");
-  entryValue.textContent = eValue;
+  entryValue.textContent = storageValue;
   entryDisplay.appendChild(entryValue);
   const entry = document.createElement("div");
   entry.appendChild(entryDisplay);
@@ -363,7 +363,7 @@ function showStoredInfo(eKey, eValue) {
   const cancelBtn = ButtonCancel.createDom();
   entryEdit.appendChild(cancelBtn);
   entry.appendChild(entryEdit);
-  entryEditInput.value = eValue;
+  entryEditInput.value = storageValue;
   entryEdit.style.display = "none";
 
   infoContainer.appendChild(entry);
@@ -372,7 +372,7 @@ function showStoredInfo(eKey, eValue) {
     e.target.parentNode.parentNode.parentNode.removeChild(
       e.target.parentNode.parentNode,
     );
-    new BrowserRepository(browser).delete(eKey).catch((error) => {
+    new BrowserRepository(browser).delete(storageKey).catch((error) => {
       reportError(error);
     });
     const urlType = getUrlTypeActive();
@@ -380,7 +380,7 @@ function showStoredInfo(eKey, eValue) {
     // TODO can be this line deleted?
     // Maybe it doesn't do anything because the variable `urls` has
     // the url deleted before showStoredInfo is called.
-    urls = deleteUrl(eKey, urls, urlType);
+    urls = deleteUrl(storageKey, urls, urlType);
     setUrls(urls);
     const message = Message("urls", urls);
     sendMessage(message);
@@ -396,17 +396,17 @@ function showStoredInfo(eKey, eValue) {
   });
 
   updateBtn.addEventListener("click", () => {
-    if (entryEditInput.value !== eValue) {
+    if (entryEditInput.value !== storageValue) {
       // type a different value
       let info2save = entryEditInput.value;
-      var id2save = eKey.split("_")[0] + "_" + info2save;
+      var id2save = storageKey.split("_")[0] + "_" + info2save;
       new BrowserRepository(browser).getByKey(id2save).then((result) => {
         // result: empty object if the searched value is not stored
         var searchInStorage = Object.keys(result); // array with the searched value if it is stored
         // searchInStorage.length < 1 -> no stored
         if (searchInStorage.length < 1) {
           const urlType = getUrlTypeActive();
-          updateEntry(eKey, id2save, info2save, urlType);
+          updateEntry(storageKey, id2save, info2save, urlType);
           entry.parentNode.removeChild(entry);
         }
       });
