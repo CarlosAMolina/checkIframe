@@ -440,10 +440,9 @@ function showStoredInfo(storageKey, storageValue) {
     var id2save = storageKey.split("_")[0] + "_" + info2save;
     new ButtonUpdate(entryEditInput, storageKey, storageValue).click();
     new BrowserRepository(browser).getByKey(id2save).then((result) => {
-      // result: empty object if the searched value is not stored
-      var searchInStorage = Object.keys(result); // array with the searched value if it is stored
       // searchInStorage.length < 1 -> no stored
-      if (searchInStorage.length < 1) {
+      // result: empty object if the searched value is not stored
+      if (Object.keys(result).length < 1) {
         const urlType = getUrlTypeActive();
         button._updateEntry(id2save, info2save, storageKey, urlType);
         entry.parentNode.removeChild(entry);
