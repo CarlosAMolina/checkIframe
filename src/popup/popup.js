@@ -184,6 +184,19 @@ class ButtonDelete extends DynamicButton {
   }
 }
 
+class ButtonUpdate extends DynamicButton {
+  static createDom() {
+    const updateBtn = document.createElement("button");
+    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
+    updateBtn.setAttribute("title", "Update");
+    return updateBtn;
+  }
+
+  click() {
+    // TODO
+  }
+}
+
 class ButtonRecheck extends Button {
   get _idHtml() {
     return BUTTON_ID_RECHECK;
@@ -368,7 +381,7 @@ function showStoredInfo(storageKey, storageValue) {
   entryEdit.setAttribute("class", "section sourceConfig");
   const entryEditInput = document.createElement("input");
   entryEdit.appendChild(entryEditInput);
-  const updateBtn = createButtonUpdate();
+  const updateBtn = ButtonUpdate.createDom();
   entryEdit.appendChild(updateBtn);
   const cancelBtn = ButtonCancel.createDom();
   entryEdit.appendChild(cancelBtn);
@@ -408,13 +421,6 @@ function showStoredInfo(storageKey, storageValue) {
       });
     }
   });
-
-  function createButtonUpdate() {
-    const updateBtn = document.createElement("button");
-    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
-    updateBtn.setAttribute("title", "Update");
-    return updateBtn;
-  }
 
   function updateEntry(id2change, id2save, info2save, urlType) {
     const repository = new BrowserRepository(browser);
