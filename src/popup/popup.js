@@ -456,9 +456,9 @@ function getUrlTypeActive() {
 function showStoredUrlsType(urlType) {
   new BrowserRepository(browser).getAll().then((storageItems) => {
     var keys = Object.keys(storageItems);
-    keys.forEach(function (arrayValue) {
-      if (arrayValue.includes(urlType)) {
-        showStoredInfo(arrayValue, storageItems[arrayValue]);
+    keys.forEach(function (key) {
+      if (key.includes(urlType)) {
+        showStoredInfo(key, storageItems[key]);
       }
     });
   }, reportError);
