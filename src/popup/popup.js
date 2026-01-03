@@ -155,6 +155,25 @@ class ButtonCancel extends DynamicButton {
   }
 }
 
+class ButtonDelete extends DynamicButton {
+  get _idHtml() {
+    return "buttonDelete";
+  }
+
+  static createDom() {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
+    deleteBtn.setAttribute("title", "Delete");
+    return deleteBtn;
+  }
+
+  click() {
+    this.logButtonName();
+    // TODO
+  }
+}
+
 class ButtonRecheck extends Button {
   get _idHtml() {
     return BUTTON_ID_RECHECK;
@@ -326,7 +345,7 @@ function showStoredInfo(eKey, eValue) {
   // display box
   const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
-  const deleteBtn = createButtonDelete();
+  const deleteBtn = ButtonDelete.createDom();
   entryDisplay.appendChild(deleteBtn);
   const entryValue = document.createElement("p");
   entryValue.textContent = eValue;
@@ -393,14 +412,6 @@ function showStoredInfo(eKey, eValue) {
       });
     }
   });
-
-  function createButtonDelete() {
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
-    deleteBtn.setAttribute("title", "Delete");
-    return deleteBtn;
-  }
 
   function createButtonUpdate() {
     const updateBtn = document.createElement("button");
