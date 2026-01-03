@@ -129,6 +129,20 @@ function createButton(buttonIdHtml) {
   }
 }
 
+class ButtonCancel extends Button {
+  get _idHtml() {
+    return "buttonCancel";
+  }
+
+  click(entryDisplay, entryEdit, entryEditInput, eValue) {
+    this.logButtonName();
+    entryDisplay.style.display = "";
+    entryEdit.style.display = "none";
+    // TODO the next line is necessary?
+    entryEditInput.value = eValue;
+  }
+}
+
 class ButtonRecheck extends Button {
   get _idHtml() {
     return BUTTON_ID_RECHECK;
@@ -348,10 +362,7 @@ function showStoredInfo(eKey, eValue) {
   });
 
   cancelBtn.addEventListener("click", () => {
-    entryDisplay.style.display = "";
-    entryEdit.style.display = "none";
-    // TODO the next line is necessary?
-    entryEditInput.value = eValue;
+    new ButtonCancel().click(entryDisplay, entryEdit, entryEditInput, eValue);
   });
 
   updateBtn.addEventListener("click", () => {
