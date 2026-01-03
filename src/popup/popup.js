@@ -188,7 +188,7 @@ class ButtonUpdate extends DynamicButton {
   constructor(entry, entryEditInput, storageKey, storageValue) {
     super();
     this._entry = entry;
-    this._entryEditInput = entryEditInput;
+    this._info2save = entryEditInput.value;
     this._storageKey = storageKey;
     this._storageValue = storageValue;
   }
@@ -201,29 +201,28 @@ class ButtonUpdate extends DynamicButton {
   }
 
   click() {
-    const info2save = this._entryEditInput.value;
-    if (info2save === this._storageValue) {
+    if (this._info2save === this._storageValue) {
       return;
     }
-    const id2save = this._storageKey.split("_")[0] + "_" + info2save;
+    const id2save = this._storageKey.split("_")[0] + "_" + this._info2save;
     new BrowserRepository(browser).getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
-        this._updateEntry(id2save, info2save);
+        this._updateEntry(id2save);
         this._entry.parentNode.removeChild(this._entry);
       }
     });
   }
 
-  _updateEntry(id2save, info2save) {
+  _updateEntry(id2save) {
     const repository = new BrowserRepository(browser);
     const urlType = getUrlTypeActive();
     let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
-    repository.save(id2save, info2save).then(() => {
+    repository.save(id2save, this._info2save).then(() => {
       urls = deleteUrl(this._storageKey, urls, urlType);
       repository.delete(this._storageKey).then(() => {
-        showStoredInfo(id2save, info2save);
+        showStoredInfo(id2save, this._info2save);
       }, reportError);
     }, reportError);
     const message = Message("urls", urls);
