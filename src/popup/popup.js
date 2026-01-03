@@ -204,8 +204,7 @@ class ButtonUpdate extends DynamicButton {
     if (this._info2save === this._storageValue) {
       return;
     }
-    const key2save = this._key2save;
-    new BrowserRepository(browser).getByKey(key2save).then((result) => {
+    new BrowserRepository(browser).getByKey(this._key2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
         this._updateEntry();
