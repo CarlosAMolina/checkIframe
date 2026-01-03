@@ -11,6 +11,8 @@ import { unhide } from "./dom.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
+export const BUTTON_ID_RECHECK = "buttonRecheck";
+
 export class Button {
   click() {
     throw TypeError("Not implemented");
@@ -141,6 +143,18 @@ export class ButtonDelete extends DynamicButton {
     urls = deleteUrl(this._storageKey, urls, urlType);
     setUrls(urls);
     sendMessage(Message("urls", urls));
+  }
+}
+
+export class ButtonRecheck extends Button {
+  get _idHtml() {
+    return BUTTON_ID_RECHECK;
+  }
+
+  click() {
+    this.logButtonName();
+    hide("infoTags");
+    sendMessage(Message(this._idHtml));
   }
 }
 

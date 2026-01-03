@@ -3,7 +3,9 @@ import { Button } from "./buttons.js";
 import { ButtonCancel } from "./buttons.js";
 import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
+import { ButtonRecheck } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { BUTTON_ID_RECHECK } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { addUrl } from "./url.js";
@@ -32,7 +34,6 @@ const BUTTON_ID_ADD_URL = "buttonAddUrl";
 const BUTTON_ID_CLEAN = "buttonClean";
 const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
-const BUTTON_ID_RECHECK = "buttonRecheck";
 const BUTTON_ID_SCROLL = "buttonScroll";
 const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
 const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
@@ -183,18 +184,6 @@ class ButtonUpdate extends DynamicButton {
     }, reportError);
     sendMessage(Message("urls", urls));
     setUrls(urls);
-  }
-}
-
-class ButtonRecheck extends Button {
-  get _idHtml() {
-    return BUTTON_ID_RECHECK;
-  }
-
-  click() {
-    this.logButtonName();
-    hide("infoTags");
-    sendMessage(Message(this._idHtml));
   }
 }
 
