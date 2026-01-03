@@ -388,18 +388,18 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
   if (response === undefined) {
     document.getElementById(htmlId).textContent =
       "Internal error. The action could not be executed";
-  } else {
-    // check if the content-script response has been received
-    if (info2sendFromPopup === "buttonScroll") {
-      document.getElementById(htmlId).textContent = response;
-    } else if (info2sendFromPopup === "buttonShowSources") {
-      cleanShowSources();
-      const frameTagSummary = response["frame"];
-      const iframeTagSummary = response["iframe"];
-      const htmlStr = getStrTagsHtml(frameTagSummary, iframeTagSummary);
-      sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
-      setupCopyButtonListeners();
-    }
+    return;
+  }
+  // check if the content-script response has been received
+  if (info2sendFromPopup === "buttonScroll") {
+    document.getElementById(htmlId).textContent = response;
+  } else if (info2sendFromPopup === "buttonShowSources") {
+    cleanShowSources();
+    const frameTagSummary = response["frame"];
+    const iframeTagSummary = response["iframe"];
+    const htmlStr = getStrTagsHtml(frameTagSummary, iframeTagSummary);
+    sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
+    setupCopyButtonListeners();
   }
 }
 
