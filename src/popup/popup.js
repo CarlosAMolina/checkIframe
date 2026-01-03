@@ -422,22 +422,23 @@ function showStoredInfo(storageKey, storageValue) {
   });
 
   updateBtn.addEventListener("click", () => {
-    const button = new ButtonUpdate();
     const info2save = entryEditInput.value;
-    if (info2save !== storageValue) {
-      // TODO avoid id2save as global variable (maybe it's used later)
-      var id2save = storageKey.split("_")[0] + "_" + info2save;
-      new BrowserRepository(browser).getByKey(id2save).then((result) => {
-        // result: empty object if the searched value is not stored
-        var searchInStorage = Object.keys(result); // array with the searched value if it is stored
-        // searchInStorage.length < 1 -> no stored
-        if (searchInStorage.length < 1) {
-          const urlType = getUrlTypeActive();
-          button._updateEntry(id2save, info2save, storageKey, urlType);
-          entry.parentNode.removeChild(entry);
-        }
-      });
+    if (info2save === storageValue) {
+      return;
     }
+    const button = new ButtonUpdate();
+    // TODO avoid id2save as global variable (maybe it's used later)
+    var id2save = storageKey.split("_")[0] + "_" + info2save;
+    new BrowserRepository(browser).getByKey(id2save).then((result) => {
+      // result: empty object if the searched value is not stored
+      var searchInStorage = Object.keys(result); // array with the searched value if it is stored
+      // searchInStorage.length < 1 -> no stored
+      if (searchInStorage.length < 1) {
+        const urlType = getUrlTypeActive();
+        button._updateEntry(id2save, info2save, storageKey, urlType);
+        entry.parentNode.removeChild(entry);
+      }
+    });
   });
 }
 
