@@ -423,8 +423,8 @@ function showStoredInfo(storageKey, storageValue) {
 
   updateBtn.addEventListener("click", () => {
     const button = new ButtonUpdate();
-    if (entryEditInput.value !== storageValue) {
-      const info2save = entryEditInput.value;
+    const info2save = entryEditInput.value;
+    if (info2save !== storageValue) {
       // TODO avoid id2save as global variable (maybe it's used later)
       var id2save = storageKey.split("_")[0] + "_" + info2save;
       new BrowserRepository(browser).getByKey(id2save).then((result) => {
