@@ -454,11 +454,11 @@ function getUrlTypeActive() {
 }
 
 function showStoredUrlsType(urlType) {
-  new BrowserRepository(browser).getAll().then((results) => {
-    var keys = Object.keys(results);
+  new BrowserRepository(browser).getAll().then((storageItems) => {
+    var keys = Object.keys(storageItems);
     keys.forEach(function (arrayValue) {
       if (arrayValue.includes(urlType)) {
-        showStoredInfo(arrayValue, results[arrayValue]);
+        showStoredInfo(arrayValue, storageItems[arrayValue]);
       }
     });
   }, reportError);
