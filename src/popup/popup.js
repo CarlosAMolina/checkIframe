@@ -213,6 +213,14 @@ class ButtonUpdate extends DynamicButton {
     });
   }
 
+  get _info2save() {
+    return this._entryEditInput.value;
+  }
+
+  get _key2save() {
+    return this._storageKey.split("_")[0] + "_" + this._info2save;
+  }
+
   _updateEntry() {
     const repository = new BrowserRepository(browser);
     const urlType = getUrlTypeActive();
@@ -227,14 +235,6 @@ class ButtonUpdate extends DynamicButton {
     const message = Message("urls", urls);
     sendMessage(message);
     setUrls(urls);
-  }
-
-  get _info2save() {
-    return this._entryEditInput.value;
-  }
-
-  get _key2save() {
-    return this._storageKey.split("_")[0] + "_" + this._info2save;
   }
 }
 
