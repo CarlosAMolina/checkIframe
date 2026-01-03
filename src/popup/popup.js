@@ -214,15 +214,15 @@ class ButtonUpdate extends DynamicButton {
     });
   }
 
-  _updateEntry(id2save) {
+  _updateEntry(key2save) {
     const repository = new BrowserRepository(browser);
     const urlType = getUrlTypeActive();
     let urls = getUrls();
-    urls = addUrl(id2save, urls, urlType);
-    repository.save(id2save, this._info2save).then(() => {
+    urls = addUrl(key2save, urls, urlType);
+    repository.save(key2save, this._info2save).then(() => {
       urls = deleteUrl(this._storageKey, urls, urlType);
       repository.delete(this._storageKey).then(() => {
-        showStoredInfo(id2save, this._info2save);
+        showStoredInfo(key2save, this._info2save);
       }, reportError);
     }, reportError);
     const message = Message("urls", urls);
