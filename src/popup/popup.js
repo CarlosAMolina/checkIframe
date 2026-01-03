@@ -204,7 +204,7 @@ class ButtonUpdate extends DynamicButton {
     if (this._info2save === this._storageValue) {
       return;
     }
-    const key2save = this._storageKey.split("_")[0] + "_" + this._info2save;
+    const key2save = this._key2save;
     new BrowserRepository(browser).getByKey(key2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
@@ -232,6 +232,10 @@ class ButtonUpdate extends DynamicButton {
 
   get _info2save() {
     return this._entryEditInput.value;
+  }
+
+  get _key2save() {
+    return this._storageKey.split("_")[0] + "_" + this._info2save;
   }
 }
 
