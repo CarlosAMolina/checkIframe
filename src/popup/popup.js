@@ -156,6 +156,12 @@ class ButtonCancel extends DynamicButton {
 }
 
 class ButtonDelete extends DynamicButton {
+  constructor(event, storageKey) {
+    super();
+    this._event = event;
+    this._storageKey = storageKey;
+  }
+
   get _idHtml() {
     return "buttonDelete";
   }
@@ -170,7 +176,21 @@ class ButtonDelete extends DynamicButton {
 
   click() {
     this.logButtonName();
-    // TODO
+    this._event.target.parentNode.parentNode.parentNode.removeChild(
+      this._event.target.parentNode.parentNode,
+    );
+    new BrowserRepository(browser).delete(this._storageKey).catch((error) => {
+      reportError(error);
+    });
+    const urlType = getUrlTypeActive();
+    let urls = getUrls();
+    // TODO can be this line deleted?
+    // Maybe it doesn't do anything because the variable `urls` has
+    // the url deleted before showStoredInfo is called.
+    urls = deleteUrl(this._storageKey, urls, urlType);
+    setUrls(urls);
+    const message = Message("urls", urls);
+    sendMessage(message);
   }
 }
 
@@ -369,21 +389,7 @@ function showStoredInfo(storageKey, storageValue) {
   infoContainer.appendChild(entry);
 
   deleteBtn.addEventListener("click", (e) => {
-    e.target.parentNode.parentNode.parentNode.removeChild(
-      e.target.parentNode.parentNode,
-    );
-    new BrowserRepository(browser).delete(storageKey).catch((error) => {
-      reportError(error);
-    });
-    const urlType = getUrlTypeActive();
-    let urls = getUrls();
-    // TODO can be this line deleted?
-    // Maybe it doesn't do anything because the variable `urls` has
-    // the url deleted before showStoredInfo is called.
-    urls = deleteUrl(storageKey, urls, urlType);
-    setUrls(urls);
-    const message = Message("urls", urls);
-    sendMessage(message);
+    new ButtonDelete(e, storageKey).click();
   });
 
   entryValue.addEventListener("click", () => {
