@@ -209,17 +209,13 @@ class ButtonUpdate extends DynamicButton {
     new BrowserRepository(browser).getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
-        // Not stored.
         const urlType = getUrlTypeActive();
-        // TODO drop this. arg.
         this._updateEntry(id2save, info2save, urlType);
         this._entry.parentNode.removeChild(this._entry);
       }
     });
   }
 
-  // TODO rm static when this method is only used in the class.
-  // TODO private.
   _updateEntry(id2save, info2save, urlType) {
     const repository = new BrowserRepository(browser);
     let urls = getUrls();
