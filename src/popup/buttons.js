@@ -28,6 +28,26 @@ export class DynamicButton {
   }
 }
 
+export class ButtonCancel extends DynamicButton {
+  constructor(entryDisplay, entryEdit) {
+    super();
+    this._entryDisplay = entryDisplay;
+    this._entryEdit = entryEdit;
+  }
+
+  static createDom() {
+    const cancelBtn = document.createElement("button");
+    cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
+    cancelBtn.setAttribute("title", "Cancel update");
+    return cancelBtn;
+  }
+
+  click() {
+    this._entryDisplay.style.display = "";
+    this._entryEdit.style.display = "none";
+  }
+}
+
 // https://www.scriptol.com/html5/button-on-off.php
 class OnOffButton extends Button {
   initializePopup() {
