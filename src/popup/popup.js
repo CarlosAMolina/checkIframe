@@ -137,10 +137,6 @@ class ButtonCancel extends DynamicButton {
     this._entryEdit = entryEdit;
   }
 
-  get _idHtml() {
-    return "buttonCancel";
-  }
-
   static createDom() {
     const cancelBtn = document.createElement("button");
     cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
@@ -149,7 +145,6 @@ class ButtonCancel extends DynamicButton {
   }
 
   click() {
-    this.logButtonName();
     this._entryDisplay.style.display = "";
     this._entryEdit.style.display = "none";
   }
@@ -162,10 +157,6 @@ class ButtonDelete extends DynamicButton {
     this._storageKey = storageKey;
   }
 
-  get _idHtml() {
-    return "buttonDelete";
-  }
-
   static createDom() {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
@@ -175,7 +166,6 @@ class ButtonDelete extends DynamicButton {
   }
 
   click() {
-    this.logButtonName();
     this._event.target.parentNode.parentNode.parentNode.removeChild(
       this._event.target.parentNode.parentNode,
     );

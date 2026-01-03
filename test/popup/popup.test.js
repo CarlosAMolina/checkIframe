@@ -99,7 +99,7 @@ describe("Check module import", () => {
           button.click();
           expect(true).toBe(false);
         } catch (e) {
-          expect(e.message).toBe("Not implemented: method click");
+          expect(e.message).toBe("Not implemented");
         }
       });
       it("Check logButtonName logs expected message", function () {

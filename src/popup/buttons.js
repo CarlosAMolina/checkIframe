@@ -2,10 +2,11 @@ import { BrowserRepository } from "./repository.js";
 import { hide } from "./dom.js";
 import { unhide } from "./dom.js";
 
+// TODO when all buttons are in this file, review and remove unrequired `export`.
+
 export class Button {
-  // TODO rm export when all buttons are moved here.
   click() {
-    throw TypeError("Not implemented: method click");
+    throw TypeError("Not implemented");
   }
 
   logButtonName() {
@@ -17,9 +18,12 @@ export class Button {
   }
 }
 
-export class DynamicButton extends Button {
-  // TODO rm export when all buttons are moved here.
+export class DynamicButton {
   static createDom() {
+    throw TypeError("Not implemented");
+  }
+
+  click() {
     throw TypeError("Not implemented");
   }
 }
