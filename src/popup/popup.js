@@ -198,7 +198,7 @@ class ButtonUpdate extends DynamicButton {
 
   // TODO rm static when this method is only used in the class.
   // TODO private.
-  static updateEntry(id2change, id2save, info2save, urlType) {
+  _updateEntry(id2change, id2save, info2save, urlType) {
     const repository = new BrowserRepository(browser);
     let urls = getUrls();
     urls = addUrl(id2save, urls, urlType);
@@ -422,6 +422,7 @@ function showStoredInfo(storageKey, storageValue) {
   });
 
   updateBtn.addEventListener("click", () => {
+    const button = new ButtonUpdate();
     if (entryEditInput.value !== storageValue) {
       // type a different value
       let info2save = entryEditInput.value;
@@ -433,7 +434,7 @@ function showStoredInfo(storageKey, storageValue) {
         // searchInStorage.length < 1 -> no stored
         if (searchInStorage.length < 1) {
           const urlType = getUrlTypeActive();
-          ButtonUpdate.updateEntry(storageKey, id2save, info2save, urlType);
+          button._updateEntry(storageKey, id2save, info2save, urlType);
           entry.parentNode.removeChild(entry);
         }
       });
