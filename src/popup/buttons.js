@@ -19,7 +19,7 @@ export class Button {
 
 export class DynamicButton extends Button {
   // TODO rm export when all buttons are moved here.
-  static createHtml() {
+  static createInDom() {
     throw TypeError("Not implemented");
   }
 }

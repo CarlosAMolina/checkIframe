@@ -143,7 +143,7 @@ class ButtonCancel extends DynamicButton {
     return "buttonCancel";
   }
 
-  static createHtml() {
+  static createInDom() {
     const cancelBtn = document.createElement("button");
     cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
     cancelBtn.setAttribute("title", "Cancel update");
@@ -345,7 +345,7 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.appendChild(entryEditInput);
   const updateBtn = createButtonUpdate();
   entryEdit.appendChild(updateBtn);
-  const cancelBtn = ButtonCancel.createHtml();
+  const cancelBtn = ButtonCancel.createInDom();
   entryEdit.appendChild(cancelBtn);
   entry.appendChild(entryEdit);
   entryEditInput.value = eValue;
