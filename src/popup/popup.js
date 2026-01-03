@@ -12,6 +12,7 @@ import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { addUrl } from "./url.js";
 import { deleteUrl } from "./url.js";
+import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
@@ -95,11 +96,6 @@ function setNewElementsMaxWidth() {
   for (const htmlId of htmlIdsToModify) {
     document.getElementById(htmlId).style.maxWidth = maxWidthNewElementsStr;
   }
-}
-
-function getIdHtmlClicked(eventClick) {
-  // The user can click a button or an image.
-  return eventClick.target.id || eventClick.target.parentElement.id;
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
