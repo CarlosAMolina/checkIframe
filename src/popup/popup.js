@@ -188,7 +188,7 @@ class ButtonUpdate extends DynamicButton {
   constructor(entry, entryEditInput, storageKey, storageValue) {
     super();
     this._entry = entry;
-    this._info2save = entryEditInput.value;
+    this._entryEditInput = entryEditInput;
     this._storageKey = storageKey;
     this._storageValue = storageValue;
   }
@@ -204,11 +204,11 @@ class ButtonUpdate extends DynamicButton {
     if (this._info2save === this._storageValue) {
       return;
     }
-    const id2save = this._storageKey.split("_")[0] + "_" + this._info2save;
-    new BrowserRepository(browser).getByKey(id2save).then((result) => {
+    const key2save = this._storageKey.split("_")[0] + "_" + this._info2save;
+    new BrowserRepository(browser).getByKey(key2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
-        this._updateEntry(id2save);
+        this._updateEntry(key2save);
         this._entry.parentNode.removeChild(this._entry);
       }
     });
@@ -228,6 +228,10 @@ class ButtonUpdate extends DynamicButton {
     const message = Message("urls", urls);
     sendMessage(message);
     setUrls(urls);
+  }
+
+  get _info2save() {
+    return this._entryEditInput.value;
   }
 }
 
