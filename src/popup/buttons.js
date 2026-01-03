@@ -140,8 +140,7 @@ export class ButtonDelete extends DynamicButton {
     // the url deleted before showStoredInfo is called.
     urls = deleteUrl(this._storageKey, urls, urlType);
     setUrls(urls);
-    const message = Message("urls", urls);
-    sendMessage(message);
+    sendMessage(Message("urls", urls));
   }
 }
 
