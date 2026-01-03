@@ -185,8 +185,9 @@ class ButtonDelete extends DynamicButton {
 }
 
 class ButtonUpdate extends DynamicButton {
-  constructor(entryEditInput, storageKey, storageValue) {
+  constructor(entry, entryEditInput, storageKey, storageValue) {
     super();
+    this._entry = entry;
     this._entryEditInput = entryEditInput;
     this._storageKey = storageKey;
     this._storageValue = storageValue;
@@ -205,6 +206,16 @@ class ButtonUpdate extends DynamicButton {
       return;
     }
     const id2save = this._storageKey.split("_")[0] + "_" + info2save;
+    new BrowserRepository(browser).getByKey(id2save).then((result) => {
+      // result: empty object if the searched value is not stored
+      if (Object.keys(result).length == 0) {
+        // Not stored.
+        const urlType = getUrlTypeActive();
+        // TODO drop this. arg.
+        this._updateEntry(id2save, info2save, this._storageKey, urlType);
+        this._entry.parentNode.removeChild(this._entry);
+      }
+    });
   }
 
   // TODO rm static when this method is only used in the class.
@@ -433,19 +444,7 @@ function showStoredInfo(storageKey, storageValue) {
   });
 
   updateBtn.addEventListener("click", () => {
-    const button = new ButtonUpdate(); // TODO rm when moved to button class.
-    const info2save = entryEditInput.value;
-    const id2save = storageKey.split("_")[0] + "_" + info2save;
-    new ButtonUpdate(entryEditInput, storageKey, storageValue).click();
-    new BrowserRepository(browser).getByKey(id2save).then((result) => {
-      // result: empty object if the searched value is not stored
-      if (Object.keys(result).length == 0) {
-        // Not stored.
-        const urlType = getUrlTypeActive();
-        button._updateEntry(id2save, info2save, storageKey, urlType);
-        entry.parentNode.removeChild(entry);
-      }
-    });
+    new ButtonUpdate(entry, entryEditInput, storageKey, storageValue).click();
   });
 }
 
