@@ -195,8 +195,7 @@ class ButtonClean extends Button {
   click() {
     this.logButtonName();
     hide("infoScroll");
-    const message = Message(this._idHtml);
-    sendMessage(message);
+    sendMessage(Message(this._idHtml));
   }
 }
 
