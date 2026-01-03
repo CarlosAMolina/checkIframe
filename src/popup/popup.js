@@ -1,6 +1,7 @@
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonCancel } from "./buttons.js";
+import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
@@ -10,6 +11,7 @@ import { deleteUrl } from "./url.js";
 import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
+import { getUrlTypeActive } from "./url.js";
 import { hide } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
@@ -128,40 +130,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll();
     default:
       return false;
-  }
-}
-
-class ButtonDelete extends DynamicButton {
-  constructor(event, storageKey) {
-    super();
-    this._event = event;
-    this._storageKey = storageKey;
-  }
-
-  static createDom() {
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
-    deleteBtn.setAttribute("title", "Delete");
-    return deleteBtn;
-  }
-
-  click() {
-    this._event.target.parentNode.parentNode.parentNode.removeChild(
-      this._event.target.parentNode.parentNode,
-    );
-    new BrowserRepository(browser).delete(this._storageKey).catch((error) => {
-      reportError(error);
-    });
-    const urlType = getUrlTypeActive();
-    let urls = getUrls();
-    // TODO can be this line deleted?
-    // Maybe it doesn't do anything because the variable `urls` has
-    // the url deleted before showStoredInfo is called.
-    urls = deleteUrl(this._storageKey, urls, urlType);
-    setUrls(urls);
-    const message = Message("urls", urls);
-    sendMessage(message);
   }
 }
 
@@ -428,23 +396,6 @@ function showStoredInfo(storageKey, storageValue) {
   updateBtn.addEventListener("click", () => {
     new ButtonUpdate(entry, entryEditInput, storageKey, storageValue).click();
   });
-}
-
-// TODO sometimes it is called once and an inner function calls it again,
-// TODO review the code to reduce the calls to this method.
-function getUrlTypeActive() {
-  const idTypeMap = [
-    { idHtml: "buttonUrlsBlacklist", urlType: URL_TYPE_BLACKLIST },
-    { idHtml: "buttonUrlsNotify", urlType: URL_TYPE_NOTIFY },
-    { idHtml: "buttonUrlsReferer", urlType: URL_TYPE_REFERER },
-  ];
-  for (let i = 0; i < idTypeMap.length; i++) {
-    const { idHtml, urlType } = idTypeMap[i];
-    if (document.getElementById(idHtml).checked) {
-      return urlType;
-    }
-  }
-  return null;
 }
 
 function showStoredUrlsType(urlType) {

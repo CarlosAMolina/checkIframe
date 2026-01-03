@@ -1,5 +1,12 @@
 import { BrowserRepository } from "./repository.js";
+import { Message } from "./model.js";
+import { deleteUrl } from "./url.js";
+import { getUrlTypeActive } from "./url.js";
+import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
+import { reportError } from "./log.js";
+import { sendMessage } from "./message-mediator.js";
+import { setUrls } from "./url.js";
 import { unhide } from "./dom.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
@@ -25,26 +32,6 @@ export class DynamicButton {
 
   click() {
     throw TypeError("Not implemented");
-  }
-}
-
-export class ButtonCancel extends DynamicButton {
-  constructor(entryDisplay, entryEdit) {
-    super();
-    this._entryDisplay = entryDisplay;
-    this._entryEdit = entryEdit;
-  }
-
-  static createDom() {
-    const cancelBtn = document.createElement("button");
-    cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
-    cancelBtn.setAttribute("title", "Cancel update");
-    return cancelBtn;
-  }
-
-  click() {
-    this._entryDisplay.style.display = "";
-    this._entryEdit.style.display = "none";
   }
 }
 
@@ -100,6 +87,60 @@ class OnOffButton extends Button {
 
   async getIsStoredOn() {
     return getIsStoredOn(this._idStorage);
+  }
+}
+
+export class ButtonCancel extends DynamicButton {
+  constructor(entryDisplay, entryEdit) {
+    super();
+    this._entryDisplay = entryDisplay;
+    this._entryEdit = entryEdit;
+  }
+
+  static createDom() {
+    const cancelBtn = document.createElement("button");
+    cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
+    cancelBtn.setAttribute("title", "Cancel update");
+    return cancelBtn;
+  }
+
+  click() {
+    this._entryDisplay.style.display = "";
+    this._entryEdit.style.display = "none";
+  }
+}
+
+export class ButtonDelete extends DynamicButton {
+  constructor(event, storageKey) {
+    super();
+    this._event = event;
+    this._storageKey = storageKey;
+  }
+
+  static createDom() {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.innerHTML = '<img src="/icons/trash.svg" alt="Delete"/>';
+    deleteBtn.setAttribute("title", "Delete");
+    return deleteBtn;
+  }
+
+  click() {
+    this._event.target.parentNode.parentNode.parentNode.removeChild(
+      this._event.target.parentNode.parentNode,
+    );
+    new BrowserRepository(browser).delete(this._storageKey).catch((error) => {
+      reportError(error);
+    });
+    const urlType = getUrlTypeActive();
+    let urls = getUrls();
+    // TODO can be this line deleted?
+    // Maybe it doesn't do anything because the variable `urls` has
+    // the url deleted before showStoredInfo is called.
+    urls = deleteUrl(this._storageKey, urls, urlType);
+    setUrls(urls);
+    const message = Message("urls", urls);
+    sendMessage(message);
   }
 }
 
