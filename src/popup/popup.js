@@ -1,10 +1,12 @@
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonCancel } from "./buttons.js";
+import { ButtonClean } from "./buttons.js";
 import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonRecheck } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { BUTTON_ID_CLEAN } from "./buttons.js";
 import { BUTTON_ID_RECHECK } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
@@ -14,7 +16,6 @@ import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
 import { getUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
-import { hide } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
@@ -31,7 +32,6 @@ var infoContainer = document.querySelector(".info-container");
 var sourcesContainer = document.querySelector(".sources-container");
 
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
-const BUTTON_ID_CLEAN = "buttonClean";
 const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
 const BUTTON_ID_SCROLL = "buttonScroll";
@@ -184,18 +184,6 @@ class ButtonUpdate extends DynamicButton {
     }, reportError);
     sendMessage(Message("urls", urls));
     setUrls(urls);
-  }
-}
-
-class ButtonClean extends Button {
-  get _idHtml() {
-    return BUTTON_ID_CLEAN;
-  }
-
-  click() {
-    this.logButtonName();
-    hide("infoScroll");
-    sendMessage(Message(this._idHtml));
   }
 }
 

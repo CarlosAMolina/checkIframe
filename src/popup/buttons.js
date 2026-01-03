@@ -11,6 +11,7 @@ import { unhide } from "./dom.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
+export const BUTTON_ID_CLEAN = "buttonClean";
 export const BUTTON_ID_RECHECK = "buttonRecheck";
 
 export class Button {
@@ -109,6 +110,18 @@ export class ButtonCancel extends DynamicButton {
   click() {
     this._entryDisplay.style.display = "";
     this._entryEdit.style.display = "none";
+  }
+}
+
+export class ButtonClean extends Button {
+  get _idHtml() {
+    return BUTTON_ID_CLEAN;
+  }
+
+  click() {
+    this.logButtonName();
+    hide("infoScroll");
+    sendMessage(Message(this._idHtml));
   }
 }
 
