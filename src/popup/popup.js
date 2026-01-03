@@ -131,12 +131,10 @@ function createButton(buttonIdHtml) {
 }
 
 class ButtonCancel extends DynamicButton {
-  constructor(entryDisplay, entryEdit, entryEditInput, eValue) {
+  constructor(entryDisplay, entryEdit) {
     super();
     this._entryDisplay = entryDisplay;
     this._entryEdit = entryEdit;
-    this._entryEditInput = entryEditInput;
-    this._eValue = eValue;
   }
 
   get _idHtml() {
@@ -154,8 +152,6 @@ class ButtonCancel extends DynamicButton {
     this.logButtonName();
     this._entryDisplay.style.display = "";
     this._entryEdit.style.display = "none";
-    // TODO the next line is necessary?
-    this._entryEditInput.value = this._eValue;
   }
 }
 
@@ -378,7 +374,7 @@ function showStoredInfo(eKey, eValue) {
   });
 
   cancelBtn.addEventListener("click", () => {
-    new ButtonCancel(entryDisplay, entryEdit, entryEditInput, eValue).click();
+    new ButtonCancel(entryDisplay, entryEdit).click();
   });
 
   updateBtn.addEventListener("click", () => {
