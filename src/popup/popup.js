@@ -53,7 +53,7 @@ function popupMain() {
   // listen to clicks on the buttons, and send the appropriate message to
   // the content script in the web page.
   document.addEventListener("click", (e) => {
-    let buttonIdHtml = getIdHtmlOfClickedButtonOrImageFromEventClick(e);
+    let buttonIdHtml = getIdHtmlClicked(e);
     let button = createButton(buttonIdHtml);
     if (button) {
       button.click();
@@ -97,7 +97,8 @@ function setNewElementsMaxWidth() {
   }
 }
 
-function getIdHtmlOfClickedButtonOrImageFromEventClick(eventClick) {
+function getIdHtmlClicked(eventClick) {
+  // The user can click a button or an image.
   return eventClick.target.id || eventClick.target.parentElement.id;
 }
 

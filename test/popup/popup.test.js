@@ -45,10 +45,8 @@ describe("Check module import", () => {
     function_ = popupModule.__get__("initializePopup");
     function_();
   });
-  it("getIdHtmlOfClickedButtonOrImageFromEventClick runs without error", function () {
-    function_ = popupModule.__get__(
-      "getIdHtmlOfClickedButtonOrImageFromEventClick",
-    );
+  it("getIdHtmlClicked runs without error", function () {
+    function_ = popupModule.__get__("getIdHtmlClicked");
     const eventClick = { target: { id: 1 } };
     function_(eventClick);
   });
