@@ -434,14 +434,11 @@ function showStoredInfo(storageKey, storageValue) {
   });
 
   updateBtn.addEventListener("click", () => {
+    new ButtonUpdate(entryEditInput, storageKey, storageValue).click();
     const info2save = entryEditInput.value;
-    if (info2save === storageValue) {
-      return;
-    }
     const button = new ButtonUpdate(); // TODO rm when moved to button class.
     // TODO avoid id2save as global variable (maybe it's used later)
     var id2save = storageKey.split("_")[0] + "_" + info2save;
-    new ButtonUpdate(entryEditInput, storageKey, storageValue).click();
     new BrowserRepository(browser).getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
