@@ -189,6 +189,7 @@ class ButtonUpdate extends DynamicButton {
     super();
     this._entry = entry;
     this._entryEditInput = entryEditInput;
+    this._repository = new BrowserRepository(browser);
     this._storageKey = storageKey;
     this._storageValue = storageValue;
   }
@@ -204,7 +205,7 @@ class ButtonUpdate extends DynamicButton {
     if (this._info2save === this._storageValue) {
       return;
     }
-    new BrowserRepository(browser).getByKey(this._key2save).then((result) => {
+    this._repository.getByKey(this._key2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
         this._updateEntry();
@@ -222,18 +223,16 @@ class ButtonUpdate extends DynamicButton {
   }
 
   _updateEntry() {
-    const repository = new BrowserRepository(browser);
     const urlType = getUrlTypeActive();
     let urls = getUrls();
     urls = addUrl(this._key2save, urls, urlType);
-    repository.save(this._key2save, this._info2save).then(() => {
+    this._repository.save(this._key2save, this._info2save).then(() => {
       urls = deleteUrl(this._storageKey, urls, urlType);
-      repository.delete(this._storageKey).then(() => {
+      this._repository.delete(this._storageKey).then(() => {
         showStoredInfo(this._key2save, this._info2save);
       }, reportError);
     }, reportError);
-    const message = Message("urls", urls);
-    sendMessage(message);
+    sendMessage(Message("urls", urls));
     setUrls(urls);
   }
 }
