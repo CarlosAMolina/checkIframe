@@ -130,16 +130,24 @@ function createButton(buttonIdHtml) {
 }
 
 class ButtonCancel extends Button {
+  constructor(entryDisplay, entryEdit, entryEditInput, eValue) {
+    super();
+    this._entryDisplay = entryDisplay;
+    this._entryEdit = entryEdit;
+    this._entryEditInput = entryEditInput;
+    this._eValue = eValue;
+  }
+
   get _idHtml() {
     return "buttonCancel";
   }
 
-  click(entryDisplay, entryEdit, entryEditInput, eValue) {
+  click() {
     this.logButtonName();
-    entryDisplay.style.display = "";
-    entryEdit.style.display = "none";
+    this._entryDisplay.style.display = "";
+    this._entryEdit.style.display = "none";
     // TODO the next line is necessary?
-    entryEditInput.value = eValue;
+    this._entryEditInput.value = this._eValue;
   }
 }
 
@@ -362,7 +370,7 @@ function showStoredInfo(eKey, eValue) {
   });
 
   cancelBtn.addEventListener("click", () => {
-    new ButtonCancel().click(entryDisplay, entryEdit, entryEditInput, eValue);
+    new ButtonCancel(entryDisplay, entryEdit, entryEditInput, eValue).click();
   });
 
   updateBtn.addEventListener("click", () => {
