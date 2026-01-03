@@ -2,6 +2,7 @@ import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { addUrl } from "./url.js";
 import { deleteUrl } from "./url.js";
@@ -129,7 +130,7 @@ function createButton(buttonIdHtml) {
   }
 }
 
-class ButtonCancel extends Button {
+class ButtonCancel extends DynamicButton {
   constructor(entryDisplay, entryEdit, entryEditInput, eValue) {
     super();
     this._entryDisplay = entryDisplay;

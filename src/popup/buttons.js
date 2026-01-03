@@ -17,6 +17,13 @@ export class Button {
   }
 }
 
+export class DynamicButton extends Button {
+  // TODO rm export when all buttons are moved here.
+  static createInDom() {
+    throw TypeError("Not implemented");
+  }
+}
+
 // https://www.scriptol.com/html5/button-on-off.php
 class OnOffButton extends Button {
   initializePopup() {
