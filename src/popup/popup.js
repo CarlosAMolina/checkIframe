@@ -142,6 +142,13 @@ class ButtonCancel extends Button {
     return "buttonCancel";
   }
 
+  static createInDom() {
+    const cancelBtn = document.createElement("button");
+    cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
+    cancelBtn.setAttribute("title", "Cancel update");
+    return cancelBtn;
+  }
+
   click() {
     this.logButtonName();
     this._entryDisplay.style.display = "";
@@ -337,7 +344,7 @@ function showStoredInfo(eKey, eValue) {
   entryEdit.appendChild(entryEditInput);
   const updateBtn = createButtonUpdate();
   entryEdit.appendChild(updateBtn);
-  const cancelBtn = createButtonCancel();
+  const cancelBtn = ButtonCancel.createInDom();
   entryEdit.appendChild(cancelBtn);
   entry.appendChild(entryEdit);
   entryEditInput.value = eValue;
@@ -404,13 +411,6 @@ function showStoredInfo(eKey, eValue) {
     updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
     updateBtn.setAttribute("title", "Update");
     return updateBtn;
-  }
-
-  function createButtonCancel() {
-    const cancelBtn = document.createElement("button");
-    cancelBtn.innerHTML = '<img src="/icons/cancel.svg" alt="Cancel update"/>';
-    cancelBtn.setAttribute("title", "Cancel update");
-    return cancelBtn;
   }
 
   function updateEntry(id2change, id2save, info2save, urlType) {
