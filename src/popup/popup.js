@@ -218,11 +218,11 @@ class ButtonUpdate extends DynamicButton {
     const repository = new BrowserRepository(browser);
     const urlType = getUrlTypeActive();
     let urls = getUrls();
-    urls = addUrl(key2save, urls, urlType);
-    repository.save(key2save, this._info2save).then(() => {
+    urls = addUrl(this._key2save, urls, urlType);
+    repository.save(this._key2save, this._info2save).then(() => {
       urls = deleteUrl(this._storageKey, urls, urlType);
       repository.delete(this._storageKey).then(() => {
-        showStoredInfo(key2save, this._info2save);
+        showStoredInfo(this._key2save, this._info2save);
       }, reportError);
     }, reportError);
     const message = Message("urls", urls);
