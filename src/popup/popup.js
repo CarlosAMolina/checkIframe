@@ -185,6 +185,13 @@ class ButtonDelete extends DynamicButton {
 }
 
 class ButtonUpdate extends DynamicButton {
+  constructor(entryEditInput, storageKey, storageValue) {
+    super();
+    this._entryEditInput = entryEditInput;
+    this._storageKey = storageKey;
+    this._storageValue = storageValue;
+  }
+
   static createDom() {
     const updateBtn = document.createElement("button");
     updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
@@ -193,7 +200,12 @@ class ButtonUpdate extends DynamicButton {
   }
 
   click() {
-    // TODO
+    const info2save = this._entryEditInput.value;
+    if (info2save === this._storageValue) {
+      return;
+    }
+    // TODO avoid id2save as global variable (maybe it's used later)
+    var id2save = this._storageKey.split("_")[0] + "_" + info2save;
   }
 
   // TODO rm static when this method is only used in the class.
@@ -426,9 +438,10 @@ function showStoredInfo(storageKey, storageValue) {
     if (info2save === storageValue) {
       return;
     }
-    const button = new ButtonUpdate();
+    const button = new ButtonUpdate(); // TODO rm when moved to button class.
     // TODO avoid id2save as global variable (maybe it's used later)
     var id2save = storageKey.split("_")[0] + "_" + info2save;
+    new ButtonUpdate(entryEditInput, storageKey, storageValue).click();
     new BrowserRepository(browser).getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
