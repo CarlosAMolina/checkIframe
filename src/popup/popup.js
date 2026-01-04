@@ -241,29 +241,23 @@ class ButtonUrlsNotify extends ButtonUrlsOfType {
   }
 }
 
-class ButtonUrlsBlacklist extends Button {
+class ButtonUrlsBlacklist extends ButtonUrlsOfType {
   get _idHtml() {
     return BUTTON_ID_URLS_BLACKLIST;
   }
 
-  click() {
-    this.logButtonName();
-    unhide(HTML_ID_SOURCES_CONFIG);
-    removeShownStoredUrls();
-    showStoredUrlsType(URL_TYPE_BLACKLIST);
+  get _urlType() {
+    return URL_TYPE_BLACKLIST;
   }
 }
 
-class ButtonUrlsReferer extends Button {
+class ButtonUrlsReferer extends ButtonUrlsOfType {
   get _idHtml() {
     return BUTTON_ID_URLS_REFERER;
   }
 
-  click() {
-    this.logButtonName();
-    unhide(HTML_ID_SOURCES_CONFIG);
-    removeShownStoredUrls();
-    showStoredUrlsType(URL_TYPE_REFERER);
+  get _urlType() {
+    return URL_TYPE_REFERER;
   }
 }
 
