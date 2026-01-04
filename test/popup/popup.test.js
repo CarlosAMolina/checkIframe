@@ -39,24 +39,6 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("Check ButtonShowConfig", () => {
-      beforeAll(() => {
-        const classType = popupModule.__get__("ButtonShowConfig");
-        button = new classType();
-      });
-      it("Check it has correct button ID value", function () {
-        expect(button._idHtml).toBe("buttonShowConfig");
-      });
-      it("Check click has expected calls and values", function () {
-        expect(document.getElementById("menuConfig").className).toBe(
-          "section backgroundGray hidden",
-        );
-        button.click();
-        expect(document.getElementById("menuConfig").className).toBe(
-          "section backgroundGray",
-        );
-      });
-    });
     describe("Check ButtonUrlsNotify", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonUrlsNotify");
@@ -646,6 +628,24 @@ describe("buttons", () => {
       expect(document.getElementById("infoScroll").textContent).toBe(
         infoScrollTextContent,
       );
+    }
+  });
+  describe("ButtonShowConfig", () => {
+    it("should have correct button ID", function () {
+      expect(getButton()._idHtml).toBe("buttonShowConfig");
+    });
+    it("click should have expected calls and values", function () {
+      expect(document.getElementById("menuConfig").className).toBe(
+        "section backgroundGray hidden",
+      );
+      getButton().click();
+      expect(document.getElementById("menuConfig").className).toBe(
+        "section backgroundGray",
+      );
+    });
+    function getButton() {
+      const classType = popupModule.__get__("ButtonShowConfig");
+      return new classType();
     }
   });
   describe("ButtonShowSources", () => {
