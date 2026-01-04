@@ -51,7 +51,7 @@ describe("Check module import", () => {
         });
         // Test.
         await Promise.all([getButton().click()]);
-        runAfterRunExpects("done sendMessage");
+        assertTestResult("done sendMessage");
         // Restore test config.
         global.browser = fakeModule.fakeBrowser();
       });
@@ -63,7 +63,7 @@ describe("Check module import", () => {
         });
         // Test.
         await Promise.all([getButton().click()]);
-        runAfterRunExpects("Internal error. The action could not be executed");
+        assertTestResult("Internal error. The action could not be executed");
         // Restore test config.
         global.browser = fakeModule.fakeBrowser();
       });
@@ -74,7 +74,7 @@ describe("Check module import", () => {
         );
         expect(infoScrollBeforeRun.textContent).toBe("");
       }
-      function runAfterRunExpects(infoScrollTextContent) {
+      function assertTestResult(infoScrollTextContent) {
         expect(document.getElementById("infoScroll").className).toBe(
           "section backgroundGray",
         );
