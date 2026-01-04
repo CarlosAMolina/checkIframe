@@ -61,7 +61,9 @@ describe("Check module import", () => {
       it("click should have expected calls and values if undefined response", async () => {
         // Set test config.
         assertHtmlInitialValues();
-        browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
+        global.browser = fakeModule.fakeBrowser({
+          sendMessageResponse: {},
+        });
         // Test.
         await Promise.all([getButton().click()]);
         runAfterRunExpects();
