@@ -218,16 +218,26 @@ class ButtonShowConfig extends Button {
   }
 }
 
-class ButtonUrlsNotify extends Button {
-  get _idHtml() {
-    return BUTTON_ID_URLS_NOTIFY;
+class ButtonUrlsOfType extends Button {
+  get _urlType() {
+    throw TypeError("Not implemented");
   }
 
   click() {
     this.logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
-    showStoredUrlsType(URL_TYPE_NOTIFY);
+    showStoredUrlsType(this._urlType);
+  }
+}
+
+class ButtonUrlsNotify extends ButtonUrlsOfType {
+  get _idHtml() {
+    return BUTTON_ID_URLS_NOTIFY;
+  }
+
+  get _urlType() {
+    return URL_TYPE_NOTIFY;
   }
 }
 
