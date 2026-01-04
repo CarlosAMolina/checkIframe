@@ -40,16 +40,17 @@ describe("Check module import", () => {
   });
   describe("Check buttons", () => {
     describe("Check createButton", () => {
-      beforeAll(() => {
-        function_ = popupModule.__get__("createButton");
-      });
-      // Parametrized test.
-      it.each(buttonIdsHtml)("Check if valid button ID: %p", (buttonIdHtml) => {
-        const result = function_(buttonIdHtml)._idHtml;
-        expect(result).toBe(buttonIdHtml);
-      });
-      it("Check if invalid button ID", function () {
+      it.each(buttonIdsHtml)(
+        "should return button if valid ID: %p",
+        (buttonIdHtml) => {
+          const function_ = popupModule.__get__("createButton");
+          const result = function_(buttonIdHtml)._idHtml;
+          expect(result).toBe(buttonIdHtml);
+        },
+      );
+      it("should not return button if invalid ID", function () {
         const buttonIdHtml = "nonexistent";
+        const function_ = popupModule.__get__("createButton");
         const result = function_(buttonIdHtml);
         expect(result).toBe(false);
       });
