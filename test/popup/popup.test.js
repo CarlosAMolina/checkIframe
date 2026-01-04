@@ -64,22 +64,22 @@ describe("Check module import", () => {
       },
     );
     describe("Check Button", () => {
-      beforeAll(() => {
+      function getButton() {
         const ButtonBase = popupModule.__get__("Button");
         class TestButton extends ButtonBase {
           get _idHtml() {
             return "idTest";
           }
         }
-        button = new TestButton();
-      });
+        return new TestButton();
+      }
       it("Check buttonIdHtml returns expected result", function () {
-        const result = button._idHtml;
+        const result = getButton()._idHtml;
         expect(result).toBe("idTest");
       });
       it("Check click throws error", function () {
         try {
-          button.click();
+          getButton().click();
           expect(true).toBe(false);
         } catch (e) {
           expect(e.message).toBe("Not implemented");
@@ -87,7 +87,7 @@ describe("Check module import", () => {
       });
       it("Check _logButtonName logs expected message", function () {
         console.log = jest.fn();
-        button._logButtonName();
+        getButton()._logButtonName();
         expect(console.log).toHaveBeenCalledWith(
           "Clicked button ID Html: idTest",
         );
