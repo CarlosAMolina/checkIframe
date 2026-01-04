@@ -38,7 +38,7 @@ describe("Check module import", () => {
     const function_ = popupModule.__get__("initializePopup");
     function_();
   });
-  describe("Check buttons", () => {
+  describe("buttons", () => {
     describe("createButton", () => {
       it.each(buttonIdsHtml)(
         "should return button if valid ID: %p",
@@ -63,20 +63,16 @@ describe("Check module import", () => {
         button.click();
       },
     );
-    describe("Check ButtonRecheck", () => {
-      beforeAll(() => {
-        const classType = popupModule.__get__("ButtonRecheck");
-        button = new classType();
+    describe("ButtonRecheck", () => {
+      it("should have correct button ID value", function () {
+        expect(createButton()._idHtml).toBe("buttonRecheck");
       });
-      it("Check it has correct button ID value", function () {
-        expect(button._idHtml).toBe("buttonRecheck");
-      });
-      it("Check click has expected calls and values", async () => {
+      it("click should have expected calls and values", async () => {
         document.querySelector("#infoTags").classList.remove("hidden");
         expect(document.getElementById("infoTags").className).toBe(
           "section backgroundGray sources-container",
         );
-        await button.click();
+        await createButton().click();
         const buttonIdHtml = "buttonRecheck";
         expect(document.getElementById("infoTags").className).toBe(
           "section backgroundGray sources-container hidden",
@@ -87,6 +83,10 @@ describe("Check module import", () => {
         expect(lastCall[1].info).toBe(buttonIdHtml);
         // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
       });
+      function createButton() {
+        const classType = popupModule.__get__("ButtonRecheck");
+        return new classType();
+      }
     });
     describe("Check ButtonClean", () => {
       beforeAll(() => {
