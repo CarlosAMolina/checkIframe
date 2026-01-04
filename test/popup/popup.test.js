@@ -4,7 +4,6 @@ import * as modelModule from "../../src/popup/model.js";
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
-let function_;
 const buttonIdsHtml = [
   "buttonRecheck",
   "buttonClean",
@@ -44,7 +43,7 @@ describe("Check module import", () => {
       });
       it("If no values to manage", function () {
         expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
-        function_ = popupModule.__get__("showStoredInfo");
+        const function_ = popupModule.__get__("showStoredInfo");
         function_();
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
           '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
@@ -52,7 +51,7 @@ describe("Check module import", () => {
       });
       it("If values to manage", function () {
         expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
-        function_ = popupModule.__get__("showStoredInfo");
+        const function_ = popupModule.__get__("showStoredInfo");
         const eKey = "blacklist_https://foo.com/test.html";
         const eValue = "https://foo.com/test.html";
         function_(eKey, eValue);
@@ -79,7 +78,7 @@ describe("Check module import", () => {
         const eKey = "blacklist_https://foo.com/test.html";
         // TODO in some part of the code the urls.blacklist must have de eKey or eValue value. Add this behaviour to the tests.
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-        function_ = popupModule.__get__("showStoredInfo");
+        const function_ = popupModule.__get__("showStoredInfo");
         function_(eKey, eValue);
         const infoContainer = popupModule.__get__("infoContainer");
         const buttons = infoContainer.getElementsByTagName("button");
@@ -127,7 +126,7 @@ describe("Check module import", () => {
         expect(
           popupModule.__get__("infoContainer").getElementsByTagName("p").length,
         ).toBe(0);
-        function_ = popupModule.__get__("showStoredInfo");
+        const function_ = popupModule.__get__("showStoredInfo");
         function_(eKey, eValue);
         const infoContainer = popupModule.__get__("infoContainer");
         const pElements = infoContainer.getElementsByTagName("p");
@@ -155,7 +154,7 @@ describe("Check module import", () => {
           popupModule.__get__("infoContainer").getElementsByTagName("button")
             .length,
         ).toBe(0);
-        function_ = popupModule.__get__("showStoredInfo");
+        const function_ = popupModule.__get__("showStoredInfo");
         function_(eKey, eValue);
         const infoContainer = popupModule.__get__("infoContainer");
         const cancelButton = infoContainer.getElementsByTagName("button")[2];
@@ -206,7 +205,7 @@ describe("Check module import", () => {
           new modelModule.UrlsOfType("notify", []),
           new modelModule.UrlsOfType("referer", []),
         ]);
-        function_ = popupModule.__get__("showStoredInfo");
+        const function_ = popupModule.__get__("showStoredInfo");
         function_(eKey, eValue);
         expect(
           popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
@@ -283,7 +282,7 @@ describe("Check module import", () => {
   });
   // TODO describe("Test showStoredUrlsType call", () => {
   it("showStoredUrlsType runs without error", function () {
-    function_ = popupModule.__get__("showStoredUrlsType");
+    const function_ = popupModule.__get__("showStoredUrlsType");
     function_();
   });
   it("changeParagraph runs without error", function () {
@@ -297,7 +296,7 @@ describe("Check module import", () => {
     };
     const response = { frame: frameTagsSummary, iframe: iframeTagsSummary };
     const htmlId = "infoTags";
-    function_ = popupModule.__get__("changeParagraph");
+    const function_ = popupModule.__get__("changeParagraph");
     function_("buttonShowSources", response, htmlId);
   });
   describe("Check cleanShowSources", () => {
@@ -314,7 +313,7 @@ describe("Check module import", () => {
         sourcesContainer.children[sourcesContainer.children.length - 1]
           .textContent,
       ).toBe("bar");
-      function_ = popupModule.__get__("cleanShowSources");
+      const function_ = popupModule.__get__("cleanShowSources");
       function_();
       expect(sourcesContainer.firstChild).toBe(null);
     });
@@ -327,27 +326,27 @@ describe("Check module import", () => {
       expect(popupModule.__get__("infoContainer").firstChild.textContent).toBe(
         "foo",
       );
-      function_ = popupModule.__get__("removeShownStoredUrls");
+      const function_ = popupModule.__get__("removeShownStoredUrls");
       function_();
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
   });
   it("saveUrl runs without error", function () {
-    function_ = popupModule.__get__("saveUrl");
+    const function_ = popupModule.__get__("saveUrl");
     function_();
   });
   it("storeInfo runs without error", function () {
-    function_ = popupModule.__get__("storeInfo");
+    const function_ = popupModule.__get__("storeInfo");
     function_(["value_1"]);
   });
   it("reportError logs expected message", function () {
-    function_ = popupModule.__get__("reportError");
+    const function_ = popupModule.__get__("reportError");
     console.error = jest.fn();
     function_("foo message");
     expect(console.error).toHaveBeenCalledWith("Error: foo message");
   });
   it("reportExecuteScriptError runs without error", function () {
-    function_ = popupModule.__get__("reportExecuteScriptError");
+    const function_ = popupModule.__get__("reportExecuteScriptError");
     const error = {};
     function_(error);
   });
