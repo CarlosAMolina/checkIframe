@@ -5,6 +5,11 @@ describe("dom", () => {
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
   });
+  it("getIdHtmlClicked should return the ID", function () {
+    const eventClick = { target: { id: 1 } };
+    const result = domModule.getIdHtmlClicked(eventClick);
+    expect(result).toBe(1);
+  });
   it("hide should add hidden", function () {
     const htmlId = "buttonRecheck";
     expect(document.getElementById(htmlId).className).toBe("");
