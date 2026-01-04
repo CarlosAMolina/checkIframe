@@ -39,22 +39,6 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("createButton", () => {
-      it.each(buttonIdsHtml)(
-        "should return button if valid ID: %p",
-        (buttonIdHtml) => {
-          const function_ = popupModule.__get__("createButton");
-          const result = function_(buttonIdHtml)._idHtml;
-          expect(result).toBe(buttonIdHtml);
-        },
-      );
-      it("should not return button if invalid ID", function () {
-        const buttonIdHtml = "nonexistent";
-        const function_ = popupModule.__get__("createButton");
-        const result = function_(buttonIdHtml);
-        expect(result).toBe(false);
-      });
-    });
     it.each(buttonIdsHtml)(
       "click button should not generate error. Button ID %p ",
       (buttonIdHtml) => {
@@ -554,9 +538,25 @@ describe("setupCopyButtonListeners", () => {
   });
 });
 
-describe("check buttons", () => {
+describe("buttons", () => {
   beforeAll(() => {
     initializeMocksAndVariables();
+  });
+  describe("createButton", () => {
+    it.each(buttonIdsHtml)(
+      "should return button if valid ID: %p",
+      (buttonIdHtml) => {
+        const function_ = popupModule.__get__("createButton");
+        const result = function_(buttonIdHtml)._idHtml;
+        expect(result).toBe(buttonIdHtml);
+      },
+    );
+    it("should not return button if invalid ID", function () {
+      const buttonIdHtml = "nonexistent";
+      const function_ = popupModule.__get__("createButton");
+      const result = function_(buttonIdHtml);
+      expect(result).toBe(false);
+    });
   });
   describe("Button", () => {
     it("buttonIdHtml should return expected result", function () {
@@ -650,7 +650,6 @@ describe("check buttons", () => {
       return new classType();
     }
   });
-
   describe("ButtonShowSources", () => {
     it("has expected button ID", function () {
       expect(initializeButton("ButtonShowSources")._idHtml).toBe(
