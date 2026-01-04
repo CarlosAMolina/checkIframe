@@ -39,57 +39,6 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("ButtonScroll", () => {
-      it("should have correct button ID", function () {
-        expect(getButton()._idHtml).toBe("buttonScroll");
-      });
-      it("click should have expected calls and values if all required data exists", async () => {
-        // Set test config.
-        assertHtmlInitialValues();
-        global.browser = fakeModule.fakeBrowser({
-          sendMessageResponse: { response: "done sendMessage" },
-        });
-        // Test.
-        await Promise.all([getButton().click()]);
-        assertTestResult("done sendMessage");
-        // Restore test config.
-        global.browser = fakeModule.fakeBrowser();
-      });
-      it("click should have expected calls and values if undefined response", async () => {
-        // Set test config.
-        assertHtmlInitialValues();
-        global.browser = fakeModule.fakeBrowser({
-          sendMessageResponse: {},
-        });
-        // Test.
-        await Promise.all([getButton().click()]);
-        assertTestResult("Internal error. The action could not be executed");
-        // Restore test config.
-        global.browser = fakeModule.fakeBrowser();
-      });
-      function getButton() {
-        const classType = popupModule.__get__("ButtonScroll");
-        return new classType();
-      }
-      function assertHtmlInitialValues() {
-        const infoScrollBeforeRun = document.getElementById("infoScroll");
-        expect(infoScrollBeforeRun.className).toBe(
-          "section backgroundGray hidden",
-        );
-        expect(infoScrollBeforeRun.textContent).toBe("");
-      }
-      function assertTestResult(infoScrollTextContent) {
-        expect(document.getElementById("infoScroll").className).toBe(
-          "section backgroundGray",
-        );
-        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-        const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
-        expect(document.getElementById("infoScroll").textContent).toBe(
-          infoScrollTextContent,
-        );
-      }
-    });
     describe("Check ButtonShowConfig", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonShowConfig");
@@ -503,7 +452,7 @@ describe("setupCopyButtonListeners", () => {
 });
 
 describe("buttons", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     initializeMocksAndVariables();
   });
   describe("createButton", () => {
@@ -646,6 +595,57 @@ describe("buttons", () => {
     function getButton() {
       const classType = popupModule.__get__("ButtonRecheck");
       return new classType();
+    }
+  });
+  describe("ButtonScroll", () => {
+    it("should have correct button ID", function () {
+      expect(getButton()._idHtml).toBe("buttonScroll");
+    });
+    it("click should have expected calls and values if all required data exists", async () => {
+      // Set test config.
+      assertHtmlInitialValues();
+      global.browser = fakeModule.fakeBrowser({
+        sendMessageResponse: { response: "done sendMessage" },
+      });
+      // Test.
+      await Promise.all([getButton().click()]);
+      assertTestResult("done sendMessage");
+      // Restore test config.
+      global.browser = fakeModule.fakeBrowser();
+    });
+    it("click should have expected calls and values if undefined response", async () => {
+      // Set test config.
+      assertHtmlInitialValues();
+      global.browser = fakeModule.fakeBrowser({
+        sendMessageResponse: {},
+      });
+      // Test.
+      await Promise.all([getButton().click()]);
+      assertTestResult("Internal error. The action could not be executed");
+      // Restore test config.
+      global.browser = fakeModule.fakeBrowser();
+    });
+    function getButton() {
+      const classType = popupModule.__get__("ButtonScroll");
+      return new classType();
+    }
+    function assertHtmlInitialValues() {
+      const infoScrollBeforeRun = document.getElementById("infoScroll");
+      expect(infoScrollBeforeRun.className).toBe(
+        "section backgroundGray hidden",
+      );
+      expect(infoScrollBeforeRun.textContent).toBe("");
+    }
+    function assertTestResult(infoScrollTextContent) {
+      expect(document.getElementById("infoScroll").className).toBe(
+        "section backgroundGray",
+      );
+      expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+      const lastCall = browser.tabs.sendMessage.mock.lastCall;
+      expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
+      expect(document.getElementById("infoScroll").textContent).toBe(
+        infoScrollTextContent,
+      );
     }
   });
   describe("ButtonShowSources", () => {
