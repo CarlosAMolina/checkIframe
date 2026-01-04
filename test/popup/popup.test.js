@@ -39,7 +39,7 @@ describe("Check module import", () => {
     function_();
   });
   describe("Check buttons", () => {
-    describe("Check createButton", () => {
+    describe("createButton", () => {
       it.each(buttonIdsHtml)(
         "should return button if valid ID: %p",
         (buttonIdHtml) => {
