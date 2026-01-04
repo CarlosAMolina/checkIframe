@@ -39,13 +39,13 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("Check ButtonScroll", () => {
-      beforeAll(() => {
+    describe("ButtonScroll", () => {
+      function getButton() {
         const classType = popupModule.__get__("ButtonScroll");
-        button = new classType();
-      });
+        return new classType();
+      }
       it("Check it has correct button ID value", function () {
-        expect(button._idHtml).toBe("buttonScroll");
+        expect(getButton()._idHtml).toBe("buttonScroll");
       });
       describe("Check button click", () => {
         describe("Check if all required data exists", () => {
@@ -56,7 +56,7 @@ describe("Check module import", () => {
           });
           it("Check expected calls and values", async () => {
             assertHtmlInitialValues();
-            await Promise.all([button.click()]);
+            await Promise.all([getButton().click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
               "done sendMessage",
@@ -69,7 +69,7 @@ describe("Check module import", () => {
           });
           it("Check expected calls and values", async () => {
             assertHtmlInitialValues();
-            await Promise.all([button.click()]);
+            await Promise.all([getButton().click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
               "Internal error. The action could not be executed",
