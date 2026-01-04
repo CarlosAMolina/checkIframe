@@ -218,7 +218,7 @@ class ButtonShowConfig extends Button {
   }
 }
 
-class ButtonUrlsOfType extends Button {
+class UrlsOfTypeButton extends Button {
   get _urlType() {
     throw TypeError("Not implemented");
   }
@@ -231,7 +231,7 @@ class ButtonUrlsOfType extends Button {
   }
 }
 
-class ButtonUrlsNotify extends ButtonUrlsOfType {
+class ButtonUrlsNotify extends UrlsOfTypeButton {
   get _idHtml() {
     return BUTTON_ID_URLS_NOTIFY;
   }
@@ -241,7 +241,7 @@ class ButtonUrlsNotify extends ButtonUrlsOfType {
   }
 }
 
-class ButtonUrlsBlacklist extends ButtonUrlsOfType {
+class ButtonUrlsBlacklist extends UrlsOfTypeButton {
   get _idHtml() {
     return BUTTON_ID_URLS_BLACKLIST;
   }
@@ -251,7 +251,7 @@ class ButtonUrlsBlacklist extends ButtonUrlsOfType {
   }
 }
 
-class ButtonUrlsReferer extends ButtonUrlsOfType {
+class ButtonUrlsReferer extends UrlsOfTypeButton {
   get _idHtml() {
     return BUTTON_ID_URLS_REFERER;
   }
