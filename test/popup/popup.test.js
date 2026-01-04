@@ -47,10 +47,9 @@ describe("Check module import", () => {
         describe("Check if all required data exists", () => {
           beforeEach(() => {
             const sendMessageResponse = { response: "done sendMessage" };
-
-            browser.tabs.sendMessage = jest.fn(() =>
-              Promise.resolve(sendMessageResponse),
-            );
+            global.browser = fakeModule.fakeBrowser({
+              sendMessageResponse: sendMessageResponse,
+            });
           });
           it("Check expected calls and values", async () => {
             assertHtmlInitialValues();
