@@ -40,12 +40,12 @@ describe("Check module import", () => {
   });
   describe("buttons", () => {
     describe("ButtonScroll", () => {
-      it("Check it has correct button ID value", function () {
+      it("should have correct button ID", function () {
         expect(getButton()._idHtml).toBe("buttonScroll");
       });
       describe("Check button click", () => {
         describe("Check if all required data exists", () => {
-          it("Check expected calls and values", async () => {
+          it("click should have expected calls and values", async () => {
             // Set test config.
             global.browser = fakeModule.fakeBrowser({
               sendMessageResponse: { response: "done sendMessage" },
@@ -65,7 +65,7 @@ describe("Check module import", () => {
           beforeEach(() => {
             browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
           });
-          it("Check expected calls and values", async () => {
+          it("click should have expected calls and values if undefined response", async () => {
             assertHtmlInitialValues();
             await Promise.all([getButton().click()]);
             runAfterRunExpects();
