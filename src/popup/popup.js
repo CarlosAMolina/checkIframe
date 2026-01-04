@@ -390,16 +390,17 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
   }
 }
 
-// TODO cleanShowSources and removeShownStoredUrls: extract common function
 function cleanShowSources() {
-  while (sourcesContainer.firstChild) {
-    sourcesContainer.removeChild(sourcesContainer.firstChild);
-  }
+  removeChildren(sourcesContainer);
 }
 
 function removeShownStoredUrls() {
-  while (infoContainer.firstChild) {
-    infoContainer.removeChild(infoContainer.firstChild);
+  removeChildren(infoContainer);
+}
+
+function removeChildren(container) {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
   }
 }
 
