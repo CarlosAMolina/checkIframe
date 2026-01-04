@@ -45,22 +45,20 @@ describe("Check module import", () => {
       });
       describe("Check button click", () => {
         describe("Check if all required data exists", () => {
-          beforeEach(() => {
-            const sendMessageResponse = { response: "done sendMessage" };
-            global.browser = fakeModule.fakeBrowser({
-              sendMessageResponse: sendMessageResponse,
-            });
-          });
-          afterEach(() => {
-            global.browser = fakeModule.fakeBrowser();
-          });
           it("Check expected calls and values", async () => {
+            // Set test config.
+            global.browser = fakeModule.fakeBrowser({
+              sendMessageResponse: { response: "done sendMessage" },
+            });
             assertHtmlInitialValues();
+            // Test.
             await Promise.all([getButton().click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
               "done sendMessage",
             );
+            // Restore test config.
+            global.browser = fakeModule.fakeBrowser();
           });
         });
         describe("Check if undefined response.response", () => {
