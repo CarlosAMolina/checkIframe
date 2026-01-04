@@ -29,11 +29,6 @@ import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO replace all `var` in this file with let or const.
 
-// TODO var as const
-var infoContainer = document.querySelector(".info-container");
-// TODO var as const
-var sourcesContainer = document.querySelector(".sources-container");
-
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
 const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
@@ -45,6 +40,8 @@ const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
+const infoContainer = document.querySelector(".info-container");
+const sourcesContainer = document.querySelector(".sources-container");
 var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
 var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
 var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js
