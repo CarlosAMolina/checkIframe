@@ -4,7 +4,6 @@ import * as modelModule from "../../src/popup/model.js";
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
-let button;
 let function_;
 const buttonIdsHtml = [
   "buttonRecheck",
