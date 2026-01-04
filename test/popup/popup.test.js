@@ -51,10 +51,7 @@ describe("Check module import", () => {
         });
         // Test.
         await Promise.all([getButton().click()]);
-        runAfterRunExpects();
-        expect(document.getElementById("infoScroll").textContent).toBe(
-          "done sendMessage",
-        );
+        runAfterRunExpects("done sendMessage");
         // Restore test config.
         global.browser = fakeModule.fakeBrowser();
       });
@@ -66,10 +63,7 @@ describe("Check module import", () => {
         });
         // Test.
         await Promise.all([getButton().click()]);
-        runAfterRunExpects();
-        expect(document.getElementById("infoScroll").textContent).toBe(
-          "Internal error. The action could not be executed",
-        );
+        runAfterRunExpects("Internal error. The action could not be executed");
         // Restore test config.
         global.browser = fakeModule.fakeBrowser();
       });
@@ -80,13 +74,16 @@ describe("Check module import", () => {
         );
         expect(infoScrollBeforeRun.textContent).toBe("");
       }
-      function runAfterRunExpects() {
+      function runAfterRunExpects(infoScrollTextContent) {
         expect(document.getElementById("infoScroll").className).toBe(
           "section backgroundGray",
         );
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
+        expect(document.getElementById("infoScroll").textContent).toBe(
+          infoScrollTextContent,
+        );
       }
       function getButton() {
         const classType = popupModule.__get__("ButtonScroll");
