@@ -38,28 +38,6 @@ describe("Check module import", () => {
     const function_ = popupModule.__get__("initializePopup");
     function_();
   });
-  describe("buttons", () => {
-    describe("ButtonUrlsNotify", () => {
-      it("should have correct button ID", function () {
-        expect(getButton()._idHtml).toBe("buttonUrlsNotify");
-      });
-      it("click should execute removeShownStoredUrls", async () => {
-        // Test config.
-        mockNotEmptyInfoContainer();
-        expect(
-          popupModule.__get__("infoContainer").firstChild.textContent,
-        ).toBe("foo");
-        // Test.
-        // TODO use await (search in all tests all clicks without await)
-        getButton().click();
-        expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
-      });
-      function getButton() {
-        const classType = popupModule.__get__("ButtonUrlsNotify");
-        return new classType();
-      }
-    });
-  });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
       beforeEach(() => {
@@ -374,18 +352,6 @@ describe("Check module import", () => {
     const error = {};
     function_(error);
   });
-  function mockEmptyInfoContainer() {
-    let element = document.createElement("div");
-    element.setAttribute("class", "info-container");
-    popupModule.__set__("infoContainer", element);
-  }
-  function mockNotEmptyInfoContainer() {
-    let entryElement = document.createElement("div");
-    let entryValue = document.createElement("p");
-    entryValue.textContent = "foo";
-    entryElement.appendChild(entryValue);
-    popupModule.__set__("infoContainer", entryElement);
-  }
 });
 
 // TODO move to buttons.test.js
@@ -714,6 +680,26 @@ describe("buttons", () => {
       }
     });
   });
+  describe("ButtonUrlsNotify", () => {
+    it("should have correct button ID", function () {
+      expect(getButton()._idHtml).toBe("buttonUrlsNotify");
+    });
+    it("click should execute removeShownStoredUrls", async () => {
+      // Test config.
+      mockNotEmptyInfoContainer();
+      expect(popupModule.__get__("infoContainer").firstChild.textContent).toBe(
+        "foo",
+      );
+      // Test.
+      // TODO use await (search in all tests all clicks without await)
+      getButton().click();
+      expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
+    });
+    function getButton() {
+      const classType = popupModule.__get__("ButtonUrlsNotify");
+      return new classType();
+    }
+  });
   function initializeButton(buttonStr) {
     const buttonClass = popupModule.__get__(buttonStr);
     return new buttonClass();
@@ -728,6 +714,20 @@ function initializeMocksAndVariables() {
 function initializeDomAndBrowser() {
   fakeModule.runFakeDom("src/popup/popup.html");
   global.browser = fakeModule.fakeBrowser();
+}
+
+function mockEmptyInfoContainer() {
+  const element = document.createElement("div");
+  element.setAttribute("class", "info-container");
+  popupModule.__set__("infoContainer", element);
+}
+
+function mockNotEmptyInfoContainer() {
+  const entryElement = document.createElement("div");
+  const entryValue = document.createElement("p");
+  entryValue.textContent = "foo";
+  entryElement.appendChild(entryValue);
+  popupModule.__set__("infoContainer", entryElement);
 }
 
 function mockNotEmptySourcesContainer() {
