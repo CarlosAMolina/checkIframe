@@ -627,14 +627,14 @@ describe("buttons", () => {
   });
   describe("ButtonRecheck", () => {
     it("should have correct button ID value", function () {
-      expect(createButton()._idHtml).toBe("buttonRecheck");
+      expect(getButton()._idHtml).toBe("buttonRecheck");
     });
     it("click should have expected calls and values", async () => {
       document.querySelector("#infoTags").classList.remove("hidden");
       expect(document.getElementById("infoTags").className).toBe(
         "section backgroundGray sources-container",
       );
-      await createButton().click();
+      await getButton().click();
       const buttonIdHtml = "buttonRecheck";
       expect(document.getElementById("infoTags").className).toBe(
         "section backgroundGray sources-container hidden",
@@ -645,7 +645,7 @@ describe("buttons", () => {
       expect(lastCall[1].info).toBe(buttonIdHtml);
       // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
     });
-    function createButton() {
+    function getButton() {
       const classType = popupModule.__get__("ButtonRecheck");
       return new classType();
     }
