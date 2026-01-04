@@ -39,14 +39,6 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    it.each(buttonIdsHtml)(
-      "click button should not generate error. Button ID %p ",
-      (buttonIdHtml) => {
-        const createButton = popupModule.__get__("createButton");
-        const button = createButton(buttonIdHtml);
-        button.click();
-      },
-    );
     describe("Check ButtonClean", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonClean");
@@ -558,6 +550,14 @@ describe("buttons", () => {
       expect(result).toBe(false);
     });
   });
+  it.each(buttonIdsHtml)(
+    "click button should not generate error. Button ID %p ",
+    (buttonIdHtml) => {
+      const createButton = popupModule.__get__("createButton");
+      const button = createButton(buttonIdHtml);
+      button.click();
+    },
+  );
   describe("Button", () => {
     it("buttonIdHtml should return expected result", function () {
       const result = getButton()._idHtml;
