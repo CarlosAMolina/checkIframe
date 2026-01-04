@@ -43,55 +43,49 @@ describe("Check module import", () => {
       it("should have correct button ID", function () {
         expect(getButton()._idHtml).toBe("buttonScroll");
       });
-      describe("Check button click", () => {
-        describe("Check if all required data exists", () => {
-          it("click should have expected calls and values", async () => {
-            // Set test config.
-            assertHtmlInitialValues();
-            global.browser = fakeModule.fakeBrowser({
-              sendMessageResponse: { response: "done sendMessage" },
-            });
-            // Test.
-            await Promise.all([getButton().click()]);
-            runAfterRunExpects();
-            expect(document.getElementById("infoScroll").textContent).toBe(
-              "done sendMessage",
-            );
-            // Restore test config.
-            global.browser = fakeModule.fakeBrowser();
-          });
+      it("click should have expected calls and values if all required data exists", async () => {
+        // Set test config.
+        assertHtmlInitialValues();
+        global.browser = fakeModule.fakeBrowser({
+          sendMessageResponse: { response: "done sendMessage" },
         });
-        describe("Check if undefined response.response", () => {
-          it("click should have expected calls and values if undefined response", async () => {
-            // Set test config.
-            assertHtmlInitialValues();
-            browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
-            // Test.
-            await Promise.all([getButton().click()]);
-            runAfterRunExpects();
-            expect(document.getElementById("infoScroll").textContent).toBe(
-              "Internal error. The action could not be executed",
-            );
-            // Restore test config.
-            global.browser = fakeModule.fakeBrowser();
-          });
-        });
-        function assertHtmlInitialValues() {
-          const infoScrollBeforeRun = document.getElementById("infoScroll");
-          expect(infoScrollBeforeRun.className).toBe(
-            "section backgroundGray hidden",
-          );
-          expect(infoScrollBeforeRun.textContent).toBe("");
-        }
-        function runAfterRunExpects() {
-          expect(document.getElementById("infoScroll").className).toBe(
-            "section backgroundGray",
-          );
-          expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-          const lastCall = browser.tabs.sendMessage.mock.lastCall;
-          expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
-        }
+        // Test.
+        await Promise.all([getButton().click()]);
+        runAfterRunExpects();
+        expect(document.getElementById("infoScroll").textContent).toBe(
+          "done sendMessage",
+        );
+        // Restore test config.
+        global.browser = fakeModule.fakeBrowser();
       });
+      it("click should have expected calls and values if undefined response", async () => {
+        // Set test config.
+        assertHtmlInitialValues();
+        browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
+        // Test.
+        await Promise.all([getButton().click()]);
+        runAfterRunExpects();
+        expect(document.getElementById("infoScroll").textContent).toBe(
+          "Internal error. The action could not be executed",
+        );
+        // Restore test config.
+        global.browser = fakeModule.fakeBrowser();
+      });
+      function assertHtmlInitialValues() {
+        const infoScrollBeforeRun = document.getElementById("infoScroll");
+        expect(infoScrollBeforeRun.className).toBe(
+          "section backgroundGray hidden",
+        );
+        expect(infoScrollBeforeRun.textContent).toBe("");
+      }
+      function runAfterRunExpects() {
+        expect(document.getElementById("infoScroll").className).toBe(
+          "section backgroundGray",
+        );
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+        const lastCall = browser.tabs.sendMessage.mock.lastCall;
+        expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
+      }
       function getButton() {
         const classType = popupModule.__get__("ButtonScroll");
         return new classType();
