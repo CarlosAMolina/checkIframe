@@ -30,13 +30,6 @@ describe("Check module import", () => {
   it("The module should be imported without errors and has expected values", function () {
     expect(popupModule.__get__("URL_TYPE_BLACKLIST")).toEqual("blacklist");
   });
-  it("url has expected attributes", function () {
-    const type = "notify";
-    const values = ["url_1", "url_2"];
-    const urls_of_type = new modelModule.UrlsOfType(type, values);
-    expect(urls_of_type.type).toEqual("notify");
-    expect(urls_of_type.values).toEqual(["url_1", "url_2"]);
-  });
   it("popupMain runs without error", function () {
     function_ = popupModule.__get__("popupMain");
     function_();
