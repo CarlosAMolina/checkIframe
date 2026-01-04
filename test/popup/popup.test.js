@@ -55,10 +55,8 @@ describe("Check module import", () => {
         expect(result).toBe(false);
       });
     });
-    describe("Check buttons click without error", () => {
-      it.each(buttonIdsHtml)("Check button ID %p ", (buttonIdHtml) => {
-        console.log = jest.fn(); // Avoid lot of logs on the screen.
-        console.error = jest.fn(); // Avoid lot of logs on the screen.
+    describe("click button should not generate error", () => {
+      it.each(buttonIdsHtml)("click button ID %p ", (buttonIdHtml) => {
         const createButton = popupModule.__get__("createButton");
         const button = createButton(buttonIdHtml);
         button.click();
