@@ -100,9 +100,9 @@ describe("Check module import", () => {
           expect(e.message).toBe("Not implemented");
         }
       });
-      it("Check logButtonName logs expected message", function () {
+      it("Check _logButtonName logs expected message", function () {
         console.log = jest.fn();
-        button.logButtonName();
+        button._logButtonName();
         expect(console.log).toHaveBeenCalledWith(
           "Clicked button ID Html: idTest",
         );

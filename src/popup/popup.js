@@ -176,7 +176,7 @@ class ButtonScroll extends Button {
   }
 
   click() {
-    this.logButtonName();
+    this._logButtonName();
     const htmlIdToChange = "infoScroll";
     unhide(htmlIdToChange);
     const message = Message(this._idHtml);
@@ -194,7 +194,7 @@ class ButtonShowSources extends Button {
   }
 
   click() {
-    this.logButtonName();
+    this._logButtonName();
     const htmlIdToChange = "infoTags";
     toggleHide(htmlIdToChange);
     // TODO? avoid send message when hidding
@@ -213,7 +213,7 @@ class ButtonShowConfig extends Button {
   }
 
   click() {
-    this.logButtonName();
+    this._logButtonName();
     toggleHide("menuConfig");
   }
 }
@@ -224,7 +224,7 @@ class ButtonUrlsOfType extends Button {
   }
 
   click() {
-    this.logButtonName();
+    this._logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
     showStoredUrlsType(this._urlType);
@@ -267,7 +267,7 @@ class ButtonAddUrl extends Button {
   }
 
   click() {
-    this.logButtonName();
+    this._logButtonName();
     const urlType = getUrlTypeActive();
     saveUrl(undefined, urlType);
   }
@@ -279,7 +279,7 @@ class ButtonClearAll extends Button {
   }
 
   click() {
-    this.logButtonName();
+    this._logButtonName();
     const urlType = getUrlTypeActive();
     return browser.tabs
       .query({ active: true, currentWindow: true })
