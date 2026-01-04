@@ -524,13 +524,19 @@ describe("Check module import", () => {
     beforeEach(() => {
       mockNotEmptySourcesContainer();
     });
-    it("Elements are modified", function () {
+    it("should delete children", function () {
+      const sourcesContainer = popupModule.__get__("sourcesContainer");
       expect(
-        popupModule.__get__("sourcesContainer").firstChild.textContent,
+        sourcesContainer.children[sourcesContainer.children.length - 2]
+          .textContent,
       ).toBe("foo");
+      expect(
+        sourcesContainer.children[sourcesContainer.children.length - 1]
+          .textContent,
+      ).toBe("bar");
       function_ = popupModule.__get__("cleanShowSources");
       function_();
-      expect(popupModule.__get__("sourcesContainer").firstChild).toBe(null);
+      expect(sourcesContainer.firstChild).toBe(null);
     });
   });
   describe("Check removeShownStoredUrls", () => {
@@ -748,11 +754,13 @@ function initializeDomAndBrowser() {
 }
 
 function mockNotEmptySourcesContainer() {
-  let entryElement = document.createElement("p");
-  let extraTextElement = document.createElement("p");
-  extraTextElement.textContent = "foo";
-  entryElement.appendChild(extraTextElement);
-  popupModule.__set__("sourcesContainer", entryElement);
+  const sourcesContainer = popupModule.__get__("sourcesContainer");
+  const entryElement = document.createElement("p");
+  entryElement.textContent = "foo";
+  const entryElement2 = document.createElement("p");
+  entryElement2.textContent = "bar";
+  sourcesContainer.appendChild(entryElement);
+  sourcesContainer.appendChild(entryElement2);
 }
 
 function fakeInfoContainer(urlsCount) {

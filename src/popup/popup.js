@@ -11,6 +11,7 @@ import { ButtonShowLogs } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { addUrl } from "./url.js";
+import { cleanShowSources } from "./ui.js";
 import { deleteUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
@@ -23,6 +24,7 @@ import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
+import { sourcesContainer } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
@@ -41,7 +43,6 @@ const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 const infoContainer = document.querySelector(".info-container");
-const sourcesContainer = document.querySelector(".sources-container");
 var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
 var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
 var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js
@@ -386,10 +387,6 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
     setupCopyButtonListeners();
     return;
   }
-}
-
-function cleanShowSources() {
-  removeChildren(sourcesContainer);
 }
 
 function removeShownStoredUrls() {
