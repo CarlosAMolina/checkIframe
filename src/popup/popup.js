@@ -18,6 +18,7 @@ import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
+import { infoContainer } from "./ui.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
@@ -42,7 +43,6 @@ const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
-const infoContainer = document.querySelector(".info-container");
 var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
 var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
 var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js
