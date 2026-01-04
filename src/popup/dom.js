@@ -7,6 +7,12 @@ export function hide(htmlId) {
   document.querySelector("#" + htmlId).classList.add("hidden");
 }
 
+export function removeChildren(container) {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+}
+
 // This is necessay to avoid changes in the pop-up width.
 export function setNewElementsMaxWidth() {
   const maxWidthCurrentWindow =

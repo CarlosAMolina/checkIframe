@@ -1,3 +1,5 @@
+import { BUTTON_ID_CLEAN } from "./buttons.js";
+import { BUTTON_ID_RECHECK } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonCancel } from "./buttons.js";
@@ -6,8 +8,6 @@ import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonRecheck } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
-import { BUTTON_ID_CLEAN } from "./buttons.js";
-import { BUTTON_ID_RECHECK } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { addUrl } from "./url.js";
@@ -15,13 +15,14 @@ import { deleteUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
-import { getUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
+import { getUrls } from "./url.js";
+import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
+import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
 import { setupCopyButtonListeners } from "./buttons.js";
-import { setNewElementsMaxWidth } from "./dom.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
@@ -396,12 +397,6 @@ function cleanShowSources() {
 
 function removeShownStoredUrls() {
   removeChildren(infoContainer);
-}
-
-function removeChildren(container) {
-  while (container.firstChild) {
-    container.removeChild(container.firstChild);
-  }
 }
 
 // save input box info
