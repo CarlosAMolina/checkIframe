@@ -51,6 +51,9 @@ describe("Check module import", () => {
               sendMessageResponse: sendMessageResponse,
             });
           });
+          afterEach(() => {
+            global.browser = fakeModule.fakeBrowser();
+          });
           it("Check expected calls and values", async () => {
             assertHtmlInitialValues();
             await Promise.all([getButton().click()]);
