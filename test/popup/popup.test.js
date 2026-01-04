@@ -67,6 +67,10 @@ describe("Check module import", () => {
         // Restore test config.
         global.browser = fakeModule.fakeBrowser();
       });
+      function getButton() {
+        const classType = popupModule.__get__("ButtonScroll");
+        return new classType();
+      }
       function assertHtmlInitialValues() {
         const infoScrollBeforeRun = document.getElementById("infoScroll");
         expect(infoScrollBeforeRun.className).toBe(
@@ -84,10 +88,6 @@ describe("Check module import", () => {
         expect(document.getElementById("infoScroll").textContent).toBe(
           infoScrollTextContent,
         );
-      }
-      function getButton() {
-        const classType = popupModule.__get__("ButtonScroll");
-        return new classType();
       }
     });
     describe("Check ButtonShowConfig", () => {
