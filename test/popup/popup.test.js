@@ -39,9 +39,6 @@ describe("Check module import", () => {
     function_();
   });
   describe("Check buttons", () => {
-    beforeAll(() => {
-      initializeMocksAndVariables();
-    });
     describe("Check createButton", () => {
       beforeAll(() => {
         function_ = popupModule.__get__("createButton");
