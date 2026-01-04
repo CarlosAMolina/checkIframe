@@ -227,8 +227,7 @@ class ButtonUrlsNotify extends Button {
     this.logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
-    const urlType = URL_TYPE_NOTIFY;
-    showStoredUrlsType(urlType + "_");
+    showStoredUrlsType(URL_TYPE_NOTIFY);
   }
 }
 
@@ -241,8 +240,7 @@ class ButtonUrlsBlacklist extends Button {
     this.logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
-    const urlType = URL_TYPE_BLACKLIST;
-    showStoredUrlsType(urlType + "_");
+    showStoredUrlsType(URL_TYPE_BLACKLIST);
   }
 }
 
@@ -255,8 +253,7 @@ class ButtonUrlsReferer extends Button {
     this.logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
     removeShownStoredUrls();
-    const urlType = URL_TYPE_REFERER;
-    showStoredUrlsType(urlType + "_");
+    showStoredUrlsType(URL_TYPE_REFERER);
   }
 }
 
@@ -360,7 +357,7 @@ function showStoredUrlsType(urlType) {
   new BrowserRepository(browser).getAll().then((storageItems) => {
     var keys = Object.keys(storageItems);
     keys.forEach(function (key) {
-      if (key.includes(urlType)) {
+      if (key.includes(urlType + "_")) {
         showStoredInfo(key, storageItems[key]);
       }
     });

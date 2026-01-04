@@ -247,6 +247,7 @@ describe("Check module import", () => {
             expect(
               popupModule.__get__("infoContainer").firstChild.textContent,
             ).toBe("foo");
+            // TODO use await
             button.click();
             expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
           });
