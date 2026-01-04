@@ -63,31 +63,6 @@ describe("Check module import", () => {
         button.click();
       },
     );
-    describe("ButtonRecheck", () => {
-      it("should have correct button ID value", function () {
-        expect(createButton()._idHtml).toBe("buttonRecheck");
-      });
-      it("click should have expected calls and values", async () => {
-        document.querySelector("#infoTags").classList.remove("hidden");
-        expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGray sources-container",
-        );
-        await createButton().click();
-        const buttonIdHtml = "buttonRecheck";
-        expect(document.getElementById("infoTags").className).toBe(
-          "section backgroundGray sources-container hidden",
-        );
-        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-        const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        expect(lastCall[0]).toBe(tabId);
-        expect(lastCall[1].info).toBe(buttonIdHtml);
-        // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
-      });
-      function createButton() {
-        const classType = popupModule.__get__("ButtonRecheck");
-        return new classType();
-      }
-    });
     describe("Check ButtonClean", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonClean");
@@ -650,6 +625,32 @@ describe("check buttons", () => {
       popupModule.__set__("sendMessage", sendMessageBackup);
     });
   });
+  describe("ButtonRecheck", () => {
+    it("should have correct button ID value", function () {
+      expect(createButton()._idHtml).toBe("buttonRecheck");
+    });
+    it("click should have expected calls and values", async () => {
+      document.querySelector("#infoTags").classList.remove("hidden");
+      expect(document.getElementById("infoTags").className).toBe(
+        "section backgroundGray sources-container",
+      );
+      await createButton().click();
+      const buttonIdHtml = "buttonRecheck";
+      expect(document.getElementById("infoTags").className).toBe(
+        "section backgroundGray sources-container hidden",
+      );
+      expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+      const lastCall = browser.tabs.sendMessage.mock.lastCall;
+      expect(lastCall[0]).toBe(tabId);
+      expect(lastCall[1].info).toBe(buttonIdHtml);
+      // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+    });
+    function createButton() {
+      const classType = popupModule.__get__("ButtonRecheck");
+      return new classType();
+    }
+  });
+
   describe("ButtonShowSources", () => {
     it("has expected button ID", function () {
       expect(initializeButton("ButtonShowSources")._idHtml).toBe(
