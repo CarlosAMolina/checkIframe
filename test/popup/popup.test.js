@@ -31,11 +31,11 @@ describe("Check module import", () => {
     expect(popupModule.__get__("URL_TYPE_BLACKLIST")).toEqual("blacklist");
   });
   it("popupMain runs without error", function () {
-    function_ = popupModule.__get__("popupMain");
+    const function_ = popupModule.__get__("popupMain");
     function_();
   });
   it("initializePopup runs without error", function () {
-    function_ = popupModule.__get__("initializePopup");
+    const function_ = popupModule.__get__("initializePopup");
     function_();
   });
   describe("Check buttons", () => {
