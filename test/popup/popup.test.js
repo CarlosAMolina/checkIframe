@@ -64,15 +64,6 @@ describe("Check module import", () => {
       },
     );
     describe("Check Button", () => {
-      function getButton() {
-        const ButtonBase = popupModule.__get__("Button");
-        class TestButton extends ButtonBase {
-          get _idHtml() {
-            return "idTest";
-          }
-        }
-        return new TestButton();
-      }
       it("Check buttonIdHtml returns expected result", function () {
         const result = getButton()._idHtml;
         expect(result).toBe("idTest");
@@ -92,6 +83,15 @@ describe("Check module import", () => {
           "Clicked button ID Html: idTest",
         );
       });
+      function getButton() {
+        const ButtonBase = popupModule.__get__("Button");
+        class TestButton extends ButtonBase {
+          get _idHtml() {
+            return "idTest";
+          }
+        }
+        return new TestButton();
+      }
     });
     describe("Check ButtonRecheck", () => {
       beforeAll(() => {
