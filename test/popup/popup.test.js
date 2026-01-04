@@ -39,33 +39,25 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("Check ButtonUrlsNotify", () => {
-      beforeAll(() => {
+    describe("ButtonUrlsNotify", () => {
+      it("should have correct button ID", function () {
+        expect(getButton()._idHtml).toBe("buttonUrlsNotify");
+      });
+      it("click should execute removeShownStoredUrls", async () => {
+        // Test config.
+        mockNotEmptyInfoContainer();
+        expect(
+          popupModule.__get__("infoContainer").firstChild.textContent,
+        ).toBe("foo");
+        // Test.
+        // TODO use await (search in all tests all clicks without await)
+        getButton().click();
+        expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
+      });
+      function getButton() {
         const classType = popupModule.__get__("ButtonUrlsNotify");
-        button = new classType();
-      });
-      it("Check it has correct button ID value", function () {
-        expect(button._idHtml).toBe("buttonUrlsNotify");
-      });
-      describe("Check click has expected calls and values", () => {
-        describe("Test removeShownStoredUrls call", () => {
-          beforeEach(() => {
-            mockNotEmptyInfoContainer();
-          });
-          it("Test", async () => {
-            expect(
-              popupModule.__get__("infoContainer").firstChild.textContent,
-            ).toBe("foo");
-            // TODO use await
-            button.click();
-            expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
-          });
-        });
-        // TODO describe("Test showStoredUrlsType call", () => {
-        // TODO     console.info("*** start"); // TODO rm
-        // TODO     console.info("*** end"); // TODO rm
-        // TODO });
-      });
+        return new classType();
+      }
     });
   });
   describe("Check function showStoredInfo", () => {
@@ -312,6 +304,7 @@ describe("Check module import", () => {
       });
     });
   });
+  // TODO describe("Test showStoredUrlsType call", () => {
   it("showStoredUrlsType runs without error", function () {
     function_ = popupModule.__get__("showStoredUrlsType");
     function_();
