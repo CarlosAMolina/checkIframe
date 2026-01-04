@@ -47,10 +47,10 @@ describe("Check module import", () => {
         describe("Check if all required data exists", () => {
           it("click should have expected calls and values", async () => {
             // Set test config.
+            assertHtmlInitialValues();
             global.browser = fakeModule.fakeBrowser({
               sendMessageResponse: { response: "done sendMessage" },
             });
-            assertHtmlInitialValues();
             // Test.
             await Promise.all([getButton().click()]);
             runAfterRunExpects();
@@ -62,16 +62,18 @@ describe("Check module import", () => {
           });
         });
         describe("Check if undefined response.response", () => {
-          beforeEach(() => {
-            browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
-          });
           it("click should have expected calls and values if undefined response", async () => {
+            // Set test config.
             assertHtmlInitialValues();
+            browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
+            // Test.
             await Promise.all([getButton().click()]);
             runAfterRunExpects();
             expect(document.getElementById("infoScroll").textContent).toBe(
               "Internal error. The action could not be executed",
             );
+            // Restore test config.
+            global.browser = fakeModule.fakeBrowser();
           });
         });
         function assertHtmlInitialValues() {
