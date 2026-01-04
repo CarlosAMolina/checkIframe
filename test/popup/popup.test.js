@@ -39,31 +39,6 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("ButtonClean", () => {
-      it("Check it has correct button ID value", function () {
-        expect(getButton()._idHtml).toBe("buttonClean");
-      });
-      it("Check click has expected calls and values", async () => {
-        document.querySelector("#infoScroll").classList.remove("hidden");
-        expect(document.getElementById("infoScroll").className).toBe(
-          "section backgroundGray",
-        );
-        await getButton().click();
-        const buttonIdHtml = "buttonClean";
-        expect(document.getElementById("infoScroll").className).toBe(
-          "section backgroundGray hidden",
-        );
-        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
-        const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        expect(lastCall[0]).toBe(tabId);
-        expect(lastCall[1].info).toBe(buttonIdHtml);
-        // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
-      });
-      function getButton() {
-        const classType = popupModule.__get__("ButtonClean");
-        return new classType();
-      }
-    });
     describe("Check ButtonScroll", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonScroll");
@@ -586,6 +561,32 @@ describe("buttons", () => {
         }
       }
       return new TestButton();
+    }
+  });
+  describe("ButtonClean", () => {
+    it("Check it has correct button ID value", function () {
+      expect(getButton()._idHtml).toBe("buttonClean");
+    });
+    it("Check click has expected calls and values", async () => {
+      document.querySelector("#infoScroll").classList.remove("hidden");
+      expect(document.getElementById("infoScroll").className).toBe(
+        "section backgroundGray",
+      );
+      browser.tabs.sendMessage.mockClear();
+      await getButton().click();
+      const buttonIdHtml = "buttonClean";
+      expect(document.getElementById("infoScroll").className).toBe(
+        "section backgroundGray hidden",
+      );
+      expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+      const lastCall = browser.tabs.sendMessage.mock.lastCall;
+      expect(lastCall[0]).toBe(tabId);
+      expect(lastCall[1].info).toBe(buttonIdHtml);
+      // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+    });
+    function getButton() {
+      const classType = popupModule.__get__("ButtonClean");
+      return new classType();
     }
   });
   describe("ButtonClearAll", () => {
