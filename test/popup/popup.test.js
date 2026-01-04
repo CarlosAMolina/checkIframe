@@ -40,10 +40,6 @@ describe("Check module import", () => {
   });
   describe("buttons", () => {
     describe("ButtonScroll", () => {
-      function getButton() {
-        const classType = popupModule.__get__("ButtonScroll");
-        return new classType();
-      }
       it("Check it has correct button ID value", function () {
         expect(getButton()._idHtml).toBe("buttonScroll");
       });
@@ -92,6 +88,10 @@ describe("Check module import", () => {
           expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
         }
       });
+      function getButton() {
+        const classType = popupModule.__get__("ButtonScroll");
+        return new classType();
+      }
     });
     describe("Check ButtonShowConfig", () => {
       beforeAll(() => {
