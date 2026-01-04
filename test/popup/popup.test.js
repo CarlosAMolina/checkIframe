@@ -39,20 +39,16 @@ describe("Check module import", () => {
     function_();
   });
   describe("buttons", () => {
-    describe("Check ButtonClean", () => {
-      beforeAll(() => {
-        const classType = popupModule.__get__("ButtonClean");
-        button = new classType();
-      });
+    describe("ButtonClean", () => {
       it("Check it has correct button ID value", function () {
-        expect(button._idHtml).toBe("buttonClean");
+        expect(getButton()._idHtml).toBe("buttonClean");
       });
       it("Check click has expected calls and values", async () => {
         document.querySelector("#infoScroll").classList.remove("hidden");
         expect(document.getElementById("infoScroll").className).toBe(
           "section backgroundGray",
         );
-        await button.click();
+        await getButton().click();
         const buttonIdHtml = "buttonClean";
         expect(document.getElementById("infoScroll").className).toBe(
           "section backgroundGray hidden",
@@ -63,6 +59,10 @@ describe("Check module import", () => {
         expect(lastCall[1].info).toBe(buttonIdHtml);
         // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
       });
+      function getButton() {
+        const classType = popupModule.__get__("ButtonClean");
+        return new classType();
+      }
     });
     describe("Check ButtonScroll", () => {
       beforeAll(() => {
