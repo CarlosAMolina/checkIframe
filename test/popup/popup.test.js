@@ -63,36 +63,6 @@ describe("Check module import", () => {
         button.click();
       },
     );
-    describe("Check Button", () => {
-      it("Check buttonIdHtml returns expected result", function () {
-        const result = getButton()._idHtml;
-        expect(result).toBe("idTest");
-      });
-      it("Check click throws error", function () {
-        try {
-          getButton().click();
-          expect(true).toBe(false);
-        } catch (e) {
-          expect(e.message).toBe("Not implemented");
-        }
-      });
-      it("Check _logButtonName logs expected message", function () {
-        console.log = jest.fn();
-        getButton()._logButtonName();
-        expect(console.log).toHaveBeenCalledWith(
-          "Clicked button ID Html: idTest",
-        );
-      });
-      function getButton() {
-        const ButtonBase = popupModule.__get__("Button");
-        class TestButton extends ButtonBase {
-          get _idHtml() {
-            return "idTest";
-          }
-        }
-        return new TestButton();
-      }
-    });
     describe("Check ButtonRecheck", () => {
       beforeAll(() => {
         const classType = popupModule.__get__("ButtonRecheck");
@@ -612,6 +582,36 @@ describe("setupCopyButtonListeners", () => {
 describe("check buttons", () => {
   beforeAll(() => {
     initializeMocksAndVariables();
+  });
+  describe("Button", () => {
+    it("buttonIdHtml should return expected result", function () {
+      const result = getButton()._idHtml;
+      expect(result).toBe("idTest");
+    });
+    it("click should throw error", function () {
+      try {
+        getButton().click();
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e.message).toBe("Not implemented");
+      }
+    });
+    it("_logButtonName should log expected message", function () {
+      console.log = jest.fn();
+      getButton()._logButtonName();
+      expect(console.log).toHaveBeenCalledWith(
+        "Clicked button ID Html: idTest",
+      );
+    });
+    function getButton() {
+      const ButtonBase = popupModule.__get__("Button");
+      class TestButton extends ButtonBase {
+        get _idHtml() {
+          return "idTest";
+        }
+      }
+      return new TestButton();
+    }
   });
   describe("ButtonClearAll", () => {
     it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
