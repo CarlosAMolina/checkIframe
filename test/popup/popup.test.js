@@ -46,8 +46,10 @@ describe("Check module import", () => {
       describe("Check button click", () => {
         describe("Check if all required data exists", () => {
           beforeEach(() => {
+            const sendMessageResponse = { response: "done sendMessage" };
+
             browser.tabs.sendMessage = jest.fn(() =>
-              Promise.resolve({ response: "done sendMessage" }),
+              Promise.resolve(sendMessageResponse),
             );
           });
           it("Check expected calls and values", async () => {
