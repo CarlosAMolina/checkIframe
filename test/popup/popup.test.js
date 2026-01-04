@@ -55,13 +55,14 @@ describe("Check module import", () => {
         expect(result).toBe(false);
       });
     });
-    describe("click button should not generate error", () => {
-      it.each(buttonIdsHtml)("click button ID %p ", (buttonIdHtml) => {
+    it.each(buttonIdsHtml)(
+      "click button should not generate error. Button ID %p ",
+      (buttonIdHtml) => {
         const createButton = popupModule.__get__("createButton");
         const button = createButton(buttonIdHtml);
         button.click();
-      });
-    });
+      },
+    );
     describe("Check Button", () => {
       beforeAll(() => {
         const ButtonBase = popupModule.__get__("Button");
