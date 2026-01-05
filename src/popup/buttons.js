@@ -11,6 +11,7 @@ import { unhide } from "./dom.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
+export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
 export const BUTTON_ID_CLEAN = "buttonClean";
 export const BUTTON_ID_RECHECK = "buttonRecheck";
 
@@ -39,7 +40,7 @@ export class DynamicButton {
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
-class OnOffButton extends Button {
+export class OnOffButton extends Button {
   initializePopup() {
     throw TypeError("Not implemented: method initializePopup");
   }
@@ -80,6 +81,7 @@ class OnOffButton extends Button {
     document.getElementById(this._idHtml).checked = styles[style].checked;
   }
 
+  // TODO? as private. Review other public methods too
   get isOn() {
     const element = document.getElementById(this._idHtml);
     console.log(`Is button ${this._idHtml} checked? ${element.checked}`);

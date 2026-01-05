@@ -1,3 +1,4 @@
+import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
 import { BUTTON_ID_CLEAN } from "./buttons.js";
 import { BUTTON_ID_RECHECK } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
@@ -10,6 +11,7 @@ import { ButtonRecheck } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
+import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
 import { cleanShowSources } from "./ui.js";
 import { deleteUrl } from "./url.js";
@@ -18,6 +20,7 @@ import { getStoredUrls } from "./url.js";
 import { getStrTagsHtml } from "./tags-html.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
+import { hide } from "./dom.js";
 import { infoContainer } from "./ui.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
@@ -77,6 +80,7 @@ function initializePopup() {
   setNewElementsMaxWidth();
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
+  new ButtonAlwaysShowSources().initializePopup();
   getStoredUrls(browser).then((urls) => {
     setUrls(urls);
     const message = Message("urls", urls);
@@ -85,9 +89,11 @@ function initializePopup() {
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
-//TODO improve, instead of liste to all clicked elements, add listen only to buttons.
+//TODO improve, instead of list all clicked elements, add listen only to buttons.
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
+    case BUTTON_ID_ALWAYS_SHOW_SOURCES:
+      return new ButtonAlwaysShowSources();
     case BUTTON_ID_RECHECK:
       return new ButtonRecheck();
     case BUTTON_ID_CLEAN:
@@ -195,15 +201,61 @@ class ButtonShowSources extends Button {
 
   click() {
     this._logButtonName();
-    const htmlIdToChange = "infoTags";
-    toggleHide(htmlIdToChange);
+    toggleHide("infoTags");
+    this.showSources();
+  }
+
+  showSources() {
     // TODO? avoid send message when hidding
     const message = Message(this._idHtml);
     return sendMessage(message)
       .then((response) =>
-        changeParagraph(message.info, response.response, htmlIdToChange),
+        changeParagraph(message.info, response.response, "infoTags"),
       )
       .catch(reportError);
+  }
+}
+
+// TODO test all code related with this button (function createButton too)
+export class ButtonAlwaysShowSources extends OnOffButton {
+  get _idHtml() {
+    return BUTTON_ID_ALWAYS_SHOW_SOURCES;
+  }
+
+  async click() {
+    this._logButtonName();
+    if (this.isOn) {
+      this.setStyleOff();
+      unhide("buttonShowSources");
+    } else {
+      this.setStyleOn();
+      hide("buttonShowSources");
+      await new ButtonShowSources().showSources();
+      unhide("infoTags");
+    }
+    await browser.storage.local
+      .set({ [this._idStorage]: this.isOn })
+      .then(() => {
+        console.log(
+          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
+        );
+      }, console.error);
+  }
+
+  async initializePopup() {
+    const mustBeOn = await this.getIsStoredOn();
+    if (mustBeOn) {
+      this.setStyleOn();
+      hide("buttonShowSources");
+      await new ButtonShowSources().showSources();
+      unhide("infoTags");
+    } else {
+      this.setStyleOff();
+    }
+  }
+
+  get _idStorage() {
+    return "idTagsInfoAlwaysVisible";
   }
 }
 
