@@ -63,16 +63,15 @@ describe("ButtonAlwaysShowSources", () => {
       browser = fakeModule.fakeBrowser({
         storageItems: { idTagsInfoAlwaysVisible: true },
       });
-      //TODO       const showSourcesSpy = jest.spyOn(
-      //TODO         ButtonShowSources.prototype,
-      //TODO         "showSources",
-      //TODO       );
       // Test.
       await button.initializePopup();
       expect(buttonElement.checked).toBe(true);
       expect(isHidden("buttonShowSources")).toBe(true);
       expect(isHidden("infoTags")).toBe(false);
-      //TODO       expect(showSourcesSpy).toHaveBeenCalledTimes(1);
+      const tabId = 1;
+      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
+        info: "buttonShowSources",
+      });
     });
     //TODO     it("should set style to OFF when storage is false", async () => {
     //TODO       // Arrange

@@ -11,10 +11,6 @@ export function fakeBrowser(config) {
       : { data: "done sendMessage" };
   const storageItems =
     config && "storageItems" in config ? config.storageItems : {};
-  const sendMessageFunction =
-    config && "sendMessageFunction" in config
-      ? config.sendMessageFunction
-      : Promise.resolve(sendMessageResponse);
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {
     browserAction: {
@@ -46,7 +42,7 @@ export function fakeBrowser(config) {
         removeListener: jest.fn(),
       },
       query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      sendMessage: jest.fn(() => sendMessageFunction),
+      sendMessage: jest.fn(() => Promise.resolve(sendMessageResponse)),
       update: getNewPromise,
     },
     windows: {
