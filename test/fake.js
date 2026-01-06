@@ -5,17 +5,16 @@ import path from "path";
 import { JSDOM } from "jsdom";
 
 export function fakeBrowser(config) {
-  let storageItems = {};
-  let sendMessageResponse = { data: "done sendMessage" };
-  if (config !== undefined) {
-    if ("storageItems" in config) {
-      storageItems = config.storageItems;
-    }
-    if ("sendMessageResponse" in config) {
-      sendMessageResponse = config.sendMessageResponse;
-    }
-  }
-  let sendMessageFunction = Promise.resolve(sendMessageResponse);
+  let sendMessageResponse =
+    config && "sendMessageResponse" in config
+      ? config.sendMessageResponse
+      : { data: "done sendMessage" };
+  let storageItems =
+    config && "storageItems" in config ? config.storageItems : {};
+  let sendMessageFunction =
+    config && "sendMessageFunction" in config
+      ? config.sendMessageFunction
+      : Promise.resolve(sendMessageResponse);
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {
     browserAction: {
