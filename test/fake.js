@@ -5,13 +5,13 @@ import path from "path";
 import { JSDOM } from "jsdom";
 
 export function fakeBrowser(config) {
-  let sendMessageResponse =
+  const sendMessageResponse =
     config && "sendMessageResponse" in config
       ? config.sendMessageResponse
       : { data: "done sendMessage" };
-  let storageItems =
+  const storageItems =
     config && "storageItems" in config ? config.storageItems : {};
-  let sendMessageFunction =
+  const sendMessageFunction =
     config && "sendMessageFunction" in config
       ? config.sendMessageFunction
       : Promise.resolve(sendMessageResponse);
