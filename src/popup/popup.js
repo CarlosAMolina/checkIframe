@@ -63,6 +63,11 @@ function popupMain() {
       button.click();
     }
   });
+  document
+    .getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES)
+    .addEventListener("click", () => {
+      new ButtonAlwaysShowSources().click();
+    });
   const urlType = getUrlTypeActive();
   // set up listener for the input box
   document
@@ -92,8 +97,6 @@ function initializePopup() {
 //TODO improve, instead of list all clicked elements, add listen only to buttons.
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
-    case BUTTON_ID_ALWAYS_SHOW_SOURCES:
-      return new ButtonAlwaysShowSources();
     case BUTTON_ID_RECHECK:
       return new ButtonRecheck();
     case BUTTON_ID_CLEAN:
@@ -245,6 +248,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
   async initializePopup() {
     const mustBeOn = await this.getIsStoredOn();
     if (mustBeOn) {
+      // TODO refactor, extract method, duplicated code.
       this.setStyleOn();
       hide("buttonShowSources");
       await new ButtonShowSources().showSources();
