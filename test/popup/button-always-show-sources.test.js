@@ -73,7 +73,7 @@ describe("ButtonAlwaysShowSources", () => {
         info: "buttonShowSources",
       });
     });
-    it("should modify UI as expected when storage is false", async () => {
+    it("should set style to OFF when storage is false", async () => {
       // Configure test.
       browser = fakeModule.fakeBrowser({
         storageItems: { idTagsInfoAlwaysVisible: false },
@@ -82,21 +82,15 @@ describe("ButtonAlwaysShowSources", () => {
       await button.initializePopup();
       expect(buttonElement.checked).toBe(false);
     });
-    //TODO     it("should set style to OFF when storage is empty", async () => {
-    //TODO       // Arrange
-    //TODO       browser.storage.local.get.mockResolvedValue({});
-    //TODO       const showSourcesSpy = jest.spyOn(
-    //TODO         ButtonShowSources.prototype,
-    //TODO         "showSources",
-    //TODO       );
-    //TODO       // Act
-    //TODO       await button.initializePopup();
-    //TODO       // Assert
-    //TODO       expect(buttonElement.checked).toBe(false);
-    //TODO       expect(hide).not.toHaveBeenCalled();
-    //TODO       expect(unhide).not.toHaveBeenCalled();
-    //TODO       expect(showSourcesSpy).not.toHaveBeenCalled();
-    //TODO     });
+    it("should set style to OFF when not stored configuration", async () => {
+      // Configure test.
+      browser = fakeModule.fakeBrowser({
+        storageItems: {},
+      });
+      // Test.
+      await button.initializePopup();
+      expect(buttonElement.checked).toBe(false);
+    });
   });
   //TODO   describe("click", () => {
   //TODO     it("should turn ON, hide button, show sources, and save state when clicked while OFF", async () => {
