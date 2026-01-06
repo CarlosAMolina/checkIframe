@@ -70,8 +70,8 @@ describe("ButtonAlwaysShowSources", () => {
       // Test.
       await button.initializePopup();
       expect(buttonElement.checked).toBe(true);
-      //TODO       expect(hide).toHaveBeenCalledWith("buttonShowSources");
-      //TODO       expect(unhide).toHaveBeenCalledWith("infoTags");
+      expect(isHidden("buttonShowSources")).toBe(true);
+      expect(isHidden("infoTags")).toBe(false);
       //TODO       expect(showSourcesSpy).toHaveBeenCalledTimes(1);
     });
     //TODO     it("should set style to OFF when storage is false", async () => {
@@ -146,4 +146,7 @@ describe("ButtonAlwaysShowSources", () => {
   //TODO       });
   //TODO     });
   //TODO   });
+  function isHidden(idHtml) {
+    return document.getElementById(idHtml).classList.contains("hidden");
+  }
 });
