@@ -1,4 +1,5 @@
-//TODO import { ButtonAlwaysShowSources } from "../../src/popup/popup";
+import * as fakeModule from "../fake.js";
+
 //TODO import { ButtonShowSources } from "../../src/popup/popup";
 //TODO import { hide, unhide } from "../../src/popup/dom";
 //TODO import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "../../src/popup/buttons";
@@ -32,22 +33,24 @@ describe("ButtonAlwaysShowSources", () => {
   //TODO   let buttonElement;
   //TODO   let showSourcesButtonElement;
   //TODO   let infoTagsElement;
-  //TODO   beforeEach(() => {
-  //TODO     // Clean up mocks before each test
-  //TODO     jest.clearAllMocks();
-  //TODO     // Set up a fake DOM
-  //TODO     document.body.innerHTML = `
-  //TODO       <button id="buttonAlwaysShowSources"></button>
-  //TODO       <button id="buttonShowSources"></button>
-  //TODO       <div id="infoTags"></div>
-  //TODO     `;
-  //TODO     // Get fake DOM elements
-  //TODO     buttonElement = document.getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES);
-  //TODO     showSourcesButtonElement = document.getElementById("buttonShowSources");
-  //TODO     infoTagsElement = document.getElementById("infoTags");
-  //TODO     // Create a new instance of the button class for each test
-  //TODO     button = new ButtonAlwaysShowSources();
-  //TODO   });
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    //TODO     // Clean up mocks before each test
+    //TODO     jest.clearAllMocks();
+    //TODO     // Set up a fake DOM
+    //TODO     document.body.innerHTML = `
+    //TODO       <button id="buttonAlwaysShowSources"></button>
+    //TODO       <button id="buttonShowSources"></button>
+    //TODO       <div id="infoTags"></div>
+    //TODO     `;
+    //TODO     // Get fake DOM elements
+    //TODO     buttonElement = document.getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES);
+    //TODO     showSourcesButtonElement = document.getElementById("buttonShowSources");
+    //TODO     infoTagsElement = document.getElementById("infoTags");
+    //TODO     // Create a new instance of the button class for each test
+    //TODO     button = new ButtonAlwaysShowSources();
+  });
   describe("initializePopup", () => {
     it("should set style to ON and show sources when storage is true", async () => {
       //TODO       // Arrange
@@ -76,7 +79,7 @@ describe("ButtonAlwaysShowSources", () => {
       //TODO         "showSources",
       //TODO       );
       //TODO       // Act
-      //TODO       await button.initializePopup();
+      await getButton().initializePopup();
       //TODO       // Assert
       //TODO       expect(buttonElement.checked).toBe(false);
       //TODO       expect(hide).not.toHaveBeenCalled();
@@ -139,4 +142,11 @@ describe("ButtonAlwaysShowSources", () => {
   //TODO       });
   //TODO     });
   //TODO   });
+  function getButton() {
+    const popupModule = require("../../src/popup/popup.js");
+    const ButtonAlwaysShowSources = popupModule.__get__(
+      "ButtonAlwaysShowSources",
+    );
+    return new ButtonAlwaysShowSources();
+  }
 });
