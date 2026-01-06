@@ -1,8 +1,8 @@
+import * as buttonsModule from "../../src/popup/buttons.js";
 import * as fakeModule from "../fake.js";
 
 //TODO import { ButtonShowSources } from "../../src/popup/popup";
 //TODO import { hide, unhide } from "../../src/popup/dom";
-//TODO import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "../../src/popup/buttons";
 //TODO
 //TODO jest.mock("../../src/popup/dom", () => ({
 //TODO   hide: jest.fn(),
@@ -29,8 +29,8 @@ import * as fakeModule from "../fake.js";
 //TODO };
 //TODO
 describe("ButtonAlwaysShowSources", () => {
-  //TODO   let button;
-  //TODO   let buttonElement;
+  let button;
+  let buttonElement;
   //TODO   let showSourcesButtonElement;
   //TODO   let infoTagsElement;
   beforeEach(() => {
@@ -45,47 +45,51 @@ describe("ButtonAlwaysShowSources", () => {
     //TODO       <div id="infoTags"></div>
     //TODO     `;
     //TODO     // Get fake DOM elements
-    //TODO     buttonElement = document.getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES);
     //TODO     showSourcesButtonElement = document.getElementById("buttonShowSources");
     //TODO     infoTagsElement = document.getElementById("infoTags");
     //TODO     // Create a new instance of the button class for each test
-    //TODO     button = new ButtonAlwaysShowSources();
+    const popupModule = require("../../src/popup/popup.js");
+    const ButtonAlwaysShowSources = popupModule.__get__(
+      "ButtonAlwaysShowSources",
+    );
+    button = new ButtonAlwaysShowSources();
+    buttonElement = document.getElementById(
+      buttonsModule.BUTTON_ID_ALWAYS_SHOW_SOURCES,
+    );
   });
   describe("initializePopup", () => {
     it("should set style to ON and show sources when storage is true", async () => {
-      //TODO       // Arrange
-      //TODO       browser.storage.local.get.mockResolvedValue({
-      //TODO         idTagsInfoAlwaysVisible: true,
-      //TODO       });
+      // Configure test.
+      browser = fakeModule.fakeBrowser({
+        storageItems: { idTagsInfoAlwaysVisible: true },
+      });
       //TODO       const showSourcesSpy = jest.spyOn(
       //TODO         ButtonShowSources.prototype,
       //TODO         "showSources",
       //TODO       );
-      //TODO       // Act
-      //TODO       await button.initializePopup();
-      //TODO       // Assert
-      //TODO       expect(buttonElement.checked).toBe(true);
+      // Test.
+      await button.initializePopup();
+      expect(buttonElement.checked).toBe(true);
       //TODO       expect(hide).toHaveBeenCalledWith("buttonShowSources");
       //TODO       expect(unhide).toHaveBeenCalledWith("infoTags");
       //TODO       expect(showSourcesSpy).toHaveBeenCalledTimes(1);
-      //TODO     });
-      //TODO     it("should set style to OFF when storage is false", async () => {
-      //TODO       // Arrange
-      //TODO       browser.storage.local.get.mockResolvedValue({
-      //TODO         idTagsInfoAlwaysVisible: false,
-      //TODO       });
-      //TODO       const showSourcesSpy = jest.spyOn(
-      //TODO         ButtonShowSources.prototype,
-      //TODO         "showSources",
-      //TODO       );
-      //TODO       // Act
-      await getButton().initializePopup();
-      //TODO       // Assert
-      //TODO       expect(buttonElement.checked).toBe(false);
-      //TODO       expect(hide).not.toHaveBeenCalled();
-      //TODO       expect(unhide).not.toHaveBeenCalled();
-      //TODO       expect(showSourcesSpy).not.toHaveBeenCalled();
     });
+    //TODO     it("should set style to OFF when storage is false", async () => {
+    //TODO       // Arrange
+    //TODO       browser.storage.local.get.mockResolvedValue({
+    //TODO         idTagsInfoAlwaysVisible: false,
+    //TODO       });
+    //TODO       const showSourcesSpy = jest.spyOn(
+    //TODO         ButtonShowSources.prototype,
+    //TODO         "showSources",
+    //TODO       );
+    //TODO       await getButton().initializePopup();
+    //TODO       // Assert
+    //TODO       expect(buttonElement.checked).toBe(false);
+    //TODO       expect(hide).not.toHaveBeenCalled();
+    //TODO       expect(unhide).not.toHaveBeenCalled();
+    //TODO       expect(showSourcesSpy).not.toHaveBeenCalled();
+    //TODO });
     //TODO     it("should set style to OFF when storage is empty", async () => {
     //TODO       // Arrange
     //TODO       browser.storage.local.get.mockResolvedValue({});
@@ -142,11 +146,4 @@ describe("ButtonAlwaysShowSources", () => {
   //TODO       });
   //TODO     });
   //TODO   });
-  function getButton() {
-    const popupModule = require("../../src/popup/popup.js");
-    const ButtonAlwaysShowSources = popupModule.__get__(
-      "ButtonAlwaysShowSources",
-    );
-    return new ButtonAlwaysShowSources();
-  }
 });
