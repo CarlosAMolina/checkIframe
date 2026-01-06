@@ -202,7 +202,7 @@ class ButtonShowSources extends Button {
   click() {
     this._logButtonName();
     toggleHide("infoTags");
-    this.showSources();
+    return this.showSources();
   }
 
   showSources() {
