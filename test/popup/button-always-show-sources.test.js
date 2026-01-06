@@ -57,41 +57,6 @@ describe("ButtonAlwaysShowSources", () => {
       buttonsModule.BUTTON_ID_ALWAYS_SHOW_SOURCES,
     );
   });
-  describe("initializePopup", () => {
-    it("should modify UI as expected when storage is true", async () => {
-      // Configure test.
-      browser = fakeModule.fakeBrowser({
-        storageItems: { idTagsInfoAlwaysVisible: true },
-      });
-      // Test.
-      await button.initializePopup();
-      expect(buttonElement.checked).toBe(true);
-      expect(isHidden("buttonShowSources")).toBe(true);
-      expect(isHidden("infoTags")).toBe(false);
-      const tabId = 1;
-      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
-        info: "buttonShowSources",
-      });
-    });
-    it("should set style to OFF when storage is false", async () => {
-      // Configure test.
-      browser = fakeModule.fakeBrowser({
-        storageItems: { idTagsInfoAlwaysVisible: false },
-      });
-      // Test.
-      await button.initializePopup();
-      expect(buttonElement.checked).toBe(false);
-    });
-    it("should set style to OFF when not stored configuration", async () => {
-      // Configure test.
-      browser = fakeModule.fakeBrowser({
-        storageItems: {},
-      });
-      // Test.
-      await button.initializePopup();
-      expect(buttonElement.checked).toBe(false);
-    });
-  });
   //TODO   describe("click", () => {
   //TODO     it("should turn ON, hide button, show sources, and save state when clicked while OFF", async () => {
   //TODO       // Arrange - ensure button is OFF initially
@@ -132,6 +97,41 @@ describe("ButtonAlwaysShowSources", () => {
   //TODO       });
   //TODO     });
   //TODO   });
+  describe("initializePopup", () => {
+    it("should modify UI as expected when storage is true", async () => {
+      // Configure test.
+      browser = fakeModule.fakeBrowser({
+        storageItems: { idTagsInfoAlwaysVisible: true },
+      });
+      // Test.
+      await button.initializePopup();
+      expect(buttonElement.checked).toBe(true);
+      expect(isHidden("buttonShowSources")).toBe(true);
+      expect(isHidden("infoTags")).toBe(false);
+      const tabId = 1;
+      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
+        info: "buttonShowSources",
+      });
+    });
+    it("should set style to OFF when storage is false", async () => {
+      // Configure test.
+      browser = fakeModule.fakeBrowser({
+        storageItems: { idTagsInfoAlwaysVisible: false },
+      });
+      // Test.
+      await button.initializePopup();
+      expect(buttonElement.checked).toBe(false);
+    });
+    it("should set style to OFF when not stored configuration", async () => {
+      // Configure test.
+      browser = fakeModule.fakeBrowser({
+        storageItems: {},
+      });
+      // Test.
+      await button.initializePopup();
+      expect(buttonElement.checked).toBe(false);
+    });
+  });
   function isHidden(idHtml) {
     return document.getElementById(idHtml).classList.contains("hidden");
   }
