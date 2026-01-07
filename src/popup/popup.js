@@ -242,8 +242,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
       this.setStyleOn();
       if (this._canThePageBeAnalyzed()) {
         hide("buttonShowSources");
-        await this._button.showSources();
-        unhide("infoTags");
+        await this._showSources();
       }
     }
     await browser.storage.local
@@ -262,8 +261,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
       this.setStyleOn();
       if (this._canThePageBeAnalyzed()) {
         hide("buttonShowSources");
-        await this._button.showSources();
-        unhide("infoTags");
+        await this._showSources();
       }
     } else {
       this.setStyleOff();
@@ -276,6 +274,11 @@ export class ButtonAlwaysShowSources extends OnOffButton {
 
   _canThePageBeAnalyzed() {
     return isHidden("error-content");
+  }
+
+  async _showSources() {
+    await this._button.showSources();
+    unhide("infoTags");
   }
 }
 
