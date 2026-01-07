@@ -766,7 +766,7 @@ describe("ButtonAlwaysShowSources", () => {
   describe("click", () => {
     it("should modify UI as expected and save state when clicked while OFF", async () => {
       // Test configuration.
-      buttonElement.checked = false; // Button is OFF initially.
+      setOff(buttonElement);
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(true);
@@ -782,8 +782,8 @@ describe("ButtonAlwaysShowSources", () => {
     });
     it("should modify UI as expected when clicked while OFF and page cannot be analyzed", async () => {
       // Test configuration.
-      buttonElement.checked = false; // Button is OFF initially.
-      domModule.unhide("error-content"); // The page cannot be analyzed.
+      setOff(buttonElement);
+      setPageCannotBeAnalyzed();
       const hideSpy = jest.spyOn(domModule, "hide");
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test
@@ -794,7 +794,7 @@ describe("ButtonAlwaysShowSources", () => {
     });
     it("should modify UI as expected and save state when clicked while ON", async () => {
       // Test configuration.
-      buttonElement.checked = true; // Button is ON initially.
+      setOn(buttonElement);
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(false);
@@ -839,10 +839,19 @@ describe("ButtonAlwaysShowSources", () => {
       expect(isOn(buttonElement)).toBe(false);
     });
   });
-  function isOn(buttonElement) {
-    return buttonElement.checked;
+  function isOn(button) {
+    return button.checked;
   }
   function isHidden(idHtml) {
     return document.getElementById(idHtml).classList.contains("hidden");
+  }
+  function setOff(button) {
+    button.checked = false;
+  }
+  function setOn(button) {
+    button.checked = true;
+  }
+  function setPageCannotBeAnalyzed() {
+    domModule.unhide("error-content");
   }
 });
