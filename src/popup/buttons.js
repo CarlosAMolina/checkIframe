@@ -161,6 +161,7 @@ export class ButtonDelete extends DynamicButton {
   }
 }
 
+// TODO fix, if ButtonAlwaysShowSources is on, the info must appear after recheck
 export class ButtonRecheck extends Button {
   get _idHtml() {
     return BUTTON_ID_RECHECK;
