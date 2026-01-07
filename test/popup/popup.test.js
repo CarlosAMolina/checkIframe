@@ -830,6 +830,20 @@ describe("ButtonAlwaysShowSources", () => {
         info: "buttonShowSources",
       });
     });
+    it("should modify UI as expected when storage is true and page cannot be analyzed", async () => {
+      // Test configuration.
+      browser = fakeModule.fakeBrowser({
+        storageItems: { idTagsInfoAlwaysVisible: true },
+      });
+      setPageCannotBeAnalyzed();
+      const hideSpy = jest.spyOn(domModule, "hide");
+      const showSourcesSpy = jest.spyOn(button, "_showSources");
+      // Test.
+      await button.initializePopup();
+      expect(isOn(buttonElement)).toBe(true);
+      expect(hideSpy).not.toHaveBeenCalled();
+      expect(showSourcesSpy).not.toHaveBeenCalled();
+    });
     it("should set style to OFF when storage is false", async () => {
       // Test configuration.
       browser = fakeModule.fakeBrowser({
