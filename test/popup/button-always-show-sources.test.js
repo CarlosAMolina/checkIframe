@@ -60,7 +60,7 @@ describe("ButtonAlwaysShowSources", () => {
   describe("click", () => {
     it("should modify UI as expected and save state when clicked while OFF", async () => {
       // Test configuration.
-      buttonElement.checked = false;
+      buttonElement.checked = false; // Button is OFF initially.
       // Test
       await button.click();
       expect(buttonElement.checked).toBe(true);
@@ -74,25 +74,17 @@ describe("ButtonAlwaysShowSources", () => {
         idTagsInfoAlwaysVisible: true,
       });
     });
-    //TODO     it("should turn OFF, unhide button, and save state when clicked while ON", async () => {
-    //TODO       // Arrange - ensure button is ON initially
-    //TODO       buttonElement.checked = true;
-    //TODO       browser.storage.local.set.mockResolvedValue();
-    //TODO       const showSourcesSpy = jest.spyOn(
-    //TODO         ButtonShowSources.prototype,
-    //TODO         "showSources",
-    //TODO       );
-    //TODO       // Act
-    //TODO       await button.click();
-    //TODO       // Assert
-    //TODO       expect(buttonElement.checked).toBe(false); // Is OFF
-    //TODO       expect(unhide).toHaveBeenCalledWith("buttonShowSources");
-    //TODO       expect(hide).not.toHaveBeenCalled(); // Should not hide anything
-    //TODO       expect(showSourcesSpy).not.toHaveBeenCalled(); // Should not show sources
-    //TODO       expect(browser.storage.local.set).toHaveBeenCalledWith({
-    //TODO         idTagsInfoAlwaysVisible: false,
-    //TODO       });
-    //TODO     });
+    it("should modify UI as expected and save state when clicked while ON", async () => {
+      // Test configuration.
+      buttonElement.checked = true; // Button is ON initially.
+      // Test
+      await button.click();
+      expect(buttonElement.checked).toBe(false);
+      expect(isHidden("buttonShowSources")).toBe(false);
+      expect(browser.storage.local.set).toHaveBeenCalledWith({
+        idTagsInfoAlwaysVisible: false,
+      });
+    });
   });
   describe("initializePopup", () => {
     it("should modify UI as expected when storage is true", async () => {
