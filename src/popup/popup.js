@@ -456,8 +456,9 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
   }
   if (info2sendFromPopup === "buttonShowSources") {
     cleanShowSources();
-    const frameTagSummary = response["frame"];
-    const iframeTagSummary = response["iframe"];
+    const tagSummary = response;
+    const frameTagSummary = tagSummary["frame"];
+    const iframeTagSummary = tagSummary["iframe"];
     const htmlStr = getStrTagsHtml(frameTagSummary, iframeTagSummary);
     sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
     setupCopyButtonListeners();
