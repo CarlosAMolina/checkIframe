@@ -6,9 +6,11 @@ export const infoContainer = document.querySelector(".info-container");
 const sourcesContainer = document.querySelector(".sources-container");
 
 export function setShowSourcesError(error) {
-  reportError(error);
-  document.getElementById("infoTags").textContent =
-    "Internal error. The action could not be executed";
+  setUirror(error, "infoTags");
+}
+
+export function setInfoScrollError(error) {
+  setUirror(error, "infoScroll");
 }
 
 export function showSources(tagSummary) {
@@ -16,6 +18,12 @@ export function showSources(tagSummary) {
   const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
   sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
   setupSourcesCopyButtonListeners();
+}
+
+function setUirror(error, htmlId) {
+  reportError(error);
+  document.getElementById(htmlId).textContent =
+    "Internal error. The action could not be executed";
 }
 
 function cleanShowSources() {

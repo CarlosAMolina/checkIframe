@@ -287,12 +287,6 @@ describe("Check module import", () => {
     const function_ = popupModule.__get__("showStoredUrlsType");
     function_();
   });
-  it("changeParagraph runs without error", function () {
-    const response = "foo";
-    const htmlId = "infoTags";
-    const function_ = popupModule.__get__("changeParagraph");
-    function_("buttonScroll", response, htmlId);
-  });
   describe("Check removeShownStoredUrls", () => {
     beforeEach(() => {
       mockNotEmptyInfoContainer();

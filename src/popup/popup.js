@@ -13,8 +13,6 @@ import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
-import { showSources } from "./ui.js";
-import { setShowSourcesError } from "./ui.js";
 import { deleteUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
@@ -26,8 +24,11 @@ import { isHidden } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
+import { setInfoScrollError } from "./ui.js";
 import { setNewElementsMaxWidth } from "./dom.js";
+import { setShowSourcesError } from "./ui.js";
 import { setUrls } from "./url.js";
+import { showSources } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
@@ -188,12 +189,15 @@ class ButtonScroll extends Button {
     this._logButtonName();
     const htmlIdToChange = "infoScroll";
     unhide(htmlIdToChange);
-    const message = Message(this._idHtml);
-    return sendMessage(message)
-      .then((response) =>
-        changeParagraph(message.info, response.response, htmlIdToChange),
-      )
-      .catch(reportError);
+    return sendMessage(Message(this._idHtml))
+      .then((response) => {
+        // Manage content-script response.
+        if (response.response === undefined) {
+          throw new Error(`Wrong response: ${JSON.stringify(response)}`);
+        }
+        document.getElementById(htmlIdToChange).textContent = response.response;
+      })
+      .catch(setInfoScrollError);
   }
 }
 
@@ -213,6 +217,7 @@ class ButtonShowSources extends Button {
     const message = Message(this._idHtml);
     return sendMessage(message)
       .then((response) => {
+        // Manage content-script response.
         const tagSummary = response.response;
         showSources(tagSummary);
       })
@@ -440,19 +445,6 @@ function showStoredUrlsType(urlType) {
       }
     });
   }, reportError);
-}
-
-function changeParagraph(info2sendFromPopup, response, htmlId) {
-  if (response === undefined) {
-    document.getElementById(htmlId).textContent =
-      "Internal error. The action could not be executed";
-    return;
-  }
-  // check if the content-script response has been received
-  if (info2sendFromPopup === "buttonScroll") {
-    document.getElementById(htmlId).textContent = response;
-    return;
-  }
 }
 
 function removeShownStoredUrls() {
