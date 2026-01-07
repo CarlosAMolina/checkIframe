@@ -301,6 +301,7 @@ describe("Check module import", () => {
     const function_ = popupModule.__get__("changeParagraph");
     function_("buttonShowSources", response, htmlId);
   });
+  // TODO rm, duplicated in ui.test.js
   describe("Check cleanShowSources", () => {
     beforeEach(() => {
       mockNotEmptySourcesContainer();
