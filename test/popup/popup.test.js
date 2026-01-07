@@ -1,3 +1,4 @@
+import * as domModule from "../../src/popup/dom.js";
 import * as buttonsModule from "../../src/popup/buttons.js";
 import * as fakeModule from "../fake.js";
 import * as htmlBuilderModule from "../builder.js";
@@ -778,6 +779,18 @@ describe("ButtonAlwaysShowSources", () => {
       expect(browser.storage.local.set).toHaveBeenCalledWith({
         idTagsInfoAlwaysVisible: true,
       });
+    });
+    it("should modify UI as expected when clicked while OFF and page cannot be analyzed", async () => {
+      // Test configuration.
+      buttonElement.checked = false; // Button is OFF initially.
+      domModule.unhide("error-content"); // The page cannot be analyzed.
+      const hideSpy = jest.spyOn(domModule, "hide");
+      const showSourcesSpy = jest.spyOn(button, "_showSources");
+      // Test
+      await button.click();
+      expect(buttonElement.checked).toBe(true);
+      expect(hideSpy).not.toHaveBeenCalled();
+      expect(showSourcesSpy).not.toHaveBeenCalled();
     });
     it("should modify UI as expected and save state when clicked while ON", async () => {
       // Test configuration.
