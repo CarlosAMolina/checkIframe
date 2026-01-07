@@ -64,6 +64,7 @@ function popupMain() {
       button.click();
     }
   });
+  // TODO test button is clickable.
   document
     .getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES)
     .addEventListener("click", () => {
@@ -220,8 +221,12 @@ class ButtonShowSources extends Button {
   }
 }
 
-// TODO test all code related with this button (function createButton too)
 export class ButtonAlwaysShowSources extends OnOffButton {
+  constructor() {
+    super();
+    this._button = new ButtonShowSources();
+  }
+
   get _idHtml() {
     return BUTTON_ID_ALWAYS_SHOW_SOURCES;
   }
@@ -237,7 +242,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
       this.setStyleOn();
       if (this._canThePageBeAnalyzed()) {
         hide("buttonShowSources");
-        await new ButtonShowSources().showSources();
+        await this._button.showSources();
         unhide("infoTags");
       }
     }
@@ -257,7 +262,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
       this.setStyleOn();
       if (this._canThePageBeAnalyzed()) {
         hide("buttonShowSources");
-        await new ButtonShowSources().showSources();
+        await this._button.showSources();
         unhide("infoTags");
       }
     } else {
