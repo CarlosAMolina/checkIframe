@@ -288,18 +288,10 @@ describe("Check module import", () => {
     function_();
   });
   it("changeParagraph runs without error", function () {
-    const frameTagsSummary = {
-      sourcesAllNumber: 2,
-      sourcesValid: ["https://frame1.com", "about:blank"],
-    };
-    const iframeTagsSummary = {
-      sourcesAllNumber: 0,
-      sourcesValid: [],
-    };
-    const response = { frame: frameTagsSummary, iframe: iframeTagsSummary };
+    const response = "foo";
     const htmlId = "infoTags";
     const function_ = popupModule.__get__("changeParagraph");
-    function_("buttonShowSources", response, htmlId);
+    function_("buttonScroll", response, htmlId);
   });
   describe("Check removeShownStoredUrls", () => {
     beforeEach(() => {
