@@ -577,10 +577,11 @@ describe("buttons", () => {
         browser = fakeModule.fakeBrowser({
           sendMessageResponse: sendMessageResponse,
         });
-        popupModule.__get__("cleanShowSources")(); // TODO rm, must not be required for this test.
         mockNotEmptySourcesContainer();
         expect(
-          popupModule.__get__("sourcesContainer").firstChild.textContent,
+          popupModule.__get__("sourcesContainer").children[
+            popupModule.__get__("sourcesContainer").children.length - 2
+          ].textContent,
         ).toBe("foo");
         // Test.
         await Promise.all([initializeButton("ButtonShowSources").click()]);
