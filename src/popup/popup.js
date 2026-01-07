@@ -28,7 +28,7 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
-import { setupSourcesCopyButtonListeners } from "./buttons.js";
+import { setupSourcesCopyButtonListeners } from "./ui.js";
 import { sourcesContainer } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
