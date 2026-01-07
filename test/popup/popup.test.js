@@ -355,7 +355,7 @@ describe("Check module import", () => {
 });
 
 // TODO move to buttons.test.js
-describe("setupCopyButtonListeners", () => {
+describe("setupSourcesCopyButtonListeners", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
   });
@@ -373,7 +373,7 @@ describe("setupCopyButtonListeners", () => {
     const btn = document.querySelector(".detections button");
     const img = btn.querySelector("img");
     const span = btn.querySelector(".tooltiptext");
-    const setup = popupModule.__get__("setupCopyButtonListeners");
+    const setup = popupModule.__get__("setupSourcesCopyButtonListeners");
     setup();
     btn.click();
     await Promise.resolve(); // Wait a microtask to let Promise.then() handlers click

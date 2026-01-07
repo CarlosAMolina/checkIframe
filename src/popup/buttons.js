@@ -342,7 +342,7 @@ async function getIsStoredOn(keyName) {
   return result;
 }
 
-export function setupCopyButtonListeners() {
+export function setupSourcesCopyButtonListeners() {
   const buttons = document.querySelectorAll(".detections button");
   buttons.forEach((button) => {
     button.addEventListener("mouseenter", function () {

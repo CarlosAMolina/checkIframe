@@ -28,7 +28,7 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
-import { setupCopyButtonListeners } from "./buttons.js";
+import { setupSourcesCopyButtonListeners } from "./buttons.js";
 import { sourcesContainer } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
@@ -465,7 +465,7 @@ function showSources(tagSummary) {
   cleanShowSources();
   const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
   sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
-  setupCopyButtonListeners();
+  setupSourcesCopyButtonListeners();
 }
 
 function removeShownStoredUrls() {
