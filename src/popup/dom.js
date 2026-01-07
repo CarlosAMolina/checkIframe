@@ -44,6 +44,7 @@ export function updateElementsWhenIncompatibleWebPage() {
   const elementsToHide = [
     "popup-content div.oneLineButtons",
     "infoScroll",
+    "infoTags",
     "buttonShowSources",
   ];
   for (const element of elementsToHide) {
