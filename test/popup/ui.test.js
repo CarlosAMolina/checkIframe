@@ -1,6 +1,29 @@
 import * as fakeModule from "../fake.js";
 import * as htmlBuilderModule from "../builder.js";
 
+describe("cleanShowSources", () => {
+  let uiModule;
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    uiModule = require("../../src/popup/ui.js");
+  });
+  it("should delete children", () => {
+    mockNotEmptySourcesContainer(uiModule.sourcesContainer);
+    expect(
+      uiModule.sourcesContainer.children[
+        uiModule.sourcesContainer.children.length - 2
+      ].textContent,
+    ).toBe("foo");
+    expect(
+      uiModule.sourcesContainer.children[
+        uiModule.sourcesContainer.children.length - 1
+      ].textContent,
+    ).toBe("bar");
+    uiModule.cleanShowSources();
+    expect(uiModule.sourcesContainer.firstChild).toBe(null);
+  });
+});
 describe("setupSourcesCopyButtonListeners", () => {
   let uiModule;
   beforeEach(() => {
@@ -39,3 +62,13 @@ describe("setupSourcesCopyButtonListeners", () => {
     jest.useRealTimers();
   });
 });
+
+// TODO duplicated in popup.test.js, extract to fake.js
+function mockNotEmptySourcesContainer(sourcesContainer) {
+  const entryElement = document.createElement("p");
+  entryElement.textContent = "foo";
+  const entryElement2 = document.createElement("p");
+  entryElement2.textContent = "bar";
+  sourcesContainer.appendChild(entryElement);
+  sourcesContainer.appendChild(entryElement2);
+}
