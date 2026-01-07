@@ -455,13 +455,17 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
     return;
   }
   if (info2sendFromPopup === "buttonShowSources") {
-    cleanShowSources();
     const tagSummary = response;
-    const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
-    sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
-    setupCopyButtonListeners();
+    showSources(tagSummary);
     return;
   }
+}
+
+function showSources(tagSummary) {
+  cleanShowSources();
+  const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
+  sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
+  setupCopyButtonListeners();
 }
 
 function removeShownStoredUrls() {
