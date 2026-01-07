@@ -803,6 +803,16 @@ describe("ButtonAlwaysShowSources", () => {
         idTagsInfoAlwaysVisible: false,
       });
     });
+    it("should modify UI as expected and save state when clicked while ON and page cannot be analyzed", async () => {
+      // Test configuration.
+      setOn(buttonElement);
+      setPageCannotBeAnalyzed();
+      const unhideSpy = jest.spyOn(domModule, "unhide");
+      // Test
+      await button.click();
+      expect(isOn(buttonElement)).toBe(false);
+      expect(unhideSpy).not.toHaveBeenCalled();
+    });
   });
   describe("initializePopup", () => {
     it("should modify UI as expected when storage is true", async () => {
