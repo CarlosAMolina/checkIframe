@@ -769,7 +769,7 @@ describe("ButtonAlwaysShowSources", () => {
       buttonElement.checked = false; // Button is OFF initially.
       // Test
       await button.click();
-      expect(buttonElement.checked).toBe(true);
+      expect(isOn(buttonElement)).toBe(true);
       expect(isHidden("buttonShowSources")).toBe(true);
       expect(isHidden("infoTags")).toBe(false);
       const tabId = 1;
@@ -788,7 +788,7 @@ describe("ButtonAlwaysShowSources", () => {
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test
       await button.click();
-      expect(buttonElement.checked).toBe(true);
+      expect(isOn(buttonElement)).toBe(true);
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalled();
     });
@@ -797,7 +797,7 @@ describe("ButtonAlwaysShowSources", () => {
       buttonElement.checked = true; // Button is ON initially.
       // Test
       await button.click();
-      expect(buttonElement.checked).toBe(false);
+      expect(isOn(buttonElement)).toBe(false);
       expect(isHidden("buttonShowSources")).toBe(false);
       expect(browser.storage.local.set).toHaveBeenCalledWith({
         idTagsInfoAlwaysVisible: false,
@@ -812,7 +812,7 @@ describe("ButtonAlwaysShowSources", () => {
       });
       // Test.
       await button.initializePopup();
-      expect(buttonElement.checked).toBe(true);
+      expect(isOn(buttonElement)).toBe(true);
       expect(isHidden("buttonShowSources")).toBe(true);
       expect(isHidden("infoTags")).toBe(false);
       const tabId = 1;
@@ -827,7 +827,7 @@ describe("ButtonAlwaysShowSources", () => {
       });
       // Test.
       await button.initializePopup();
-      expect(buttonElement.checked).toBe(false);
+      expect(isOn(buttonElement)).toBe(false);
     });
     it("should set style to OFF when not stored configuration", async () => {
       // Configure test.
@@ -836,9 +836,12 @@ describe("ButtonAlwaysShowSources", () => {
       });
       // Test.
       await button.initializePopup();
-      expect(buttonElement.checked).toBe(false);
+      expect(isOn(buttonElement)).toBe(false);
     });
   });
+  function isOn(buttonElement) {
+    return buttonElement.checked;
+  }
   function isHidden(idHtml) {
     return document.getElementById(idHtml).classList.contains("hidden");
   }
