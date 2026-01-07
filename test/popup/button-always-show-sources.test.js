@@ -1,53 +1,12 @@
 import * as buttonsModule from "../../src/popup/buttons.js";
 import * as fakeModule from "../fake.js";
 
-//TODO import { ButtonShowSources } from "../../src/popup/popup";
-//TODO import { hide, unhide } from "../../src/popup/dom";
-//TODO
-//TODO jest.mock("../../src/popup/dom", () => ({
-//TODO   hide: jest.fn(),
-//TODO   unhide: jest.fn(),
-//TODO }));
-//TODO
-//TODO jest.mock("../../src/popup/popup", () => {
-//TODO   const originalModule = jest.requireActual("../../src/popup/popup");
-//TODO   return {
-//TODO     ...originalModule,
-//TODO     ButtonShowSources: jest.fn().mockImplementation(() => ({
-//TODO       showSources: jest.fn().mockResolvedValue(),
-//TODO     })),
-//TODO   };
-//TODO });
-//TODO
-//TODO global.browser = {
-//TODO   storage: {
-//TODO     local: {
-//TODO       get: jest.fn(),
-//TODO       set: jest.fn(),
-//TODO     },
-//TODO   },
-//TODO };
-//TODO
 describe("ButtonAlwaysShowSources", () => {
   let button;
   let buttonElement;
-  //TODO   let showSourcesButtonElement;
-  //TODO   let infoTagsElement;
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
-    //TODO     // Clean up mocks before each test
-    //TODO     jest.clearAllMocks();
-    //TODO     // Set up a fake DOM
-    //TODO     document.body.innerHTML = `
-    //TODO       <button id="buttonAlwaysShowSources"></button>
-    //TODO       <button id="buttonShowSources"></button>
-    //TODO       <div id="infoTags"></div>
-    //TODO     `;
-    //TODO     // Get fake DOM elements
-    //TODO     showSourcesButtonElement = document.getElementById("buttonShowSources");
-    //TODO     infoTagsElement = document.getElementById("infoTags");
-    //TODO     // Create a new instance of the button class for each test
     const popupModule = require("../../src/popup/popup.js");
     const ButtonAlwaysShowSources = popupModule.__get__(
       "ButtonAlwaysShowSources",
