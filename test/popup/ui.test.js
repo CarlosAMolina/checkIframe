@@ -7,7 +7,7 @@ describe("cleanShowSources", () => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
     uiModule = require("../../src/popup/ui.js");
-    mockNotEmptySourcesContainer(uiModule.sourcesContainer);
+    fakeModule.mockNotEmptySourcesContainer(uiModule.sourcesContainer);
   });
   it("should delete children", () => {
     expect(
@@ -62,13 +62,3 @@ describe("setupSourcesCopyButtonListeners", () => {
     jest.useRealTimers();
   });
 });
-
-// TODO duplicated in popup.test.js, extract to fake.js
-function mockNotEmptySourcesContainer(sourcesContainer) {
-  const entryElement = document.createElement("p");
-  entryElement.textContent = "foo";
-  const entryElement2 = document.createElement("p");
-  entryElement2.textContent = "bar";
-  sourcesContainer.appendChild(entryElement);
-  sourcesContainer.appendChild(entryElement2);
-}

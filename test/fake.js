@@ -54,6 +54,15 @@ export function fakeBrowser(config) {
   };
 }
 
+export function mockNotEmptySourcesContainer(sourcesContainer) {
+  const entryElement = document.createElement("p");
+  entryElement.textContent = "foo";
+  const entryElement2 = document.createElement("p");
+  entryElement2.textContent = "bar";
+  sourcesContainer.appendChild(entryElement);
+  sourcesContainer.appendChild(entryElement2);
+}
+
 export function runFakeDom(htmlPathName) {
   const __dirname = path.resolve();
   const htmlPath = path.resolve(__dirname, htmlPathName);

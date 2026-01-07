@@ -577,7 +577,9 @@ describe("buttons", () => {
         browser = fakeModule.fakeBrowser({
           sendMessageResponse: sendMessageResponse,
         });
-        mockNotEmptySourcesContainer(popupModule.__get__("sourcesContainer"));
+        fakeModule.mockNotEmptySourcesContainer(
+          popupModule.__get__("sourcesContainer"),
+        );
         expect(
           popupModule.__get__("sourcesContainer").children[
             popupModule.__get__("sourcesContainer").children.length - 2
@@ -673,15 +675,6 @@ function mockNotEmptyInfoContainer() {
   entryValue.textContent = "foo";
   entryElement.appendChild(entryValue);
   popupModule.__set__("infoContainer", entryElement);
-}
-
-function mockNotEmptySourcesContainer(sourcesContainer) {
-  const entryElement = document.createElement("p");
-  entryElement.textContent = "foo";
-  const entryElement2 = document.createElement("p");
-  entryElement2.textContent = "bar";
-  sourcesContainer.appendChild(entryElement);
-  sourcesContainer.appendChild(entryElement2);
 }
 
 function fakeInfoContainer(urlsCount) {
