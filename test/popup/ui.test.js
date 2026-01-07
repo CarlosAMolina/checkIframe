@@ -45,7 +45,7 @@ describe("setupSourcesCopyButtonListeners", () => {
     const btn = document.querySelector(".detections button");
     const img = btn.querySelector("img");
     const span = btn.querySelector(".tooltiptext");
-    uiModule.setupSourcesCopyButtonListeners();
+    uiModule.__get__("setupSourcesCopyButtonListeners")();
     btn.click();
     await Promise.resolve(); // Wait a microtask to let Promise.then() handlers click
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(

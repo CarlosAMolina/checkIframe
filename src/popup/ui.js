@@ -15,8 +15,7 @@ function cleanShowSources() {
   removeChildren(sourcesContainer);
 }
 
-// TODO private
-export function setupSourcesCopyButtonListeners() {
+function setupSourcesCopyButtonListeners() {
   const buttons = document.querySelectorAll(".detections button");
   buttons.forEach((button) => {
     button.addEventListener("mouseenter", function () {
