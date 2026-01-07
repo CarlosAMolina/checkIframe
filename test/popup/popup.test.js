@@ -301,26 +301,6 @@ describe("Check module import", () => {
     const function_ = popupModule.__get__("changeParagraph");
     function_("buttonShowSources", response, htmlId);
   });
-  // TODO rm, duplicated in ui.test.js
-  describe("Check cleanShowSources", () => {
-    beforeEach(() => {
-      mockNotEmptySourcesContainer();
-    });
-    it("should delete children", function () {
-      const sourcesContainer = popupModule.__get__("sourcesContainer");
-      expect(
-        sourcesContainer.children[sourcesContainer.children.length - 2]
-          .textContent,
-      ).toBe("foo");
-      expect(
-        sourcesContainer.children[sourcesContainer.children.length - 1]
-          .textContent,
-      ).toBe("bar");
-      const function_ = popupModule.__get__("cleanShowSources");
-      function_();
-      expect(sourcesContainer.firstChild).toBe(null);
-    });
-  });
   describe("Check removeShownStoredUrls", () => {
     beforeEach(() => {
       mockNotEmptyInfoContainer();
@@ -597,6 +577,7 @@ describe("buttons", () => {
         browser = fakeModule.fakeBrowser({
           sendMessageResponse: sendMessageResponse,
         });
+        popupModule.__get__("cleanShowSources")(); // TODO rm, must not be required for this test.
         mockNotEmptySourcesContainer();
         expect(
           popupModule.__get__("sourcesContainer").firstChild.textContent,
