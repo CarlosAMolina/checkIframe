@@ -57,49 +57,46 @@ describe("ButtonAlwaysShowSources", () => {
       buttonsModule.BUTTON_ID_ALWAYS_SHOW_SOURCES,
     );
   });
-  //TODO   describe("click", () => {
-  //TODO     it("should turn ON, hide button, show sources, and save state when clicked while OFF", async () => {
-  //TODO       // Arrange - ensure button is OFF initially
-  //TODO       buttonElement.checked = false;
-  //TODO       const showSourcesSpy = jest.spyOn(
-  //TODO         ButtonShowSources.prototype,
-  //TODO         "showSources",
-  //TODO       );
-  //TODO       browser.storage.local.set.mockResolvedValue();
-  //TODO       // Act
-  //TODO       await button.click();
-  //TODO       // Assert
-  //TODO       expect(buttonElement.checked).toBe(true); // Is ON
-  //TODO       expect(hide).toHaveBeenCalledWith("buttonShowSources");
-  //TODO       expect(showSourcesSpy).toHaveBeenCalledTimes(1);
-  //TODO       expect(unhide).toHaveBeenCalledWith("infoTags");
-  //TODO       expect(browser.storage.local.set).toHaveBeenCalledWith({
-  //TODO         idTagsInfoAlwaysVisible: true,
-  //TODO       });
-  //TODO     });
-  //TODO     it("should turn OFF, unhide button, and save state when clicked while ON", async () => {
-  //TODO       // Arrange - ensure button is ON initially
-  //TODO       buttonElement.checked = true;
-  //TODO       browser.storage.local.set.mockResolvedValue();
-  //TODO       const showSourcesSpy = jest.spyOn(
-  //TODO         ButtonShowSources.prototype,
-  //TODO         "showSources",
-  //TODO       );
-  //TODO       // Act
-  //TODO       await button.click();
-  //TODO       // Assert
-  //TODO       expect(buttonElement.checked).toBe(false); // Is OFF
-  //TODO       expect(unhide).toHaveBeenCalledWith("buttonShowSources");
-  //TODO       expect(hide).not.toHaveBeenCalled(); // Should not hide anything
-  //TODO       expect(showSourcesSpy).not.toHaveBeenCalled(); // Should not show sources
-  //TODO       expect(browser.storage.local.set).toHaveBeenCalledWith({
-  //TODO         idTagsInfoAlwaysVisible: false,
-  //TODO       });
-  //TODO     });
-  //TODO   });
+  describe("click", () => {
+    it("should modify UI as expected and save state when clicked while OFF", async () => {
+      // Test configuration.
+      buttonElement.checked = false;
+      // Test
+      await button.click();
+      expect(buttonElement.checked).toBe(true);
+      expect(isHidden("buttonShowSources")).toBe(true);
+      expect(isHidden("infoTags")).toBe(false);
+      const tabId = 1;
+      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
+        info: "buttonShowSources",
+      });
+      expect(browser.storage.local.set).toHaveBeenCalledWith({
+        idTagsInfoAlwaysVisible: true,
+      });
+    });
+    //TODO     it("should turn OFF, unhide button, and save state when clicked while ON", async () => {
+    //TODO       // Arrange - ensure button is ON initially
+    //TODO       buttonElement.checked = true;
+    //TODO       browser.storage.local.set.mockResolvedValue();
+    //TODO       const showSourcesSpy = jest.spyOn(
+    //TODO         ButtonShowSources.prototype,
+    //TODO         "showSources",
+    //TODO       );
+    //TODO       // Act
+    //TODO       await button.click();
+    //TODO       // Assert
+    //TODO       expect(buttonElement.checked).toBe(false); // Is OFF
+    //TODO       expect(unhide).toHaveBeenCalledWith("buttonShowSources");
+    //TODO       expect(hide).not.toHaveBeenCalled(); // Should not hide anything
+    //TODO       expect(showSourcesSpy).not.toHaveBeenCalled(); // Should not show sources
+    //TODO       expect(browser.storage.local.set).toHaveBeenCalledWith({
+    //TODO         idTagsInfoAlwaysVisible: false,
+    //TODO       });
+    //TODO     });
+  });
   describe("initializePopup", () => {
     it("should modify UI as expected when storage is true", async () => {
-      // Configure test.
+      // Test configuration.
       browser = fakeModule.fakeBrowser({
         storageItems: { idTagsInfoAlwaysVisible: true },
       });
@@ -114,7 +111,7 @@ describe("ButtonAlwaysShowSources", () => {
       });
     });
     it("should set style to OFF when storage is false", async () => {
-      // Configure test.
+      // Test configuration.
       browser = fakeModule.fakeBrowser({
         storageItems: { idTagsInfoAlwaysVisible: false },
       });
