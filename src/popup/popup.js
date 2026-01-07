@@ -193,7 +193,7 @@ class ButtonScroll extends Button {
       .then((response) => {
         // Manage content-script response.
         if (response.response === undefined) {
-          throw new Error(`Wrong response: ${JSON.stringify(response)}`);
+          throw new Error(`Incorrect response: ${JSON.stringify(response)}`);
         }
         document.getElementById(htmlIdToChange).textContent = response.response;
       })

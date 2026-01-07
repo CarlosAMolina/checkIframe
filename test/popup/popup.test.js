@@ -489,11 +489,16 @@ describe("buttons", () => {
       global.browser = fakeModule.fakeBrowser({
         sendMessageResponse: {},
       });
+      const consoleErrorSpy = jest.spyOn(console, "error");
       // Test.
       await Promise.all([getButton().click()]);
       assertTestResult("Internal error. The action could not be executed");
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Error: Error: Incorrect response: {}",
+      );
       // Restore test config.
       global.browser = fakeModule.fakeBrowser();
+      consoleErrorSpy.mockRestore();
     });
     function getButton() {
       const classType = popupModule.__get__("ButtonScroll");
