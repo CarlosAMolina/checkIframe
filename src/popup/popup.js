@@ -211,11 +211,18 @@ class ButtonShowSources extends Button {
     // TODO? avoid send message when hidding
     const message = Message(this._idHtml);
     return sendMessage(message)
-      .then((response) =>
-        changeParagraph(message.info, response.response, "infoTags"),
-      )
-      .catch(reportError);
+      .then((response) => {
+        const tagSummary = response.response;
+        showSources(tagSummary);
+      })
+      .catch(setShowSourcesError);
   }
+}
+
+function setShowSourcesError(error) {
+  reportError(error);
+  document.getElementById("infoTags").textContent =
+    "Internal error. The action could not be executed";
 }
 
 export class ButtonAlwaysShowSources extends OnOffButton {
@@ -449,11 +456,6 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
   // check if the content-script response has been received
   if (info2sendFromPopup === "buttonScroll") {
     document.getElementById(htmlId).textContent = response;
-    return;
-  }
-  if (info2sendFromPopup === "buttonShowSources") {
-    const tagSummary = response;
-    showSources(tagSummary);
     return;
   }
 }
