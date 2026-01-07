@@ -751,10 +751,14 @@ function fakeInfoContainer(urlsCount) {
 describe("ButtonAlwaysShowSources", () => {
   let button;
   let buttonElement;
+  let hideBackup;
+  let unhideBackup;
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
     const popupModule = require("../../src/popup/popup.js");
+    hideBackup = popupModule.__get__("hide");
+    unhideBackup = popupModule.__get__("unhide");
     const ButtonAlwaysShowSources = popupModule.__get__(
       "ButtonAlwaysShowSources",
     );
@@ -784,13 +788,16 @@ describe("ButtonAlwaysShowSources", () => {
       // Test configuration.
       setOff(buttonElement);
       setPageCannotBeAnalyzed();
-      const hideSpy = jest.spyOn(domModule, "hide");
+      const hideSpy = jest.fn();
+      popupModule.__set__("hide", hideSpy);
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(true);
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalled();
+      // Undo test configuration.
+      popupModule.__set__("hide", hideBackup);
     });
     it("should modify UI as expected and save state when clicked while ON", async () => {
       // Test configuration.
@@ -807,11 +814,14 @@ describe("ButtonAlwaysShowSources", () => {
       // Test configuration.
       setOn(buttonElement);
       setPageCannotBeAnalyzed();
-      const unhideSpy = jest.spyOn(domModule, "unhide");
+      const unhideSpy = jest.fn();
+      popupModule.__set__("unhide", unhideSpy);
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(false);
       expect(unhideSpy).not.toHaveBeenCalled();
+      // Undo test configuration.
+      popupModule.__set__("unhide", unhideBackup);
     });
   });
   describe("initializePopup", () => {
@@ -836,13 +846,16 @@ describe("ButtonAlwaysShowSources", () => {
         storageItems: { idTagsInfoAlwaysVisible: true },
       });
       setPageCannotBeAnalyzed();
-      const hideSpy = jest.spyOn(domModule, "hide");
+      const hideSpy = jest.fn();
+      popupModule.__set__("hide", hideSpy);
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test.
       await button.initializePopup();
       expect(isOn(buttonElement)).toBe(true);
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalled();
+      // Undo test configuration.
+      popupModule.__set__("hide", hideBackup);
     });
     it("should set style to OFF when storage is false", async () => {
       // Test configuration.
