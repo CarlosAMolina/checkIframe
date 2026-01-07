@@ -22,6 +22,7 @@ import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
 import { infoContainer } from "./ui.js";
+import { isHidden } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
@@ -229,12 +230,16 @@ export class ButtonAlwaysShowSources extends OnOffButton {
     this._logButtonName();
     if (this.isOn) {
       this.setStyleOff();
-      unhide("buttonShowSources");
+      if (this._canThePageBeAnalyzed()) {
+        unhide("buttonShowSources");
+      }
     } else {
       this.setStyleOn();
-      hide("buttonShowSources");
-      await new ButtonShowSources().showSources();
-      unhide("infoTags");
+      if (this._canThePageBeAnalyzed()) {
+        hide("buttonShowSources");
+        await new ButtonShowSources().showSources();
+        unhide("infoTags");
+      }
     }
     await browser.storage.local
       .set({ [this._idStorage]: this.isOn })
@@ -250,9 +255,11 @@ export class ButtonAlwaysShowSources extends OnOffButton {
     if (mustBeOn) {
       // TODO refactor, extract method, duplicated code.
       this.setStyleOn();
-      hide("buttonShowSources");
-      await new ButtonShowSources().showSources();
-      unhide("infoTags");
+      if (this._canThePageBeAnalyzed()) {
+        hide("buttonShowSources");
+        await new ButtonShowSources().showSources();
+        unhide("infoTags");
+      }
     } else {
       this.setStyleOff();
     }
@@ -260,6 +267,10 @@ export class ButtonAlwaysShowSources extends OnOffButton {
 
   get _idStorage() {
     return "idTagsInfoAlwaysVisible";
+  }
+
+  _canThePageBeAnalyzed() {
+    return isHidden("error-content");
   }
 }
 

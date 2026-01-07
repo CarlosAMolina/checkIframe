@@ -3,6 +3,10 @@ export function getIdHtmlClicked(eventClick) {
   return eventClick.target.id || eventClick.target.parentElement.id;
 }
 
+export function isHidden(idHtml) {
+  return document.getElementById(idHtml).classList.contains("hidden");
+}
+
 export function hide(htmlId) {
   document.querySelector("#" + htmlId).classList.add("hidden");
 }
