@@ -20,7 +20,7 @@ describe("cleanShowSources", () => {
       sourcesContainer.children[sourcesContainer.children.length - 1]
         .textContent,
     ).toBe("bar");
-    uiModule.cleanShowSources();
+    uiModule.__get__("cleanShowSources")();
     expect(sourcesContainer.firstChild).toBe(null);
   });
 });

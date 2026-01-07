@@ -11,8 +11,7 @@ export function showSources(tagSummary) {
   setupSourcesCopyButtonListeners();
 }
 
-// TODO private
-export function cleanShowSources() {
+function cleanShowSources() {
   removeChildren(sourcesContainer);
 }
 
