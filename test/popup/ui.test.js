@@ -3,25 +3,25 @@ import * as htmlBuilderModule from "../builder.js";
 
 describe("cleanShowSources", () => {
   let uiModule;
+  let sourcesContainer;
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
     uiModule = require("../../src/popup/ui.js");
-    fakeModule.mockNotEmptySourcesContainer(uiModule.sourcesContainer);
+    sourcesContainer = uiModule.__get__("sourcesContainer");
+    fakeModule.mockNotEmptySourcesContainer(sourcesContainer);
   });
   it("should delete children", () => {
     expect(
-      uiModule.sourcesContainer.children[
-        uiModule.sourcesContainer.children.length - 2
-      ].textContent,
+      sourcesContainer.children[sourcesContainer.children.length - 2]
+        .textContent,
     ).toBe("foo");
     expect(
-      uiModule.sourcesContainer.children[
-        uiModule.sourcesContainer.children.length - 1
-      ].textContent,
+      sourcesContainer.children[sourcesContainer.children.length - 1]
+        .textContent,
     ).toBe("bar");
     uiModule.cleanShowSources();
-    expect(uiModule.sourcesContainer.firstChild).toBe(null);
+    expect(sourcesContainer.firstChild).toBe(null);
   });
 });
 describe("setupSourcesCopyButtonListeners", () => {

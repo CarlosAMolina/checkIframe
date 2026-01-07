@@ -2,8 +2,7 @@ import { getStrTagsHtml } from "./tags-html.js";
 import { removeChildren } from "./dom.js";
 
 export const infoContainer = document.querySelector(".info-container");
-// TODO private
-export const sourcesContainer = document.querySelector(".sources-container");
+const sourcesContainer = document.querySelector(".sources-container");
 
 export function showSources(tagSummary) {
   cleanShowSources();
