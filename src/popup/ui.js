@@ -1,8 +1,15 @@
 import { getStrTagsHtml } from "./tags-html.js";
 import { removeChildren } from "./dom.js";
+import { reportError } from "./log.js";
 
 export const infoContainer = document.querySelector(".info-container");
 const sourcesContainer = document.querySelector(".sources-container");
+
+export function setShowSourcesError(error) {
+  reportError(error);
+  document.getElementById("infoTags").textContent =
+    "Internal error. The action could not be executed";
+}
 
 export function showSources(tagSummary) {
   cleanShowSources();

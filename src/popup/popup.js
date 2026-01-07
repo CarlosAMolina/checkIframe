@@ -14,6 +14,7 @@ import { Message } from "./model.js";
 import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
 import { showSources } from "./ui.js";
+import { setShowSourcesError } from "./ui.js";
 import { deleteUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
@@ -217,12 +218,6 @@ class ButtonShowSources extends Button {
       })
       .catch(setShowSourcesError);
   }
-}
-
-function setShowSourcesError(error) {
-  reportError(error);
-  document.getElementById("infoTags").textContent =
-    "Internal error. The action could not be executed";
 }
 
 export class ButtonAlwaysShowSources extends OnOffButton {
