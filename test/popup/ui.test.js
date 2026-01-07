@@ -7,9 +7,9 @@ describe("cleanShowSources", () => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
     uiModule = require("../../src/popup/ui.js");
+    mockNotEmptySourcesContainer(uiModule.sourcesContainer);
   });
   it("should delete children", () => {
-    mockNotEmptySourcesContainer(uiModule.sourcesContainer);
     expect(
       uiModule.sourcesContainer.children[
         uiModule.sourcesContainer.children.length - 2
