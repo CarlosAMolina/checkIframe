@@ -1,12 +1,23 @@
+import { getStrTagsHtml } from "./tags-html.js";
 import { removeChildren } from "./dom.js";
 
 export const infoContainer = document.querySelector(".info-container");
+// TODO private
 export const sourcesContainer = document.querySelector(".sources-container");
 
+export function showSources(tagSummary) {
+  cleanShowSources();
+  const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
+  sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
+  setupSourcesCopyButtonListeners();
+}
+
+// TODO private
 export function cleanShowSources() {
   removeChildren(sourcesContainer);
 }
 
+// TODO private
 export function setupSourcesCopyButtonListeners() {
   const buttons = document.querySelectorAll(".detections button");
   buttons.forEach((button) => {

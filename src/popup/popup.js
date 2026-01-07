@@ -13,11 +13,10 @@ import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
-import { cleanShowSources } from "./ui.js";
+import { showSources } from "./ui.js";
 import { deleteUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
-import { getStrTagsHtml } from "./tags-html.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
@@ -28,8 +27,6 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
-import { setupSourcesCopyButtonListeners } from "./ui.js";
-import { sourcesContainer } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
@@ -459,13 +456,6 @@ function changeParagraph(info2sendFromPopup, response, htmlId) {
     showSources(tagSummary);
     return;
   }
-}
-
-function showSources(tagSummary) {
-  cleanShowSources();
-  const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
-  sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
-  setupSourcesCopyButtonListeners();
 }
 
 function removeShownStoredUrls() {

@@ -1,5 +1,5 @@
-import * as domModule from "../../src/popup/dom.js";
 import * as buttonsModule from "../../src/popup/buttons.js";
+import * as domModule from "../../src/popup/dom.js";
 import * as fakeModule from "../fake.js";
 import * as htmlBuilderModule from "../builder.js";
 import * as modelModule from "../../src/popup/model.js";
@@ -557,8 +557,10 @@ describe("buttons", () => {
       );
     });
     describe("click behaviour is correct", () => {
+      let uiModule;
       beforeEach(() => {
         initializeDomAndBrowser();
+        uiModule = require("../../src/popup/ui.js");
       });
       afterEach(() => {
         initializeDomAndBrowser();
@@ -578,16 +580,16 @@ describe("buttons", () => {
           sendMessageResponse: sendMessageResponse,
         });
         fakeModule.mockNotEmptySourcesContainer(
-          popupModule.__get__("sourcesContainer"),
+          uiModule.__get__("sourcesContainer"),
         );
         expect(
-          popupModule.__get__("sourcesContainer").children[
-            popupModule.__get__("sourcesContainer").children.length - 2
+          uiModule.__get__("sourcesContainer").children[
+            uiModule.__get__("sourcesContainer").children.length - 2
           ].textContent,
         ).toBe("foo");
         // Test.
         await Promise.all([initializeButton("ButtonShowSources").click()]);
-        const result = popupModule.__get__("sourcesContainer").innerHTML;
+        const result = uiModule.__get__("sourcesContainer").innerHTML;
         const expectedResult = new htmlBuilderModule.HtmlBuilder()
           .with_total(2)
           .with_element("Frame")
