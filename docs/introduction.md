@@ -29,6 +29,7 @@ The meaning of the icon's colours is:
 - [Permissions](permissions/permissions.html)
 - How to use the add-on
   - Configuration
+    - [Always show tags info](how-to-use/configuration/always-show-tags-info.html)
     - [Automatic highlighting](how-to-use/configuration/automatic-highlighting.html)
     - [Logs](how-to-use/configuration/logs.html)
     - [Blacklisted URLs](how-to-use/configuration/blacklisted-urls.html)
