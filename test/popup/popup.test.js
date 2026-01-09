@@ -446,21 +446,23 @@ describe("buttons", () => {
     it("should have correct button ID value", function () {
       expect(getButton()._idHtml).toBe("buttonRecheck");
     });
-    it("click should have expected calls and values", async () => {
-      document.querySelector("#infoTags").classList.remove("hidden");
-      expect(document.getElementById("infoTags").className).toBe(
-        "section backgroundGray sources-container",
-      );
+    it("click should have expected calls and values if show sources was not hidden", async () => {
+      // Test configuration.
+      const uiModule = require("../../src/popup/ui.js");
+      domModule.unhide("infoTags");
+      expect(domModule.isHidden("infoTags")).toBe(false);
+      const showSourcesSpy = jest.spyOn(uiModule, "showSources");
+      // Test.
       await getButton().click();
-      const buttonIdHtml = "buttonRecheck";
-      expect(document.getElementById("infoTags").className).toBe(
-        "section backgroundGray sources-container hidden",
-      );
+      expect(domModule.isHidden("infoTags")).toBe(false);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
       expect(lastCall[0]).toBe(tabId);
-      expect(lastCall[1].info).toBe(buttonIdHtml);
+      expect(lastCall[1].info).toBe("buttonRecheck");
+      expect(showSourcesSpy).toHaveBeenCalledTimes(1);
       // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+      // Reset test configuration.
+      showSourcesSpy.mockRestore();
     });
     function getButton() {
       const classType = popupModule.__get__("ButtonRecheck");
@@ -725,9 +727,11 @@ describe("ButtonAlwaysShowSources", () => {
       await button.click();
       expect(isOn(buttonElement)).toBe(true);
       expect(hideSpy).not.toHaveBeenCalled();
-      expect(showSourcesSpy).not.toHaveBeenCalled();
+      expect(showSourcesSpy).not.toHaveBeenCalledTimes(1);
       // Undo test configuration.
       popupModule.__set__("hide", hideBackup);
+      hideSpy.mockRestore();
+      showSourcesSpy.mockRestore();
     });
     it("should modify UI as expected and save state when clicked while ON", async () => {
       // Test configuration.
@@ -786,6 +790,8 @@ describe("ButtonAlwaysShowSources", () => {
       expect(showSourcesSpy).not.toHaveBeenCalled();
       // Undo test configuration.
       popupModule.__set__("hide", hideBackup);
+      hideSpy.mockRestore();
+      showSourcesSpy.mockRestore();
     });
     it("should set style to OFF when storage is false", async () => {
       // Test configuration.
@@ -810,6 +816,7 @@ describe("ButtonAlwaysShowSources", () => {
     return button.checked;
   }
   function isHidden(idHtml) {
+    // TODO remove, use domModule.isHidden, search in other tests too.
     return document.getElementById(idHtml).classList.contains("hidden");
   }
   function setOff(button) {

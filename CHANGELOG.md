@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Button to always display sources information.
 
 ### Changed
+- Recheck button. Do not hide sources information if this data was displayed before clicking the button.
 - Refactor code.
 
 ## [1.7.0] - 2025-12-14

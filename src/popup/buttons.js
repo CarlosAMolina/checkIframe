@@ -161,19 +161,6 @@ export class ButtonDelete extends DynamicButton {
   }
 }
 
-// TODO fix, if ButtonAlwaysShowSources is on, the info must appear after recheck
-export class ButtonRecheck extends Button {
-  get _idHtml() {
-    return BUTTON_ID_RECHECK;
-  }
-
-  click() {
-    this._logButtonName();
-    hide("infoTags");
-    sendMessage(Message(this._idHtml));
-  }
-}
-
 export class ButtonShowLogs extends OnOffButton {
   // TODO use BUTTON_ID_SHOW_LOGS in popup.js
   get _idHtml() {

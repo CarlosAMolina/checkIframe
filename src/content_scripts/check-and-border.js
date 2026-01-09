@@ -271,6 +271,7 @@ initializeContentScript();
         elementsValidSrc,
         highlightAllAutomatically,
       );
+      return Promise.resolve(getSourcesSummary());
     } else if (message.info === "buttonScroll") {
       checkTags();
       var scrollInfo = showElement();
