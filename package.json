@@ -32,7 +32,7 @@
     "jest": "^30.2.0",
     "jsdom": "^26.0.0",
     "prettier": "3.7.4",
-    "web-ext": "^9.2.0"
+    "web-ext": "^10.0.0"
   },
   "devDependenciesComments": {
     "babel-plugin-rewire": "Allow test not exported code. https://www.samanthaming.com/journal/2-testing-non-exported-functions/",
