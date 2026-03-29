@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.8.1] - TODO
+### Added
+- Added `.github/copilot-instructions.md` to provide Copilot with project-specific development guidelines.
+
 ### Fixed
-- Update dev dependencies to fix vulnerabilities.
+- Update dev dependencies to fix vulnerabilities and deprecations.
 
 ## [1.8.0] - 2026-01-09
 ### Added
