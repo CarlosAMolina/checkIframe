@@ -6,35 +6,30 @@ The checkIframe Firefox WebExtension has solid fundamentals (114 passing tests, 
 
 1. **Missing test files**: `log.js` and `repository.js` have no test coverage
 2. **Weak test coverage**: Existing tests may have gaps in edge cases and error scenarios
-3. **Related blockers**: ESLint v10 configuration needs migration from `.eslintrc.json` to `eslint.config.js`
-4. **Technical debt**: Legacy code (15 `var` in background.js vs 1 `let/const`) and TODO comments throughout
+3. **Technical debt**: Legacy code (15 `var` in background.js vs 1 `let/const`) and TODO comments throughout
 
 ## Approach
 
-Focus on **increasing test coverage comprehensively** while unblocking linting to enable CI/CD verification:
+Focus on **increasing test coverage comprehensively**:
 
-1. **Unblock ESLint** - Migrate from `.eslintrc.json` (old format) to `eslint.config.js` (new ESLint v9+ format). The project is using ESLint v10.1.0 but has outdated `.eslintrc.json` config. The new format is required for ESLint v9+.
-2. **Add missing tests** - Create test files for `log.js` and `repository.js`
-3. **Analyze and improve existing tests** - Review 10 test files for weak coverage
-4. **Document coverage gaps** - Identify functions/branches with insufficient testing
+1. **Add missing tests** - Create test files for `log.js` and `repository.js`
+2. **Analyze and improve existing tests** - Review 10 test files for weak coverage
+3. **Document coverage gaps** - Identify functions/branches with insufficient testing
 
 ## Todos
 
-### Phase 1: Unblock ESLint (blocker for other work)
-- `migrate-eslint-config` - Migrate from .eslintrc.json to eslint.config.js to support ESLint v10+
-
-### Phase 2: Add Missing Test Files
+### Phase 1: Add Missing Test Files
 - `test-log-module` - Create test/popup/log.test.js covering error reporting functionality
 - `test-repository-module` - Create test/popup/repository.test.js covering browser API wrapper
 
-### Phase 3: Analyze & Improve Existing Tests
+### Phase 2: Analyze & Improve Existing Tests
 - `analyze-existing-tests` - Review each of 10 existing test files for edge cases, error scenarios, branch coverage
 - `improve-popup-tests` - Enhance popup.test.js with missing scenarios
 - `improve-ui-tests` - Enhance ui.test.js with missing scenarios
 - `improve-buttons-tests` - Enhance buttons.test.js with missing scenarios
 - `improve-background-tests` - Enhance background.test.js with missing scenarios
 
-### Phase 4: Validation & Cleanup
+### Phase 3: Validation & Cleanup
 - `validate-coverage` - Run full test suite, verify no regressions
 - `document-coverage-gaps` - Create a summary of any remaining gaps
 
