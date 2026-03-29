@@ -12,7 +12,7 @@
     "test": "jest ./test --silent",
     "testfilter": "jest ./test -t ButtonScroll",
     "web-ext": "cd src && ../node_modules/web-ext/bin/web-ext.js run -u https://html.com/tags/iframe/",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -27,15 +27,20 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "babel-plugin-rewire": "^1.2.0",
-    "eslint": "^9.39.1",
-    "husky": "^9.1.7",
-    "jest": "^30.2.0",
+    "brace-expansion": "5.0.5",
+    "eslint": "10.1.0",
+    "flatted": "3.4.2",
+    "husky": "9.1.7",
+    "jest": "30.3.0",
     "jsdom": "^26.0.0",
+    "node-forge": "1.4.0",
     "prettier": "3.7.4",
-    "web-ext": "^9.2.0"
+    "web-ext": "10.0.0"
   },
   "devDependenciesComments": {
     "babel-plugin-rewire": "Allow test not exported code. https://www.samanthaming.com/journal/2-testing-non-exported-functions/",
-    "eslint, prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/"
+    "brace-expansion": "Set to fix vulnerable version as it is a dependency of a not maintained package with a fixed old version",
+    "eslint, prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
+    "node-forge": "Set to fix vulnerable version as it is a dependency of a not maintained package with a fixed old version"
   }
 }
