@@ -14,19 +14,19 @@ describe("Check module import", () => {
     expect(result).toEqual("blacklist");
   });
   it("element runs without error", function () {
-    function_ = checkAndBorderModule.__get__("element");
+    const function_ = checkAndBorderModule.__get__("element");
     new function_("foo", "bar");
   });
   it("initializeContentScript runs without error", function () {
-    function_ = checkAndBorderModule.__get__("initializeContentScript");
+    const function_ = checkAndBorderModule.__get__("initializeContentScript");
     function_();
   });
   it("getElementsByTags runs without error", function () {
-    function_ = checkAndBorderModule.__get__("getElementsByTags");
+    const function_ = checkAndBorderModule.__get__("getElementsByTags");
     function_();
   });
   it("logs runs without error", function () {
-    function_ = checkAndBorderModule.__get__("logs");
+    const function_ = checkAndBorderModule.__get__("logs");
     function_();
   });
 });

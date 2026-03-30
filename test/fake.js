@@ -78,14 +78,14 @@ export function runNoHtmlFakeDom() {
   global.window = dom.window;
 }
 
-function getNewPromise(args) {
-  return new Promise(function (resolve, reject) {
+function getNewPromise() {
+  return new Promise(function (resolve) {
     resolve("Start of new Promise");
   });
 }
 
 function removeItem(key, storageItems) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     delete storageItems[key];
     resolve(storageItems);
   });

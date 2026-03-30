@@ -197,8 +197,8 @@ function getBrowserMock() {
   };
 }
 
-function getNewPromise(args) {
-  return new Promise(function (resolve, reject) {
+function getNewPromise() {
+  return new Promise(function (resolve) {
     resolve("Start of new Promise");
   });
 }
