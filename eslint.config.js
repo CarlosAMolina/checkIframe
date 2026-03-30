@@ -8,7 +8,7 @@ export default [
       sourceType: "module",
       globals: {
         // Browser API
-        browser: "readonly",
+        browser: "writable",
         navigator: "readonly",
         setTimeout: "readonly",
         // Jest

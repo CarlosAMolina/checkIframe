@@ -64,7 +64,7 @@ describe("Check module import", () => {
     });
     describe("Buttons click works correctly", () => {
       beforeEach(() => {
-        setUrls = popupModule.__get__("setUrls");
+        let setUrls = popupModule.__get__("setUrls");
         setUrls([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -90,7 +90,7 @@ describe("Check module import", () => {
         expect(buttons[2].title).toBe("Cancel update");
         const deleteButton = buttons[0];
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
-        getUrls = popupModule.__get__("getUrls");
+        let getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -188,13 +188,13 @@ describe("Check module import", () => {
         document.getElementById("buttonUrlsBlacklist").checked = true;
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        getUrls = popupModule.__get__("getUrls");
+        let getUrls = popupModule.__get__("getUrls");
         expect(getUrls()).toStrictEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
           new modelModule.UrlsOfType("referer", []),
         ]);
-        setUrls = popupModule.__get__("setUrls");
+        let setUrls = popupModule.__get__("setUrls");
         setUrls([
           new modelModule.UrlsOfType("blacklist", [eValue]),
           new modelModule.UrlsOfType("notify", []),
