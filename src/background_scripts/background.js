@@ -140,7 +140,7 @@ function saveMessageAndUpdateTittle(message) {
 function checkRunRedirect() {
   return referers.some(isStringInUrl);
 
-  function isStringInUrl(element, index, array) {
+  function isStringInUrl(element) {
     return tabUrl.toLowerCase().includes(element.toLowerCase());
   }
 }
@@ -160,13 +160,13 @@ async function redirectTo(locationUrl) {
   browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
   browser.tabs.onActivated.addListener(handleActivatedTab);
 
-  function onUpdated(tab) {
+  function onUpdated() {
     console.log("Updated tab");
   }
 }
 
 // send a message to the content script in the active tab.
-function sendValue(tabs) {
+function sendValue() {
   console.log("Init sendValue to tab id: " + currentTabId);
   browser.tabs
     .sendMessage(currentTabId, {

@@ -196,12 +196,10 @@ initializeContentScript();
           },
         ).length;
       }
-      if (elementsValidSrcIndex >= previousTagsElementsNumber) {
-        var tagElementsIndex =
-          elementsValidSrc.length - previousTagsElementsNumber;
-      } else {
-        var tagElementsIndex = elementsValidSrcIndex;
-      }
+      const tagElementsIndex =
+        elementsValidSrcIndex >= previousTagsElementsNumber
+          ? elementsValidSrc.length - previousTagsElementsNumber
+          : elementsValidSrcIndex;
       return (
         "Tag " +
         elementsValidSrc[elementsValidSrcIndex].tag +
@@ -218,13 +216,13 @@ initializeContentScript();
       setBorderOfElement(elementToSetBorder);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
-    var indexInfo = "No elements to show";
+    let indexInfo = "No elements to show";
     if (elements.length != 0) {
       getElementsValidSrc();
       if (elementsValidSrc.length != 0) {
         getIndex2Show();
         scrollAndBorder();
-        var indexInfo = getIndexInfo();
+        indexInfo = getIndexInfo();
       }
     }
     return indexInfo;
