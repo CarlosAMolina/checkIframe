@@ -146,7 +146,7 @@ initializeContentScript();
           return sourcesFunc.source;
         }),
       ).toLowerCase();
-      for (i = 0; i < notifySources.length; i++) {
+      for (let i = 0; i < notifySources.length; i++) {
         var notifySource = notifySources[i].toLowerCase();
         if (allSourcesStr.indexOf(notifySource) != -1) {
           i = i + notifySources.length; // finish loop
@@ -189,7 +189,7 @@ initializeContentScript();
         elementsValidSrc[elementsValidSrcIndex].tag,
       );
       var previousTagsElementsNumber = 0; // includes the number of elements for the actual tag
-      for (i = 0; i <= tag2SearchIndex; i++) {
+      for (let i = 0; i <= tag2SearchIndex; i++) {
         previousTagsElementsNumber += elementsValidSrc.filter(
           function (elementsFunc) {
             return elementsFunc.tag == tags2Search[i];
