@@ -1,12 +1,14 @@
 import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
 import { BUTTON_ID_CLEAN } from "./buttons.js";
 import { BUTTON_ID_RECHECK } from "./buttons.js";
+import { BUTTON_ID_SHOW_CONFIG } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonCancel } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
 import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
+import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
@@ -38,7 +40,6 @@ const BUTTON_ID_ADD_URL = "buttonAddUrl";
 const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
 const BUTTON_ID_SCROLL = "buttonScroll";
-const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
 const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
 const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
 const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
@@ -106,7 +107,7 @@ function createButton(buttonIdHtml) {
     case BUTTON_ID_SHOW_SOURCES:
       return new ButtonShowSources();
     case BUTTON_ID_SHOW_CONFIG:
-      return new ShowConfigButton();
+      return new ButtonShowConfig();
     case BUTTON_ID_SHOW_LOGS:
       return new ButtonShowLogs();
     case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
@@ -308,17 +309,6 @@ export class ButtonAlwaysShowSources extends OnOffButton {
   async _showSources() {
     await this._button.showSources();
     unhide("infoTags");
-  }
-}
-
-class ShowConfigButton extends Button {
-  get _idHtml() {
-    return BUTTON_ID_SHOW_CONFIG;
-  }
-
-  click() {
-    this._logButtonName();
-    toggleHide("menuConfig");
   }
 }
 

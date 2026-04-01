@@ -7,6 +7,7 @@ import { hide } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
+import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
@@ -14,6 +15,7 @@ import { unhide } from "./dom.js";
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
 export const BUTTON_ID_CLEAN = "buttonClean";
 export const BUTTON_ID_RECHECK = "buttonRecheck";
+export const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
 
 export class Button {
   click() {
@@ -26,6 +28,17 @@ export class Button {
 
   get _idHtml() {
     throw TypeError("Not implemented");
+  }
+}
+
+export class ButtonShowConfig extends Button {
+  get _idHtml() {
+    return BUTTON_ID_SHOW_CONFIG;
+  }
+
+  click() {
+    this._logButtonName();
+    toggleHide("menuConfig");
   }
 }
 
