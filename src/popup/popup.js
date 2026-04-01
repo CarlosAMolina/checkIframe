@@ -106,7 +106,7 @@ function createButton(buttonIdHtml) {
     case BUTTON_ID_SHOW_SOURCES:
       return new ButtonShowSources();
     case BUTTON_ID_SHOW_CONFIG:
-      return new ButtonShowConfig();
+      return new ShowConfigButton();
     case BUTTON_ID_SHOW_LOGS:
       return new ButtonShowLogs();
     case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
@@ -311,7 +311,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
   }
 }
 
-class ButtonShowConfig extends Button {
+class ShowConfigButton extends Button {
   get _idHtml() {
     return BUTTON_ID_SHOW_CONFIG;
   }

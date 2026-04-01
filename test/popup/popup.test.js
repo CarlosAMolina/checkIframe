@@ -525,7 +525,7 @@ describe("buttons", () => {
       );
     }
   });
-  describe("ButtonShowConfig", () => {
+  describe("ShowConfigButton", () => {
     it("should have correct button ID", function () {
       expect(getButton()._idHtml).toBe("buttonShowConfig");
     });
@@ -539,7 +539,7 @@ describe("buttons", () => {
       );
     });
     function getButton() {
-      const classType = popupModule.__get__("ButtonShowConfig");
+      const classType = popupModule.__get__("ShowConfigButton");
       return new classType();
     }
   });
