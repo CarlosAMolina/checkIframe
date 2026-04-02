@@ -1,8 +1,17 @@
+import { BUTTON_ID_ADD_URL } from "./buttons.js";
 import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
 import { BUTTON_ID_CLEAN } from "./buttons.js";
+import { BUTTON_ID_CLEAR_ALL } from "./buttons.js";
+import { BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY } from "./buttons.js";
 import { BUTTON_ID_RECHECK } from "./buttons.js";
 import { BUTTON_ID_SCROLL } from "./buttons.js";
 import { BUTTON_ID_SHOW_CONFIG } from "./buttons.js";
+import { BUTTON_ID_SHOW_LOGS } from "./buttons.js";
+import { BUTTON_ID_SHOW_SOURCES } from "./buttons.js";
+import { BUTTON_ID_URLS_BLACKLIST } from "./buttons.js";
+import { BUTTON_ID_URLS_NOTIFY } from "./buttons.js";
+import { BUTTON_ID_URLS_REFERER } from "./buttons.js";
+import { HTML_ID_SOURCES_CONFIG } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
@@ -35,15 +44,6 @@ import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO replace all `var` in this file with let or const.
 
-const BUTTON_ID_ADD_URL = "buttonAddUrl";
-const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
-const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
-const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
-const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
-const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
-const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
-const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
-const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
 var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
 var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js

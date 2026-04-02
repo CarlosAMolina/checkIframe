@@ -17,11 +17,21 @@ import { unhide } from "./dom.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
+export const BUTTON_ID_ADD_URL = "buttonAddUrl";
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
 export const BUTTON_ID_CLEAN = "buttonClean";
+export const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
+export const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY =
+  "buttonHighlightAllAutomatically";
 export const BUTTON_ID_RECHECK = "buttonRecheck";
 export const BUTTON_ID_SCROLL = "buttonScroll";
 export const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
+export const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
+export const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
+export const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
+export const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
+export const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
+export const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 
 export class Button {
   click() {
