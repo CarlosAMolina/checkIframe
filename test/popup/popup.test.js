@@ -1,11 +1,11 @@
-import * as buttonsModule from "../../src/popup/buttons.js";
-import * as domModule from "../../src/popup/dom.js";
 import * as fakeModule from "../fake.js";
-import * as htmlBuilderModule from "../builder.js";
-import * as modelModule from "../../src/popup/model.js";
 
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let popupModule;
+let buttonsModule;
+let domModule;
+let htmlBuilderModule;
+let modelModule;
 const buttonIdsHtml = [
   "buttonRecheck",
   "buttonClean",
@@ -651,6 +651,10 @@ describe("buttons", () => {
 function initializeMocksAndVariables() {
   initializeDomAndBrowser();
   popupModule = require("../../src/popup/popup.js");
+  buttonsModule = require("../../src/popup/buttons.js");
+  domModule = require("../../src/popup/dom.js");
+  htmlBuilderModule = require("../builder.js");
+  modelModule = require("../../src/popup/model.js");
 }
 
 function initializeDomAndBrowser() {

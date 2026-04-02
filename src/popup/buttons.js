@@ -9,12 +9,14 @@ import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
+import { setInfoScrollError } from "./ui.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
 export const BUTTON_ID_CLEAN = "buttonClean";
 export const BUTTON_ID_RECHECK = "buttonRecheck";
+export const BUTTON_ID_SCROLL = "buttonScroll";
 export const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
 
 export class Button {
@@ -28,6 +30,27 @@ export class Button {
 
   get _idHtml() {
     throw TypeError("Not implemented");
+  }
+}
+
+export class ButtonScroll extends Button {
+  get _idHtml() {
+    return BUTTON_ID_SCROLL;
+  }
+
+  click() {
+    this._logButtonName();
+    const htmlIdToChange = "infoScroll";
+    unhide(htmlIdToChange);
+    return sendMessage(Message(this._idHtml))
+      .then((response) => {
+        // Manage content-script response.
+        if (response.response === undefined) {
+          throw new Error(`Incorrect response: ${JSON.stringify(response)}`);
+        }
+        document.getElementById(htmlIdToChange).textContent = response.response;
+      })
+      .catch(setInfoScrollError);
   }
 }
 

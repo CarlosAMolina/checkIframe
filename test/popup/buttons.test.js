@@ -1,9 +1,16 @@
-import * as buttonsModule from "../../src/popup/buttons.js";
 import * as fakeModule from "../fake.js";
+
+// Modules that depend on document need to be loaded in beforeEach
+let buttonsModule;
 
 // TODO decide if the names for all buttons should be Button... or ...Button
 
 describe("Check ButtonShowLogs", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = getBrowserMock();
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
   it("Check it has correct button ID value", function () {
     expect(new buttonsModule.ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
   });

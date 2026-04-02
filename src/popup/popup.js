@@ -1,6 +1,7 @@
 import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
 import { BUTTON_ID_CLEAN } from "./buttons.js";
 import { BUTTON_ID_RECHECK } from "./buttons.js";
+import { BUTTON_ID_SCROLL } from "./buttons.js";
 import { BUTTON_ID_SHOW_CONFIG } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
@@ -8,6 +9,7 @@ import { ButtonCancel } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
 import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
+import { ButtonScroll } from "./buttons.js";
 import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { DynamicButton } from "./buttons.js";
@@ -25,7 +27,6 @@ import { isHidden } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
-import { setInfoScrollError } from "./ui.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setShowSourcesError } from "./ui.js";
 import { setUrls } from "./url.js";
@@ -39,7 +40,6 @@ import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
 const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
 const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
-const BUTTON_ID_SCROLL = "buttonScroll";
 const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
 const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
 const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
@@ -203,27 +203,6 @@ class ButtonRecheck extends Button {
         })
         .catch(console.error)
     );
-  }
-}
-
-class ButtonScroll extends Button {
-  get _idHtml() {
-    return BUTTON_ID_SCROLL;
-  }
-
-  click() {
-    this._logButtonName();
-    const htmlIdToChange = "infoScroll";
-    unhide(htmlIdToChange);
-    return sendMessage(Message(this._idHtml))
-      .then((response) => {
-        // Manage content-script response.
-        if (response.response === undefined) {
-          throw new Error(`Incorrect response: ${JSON.stringify(response)}`);
-        }
-        document.getElementById(htmlIdToChange).textContent = response.response;
-      })
-      .catch(setInfoScrollError);
   }
 }
 
