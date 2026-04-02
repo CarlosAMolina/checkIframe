@@ -128,59 +128,6 @@ function createButton(buttonIdHtml) {
   }
 }
 
-class ButtonUpdate extends DynamicButton {
-  constructor(entry, entryEditInput, storageKey, storageValue) {
-    super();
-    this._entry = entry;
-    this._entryEditInput = entryEditInput;
-    this._repository = new BrowserRepository(browser);
-    this._storageKey = storageKey;
-    this._storageValue = storageValue;
-  }
-
-  static createDom() {
-    const updateBtn = document.createElement("button");
-    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
-    updateBtn.setAttribute("title", "Update");
-    return updateBtn;
-  }
-
-  click() {
-    if (this._info2save === this._storageValue) {
-      return;
-    }
-    this._repository.getByKey(this._key2save).then((result) => {
-      // result: empty object if the searched value is not stored
-      if (Object.keys(result).length == 0) {
-        this._updateEntry();
-        this._entry.parentNode.removeChild(this._entry);
-      }
-    });
-  }
-
-  get _info2save() {
-    return this._entryEditInput.value;
-  }
-
-  get _key2save() {
-    return this._storageKey.split("_")[0] + "_" + this._info2save;
-  }
-
-  _updateEntry() {
-    const urlType = getUrlTypeActive();
-    let urls = getUrls();
-    urls = addUrl(this._key2save, urls, urlType);
-    this._repository.save(this._key2save, this._info2save).then(() => {
-      urls = deleteUrl(this._storageKey, urls, urlType);
-      this._repository.delete(this._storageKey).then(() => {
-        showStoredInfo(infoContainer, this._key2save, this._info2save);
-      }, reportError);
-    }, reportError);
-    sendMessage(Message("urls", urls));
-    setUrls(urls);
-  }
-}
-
 class ButtonShowSources extends Button {
   get _idHtml() {
     return BUTTON_ID_SHOW_SOURCES;
@@ -403,6 +350,59 @@ function showStoredInfo(infoContainer, storageKey, storageValue) {
   updateBtn.addEventListener("click", () => {
     new ButtonUpdate(entry, entryEditInput, storageKey, storageValue).click();
   });
+}
+
+class ButtonUpdate extends DynamicButton {
+  constructor(entry, entryEditInput, storageKey, storageValue) {
+    super();
+    this._entry = entry;
+    this._entryEditInput = entryEditInput;
+    this._repository = new BrowserRepository(browser);
+    this._storageKey = storageKey;
+    this._storageValue = storageValue;
+  }
+
+  static createDom() {
+    const updateBtn = document.createElement("button");
+    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
+    updateBtn.setAttribute("title", "Update");
+    return updateBtn;
+  }
+
+  click() {
+    if (this._info2save === this._storageValue) {
+      return;
+    }
+    this._repository.getByKey(this._key2save).then((result) => {
+      // result: empty object if the searched value is not stored
+      if (Object.keys(result).length == 0) {
+        this._updateEntry();
+        this._entry.parentNode.removeChild(this._entry);
+      }
+    });
+  }
+
+  get _info2save() {
+    return this._entryEditInput.value;
+  }
+
+  get _key2save() {
+    return this._storageKey.split("_")[0] + "_" + this._info2save;
+  }
+
+  _updateEntry() {
+    const urlType = getUrlTypeActive();
+    let urls = getUrls();
+    urls = addUrl(this._key2save, urls, urlType);
+    this._repository.save(this._key2save, this._info2save).then(() => {
+      urls = deleteUrl(this._storageKey, urls, urlType);
+      this._repository.delete(this._storageKey).then(() => {
+        showStoredInfo(infoContainer, this._key2save, this._info2save);
+      }, reportError);
+    }, reportError);
+    sendMessage(Message("urls", urls));
+    setUrls(urls);
+  }
 }
 
 function showStoredUrlsType(urlType) {
