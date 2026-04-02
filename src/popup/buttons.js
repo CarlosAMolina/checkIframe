@@ -1,17 +1,19 @@
+import { addUrl } from "./url.js";
 import { BrowserRepository } from "./repository.js";
-import { Message } from "./model.js";
 import { deleteUrl } from "./url.js";
-import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
+import { getUrlTypeActive } from "./url.js";
 import { hide } from "./dom.js";
+import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
+import { Message } from "./model.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
+import { setInfoScrollError } from "./ui.js";
 import { setUrls } from "./url.js";
+import { showSources } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
-import { setInfoScrollError } from "./ui.js";
-import { showSources } from "./ui.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
@@ -391,4 +393,102 @@ async function getIsStoredOn(keyName) {
     storedButtonIdStorage === undefined ? false : storedButtonIdStorage;
   console.log("Is stored on?", result);
   return result;
+}
+
+export function showStoredInfo(infoContainer, storageKey, storageValue) {
+  // display box
+  const entryDisplay = document.createElement("div");
+  entryDisplay.setAttribute("class", "section sourceConfig");
+  const deleteBtn = ButtonDelete.createDom();
+  entryDisplay.appendChild(deleteBtn);
+  const entryValue = document.createElement("p");
+  entryValue.textContent = storageValue;
+  entryDisplay.appendChild(entryValue);
+  const entry = document.createElement("div");
+  entry.appendChild(entryDisplay);
+
+  // edit box
+  const entryEdit = document.createElement("div");
+  entryEdit.setAttribute("class", "section sourceConfig");
+  const entryEditInput = document.createElement("input");
+  entryEdit.appendChild(entryEditInput);
+  const updateBtn = ButtonUpdate.createDom();
+  entryEdit.appendChild(updateBtn);
+  const cancelBtn = ButtonCancel.createDom();
+  entryEdit.appendChild(cancelBtn);
+  entry.appendChild(entryEdit);
+  entryEditInput.value = storageValue;
+  entryEdit.style.display = "none";
+
+  infoContainer.appendChild(entry);
+
+  deleteBtn.addEventListener("click", (e) => {
+    new ButtonDelete(e, storageKey).click();
+  });
+
+  entryValue.addEventListener("click", () => {
+    entryDisplay.style.display = "none";
+    entryEdit.style.display = "";
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    new ButtonCancel(entryDisplay, entryEdit).click();
+  });
+
+  updateBtn.addEventListener("click", () => {
+    new ButtonUpdate(entry, entryEditInput, storageKey, storageValue).click();
+  });
+}
+
+class ButtonUpdate extends DynamicButton {
+  constructor(entry, entryEditInput, storageKey, storageValue) {
+    super();
+    this._entry = entry;
+    this._entryEditInput = entryEditInput;
+    this._repository = new BrowserRepository(browser);
+    this._storageKey = storageKey;
+    this._storageValue = storageValue;
+  }
+
+  static createDom() {
+    const updateBtn = document.createElement("button");
+    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
+    updateBtn.setAttribute("title", "Update");
+    return updateBtn;
+  }
+
+  click() {
+    if (this._info2save === this._storageValue) {
+      return;
+    }
+    this._repository.getByKey(this._key2save).then((result) => {
+      // result: empty object if the searched value is not stored
+      if (Object.keys(result).length == 0) {
+        this._updateEntry();
+        this._entry.parentNode.removeChild(this._entry);
+      }
+    });
+  }
+
+  get _info2save() {
+    return this._entryEditInput.value;
+  }
+
+  get _key2save() {
+    return this._storageKey.split("_")[0] + "_" + this._info2save;
+  }
+
+  _updateEntry() {
+    const urlType = getUrlTypeActive();
+    let urls = getUrls();
+    urls = addUrl(this._key2save, urls, urlType);
+    this._repository.save(this._key2save, this._info2save).then(() => {
+      urls = deleteUrl(this._storageKey, urls, urlType);
+      this._repository.delete(this._storageKey).then(() => {
+        showStoredInfo(infoContainer, this._key2save, this._info2save);
+      }, reportError);
+    }, reportError);
+    sendMessage(Message("urls", urls));
+    setUrls(urls);
+  }
 }

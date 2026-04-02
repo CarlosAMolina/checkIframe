@@ -5,19 +5,15 @@ import { BUTTON_ID_SCROLL } from "./buttons.js";
 import { BUTTON_ID_SHOW_CONFIG } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
-import { ButtonCancel } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
-import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonRecheck } from "./buttons.js";
 import { ButtonScroll } from "./buttons.js";
 import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
-import { DynamicButton } from "./buttons.js";
 import { Message } from "./model.js";
 import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
-import { deleteUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
@@ -32,6 +28,7 @@ import { setNewElementsMaxWidth } from "./dom.js";
 import { setShowSourcesError } from "./ui.js";
 import { setUrls } from "./url.js";
 import { showSources } from "./ui.js";
+import { showStoredInfo } from "./buttons.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
@@ -304,104 +301,6 @@ class ButtonClearAll extends Button {
         }, reportError);
       }, reportError);
     }, reportError);
-  }
-}
-
-function showStoredInfo(infoContainer, storageKey, storageValue) {
-  // display box
-  const entryDisplay = document.createElement("div");
-  entryDisplay.setAttribute("class", "section sourceConfig");
-  const deleteBtn = ButtonDelete.createDom();
-  entryDisplay.appendChild(deleteBtn);
-  const entryValue = document.createElement("p");
-  entryValue.textContent = storageValue;
-  entryDisplay.appendChild(entryValue);
-  const entry = document.createElement("div");
-  entry.appendChild(entryDisplay);
-
-  // edit box
-  const entryEdit = document.createElement("div");
-  entryEdit.setAttribute("class", "section sourceConfig");
-  const entryEditInput = document.createElement("input");
-  entryEdit.appendChild(entryEditInput);
-  const updateBtn = ButtonUpdate.createDom();
-  entryEdit.appendChild(updateBtn);
-  const cancelBtn = ButtonCancel.createDom();
-  entryEdit.appendChild(cancelBtn);
-  entry.appendChild(entryEdit);
-  entryEditInput.value = storageValue;
-  entryEdit.style.display = "none";
-
-  infoContainer.appendChild(entry);
-
-  deleteBtn.addEventListener("click", (e) => {
-    new ButtonDelete(e, storageKey).click();
-  });
-
-  entryValue.addEventListener("click", () => {
-    entryDisplay.style.display = "none";
-    entryEdit.style.display = "";
-  });
-
-  cancelBtn.addEventListener("click", () => {
-    new ButtonCancel(entryDisplay, entryEdit).click();
-  });
-
-  updateBtn.addEventListener("click", () => {
-    new ButtonUpdate(entry, entryEditInput, storageKey, storageValue).click();
-  });
-}
-
-class ButtonUpdate extends DynamicButton {
-  constructor(entry, entryEditInput, storageKey, storageValue) {
-    super();
-    this._entry = entry;
-    this._entryEditInput = entryEditInput;
-    this._repository = new BrowserRepository(browser);
-    this._storageKey = storageKey;
-    this._storageValue = storageValue;
-  }
-
-  static createDom() {
-    const updateBtn = document.createElement("button");
-    updateBtn.innerHTML = '<img src="/icons/ok.svg" alt="Update"/>';
-    updateBtn.setAttribute("title", "Update");
-    return updateBtn;
-  }
-
-  click() {
-    if (this._info2save === this._storageValue) {
-      return;
-    }
-    this._repository.getByKey(this._key2save).then((result) => {
-      // result: empty object if the searched value is not stored
-      if (Object.keys(result).length == 0) {
-        this._updateEntry();
-        this._entry.parentNode.removeChild(this._entry);
-      }
-    });
-  }
-
-  get _info2save() {
-    return this._entryEditInput.value;
-  }
-
-  get _key2save() {
-    return this._storageKey.split("_")[0] + "_" + this._info2save;
-  }
-
-  _updateEntry() {
-    const urlType = getUrlTypeActive();
-    let urls = getUrls();
-    urls = addUrl(this._key2save, urls, urlType);
-    this._repository.save(this._key2save, this._info2save).then(() => {
-      urls = deleteUrl(this._storageKey, urls, urlType);
-      this._repository.delete(this._storageKey).then(() => {
-        showStoredInfo(infoContainer, this._key2save, this._info2save);
-      }, reportError);
-    }, reportError);
-    sendMessage(Message("urls", urls));
-    setUrls(urls);
   }
 }
 
