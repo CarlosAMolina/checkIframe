@@ -173,7 +173,7 @@ class ButtonUpdate extends DynamicButton {
     this._repository.save(this._key2save, this._info2save).then(() => {
       urls = deleteUrl(this._storageKey, urls, urlType);
       this._repository.delete(this._storageKey).then(() => {
-        showStoredInfo(this._key2save, this._info2save);
+        showStoredInfo(infoContainer, this._key2save, this._info2save);
       }, reportError);
     }, reportError);
     sendMessage(Message("urls", urls));
@@ -360,7 +360,7 @@ class ButtonClearAll extends Button {
   }
 }
 
-function showStoredInfo(storageKey, storageValue) {
+function showStoredInfo(infoContainer, storageKey, storageValue) {
   // display box
   const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
@@ -410,7 +410,7 @@ function showStoredUrlsType(urlType) {
     var keys = Object.keys(storageItems);
     keys.forEach(function (key) {
       if (key.includes(urlType + "_")) {
-        showStoredInfo(key, storageItems[key]);
+        showStoredInfo(infoContainer, key, storageItems[key]);
       }
     });
   }, reportError);
@@ -444,7 +444,7 @@ function storeInfo(info2save, urlType) {
     const message = Message("urls", urls);
     sendMessage(message);
     repository.save(id2save, value2save).then(() => {
-      showStoredInfo(id2save, value2save);
+      showStoredInfo(infoContainer, id2save, value2save);
     }, reportError);
   }
   info2save = info2save.filter(function (value, position) {
