@@ -1,6 +1,8 @@
 import * as buttonsModule from "../../src/popup/buttons.js";
 import * as fakeModule from "../fake.js";
 
+// TODO decide if the names for all buttons should be Button... or ...Button
+
 describe("Check ButtonShowLogs", () => {
   it("Check it has correct button ID value", function () {
     expect(new buttonsModule.ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
