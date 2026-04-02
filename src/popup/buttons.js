@@ -4,12 +4,14 @@ import { deleteUrl } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
 import { hide } from "./dom.js";
+import { isHidden } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { setInfoScrollError } from "./ui.js";
+import { showSources } from "./ui.js";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 
@@ -30,6 +32,32 @@ export class Button {
 
   get _idHtml() {
     throw TypeError("Not implemented");
+  }
+}
+
+export class ButtonRecheck extends Button {
+  get _idHtml() {
+    return BUTTON_ID_RECHECK;
+  }
+
+  click() {
+    this._logButtonName();
+    const mustShowSources = !isHidden("infoTags");
+    if (mustShowSources) {
+      // Hide and unhide (later) to make the visual effect that a recheck has been done.
+      hide("infoTags");
+    }
+    return (
+      sendMessage(Message(this._idHtml))
+        // Manage content-script response.
+        .then((tagSummary) => {
+          if (mustShowSources) {
+            unhide("infoTags");
+            showSources(tagSummary);
+          }
+        })
+        .catch(console.error)
+    );
   }
 }
 

@@ -9,6 +9,7 @@ import { ButtonCancel } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
 import { ButtonDelete } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
+import { ButtonRecheck } from "./buttons.js";
 import { ButtonScroll } from "./buttons.js";
 import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
@@ -177,32 +178,6 @@ class ButtonUpdate extends DynamicButton {
     }, reportError);
     sendMessage(Message("urls", urls));
     setUrls(urls);
-  }
-}
-
-class ButtonRecheck extends Button {
-  get _idHtml() {
-    return BUTTON_ID_RECHECK;
-  }
-
-  click() {
-    this._logButtonName();
-    const mustShowSources = !isHidden("infoTags");
-    if (mustShowSources) {
-      // Hide and unhide (later) to make the visual effect that a recheck has been done.
-      hide("infoTags");
-    }
-    return (
-      sendMessage(Message(this._idHtml))
-        // Manage content-script response.
-        .then((tagSummary) => {
-          if (mustShowSources) {
-            unhide("infoTags");
-            showSources(tagSummary);
-          }
-        })
-        .catch(console.error)
-    );
   }
 }
 
