@@ -1,9 +1,7 @@
-import { BrowserRepository } from "./repository.js";
 import { ButtonAddUrl } from "./buttons.js";
 import { ButtonAlwaysShowSources } from "./buttons.js";
 import { ButtonClearAll } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
-import { Button } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { BUTTON_ID_ADD_URL } from "./buttons.js";
 import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
@@ -38,7 +36,7 @@ import { setUrls } from "./url.js";
 import { saveUrl } from "./buttons.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
-// TODO replace all `var` in this file with let or const.
+// TODO replace all `var` in all files with let or const.
 
 function popupMain() {
   // display previously saved stored info on start-up
