@@ -83,7 +83,8 @@ function initializePopup() {
 }
 
 //TODO move createButton and all buttons to button.js and update tests.
-//TODO improve, instead of list all clicked elements, add listen only to buttons.
+//TODO improve, instead of list all clicked elements, add listen only to buttons and
+//TODO drop last `return false` line.
 function createButton(buttonIdHtml) {
   switch (buttonIdHtml) {
     case BUTTON_ID_RECHECK:
