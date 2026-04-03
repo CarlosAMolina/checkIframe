@@ -782,9 +782,6 @@ describe("ButtonAlwaysShowSources", () => {
 });
 
 describe("ButtonClearAll", () => {
-  beforeEach(() => {
-    initializeMocksAndVariables();
-  });
   it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
     // Test configuration.
     const storageItems = {
