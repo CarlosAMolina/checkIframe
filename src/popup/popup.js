@@ -194,8 +194,8 @@ function storeInfo(info2save, urlType) {
     repository.getByKey(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
-      if (searchInStorage.length < 1) {
-        // searchInStorage.length < 1 -> no stored;
+      const is_stored = searchInStorage.length > 0;
+      if (!is_stored) {
         let urls = getUrls();
         urls = addUrl(id2save, urls, urlType);
         setUrls(urls);
