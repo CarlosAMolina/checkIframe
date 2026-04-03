@@ -108,11 +108,11 @@ function createButton(buttonIdHtml) {
     case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
       return new ButtonHighlightAllAutomatically();
     case BUTTON_ID_URLS_NOTIFY:
-      return new ButtonUrlsNotify();
+      return new ButtonUrlsNotify(infoContainer);
     case BUTTON_ID_URLS_BLACKLIST:
-      return new ButtonUrlsBlacklist();
+      return new ButtonUrlsBlacklist(infoContainer);
     case BUTTON_ID_URLS_REFERER:
-      return new ButtonUrlsReferer();
+      return new ButtonUrlsReferer(infoContainer);
     case BUTTON_ID_ADD_URL:
       return new ButtonAddUrl();
     case BUTTON_ID_CLEAR_ALL:
@@ -123,6 +123,11 @@ function createButton(buttonIdHtml) {
 }
 
 class UrlsOfTypeButton extends Button {
+  constructor(infoContainer) {
+    super();
+    this._infoContainer = infoContainer;
+  }
+
   get _urlType() {
     throw TypeError("Not implemented");
   }
@@ -130,7 +135,7 @@ class UrlsOfTypeButton extends Button {
   click() {
     this._logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
-    removeShownStoredUrls(infoContainer);
+    removeShownStoredUrls(this._infoContainer);
     showStoredUrlsType(this._urlType);
   }
 }

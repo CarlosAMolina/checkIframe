@@ -641,7 +641,7 @@ describe("buttons", () => {
     });
     function getButton() {
       const classType = popupModule.__get__("ButtonUrlsNotify");
-      return new classType();
+      return new classType(popupModule.__get__("infoContainer"));
     }
   });
   function initializeButton(buttonStr) {
