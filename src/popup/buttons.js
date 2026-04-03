@@ -196,6 +196,67 @@ export class OnOffButton extends Button {
   }
 }
 
+export class ButtonAlwaysShowSources extends OnOffButton {
+  constructor() {
+    super();
+    this._button = new ButtonShowSources();
+  }
+
+  get _idHtml() {
+    return BUTTON_ID_ALWAYS_SHOW_SOURCES;
+  }
+
+  async click() {
+    this._logButtonName();
+    if (this.isOn) {
+      this.setStyleOff();
+      if (this._canThePageBeAnalyzed()) {
+        unhide("buttonShowSources");
+      }
+    } else {
+      this.setStyleOn();
+      if (this._canThePageBeAnalyzed()) {
+        hide("buttonShowSources");
+        await this._showSources();
+      }
+    }
+    await browser.storage.local
+      .set({ [this._idStorage]: this.isOn })
+      .then(() => {
+        console.log(
+          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
+        );
+      }, console.error);
+  }
+
+  async initializePopup() {
+    const mustBeOn = await this.getIsStoredOn();
+    if (mustBeOn) {
+      // TODO refactor, extract method, duplicated code.
+      this.setStyleOn();
+      if (this._canThePageBeAnalyzed()) {
+        hide("buttonShowSources");
+        await this._showSources();
+      }
+    } else {
+      this.setStyleOff();
+    }
+  }
+
+  get _idStorage() {
+    return "idTagsInfoAlwaysVisible";
+  }
+
+  _canThePageBeAnalyzed() {
+    return isHidden("error-content");
+  }
+
+  async _showSources() {
+    await this._button.showSources();
+    unhide("infoTags");
+  }
+}
+
 export class ButtonCancel extends DynamicButton {
   constructor(entryDisplay, entryEdit) {
     super();

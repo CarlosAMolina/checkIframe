@@ -14,6 +14,7 @@ import { BUTTON_ID_URLS_REFERER } from "./buttons.js";
 import { HTML_ID_SOURCES_CONFIG } from "./buttons.js";
 import { BrowserRepository } from "./repository.js";
 import { Button } from "./buttons.js";
+import { ButtonAlwaysShowSources } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonRecheck } from "./buttons.js";
@@ -22,15 +23,12 @@ import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { ButtonShowSources } from "./buttons.js";
 import { Message } from "./model.js";
-import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
-import { hide } from "./dom.js";
 import { infoContainer } from "./ui.js";
-import { isHidden } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
@@ -120,67 +118,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll();
     default:
       return false;
-  }
-}
-
-export class ButtonAlwaysShowSources extends OnOffButton {
-  constructor() {
-    super();
-    this._button = new ButtonShowSources();
-  }
-
-  get _idHtml() {
-    return BUTTON_ID_ALWAYS_SHOW_SOURCES;
-  }
-
-  async click() {
-    this._logButtonName();
-    if (this.isOn) {
-      this.setStyleOff();
-      if (this._canThePageBeAnalyzed()) {
-        unhide("buttonShowSources");
-      }
-    } else {
-      this.setStyleOn();
-      if (this._canThePageBeAnalyzed()) {
-        hide("buttonShowSources");
-        await this._showSources();
-      }
-    }
-    await browser.storage.local
-      .set({ [this._idStorage]: this.isOn })
-      .then(() => {
-        console.log(
-          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
-        );
-      }, console.error);
-  }
-
-  async initializePopup() {
-    const mustBeOn = await this.getIsStoredOn();
-    if (mustBeOn) {
-      // TODO refactor, extract method, duplicated code.
-      this.setStyleOn();
-      if (this._canThePageBeAnalyzed()) {
-        hide("buttonShowSources");
-        await this._showSources();
-      }
-    } else {
-      this.setStyleOff();
-    }
-  }
-
-  get _idStorage() {
-    return "idTagsInfoAlwaysVisible";
-  }
-
-  _canThePageBeAnalyzed() {
-    return isHidden("error-content");
-  }
-
-  async _showSources() {
-    await this._button.showSources();
-    unhide("infoTags");
   }
 }
 
