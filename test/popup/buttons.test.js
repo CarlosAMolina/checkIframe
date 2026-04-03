@@ -21,9 +21,6 @@ describe("Check removeShownStoredUrls", () => {
 });
 
 describe("Check showStoredUrlsType", () => {
-  beforeEach(() => {
-    initializeMocksAndVariables();
-  });
   // TODO describe("Test showStoredUrlsType call", () => {
   it("showStoredUrlsType runs without error", function () {
     const function_ = buttonsModule.__get__("showStoredUrlsType");
