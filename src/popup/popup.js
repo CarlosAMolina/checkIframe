@@ -185,16 +185,6 @@ function saveUrl(enterKey, urlType) {
 // add a tag to the display, and storage
 function storeInfo(info2save, urlType) {
   const repository = new BrowserRepository(browser);
-  function saveInfo(id2save, value2save) {
-    let urls = getUrls();
-    urls = addUrl(id2save, urls, urlType);
-    setUrls(urls);
-    const message = Message("urls", urls);
-    sendMessage(message);
-    repository.save(id2save, value2save).then(() => {
-      showStoredInfo(infoContainer, id2save, value2save);
-    }, reportError);
-  }
   info2save = info2save.filter(function (value, position) {
     // delete duplicates
     return info2save.indexOf(value) == position;
@@ -206,7 +196,14 @@ function storeInfo(info2save, urlType) {
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
       if (searchInStorage.length < 1) {
         // searchInStorage.length < 1 -> no stored;
-        saveInfo(id2save, arrayValue);
+        let urls = getUrls();
+        urls = addUrl(id2save, urls, urlType);
+        setUrls(urls);
+        const message = Message("urls", urls);
+        sendMessage(message);
+        repository.save(id2save, arrayValue).then(() => {
+          showStoredInfo(infoContainer, id2save, arrayValue);
+        }, reportError);
       }
     }, reportError);
   });
