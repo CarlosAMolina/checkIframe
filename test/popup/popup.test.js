@@ -289,7 +289,7 @@ describe("Check module import", () => {
     function_();
   });
   it("storeInfo runs without error", function () {
-    const function_ = popupModule.__get__("storeInfo");
+    const function_ = buttonsModule.__get__("storeInfo");
     function_(["value_1"]);
   });
   it("reportError logs expected message", function () {

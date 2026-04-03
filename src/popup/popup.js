@@ -1,4 +1,3 @@
-import { addUrl } from "./url.js";
 import { BrowserRepository } from "./repository.js";
 import { ButtonAlwaysShowSources } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
@@ -34,7 +33,7 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
-import { storeInfo } from "./buttons.js";
+import { saveUrl } from "./buttons.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO replace all `var` in this file with let or const.
@@ -165,20 +164,6 @@ class ButtonClearAll extends Button {
       }, reportError);
     }, reportError);
   }
-}
-
-// save input box info
-function saveUrl(enterKey, urlType) {
-  let info2save = document
-    .querySelector('textarea[id="inputUrl"]')
-    .value.split("\n");
-  if (enterKey == 1) {
-    info2save.pop(); // delete last value (\n)
-  }
-  browser.tabs
-    .query({ active: true, currentWindow: true })
-    .then(() => storeInfo(info2save, urlType))
-    .catch(reportError);
 }
 
 // there was an error executing the script.

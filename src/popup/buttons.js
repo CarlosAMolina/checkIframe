@@ -658,6 +658,20 @@ export function removeShownStoredUrls(infoContainer) {
   removeChildren(infoContainer);
 }
 
+// save input box info
+export function saveUrl(enterKey, urlType) {
+  let info2save = document
+    .querySelector('textarea[id="inputUrl"]')
+    .value.split("\n");
+  if (enterKey == 1) {
+    info2save.pop(); // delete last value (\n)
+  }
+  browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then(() => storeInfo(info2save, urlType))
+    .catch(reportError);
+}
+
 // add a tag to the display, and storage
 export function storeInfo(info2save, urlType) {
   const repository = new BrowserRepository(browser);
