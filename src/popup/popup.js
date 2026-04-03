@@ -1,3 +1,9 @@
+import { addUrl } from "./url.js";
+import { BrowserRepository } from "./repository.js";
+import { ButtonAlwaysShowSources } from "./buttons.js";
+import { ButtonClean } from "./buttons.js";
+import { Button } from "./buttons.js";
+import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { BUTTON_ID_ADD_URL } from "./buttons.js";
 import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
 import { BUTTON_ID_CLEAN } from "./buttons.js";
@@ -11,30 +17,25 @@ import { BUTTON_ID_SHOW_SOURCES } from "./buttons.js";
 import { BUTTON_ID_URLS_BLACKLIST } from "./buttons.js";
 import { BUTTON_ID_URLS_NOTIFY } from "./buttons.js";
 import { BUTTON_ID_URLS_REFERER } from "./buttons.js";
-import { HTML_ID_SOURCES_CONFIG } from "./buttons.js";
-import { BrowserRepository } from "./repository.js";
-import { Button } from "./buttons.js";
-import { ButtonAlwaysShowSources } from "./buttons.js";
-import { ButtonClean } from "./buttons.js";
-import { ButtonHighlightAllAutomatically } from "./buttons.js";
 import { ButtonRecheck } from "./buttons.js";
 import { ButtonScroll } from "./buttons.js";
 import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { ButtonShowSources } from "./buttons.js";
-import { Message } from "./model.js";
-import { addUrl } from "./url.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
-import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
+import { getUrlTypeActive } from "./url.js";
+import { HTML_ID_SOURCES_CONFIG } from "./buttons.js";
 import { infoContainer } from "./ui.js";
-import { removeChildren } from "./dom.js";
+import { Message } from "./model.js";
+import { removeShownStoredUrls } from "./buttons.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
 import { showStoredInfo } from "./buttons.js";
+import { showStoredUrlsType } from "./buttons.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
@@ -129,7 +130,7 @@ class UrlsOfTypeButton extends Button {
   click() {
     this._logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
-    removeShownStoredUrls();
+    removeShownStoredUrls(infoContainer);
     showStoredUrlsType(this._urlType);
   }
 }
@@ -213,21 +214,6 @@ class ButtonClearAll extends Button {
       }, reportError);
     }, reportError);
   }
-}
-
-function showStoredUrlsType(urlType) {
-  new BrowserRepository(browser).getAll().then((storageItems) => {
-    var keys = Object.keys(storageItems);
-    keys.forEach(function (key) {
-      if (key.includes(urlType + "_")) {
-        showStoredInfo(infoContainer, key, storageItems[key]);
-      }
-    });
-  }, reportError);
-}
-
-function removeShownStoredUrls() {
-  removeChildren(infoContainer);
 }
 
 // save input box info

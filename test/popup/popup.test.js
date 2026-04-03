@@ -298,7 +298,7 @@ describe("Check module import", () => {
         "foo",
       );
       const function_ = popupModule.__get__("removeShownStoredUrls");
-      function_();
+      function_(popupModule.__get__("infoContainer"));
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
   });

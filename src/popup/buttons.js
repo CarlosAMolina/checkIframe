@@ -7,6 +7,7 @@ import { hide } from "./dom.js";
 import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
 import { Message } from "./model.js";
+import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";
@@ -587,4 +588,20 @@ class ButtonUpdate extends DynamicButton {
     sendMessage(Message("urls", urls));
     setUrls(urls);
   }
+}
+
+export function showStoredUrlsType(urlType) {
+  new BrowserRepository(browser).getAll().then((storageItems) => {
+    var keys = Object.keys(storageItems);
+    keys.forEach(function (key) {
+      if (key.includes(urlType + "_")) {
+        showStoredInfo(infoContainer, key, storageItems[key]);
+      }
+    });
+  }, reportError);
+}
+
+// TODO deprecate removeShownStoredUrls, use removeChildren only.
+export function removeShownStoredUrls(infoContainer) {
+  removeChildren(infoContainer);
 }
