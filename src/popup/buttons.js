@@ -698,3 +698,15 @@ export function storeInfo(info2save, urlType) {
     }, reportError);
   });
 }
+
+export class ButtonAddUrl extends Button {
+  get _idHtml() {
+    return BUTTON_ID_ADD_URL;
+  }
+
+  click() {
+    this._logButtonName();
+    const urlType = getUrlTypeActive();
+    saveUrl(undefined, urlType);
+  }
+}

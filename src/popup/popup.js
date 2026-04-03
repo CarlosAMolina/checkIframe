@@ -1,4 +1,5 @@
 import { BrowserRepository } from "./repository.js";
+import { ButtonAddUrl } from "./buttons.js";
 import { ButtonAlwaysShowSources } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
 import { Button } from "./buttons.js";
@@ -112,18 +113,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll();
     default:
       return false;
-  }
-}
-
-class ButtonAddUrl extends Button {
-  get _idHtml() {
-    return BUTTON_ID_ADD_URL;
-  }
-
-  click() {
-    this._logButtonName();
-    const urlType = getUrlTypeActive();
-    saveUrl(undefined, urlType);
   }
 }
 
