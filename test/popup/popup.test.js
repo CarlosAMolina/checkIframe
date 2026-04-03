@@ -45,7 +45,7 @@ describe("Check module import", () => {
       });
       it("If no values to manage", function () {
         expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
-        const function_ = popupModule.__get__("showStoredInfo");
+        const function_ = buttonsModule.__get__("showStoredInfo");
         function_(popupModule.__get__("infoContainer"));
         expect(popupModule.__get__("infoContainer").innerHTML).toBe(
           '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
@@ -53,7 +53,7 @@ describe("Check module import", () => {
       });
       it("If values to manage", function () {
         expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
-        const function_ = popupModule.__get__("showStoredInfo");
+        const function_ = buttonsModule.__get__("showStoredInfo");
         const eKey = "blacklist_https://foo.com/test.html";
         const eValue = "https://foo.com/test.html";
         function_(popupModule.__get__("infoContainer"), eKey, eValue);
@@ -80,7 +80,7 @@ describe("Check module import", () => {
         const eKey = "blacklist_https://foo.com/test.html";
         // TODO in some part of the code the urls.blacklist must have de eKey or eValue value. Add this behaviour to the tests.
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-        const function_ = popupModule.__get__("showStoredInfo");
+        const function_ = buttonsModule.__get__("showStoredInfo");
         const infoContainer = popupModule.__get__("infoContainer");
         function_(infoContainer, eKey, eValue);
         const buttons = infoContainer.getElementsByTagName("button");
@@ -90,7 +90,7 @@ describe("Check module import", () => {
         expect(buttons[2].title).toBe("Cancel update");
         const deleteButton = buttons[0];
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
-        let getUrls = popupModule.__get__("getUrls");
+        let getUrls = buttonsModule.__get__("getUrls");
         expect(getUrls()).toEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -103,7 +103,7 @@ describe("Check module import", () => {
         expect(buttonsAfterClick.length).toBe(0);
         expect(browser.storage.local.remove.mock.calls.length).toBe(1);
         expect(browser.storage.local.remove.mock.lastCall).toEqual([eKey]);
-        getUrls = popupModule.__get__("getUrls");
+        getUrls = buttonsModule.__get__("getUrls");
         expect(getUrls()).toEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -128,7 +128,7 @@ describe("Check module import", () => {
         expect(
           popupModule.__get__("infoContainer").getElementsByTagName("p").length,
         ).toBe(0);
-        const function_ = popupModule.__get__("showStoredInfo");
+        const function_ = buttonsModule.__get__("showStoredInfo");
         function_(popupModule.__get__("infoContainer"), eKey, eValue);
         const pElements = popupModule
           .__get__("infoContainer")
@@ -157,7 +157,7 @@ describe("Check module import", () => {
           popupModule.__get__("infoContainer").getElementsByTagName("button")
             .length,
         ).toBe(0);
-        const function_ = popupModule.__get__("showStoredInfo");
+        const function_ = buttonsModule.__get__("showStoredInfo");
         function_(popupModule.__get__("infoContainer"), eKey, eValue);
         const cancelButton = popupModule
           .__get__("infoContainer")
@@ -190,7 +190,7 @@ describe("Check module import", () => {
         document.getElementById("buttonUrlsBlacklist").checked = true;
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        let getUrls = popupModule.__get__("getUrls");
+        let getUrls = buttonsModule.__get__("getUrls");
         expect(getUrls()).toStrictEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -209,7 +209,7 @@ describe("Check module import", () => {
           new modelModule.UrlsOfType("notify", []),
           new modelModule.UrlsOfType("referer", []),
         ]);
-        const function_ = popupModule.__get__("showStoredInfo");
+        const function_ = buttonsModule.__get__("showStoredInfo");
         function_(popupModule.__get__("infoContainer"), eKey, eValue);
         expect(
           popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
@@ -414,7 +414,7 @@ describe("buttons", () => {
         new modelModule.UrlsOfType("referer", []),
       ];
       expect(storedUrls).toStrictEqual(expectedUrls);
-      expect(popupModule.__get__("getUrls")()).toEqual(expectedUrls);
+      expect(buttonsModule.__get__("getUrls")()).toEqual(expectedUrls);
       expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
         modelModule.Message("urls", expectedUrls),
       );

@@ -657,3 +657,30 @@ export function showStoredUrlsType(urlType) {
 export function removeShownStoredUrls(infoContainer) {
   removeChildren(infoContainer);
 }
+
+// add a tag to the display, and storage
+export function storeInfo(info2save, urlType) {
+  const repository = new BrowserRepository(browser);
+  info2save = info2save.filter(function (value, position) {
+    // delete duplicates
+    return info2save.indexOf(value) == position;
+  });
+  info2save.forEach(function (arrayValue) {
+    var id2save = urlType + "_" + arrayValue;
+    repository.getByKey(id2save).then((result) => {
+      // result: empty object if the searched value is not stored
+      var searchInStorage = Object.keys(result); // array with the searched value if it is stored
+      const is_stored = searchInStorage.length > 0;
+      if (!is_stored) {
+        let urls = getUrls();
+        urls = addUrl(id2save, urls, urlType);
+        setUrls(urls);
+        const message = Message("urls", urls);
+        sendMessage(message);
+        repository.save(id2save, arrayValue).then(() => {
+          showStoredInfo(infoContainer, id2save, arrayValue);
+        }, reportError);
+      }
+    }, reportError);
+  });
+}

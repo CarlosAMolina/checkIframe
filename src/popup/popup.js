@@ -27,7 +27,6 @@ import { ButtonUrlsNotify } from "./buttons.js";
 import { ButtonUrlsReferer } from "./buttons.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
-import { getUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { infoContainer } from "./ui.js";
 import { Message } from "./model.js";
@@ -35,7 +34,7 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
-import { showStoredInfo } from "./buttons.js";
+import { storeInfo } from "./buttons.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO replace all `var` in this file with let or const.
@@ -180,33 +179,6 @@ function saveUrl(enterKey, urlType) {
     .query({ active: true, currentWindow: true })
     .then(() => storeInfo(info2save, urlType))
     .catch(reportError);
-}
-
-// add a tag to the display, and storage
-function storeInfo(info2save, urlType) {
-  const repository = new BrowserRepository(browser);
-  info2save = info2save.filter(function (value, position) {
-    // delete duplicates
-    return info2save.indexOf(value) == position;
-  });
-  info2save.forEach(function (arrayValue) {
-    var id2save = urlType + "_" + arrayValue;
-    repository.getByKey(id2save).then((result) => {
-      // result: empty object if the searched value is not stored
-      var searchInStorage = Object.keys(result); // array with the searched value if it is stored
-      const is_stored = searchInStorage.length > 0;
-      if (!is_stored) {
-        let urls = getUrls();
-        urls = addUrl(id2save, urls, urlType);
-        setUrls(urls);
-        const message = Message("urls", urls);
-        sendMessage(message);
-        repository.save(id2save, arrayValue).then(() => {
-          showStoredInfo(infoContainer, id2save, arrayValue);
-        }, reportError);
-      }
-    }, reportError);
-  });
 }
 
 // there was an error executing the script.
