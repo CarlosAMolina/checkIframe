@@ -1,6 +1,7 @@
 import { BrowserRepository } from "./repository.js";
 import { ButtonAddUrl } from "./buttons.js";
 import { ButtonAlwaysShowSources } from "./buttons.js";
+import { ButtonClearAll } from "./buttons.js";
 import { ButtonClean } from "./buttons.js";
 import { Button } from "./buttons.js";
 import { ButtonHighlightAllAutomatically } from "./buttons.js";
@@ -113,49 +114,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll(infoContainer);
     default:
       return false;
-  }
-}
-
-export class ButtonClearAll extends Button {
-  constructor(infoContainer) {
-    super();
-    this._infoContainer = infoContainer;
-  }
-  get _idHtml() {
-    return BUTTON_ID_CLEAR_ALL;
-  }
-
-  click() {
-    this._logButtonName();
-    const urlType = getUrlTypeActive();
-    return browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(() => this._clearStorageInfo(urlType))
-      .catch(reportError);
-  }
-
-  _clearStorageInfo(urlType) {
-    const repository = new BrowserRepository(browser);
-    return repository.getAll().then((storageItems) => {
-      const keysUrl = Object.keys(storageItems).filter((key) =>
-        key.includes(urlType + "_"),
-      );
-      keysUrl.forEach(() => {
-        // TODO? use removeShownStoredUrls
-        this._infoContainer.removeChild(this._infoContainer.firstChild);
-      });
-      const deletePromises = keysUrl.map((keyUrl) => {
-        return repository.delete(keyUrl);
-      });
-      return Promise.all(deletePromises).then(() => {
-        return getStoredUrls(browser).then((storedUrls) => {
-          setUrls(storedUrls);
-          const message = Message("urls", storedUrls);
-          sendMessage(message);
-          return storedUrls;
-        }, reportError);
-      }, reportError);
-    }, reportError);
   }
 }
 

@@ -1,6 +1,7 @@
 import { addUrl } from "./url.js";
 import { BrowserRepository } from "./repository.js";
 import { deleteUrl } from "./url.js";
+import { getStoredUrls } from "./url.js";
 import { getUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { hide } from "./dom.js";
@@ -708,5 +709,48 @@ export class ButtonAddUrl extends Button {
     this._logButtonName();
     const urlType = getUrlTypeActive();
     saveUrl(undefined, urlType);
+  }
+}
+
+export class ButtonClearAll extends Button {
+  constructor(infoContainer) {
+    super();
+    this._infoContainer = infoContainer;
+  }
+  get _idHtml() {
+    return BUTTON_ID_CLEAR_ALL;
+  }
+
+  click() {
+    this._logButtonName();
+    const urlType = getUrlTypeActive();
+    return browser.tabs
+      .query({ active: true, currentWindow: true })
+      .then(() => this._clearStorageInfo(urlType))
+      .catch(reportError);
+  }
+
+  _clearStorageInfo(urlType) {
+    const repository = new BrowserRepository(browser);
+    return repository.getAll().then((storageItems) => {
+      const keysUrl = Object.keys(storageItems).filter((key) =>
+        key.includes(urlType + "_"),
+      );
+      keysUrl.forEach(() => {
+        // TODO? use removeShownStoredUrls
+        this._infoContainer.removeChild(this._infoContainer.firstChild);
+      });
+      const deletePromises = keysUrl.map((keyUrl) => {
+        return repository.delete(keyUrl);
+      });
+      return Promise.all(deletePromises).then(() => {
+        return getStoredUrls(browser).then((storedUrls) => {
+          setUrls(storedUrls);
+          const message = Message("urls", storedUrls);
+          sendMessage(message);
+          return storedUrls;
+        }, reportError);
+      }, reportError);
+    }, reportError);
   }
 }

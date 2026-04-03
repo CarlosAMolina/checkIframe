@@ -354,7 +354,7 @@ describe("buttons", () => {
       );
     });
     function getButton() {
-      const ButtonBase = popupModule.__get__("Button");
+      const ButtonBase = buttonsModule.Button;
       class TestButton extends ButtonBase {
         get _idHtml() {
           return "idTest";
@@ -795,10 +795,10 @@ describe("ButtonClearAll", () => {
       "infoContainer",
       fakeInfoContainer(numberOfBlacklistedUrls),
     );
-    const sendMessageBackup = popupModule.__get__("sendMessage");
-    popupModule.__set__("sendMessage", jest.fn());
+    const sendMessageBackup = buttonsModule.__get__("sendMessage");
+    buttonsModule.__set__("sendMessage", jest.fn());
     // Test.
-    const buttonClass = new popupModule.__get__("ButtonClearAll");
+    const buttonClass = popupModule.__get__("ButtonClearAll");
     const button = new buttonClass(popupModule.__get__("infoContainer"));
     const storedUrls = await button._clearStorageInfo("blacklist");
     const expectedUrls = [
@@ -808,7 +808,7 @@ describe("ButtonClearAll", () => {
     ];
     expect(storedUrls).toStrictEqual(expectedUrls);
     expect(buttonsModule.__get__("getUrls")()).toEqual(expectedUrls);
-    expect(popupModule.__get__("sendMessage")).toHaveBeenCalledWith(
+    expect(buttonsModule.__get__("sendMessage")).toHaveBeenCalledWith(
       modelModule.Message("urls", expectedUrls),
     );
     // Assert infoContainer URLs were removed.
@@ -816,6 +816,6 @@ describe("ButtonClearAll", () => {
     // Undo test specific config.
     global.browser = fakeModule.fakeBrowser();
     fakeModule.runFakeDom("src/popup/popup.html");
-    popupModule.__set__("sendMessage", sendMessageBackup);
+    buttonsModule.__set__("sendMessage", sendMessageBackup);
   });
 });
