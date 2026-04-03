@@ -10,6 +10,7 @@ import { Message } from "./model.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";
+import { setShowSourcesError } from "./ui.js";
 import { setUrls } from "./url.js";
 import { showSources } from "./ui.js";
 import { toggleHide } from "./dom.js";
@@ -102,6 +103,30 @@ export class ButtonShowConfig extends Button {
   click() {
     this._logButtonName();
     toggleHide("menuConfig");
+  }
+}
+
+export class ButtonShowSources extends Button {
+  get _idHtml() {
+    return BUTTON_ID_SHOW_SOURCES;
+  }
+
+  click() {
+    this._logButtonName();
+    toggleHide("infoTags");
+    return this.showSources();
+  }
+
+  showSources() {
+    // TODO? avoid send message when hidding
+    const message = Message(this._idHtml);
+    return sendMessage(message)
+      .then((response) => {
+        // Manage content-script response.
+        const tagSummary = response.response;
+        showSources(tagSummary);
+      })
+      .catch(setShowSourcesError);
   }
 }
 

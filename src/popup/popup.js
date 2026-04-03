@@ -20,6 +20,7 @@ import { ButtonRecheck } from "./buttons.js";
 import { ButtonScroll } from "./buttons.js";
 import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
+import { ButtonShowSources } from "./buttons.js";
 import { Message } from "./model.js";
 import { OnOffButton } from "./buttons.js";
 import { addUrl } from "./url.js";
@@ -34,11 +35,8 @@ import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
-import { setShowSourcesError } from "./ui.js";
 import { setUrls } from "./url.js";
-import { showSources } from "./ui.js";
 import { showStoredInfo } from "./buttons.js";
-import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
@@ -122,30 +120,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll();
     default:
       return false;
-  }
-}
-
-class ButtonShowSources extends Button {
-  get _idHtml() {
-    return BUTTON_ID_SHOW_SOURCES;
-  }
-
-  click() {
-    this._logButtonName();
-    toggleHide("infoTags");
-    return this.showSources();
-  }
-
-  showSources() {
-    // TODO? avoid send message when hidding
-    const message = Message(this._idHtml);
-    return sendMessage(message)
-      .then((response) => {
-        // Manage content-script response.
-        const tagSummary = response.response;
-        showSources(tagSummary);
-      })
-      .catch(setShowSourcesError);
   }
 }
 
