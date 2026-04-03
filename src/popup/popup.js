@@ -110,13 +110,17 @@ function createButton(buttonIdHtml) {
     case BUTTON_ID_ADD_URL:
       return new ButtonAddUrl();
     case BUTTON_ID_CLEAR_ALL:
-      return new ButtonClearAll();
+      return new ButtonClearAll(infoContainer);
     default:
       return false;
   }
 }
 
-class ButtonClearAll extends Button {
+export class ButtonClearAll extends Button {
+  constructor(infoContainer) {
+    super();
+    this._infoContainer = infoContainer;
+  }
   get _idHtml() {
     return BUTTON_ID_CLEAR_ALL;
   }
@@ -138,7 +142,7 @@ class ButtonClearAll extends Button {
       );
       keysUrl.forEach(() => {
         // TODO? use removeShownStoredUrls
-        infoContainer.removeChild(infoContainer.firstChild);
+        this._infoContainer.removeChild(this._infoContainer.firstChild);
       });
       const deletePromises = keysUrl.map((keyUrl) => {
         return repository.delete(keyUrl);

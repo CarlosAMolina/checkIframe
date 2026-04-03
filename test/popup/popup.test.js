@@ -406,8 +406,9 @@ describe("buttons", () => {
       const sendMessageBackup = popupModule.__get__("sendMessage");
       popupModule.__set__("sendMessage", jest.fn());
       // Test.
-      const storedUrls =
-        await initializeButton("ButtonClearAll")._clearStorageInfo("blacklist");
+      const buttonClass = new popupModule.__get__("ButtonClearAll");
+      const button = new buttonClass(popupModule.__get__("infoContainer"));
+      const storedUrls = await button._clearStorageInfo("blacklist");
       const expectedUrls = [
         new modelModule.UrlsOfType("blacklist", []),
         new modelModule.UrlsOfType("notify", ["url3"]),
