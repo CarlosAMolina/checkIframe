@@ -1,9 +1,35 @@
+import { JSDOM } from "jsdom";
 import * as fakeModule from "../fake.js";
 
 // Modules that depend on document need to be loaded in beforeEach
+let infoContainer;
 let buttonsModule;
 
 // TODO decide if the names for all buttons should be Button... or ...Button
+
+describe("Check removeShownStoredUrls", () => {
+  beforeEach(() => {
+    initializeMocksAndVariables();
+    mockNotEmptyInfoContainer();
+  });
+  it("Elements are modified", function () {
+    expect(infoContainer.firstChild.textContent).toBe("foo");
+    const function_ = buttonsModule.__get__("removeShownStoredUrls");
+    function_(infoContainer);
+    expect(infoContainer.firstChild).toBe(null);
+  });
+});
+
+describe("Check showStoredUrlsType", () => {
+  beforeEach(() => {
+    initializeMocksAndVariables();
+  });
+  // TODO describe("Test showStoredUrlsType call", () => {
+  it("showStoredUrlsType runs without error", function () {
+    const function_ = buttonsModule.__get__("showStoredUrlsType");
+    function_();
+  });
+});
 
 describe("Check ButtonShowLogs", () => {
   beforeEach(() => {
@@ -210,4 +236,28 @@ function getNewPromise() {
   return new Promise(function (resolve) {
     resolve("Start of new Promise");
   });
+}
+
+// TODO re-defined in popup.test.js
+function initializeMocksAndVariables() {
+  initializeDomAndBrowser();
+  popupModule = require("../../src/popup/popup.js");
+  buttonsModule = require("../../src/popup/buttons.js");
+  htmlBuilderModule = require("../builder.js");
+  modelModule = require("../../src/popup/model.js");
+}
+
+// TODO re-defined in popup.test.js
+function initializeDomAndBrowser() {
+  fakeModule.runFakeDom("src/popup/popup.html");
+  global.browser = fakeModule.fakeBrowser();
+}
+
+// TODO re-defined in popup.test.js (last line is different)
+function mockNotEmptyInfoContainer() {
+  const entryElement = document.createElement("div");
+  const entryValue = document.createElement("p");
+  entryValue.textContent = "foo";
+  entryElement.appendChild(entryValue);
+  infoContainer = entryElement;
 }

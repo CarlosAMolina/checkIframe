@@ -22,28 +22,23 @@ import { ButtonScroll } from "./buttons.js";
 import { ButtonShowConfig } from "./buttons.js";
 import { ButtonShowLogs } from "./buttons.js";
 import { ButtonShowSources } from "./buttons.js";
+import { ButtonUrlsBlacklist } from "./buttons.js";
+import { ButtonUrlsNotify } from "./buttons.js";
+import { ButtonUrlsReferer } from "./buttons.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
-import { HTML_ID_SOURCES_CONFIG } from "./buttons.js";
 import { infoContainer } from "./ui.js";
 import { Message } from "./model.js";
-import { removeShownStoredUrls } from "./buttons.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
 import { showStoredInfo } from "./buttons.js";
-import { showStoredUrlsType } from "./buttons.js";
-import { unhide } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO replace all `var` in this file with let or const.
-
-var URL_TYPE_BLACKLIST = "blacklist"; // TODO rm, moved to url.js
-var URL_TYPE_NOTIFY = "notify"; // TODO rm, moved to url.js
-var URL_TYPE_REFERER = "referer"; // TODO rm, moved to url.js
 
 function popupMain() {
   // display previously saved stored info on start-up
@@ -119,54 +114,6 @@ function createButton(buttonIdHtml) {
       return new ButtonClearAll();
     default:
       return false;
-  }
-}
-
-class UrlsOfTypeButton extends Button {
-  constructor(infoContainer) {
-    super();
-    this._infoContainer = infoContainer;
-  }
-
-  get _urlType() {
-    throw TypeError("Not implemented");
-  }
-
-  click() {
-    this._logButtonName();
-    unhide(HTML_ID_SOURCES_CONFIG);
-    removeShownStoredUrls(this._infoContainer);
-    showStoredUrlsType(this._urlType);
-  }
-}
-
-class ButtonUrlsNotify extends UrlsOfTypeButton {
-  get _idHtml() {
-    return BUTTON_ID_URLS_NOTIFY;
-  }
-
-  get _urlType() {
-    return URL_TYPE_NOTIFY;
-  }
-}
-
-class ButtonUrlsBlacklist extends UrlsOfTypeButton {
-  get _idHtml() {
-    return BUTTON_ID_URLS_BLACKLIST;
-  }
-
-  get _urlType() {
-    return URL_TYPE_BLACKLIST;
-  }
-}
-
-class ButtonUrlsReferer extends UrlsOfTypeButton {
-  get _idHtml() {
-    return BUTTON_ID_URLS_REFERER;
-  }
-
-  get _urlType() {
-    return URL_TYPE_REFERER;
   }
 }
 

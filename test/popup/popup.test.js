@@ -28,7 +28,7 @@ describe("Check module import", () => {
     expect(document.getElementById("pInput").textContent).toBe("New values");
   });
   it("The module should be imported without errors and has expected values", function () {
-    expect(popupModule.__get__("URL_TYPE_BLACKLIST")).toEqual("blacklist");
+    expect(popupModule.__get__("BUTTON_ID_ADD_URL")).toEqual("buttonAddUrl");
   });
   it("popupMain runs without error", function () {
     const function_ = popupModule.__get__("popupMain");
@@ -282,24 +282,6 @@ describe("Check module import", () => {
         document.getElementById("buttonUrlsBlacklist").checked = false;
         // TODO not tested entry.parentNode.removeChild(entry);
       });
-    });
-  });
-  // TODO describe("Test showStoredUrlsType call", () => {
-  it("showStoredUrlsType runs without error", function () {
-    const function_ = popupModule.__get__("showStoredUrlsType");
-    function_();
-  });
-  describe("Check removeShownStoredUrls", () => {
-    beforeEach(() => {
-      mockNotEmptyInfoContainer();
-    });
-    it("Elements are modified", function () {
-      expect(popupModule.__get__("infoContainer").firstChild.textContent).toBe(
-        "foo",
-      );
-      const function_ = popupModule.__get__("removeShownStoredUrls");
-      function_(popupModule.__get__("infoContainer"));
-      expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
   });
   it("saveUrl runs without error", function () {

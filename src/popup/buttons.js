@@ -34,6 +34,10 @@ export const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 export const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 export const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 export const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
+// TODO re defined in other files
+const URL_TYPE_BLACKLIST = "blacklist";
+const URL_TYPE_NOTIFY = "notify";
+const URL_TYPE_REFERER = "referer";
 
 export class Button {
   click() {
@@ -587,6 +591,54 @@ class ButtonUpdate extends DynamicButton {
     }, reportError);
     sendMessage(Message("urls", urls));
     setUrls(urls);
+  }
+}
+
+class UrlsOfTypeButton extends Button {
+  constructor(infoContainer) {
+    super();
+    this._infoContainer = infoContainer;
+  }
+
+  get _urlType() {
+    throw TypeError("Not implemented");
+  }
+
+  click() {
+    this._logButtonName();
+    unhide(HTML_ID_SOURCES_CONFIG);
+    removeShownStoredUrls(this._infoContainer);
+    showStoredUrlsType(this._urlType);
+  }
+}
+
+export class ButtonUrlsNotify extends UrlsOfTypeButton {
+  get _idHtml() {
+    return BUTTON_ID_URLS_NOTIFY;
+  }
+
+  get _urlType() {
+    return URL_TYPE_NOTIFY;
+  }
+}
+
+export class ButtonUrlsBlacklist extends UrlsOfTypeButton {
+  get _idHtml() {
+    return BUTTON_ID_URLS_BLACKLIST;
+  }
+
+  get _urlType() {
+    return URL_TYPE_BLACKLIST;
+  }
+}
+
+export class ButtonUrlsReferer extends UrlsOfTypeButton {
+  get _idHtml() {
+    return BUTTON_ID_URLS_REFERER;
+  }
+
+  get _urlType() {
+    return URL_TYPE_REFERER;
   }
 }
 
