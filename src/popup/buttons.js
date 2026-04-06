@@ -699,6 +699,7 @@ function removeShownStoredUrls(infoContainer) {
   removeChildren(infoContainer);
 }
 
+// TODO? move to another file, it should not be in buttons.js
 // save input box info
 export function saveUrl(enterKey, urlType) {
   let info2save = document
