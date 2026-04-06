@@ -28,7 +28,7 @@ describe("Check module import", () => {
     expect(document.getElementById("pInput").textContent).toBe("New values");
   });
   it("The module should be imported without errors and has expected values", function () {
-    expect(popupModule.__get__("BUTTON_ID_ADD_URL")).toEqual("buttonAddUrl");
+    expect(buttonsModule.__get__("BUTTON_ID_ADD_URL")).toEqual("buttonAddUrl");
   });
   it("popupMain runs without error", function () {
     const function_ = popupModule.__get__("popupMain");
@@ -44,20 +44,22 @@ describe("Check module import", () => {
         mockEmptyInfoContainer();
       });
       it("If no values to manage", function () {
-        expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
+        const infoContainer = fakeInfoContainer(0);
+        expect(infoContainer.innerHTML).toBe("");
         const function_ = buttonsModule.__get__("showStoredInfo");
-        function_(popupModule.__get__("infoContainer"));
-        expect(popupModule.__get__("infoContainer").innerHTML).toBe(
+        function_(infoContainer);
+        expect(infoContainer.innerHTML).toBe(
           '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
         );
       });
       it("If values to manage", function () {
-        expect(popupModule.__get__("infoContainer").innerHTML).toBe("");
+        const infoContainer = fakeInfoContainer(0);
+        expect(infoContainer.innerHTML).toBe("");
         const function_ = buttonsModule.__get__("showStoredInfo");
         const eKey = "blacklist_https://foo.com/test.html";
         const eValue = "https://foo.com/test.html";
-        function_(popupModule.__get__("infoContainer"), eKey, eValue);
-        expect(popupModule.__get__("infoContainer").innerHTML).toBe(
+        function_(infoContainer, eKey, eValue);
+        expect(infoContainer.innerHTML).toBe(
           '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
         );
       });
@@ -313,7 +315,7 @@ describe("buttons", () => {
     it.each(buttonIdsHtml)(
       "should return button if valid ID: %p",
       (buttonIdHtml) => {
-        const function_ = popupModule.__get__("createButton");
+        const function_ = buttonsModule.createButton;
         const result = function_(buttonIdHtml)._idHtml;
         expect(result).toBe(buttonIdHtml);
       },
@@ -328,7 +330,7 @@ describe("buttons", () => {
   it.each(buttonIdsHtml)(
     "click button should not generate error. Button ID %p ",
     (buttonIdHtml) => {
-      const createButton = popupModule.__get__("createButton");
+      const createButton = buttonsModule.createButton;
       const button = createButton(buttonIdHtml);
       button.click();
     },
@@ -354,7 +356,7 @@ describe("buttons", () => {
       );
     });
     function getButton() {
-      const ButtonBase = buttonsModule.Button;
+      const ButtonBase = buttonsModule.__get__("Button");
       class TestButton extends ButtonBase {
         get _idHtml() {
           return "idTest";
@@ -385,7 +387,7 @@ describe("buttons", () => {
       // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
     });
     function getButton() {
-      const classType = popupModule.__get__("ButtonClean");
+      const classType = buttonsModule.__get__("ButtonClean");
       return new classType();
     }
   });
@@ -412,7 +414,7 @@ describe("buttons", () => {
       showSourcesSpy.mockRestore();
     });
     function getButton() {
-      const classType = popupModule.__get__("ButtonRecheck");
+      const classType = buttonsModule.__get__("ButtonRecheck");
       return new classType();
     }
   });
@@ -450,7 +452,7 @@ describe("buttons", () => {
       consoleErrorSpy.mockRestore();
     });
     function getButton() {
-      const classType = popupModule.__get__("ButtonScroll");
+      const classType = buttonsModule.__get__("ButtonScroll");
       return new classType();
     }
     function assertHtmlInitialValues() {
@@ -486,7 +488,7 @@ describe("buttons", () => {
       );
     });
     function getButton() {
-      const classType = popupModule.__get__("ButtonShowConfig");
+      const classType = buttonsModule.__get__("ButtonShowConfig");
       return new classType();
     }
   });
@@ -585,12 +587,12 @@ describe("buttons", () => {
       expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
     });
     function getButton() {
-      const classType = popupModule.__get__("ButtonUrlsNotify");
+      const classType = buttonsModule.__get__("ButtonUrlsNotify");
       return new classType(popupModule.__get__("infoContainer"));
     }
   });
   function initializeButton(buttonStr) {
-    const buttonClass = popupModule.__get__(buttonStr);
+    const buttonClass = buttonsModule.__get__(buttonStr);
     return new buttonClass();
   }
 });
@@ -779,43 +781,4 @@ describe("ButtonAlwaysShowSources", () => {
   function setPageCannotBeAnalyzed() {
     domModule.unhide("error-content");
   }
-});
-
-describe("ButtonClearAll", () => {
-  it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
-    // Test configuration.
-    const storageItems = {
-      blacklist_url1: "url1",
-      blacklist_url2: "url2",
-      notify_url3: "url3", // Should not be removed.
-    };
-    global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
-    const numberOfBlacklistedUrls = 2;
-    popupModule.__set__(
-      "infoContainer",
-      fakeInfoContainer(numberOfBlacklistedUrls),
-    );
-    const sendMessageBackup = buttonsModule.__get__("sendMessage");
-    buttonsModule.__set__("sendMessage", jest.fn());
-    // Test.
-    const buttonClass = popupModule.__get__("ButtonClearAll");
-    const button = new buttonClass(popupModule.__get__("infoContainer"));
-    const storedUrls = await button._clearStorageInfo("blacklist");
-    const expectedUrls = [
-      new modelModule.UrlsOfType("blacklist", []),
-      new modelModule.UrlsOfType("notify", ["url3"]),
-      new modelModule.UrlsOfType("referer", []),
-    ];
-    expect(storedUrls).toStrictEqual(expectedUrls);
-    expect(buttonsModule.__get__("getUrls")()).toEqual(expectedUrls);
-    expect(buttonsModule.__get__("sendMessage")).toHaveBeenCalledWith(
-      modelModule.Message("urls", expectedUrls),
-    );
-    // Assert infoContainer URLs were removed.
-    expect(popupModule.__get__("infoContainer").children.length).toBe(0);
-    // Undo test specific config.
-    global.browser = fakeModule.fakeBrowser();
-    fakeModule.runFakeDom("src/popup/popup.html");
-    buttonsModule.__set__("sendMessage", sendMessageBackup);
-  });
 });

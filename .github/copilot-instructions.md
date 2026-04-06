@@ -84,6 +84,12 @@ describe("myFunction", () => {
 - **HTML Fixtures**: Test files load HTML via `runFakeDom("src/popup/popup.html")` from JSDOM
 - **Legacy Code**: Background script uses `var` declarations; new code should use `let`/`const`
 - **TODO Comments**: Look for "TODO" in files (e.g., background.js has TODOs about replacing `var`)
+- Imports must be at the top of the file.
+- Define functions in top-down order: high-level entry points appear first, helper/internal functions below the functions that call them.
+- Do not use comments; use functions or methods with descriptive names instead.
+- Do not use blank lines inside a function.
+- Format:
+  - Do not format existing code, only format new code.
 
 ## Style & Format
 

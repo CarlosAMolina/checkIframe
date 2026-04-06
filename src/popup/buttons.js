@@ -18,29 +18,69 @@ import { showSources } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 
-// TODO when all buttons are in this file, review and remove unrequired `export`.
+// TODO move code with export to the top of the file
 
-export const BUTTON_ID_ADD_URL = "buttonAddUrl";
+const BUTTON_ID_ADD_URL = "buttonAddUrl";
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
-export const BUTTON_ID_CLEAN = "buttonClean";
-export const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
-export const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY =
-  "buttonHighlightAllAutomatically";
-export const BUTTON_ID_RECHECK = "buttonRecheck";
-export const BUTTON_ID_SCROLL = "buttonScroll";
-export const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
-export const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
-export const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
-export const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
-export const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
-export const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
-export const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
+const BUTTON_ID_CLEAN = "buttonClean";
+const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
+const BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY = "buttonHighlightAllAutomatically";
+const BUTTON_ID_RECHECK = "buttonRecheck";
+const BUTTON_ID_SCROLL = "buttonScroll";
+const BUTTON_ID_SHOW_CONFIG = "buttonShowConfig";
+const BUTTON_ID_SHOW_LOGS = "buttonShowLogs";
+const BUTTON_ID_SHOW_SOURCES = "buttonShowSources";
+const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
+const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
+const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
+const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 // TODO re defined in other files
 const URL_TYPE_BLACKLIST = "blacklist";
 const URL_TYPE_NOTIFY = "notify";
 const URL_TYPE_REFERER = "referer";
 
-export class Button {
+// TODO when all buttons are in this file, review and remove unrequired `export`.
+//TODO move createButton and all buttons to button.js and update tests.
+//TODO improve, instead of list all clicked elements, add listen only to buttons and
+//TODO drop last `return false` line.
+export function createButton(buttonIdHtml) {
+  switch (buttonIdHtml) {
+    case BUTTON_ID_RECHECK:
+      return new ButtonRecheck();
+    case BUTTON_ID_CLEAN:
+      return new ButtonClean();
+    case BUTTON_ID_SCROLL:
+      return new ButtonScroll();
+    case BUTTON_ID_SHOW_SOURCES:
+      return new ButtonShowSources();
+    case BUTTON_ID_SHOW_CONFIG:
+      return new ButtonShowConfig();
+    case BUTTON_ID_SHOW_LOGS:
+      return new ButtonShowLogs();
+    case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
+      return new ButtonHighlightAllAutomatically();
+    case BUTTON_ID_URLS_NOTIFY:
+      return new ButtonUrlsNotify(infoContainer);
+    case BUTTON_ID_URLS_BLACKLIST:
+      return new ButtonUrlsBlacklist(infoContainer);
+    case BUTTON_ID_URLS_REFERER:
+      return new ButtonUrlsReferer(infoContainer);
+    case BUTTON_ID_ADD_URL:
+      return new ButtonAddUrl();
+    case BUTTON_ID_CLEAR_ALL:
+      return new ButtonClearAll(infoContainer);
+    default:
+      return false;
+  }
+}
+
+export function initializePopupButtons() {
+  new ButtonShowLogs().initializePopup();
+  new ButtonHighlightAllAutomatically().initializePopup();
+  new ButtonAlwaysShowSources().initializePopup();
+}
+
+class Button {
   click() {
     throw TypeError("Not implemented");
   }
@@ -54,7 +94,7 @@ export class Button {
   }
 }
 
-export class ButtonRecheck extends Button {
+class ButtonRecheck extends Button {
   get _idHtml() {
     return BUTTON_ID_RECHECK;
   }
@@ -80,7 +120,7 @@ export class ButtonRecheck extends Button {
   }
 }
 
-export class ButtonScroll extends Button {
+class ButtonScroll extends Button {
   get _idHtml() {
     return BUTTON_ID_SCROLL;
   }
@@ -101,7 +141,7 @@ export class ButtonScroll extends Button {
   }
 }
 
-export class ButtonShowConfig extends Button {
+class ButtonShowConfig extends Button {
   get _idHtml() {
     return BUTTON_ID_SHOW_CONFIG;
   }
@@ -112,7 +152,7 @@ export class ButtonShowConfig extends Button {
   }
 }
 
-export class ButtonShowSources extends Button {
+class ButtonShowSources extends Button {
   get _idHtml() {
     return BUTTON_ID_SHOW_SOURCES;
   }
@@ -136,7 +176,7 @@ export class ButtonShowSources extends Button {
   }
 }
 
-export class DynamicButton {
+class DynamicButton {
   static createDom() {
     throw TypeError("Not implemented");
   }
@@ -147,7 +187,7 @@ export class DynamicButton {
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
-export class OnOffButton extends Button {
+class OnOffButton extends Button {
   initializePopup() {
     throw TypeError("Not implemented: method initializePopup");
   }
@@ -263,7 +303,7 @@ export class ButtonAlwaysShowSources extends OnOffButton {
   }
 }
 
-export class ButtonCancel extends DynamicButton {
+class ButtonCancel extends DynamicButton {
   constructor(entryDisplay, entryEdit) {
     super();
     this._entryDisplay = entryDisplay;
@@ -283,7 +323,7 @@ export class ButtonCancel extends DynamicButton {
   }
 }
 
-export class ButtonClean extends Button {
+class ButtonClean extends Button {
   get _idHtml() {
     return BUTTON_ID_CLEAN;
   }
@@ -295,7 +335,7 @@ export class ButtonClean extends Button {
   }
 }
 
-export class ButtonDelete extends DynamicButton {
+class ButtonDelete extends DynamicButton {
   constructor(event, storageKey) {
     super();
     this._event = event;
@@ -329,7 +369,7 @@ export class ButtonDelete extends DynamicButton {
   }
 }
 
-export class ButtonShowLogs extends OnOffButton {
+class ButtonShowLogs extends OnOffButton {
   // TODO use BUTTON_ID_SHOW_LOGS in popup.js
   get _idHtml() {
     return "buttonShowLogs";
@@ -398,7 +438,7 @@ export class ButtonShowLogs extends OnOffButton {
   }
 }
 
-export class ButtonHighlightAllAutomatically extends OnOffButton {
+class ButtonHighlightAllAutomatically extends OnOffButton {
   // TODO use BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY in popup.js
   get _idHtml() {
     return "buttonHighlightAllAutomatically";
@@ -497,7 +537,7 @@ async function getIsStoredOn(keyName) {
   return result;
 }
 
-export function showStoredInfo(infoContainer, storageKey, storageValue) {
+function showStoredInfo(infoContainer, storageKey, storageValue) {
   // display box
   const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
@@ -613,7 +653,7 @@ class UrlsOfTypeButton extends Button {
   }
 }
 
-export class ButtonUrlsNotify extends UrlsOfTypeButton {
+class ButtonUrlsNotify extends UrlsOfTypeButton {
   get _idHtml() {
     return BUTTON_ID_URLS_NOTIFY;
   }
@@ -623,7 +663,7 @@ export class ButtonUrlsNotify extends UrlsOfTypeButton {
   }
 }
 
-export class ButtonUrlsBlacklist extends UrlsOfTypeButton {
+class ButtonUrlsBlacklist extends UrlsOfTypeButton {
   get _idHtml() {
     return BUTTON_ID_URLS_BLACKLIST;
   }
@@ -633,7 +673,7 @@ export class ButtonUrlsBlacklist extends UrlsOfTypeButton {
   }
 }
 
-export class ButtonUrlsReferer extends UrlsOfTypeButton {
+class ButtonUrlsReferer extends UrlsOfTypeButton {
   get _idHtml() {
     return BUTTON_ID_URLS_REFERER;
   }
@@ -643,7 +683,7 @@ export class ButtonUrlsReferer extends UrlsOfTypeButton {
   }
 }
 
-export function showStoredUrlsType(urlType) {
+function showStoredUrlsType(urlType) {
   new BrowserRepository(browser).getAll().then((storageItems) => {
     var keys = Object.keys(storageItems);
     keys.forEach(function (key) {
@@ -655,7 +695,7 @@ export function showStoredUrlsType(urlType) {
 }
 
 // TODO deprecate removeShownStoredUrls, use removeChildren only.
-export function removeShownStoredUrls(infoContainer) {
+function removeShownStoredUrls(infoContainer) {
   removeChildren(infoContainer);
 }
 
@@ -674,7 +714,7 @@ export function saveUrl(enterKey, urlType) {
 }
 
 // add a tag to the display, and storage
-export function storeInfo(info2save, urlType) {
+function storeInfo(info2save, urlType) {
   const repository = new BrowserRepository(browser);
   info2save = info2save.filter(function (value, position) {
     // delete duplicates
@@ -700,7 +740,7 @@ export function storeInfo(info2save, urlType) {
   });
 }
 
-export class ButtonAddUrl extends Button {
+class ButtonAddUrl extends Button {
   get _idHtml() {
     return BUTTON_ID_ADD_URL;
   }
@@ -712,7 +752,7 @@ export class ButtonAddUrl extends Button {
   }
 }
 
-export class ButtonClearAll extends Button {
+class ButtonClearAll extends Button {
   constructor(infoContainer) {
     super();
     this._infoContainer = infoContainer;

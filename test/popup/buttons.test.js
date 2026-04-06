@@ -1,9 +1,9 @@
-import { JSDOM } from "jsdom";
 import * as fakeModule from "../fake.js";
 
 // Modules that depend on document need to be loaded in beforeEach
-let infoContainer;
 let buttonsModule;
+let infoContainer;
+let modelModule;
 
 // TODO decide if the names for all buttons should be Button... or ...Button
 
@@ -28,6 +28,42 @@ describe("Check showStoredUrlsType", () => {
   });
 });
 
+describe("ButtonClearAll", () => {
+  it("clearStorageInfo removes matching storage keys, updates urls, and cleans DOM", async () => {
+    // Test configuration.
+    const storageItems = {
+      blacklist_url1: "url1",
+      blacklist_url2: "url2",
+      notify_url3: "url3", // Should not be removed.
+    };
+    global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
+    const numberOfBlacklistedUrls = 2;
+    const infoContainer = fakeInfoContainer(numberOfBlacklistedUrls);
+    const sendMessageBackup = buttonsModule.__get__("sendMessage");
+    buttonsModule.__set__("sendMessage", jest.fn());
+    // Test.
+    const buttonClass = buttonsModule.__get__("ButtonClearAll");
+    const button = new buttonClass(infoContainer);
+    const storedUrls = await button._clearStorageInfo("blacklist");
+    const expectedUrls = [
+      new modelModule.UrlsOfType("blacklist", []),
+      new modelModule.UrlsOfType("notify", ["url3"]),
+      new modelModule.UrlsOfType("referer", []),
+    ];
+    expect(storedUrls).toStrictEqual(expectedUrls);
+    expect(buttonsModule.__get__("getUrls")()).toEqual(expectedUrls);
+    expect(buttonsModule.__get__("sendMessage")).toHaveBeenCalledWith(
+      modelModule.Message("urls", expectedUrls),
+    );
+    // Assert infoContainer URLs were removed.
+    expect(infoContainer.children.length).toBe(0);
+    // Undo test specific config.
+    global.browser = fakeModule.fakeBrowser();
+    fakeModule.runFakeDom("src/popup/popup.html");
+    buttonsModule.__set__("sendMessage", sendMessageBackup);
+  });
+});
+
 describe("Check ButtonShowLogs", () => {
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
@@ -35,7 +71,9 @@ describe("Check ButtonShowLogs", () => {
     buttonsModule = require("../../src/popup/buttons.js");
   });
   it("Check it has correct button ID value", function () {
-    expect(new buttonsModule.ButtonShowLogs()._idHtml).toBe("buttonShowLogs");
+    const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+    const button = new buttonClass();
+    expect(button._idHtml).toBe("buttonShowLogs");
   });
   describe("Check click has expected calls and values", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
@@ -43,7 +81,8 @@ describe("Check ButtonShowLogs", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new buttonsModule.ButtonShowLogs();
+      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const button = new buttonClass();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
@@ -60,7 +99,8 @@ describe("Check ButtonShowLogs", () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
-      const button = new buttonsModule.ButtonShowLogs();
+      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const button = new buttonClass();
       document.getElementById(button._idHtml).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);
@@ -82,7 +122,8 @@ describe("Check ButtonShowLogs", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new buttonsModule.ButtonShowLogs();
+      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const button = new buttonClass();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -103,7 +144,8 @@ describe("Check ButtonShowLogs", () => {
         Promise.resolve({ idShowLogs: true }),
       );
       /* end test required configuration */
-      const button = new buttonsModule.ButtonShowLogs();
+      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const button = new buttonClass();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -121,9 +163,11 @@ describe("Check ButtonShowLogs", () => {
 
 describe("Check ButtonHighlightAllAutomatically", () => {
   it("Check it has correct button ID value", function () {
-    expect(new buttonsModule.ButtonHighlightAllAutomatically()._idHtml).toBe(
-      "buttonHighlightAllAutomatically",
+    const buttonClass = buttonsModule.__get__(
+      "ButtonHighlightAllAutomatically",
     );
+    const button = new buttonClass();
+    expect(button._idHtml).toBe("buttonHighlightAllAutomatically");
   });
   describe("Check click has expected calls and values", () => {
     it("If buttonHighlightAllAutomatically is clicked for the first time", async () => {
@@ -131,7 +175,10 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new buttonsModule.ButtonHighlightAllAutomatically();
+      const buttonClass = buttonsModule.__get__(
+        "ButtonHighlightAllAutomatically",
+      );
+      const button = new buttonClass();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
@@ -148,10 +195,11 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
-      const button = new buttonsModule.ButtonHighlightAllAutomatically();
-      document.getElementById(
-        new buttonsModule.ButtonHighlightAllAutomatically()._idHtml,
-      ).checked = true;
+      const buttonClass = buttonsModule.__get__(
+        "ButtonHighlightAllAutomatically",
+      );
+      const button = new buttonClass();
+      document.getElementById(button._idHtml).checked = true;
       /* end test required configuration */
       expect(button.isOn).toBe(true);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -172,7 +220,10 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = getBrowserMock();
       /* end test required configuration */
-      const button = new buttonsModule.ButtonHighlightAllAutomatically();
+      const buttonClass = buttonsModule.__get__(
+        "ButtonHighlightAllAutomatically",
+      );
+      const button = new buttonClass();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -193,7 +244,10 @@ describe("Check ButtonHighlightAllAutomatically", () => {
         Promise.resolve({ idHighlightAllAutomatically: true }),
       );
       /* end test required configuration */
-      const button = new buttonsModule.ButtonHighlightAllAutomatically();
+      const buttonClass = buttonsModule.__get__(
+        "ButtonHighlightAllAutomatically",
+      );
+      const button = new buttonClass();
       expect(button.isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -238,9 +292,7 @@ function getNewPromise() {
 // TODO re-defined in popup.test.js
 function initializeMocksAndVariables() {
   initializeDomAndBrowser();
-  popupModule = require("../../src/popup/popup.js");
   buttonsModule = require("../../src/popup/buttons.js");
-  htmlBuilderModule = require("../builder.js");
   modelModule = require("../../src/popup/model.js");
 }
 
@@ -257,4 +309,13 @@ function mockNotEmptyInfoContainer() {
   entryValue.textContent = "foo";
   entryElement.appendChild(entryValue);
   infoContainer = entryElement;
+}
+
+// TODO re-defined in popup.test.js
+function fakeInfoContainer(urlsCount) {
+  const containerFake = document.createElement("div");
+  for (let i = 0; i < urlsCount; i++) {
+    containerFake.appendChild(document.createElement("div"));
+  }
+  return containerFake;
 }
