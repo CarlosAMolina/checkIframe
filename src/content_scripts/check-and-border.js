@@ -1,3 +1,7 @@
+import { URL_TYPE_BLACKLIST } from "../popup/url.js";
+import { URL_TYPE_NOTIFY } from "../popup/url.js";
+import { URL_TYPE_REFERER } from "../popup/url.js";
+
 function element(tag, info) {
   this.tag = tag;
   this.info = info;
@@ -14,10 +18,6 @@ var refererSources = [];
 var showLogs = false;
 var highlightAllAutomatically = false;
 var tags2Search = ["iframe", "frame"];
-// TODO re defined in other files
-var URL_TYPE_BLACKLIST = "blacklist";
-var URL_TYPE_NOTIFY = "notify";
-var URL_TYPE_REFERER = "referer";
 
 function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);

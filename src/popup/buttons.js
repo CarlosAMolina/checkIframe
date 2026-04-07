@@ -17,6 +17,9 @@ import { setUrls } from "./url.js";
 import { showSources } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
+import { URL_TYPE_BLACKLIST } from "../popup/url.js";
+import { URL_TYPE_NOTIFY } from "../popup/url.js";
+import { URL_TYPE_REFERER } from "../popup/url.js";
 
 // TODO move code with export to the top of the file
 
@@ -34,10 +37,6 @@ const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
-// TODO re defined in other files
-const URL_TYPE_BLACKLIST = "blacklist";
-const URL_TYPE_NOTIFY = "notify";
-const URL_TYPE_REFERER = "referer";
 
 // TODO when all buttons are in this file, review and remove unrequired `export`.
 //TODO move createButton and all buttons to button.js and update tests.
