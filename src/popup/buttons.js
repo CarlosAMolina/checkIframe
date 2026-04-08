@@ -537,7 +537,7 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
 async function getIsStoredOn(keyName) {
   let resultGetStorage = {};
   try {
-    resultGetStorage = await new BrowserRepository(browser).getByKey(keyName);
+    resultGetStorage = await new BrowserRepository(browser).get(keyName);
   } catch (e) {
     console.error(e);
   }
@@ -617,7 +617,7 @@ class ButtonUpdate extends DynamicButton {
     if (this._info2save === this._storageValue) {
       return;
     }
-    this._repository.getByKey(this._key2save).then((result) => {
+    this._repository.get(this._key2save).then((result) => {
       // result: empty object if the searched value is not stored
       if (Object.keys(result).length == 0) {
         this._updateEntry();
@@ -722,7 +722,7 @@ function storeInfo(info2save, urlType) {
   });
   info2save.forEach(function (arrayValue) {
     var id2save = urlType + "_" + arrayValue;
-    repository.getByKey(id2save).then((result) => {
+    repository.get(id2save).then((result) => {
       // result: empty object if the searched value is not stored
       var searchInStorage = Object.keys(result); // array with the searched value if it is stored
       const is_stored = searchInStorage.length > 0;

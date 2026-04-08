@@ -11,7 +11,7 @@ export class BrowserRepository {
     return this._browser.storage.local.get(null);
   }
 
-  getByKey(key) {
+  get(key) {
     return this._browser.storage.local.get(key);
   }
 
