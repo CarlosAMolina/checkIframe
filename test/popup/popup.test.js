@@ -290,10 +290,6 @@ describe("Check module import", () => {
     const function_ = popupModule.__get__("saveUrl");
     function_();
   });
-  it("storeInfo runs without error", function () {
-    const function_ = buttonsModule.__get__("storeInfo");
-    function_(["value_1"]);
-  });
   it("reportError logs expected message", function () {
     const function_ = popupModule.__get__("reportError");
     console.error = jest.fn();

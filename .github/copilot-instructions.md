@@ -77,6 +77,14 @@ describe("myFunction", () => {
 });
 ```
 
+For test files matching **/*.test.js:
+
+- Forbidden: mock the browser, storage, tabs, runtime, or extension APIs with Jest mocks.
+- Required: use the project's custom fake browser implementation instead, defined in test/fake.js. Example: global.browser = fakeModule.fakeBrowser().
+- Prefer importing and configuring that fake over creating inline mocks.
+- If a new API surface is needed, extend the fake browser helper rather than replacing it with jest.mock() or ad hoc mock objects.
+- Keep tests compatible with the existing project testing setup.
+
 ## Code Conventions
 
 - **Module System**: Popup uses ES6 modules; background script uses CommonJS globals
