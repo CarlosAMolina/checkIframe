@@ -41,7 +41,8 @@ describe("Check module import", () => {
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
       beforeEach(() => {
-        mockEmptyInfoContainer();
+        const infoContainer = mockEmptyInfoContainer();
+        popupModule.__set__("infoContainer", infoContainer);
       });
       it("If no values to manage", function () {
         const infoContainer = fakeInfoContainer(0);
@@ -66,7 +67,7 @@ describe("Check module import", () => {
     });
     describe("Buttons click works correctly", () => {
       beforeEach(() => {
-        let setUrls = popupModule.__get__("setUrls");
+        let setUrls = buttonsModule.__get__("setUrls");
         setUrls([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -75,7 +76,6 @@ describe("Check module import", () => {
         browser.tabs.sendMessage = jest.fn(() =>
           Promise.resolve({ data: "done sendMessage" }),
         );
-        mockEmptyInfoContainer();
       });
       it("Test click deleteBtn", async () => {
         const eValue = "https://foo.com/test.html";
@@ -83,7 +83,7 @@ describe("Check module import", () => {
         // TODO in some part of the code the urls.blacklist must have de eKey or eValue value. Add this behaviour to the tests.
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
         const function_ = buttonsModule.__get__("showStoredInfo");
-        const infoContainer = popupModule.__get__("infoContainer");
+        const infoContainer = mockNotEmptyInfoContainer();
         function_(infoContainer, eKey, eValue);
         const buttons = infoContainer.getElementsByTagName("button");
         expect(buttons.length).toBe(3);
@@ -127,27 +127,22 @@ describe("Check module import", () => {
       it("Test click entryValue", function () {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        expect(
-          popupModule.__get__("infoContainer").getElementsByTagName("p").length,
-        ).toBe(0);
+        const infoContainer = mockEmptyInfoContainer();
+        expect(infoContainer.getElementsByTagName("p").length).toBe(0);
         const function_ = buttonsModule.__get__("showStoredInfo");
-        function_(popupModule.__get__("infoContainer"), eKey, eValue);
-        const pElements = popupModule
-          .__get__("infoContainer")
-          .getElementsByTagName("p");
+        function_(infoContainer, eKey, eValue);
+        const pElements = infoContainer.getElementsByTagName("p");
         const entryValue = pElements[0];
         expect(entryValue.textContent).toBe("https://foo.com/test.html");
         const indexDivElementToCheck = 1;
         expect(
-          popupModule
-            .__get__("infoContainer")
+          infoContainer
             .getElementsByTagName("div")
             [indexDivElementToCheck].getAttribute("style"),
         ).toBe(null);
         entryValue.click();
         expect(
-          popupModule
-            .__get__("infoContainer")
+          infoContainer
             .getElementsByTagName("div")
             [indexDivElementToCheck].getAttribute("style"),
         ).toBe("display: none;");
@@ -155,38 +150,30 @@ describe("Check module import", () => {
       it("Test click cancelBtn", function () {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        expect(
-          popupModule.__get__("infoContainer").getElementsByTagName("button")
-            .length,
-        ).toBe(0);
+        const infoContainer = mockEmptyInfoContainer();
+        expect(infoContainer.getElementsByTagName("button").length).toBe(0);
         const function_ = buttonsModule.__get__("showStoredInfo");
-        function_(popupModule.__get__("infoContainer"), eKey, eValue);
-        const cancelButton = popupModule
-          .__get__("infoContainer")
-          .getElementsByTagName("button")[2];
+        function_(infoContainer, eKey, eValue);
+        const cancelButton = infoContainer.getElementsByTagName("button")[2];
         expect(cancelButton.title).toBe("Cancel update");
         const indexDivElementToCheck = 1;
         expect(
-          popupModule
-            .__get__("infoContainer")
+          infoContainer
             .getElementsByTagName("div")
             [indexDivElementToCheck].getAttribute("style"),
         ).toBe(null);
-        expect(
-          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
-            .value,
-        ).toBe("https://foo.com/test.html");
+        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
+          "https://foo.com/test.html",
+        );
         cancelButton.click();
         expect(
-          popupModule
-            .__get__("infoContainer")
+          infoContainer
             .getElementsByTagName("div")
             [indexDivElementToCheck].getAttribute("style"),
         ).toBe(null);
-        expect(
-          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
-            .value,
-        ).toBe("https://foo.com/test.html");
+        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
+          "https://foo.com/test.html",
+        );
       });
       it("Test click updateBtn", async () => {
         document.getElementById("buttonUrlsBlacklist").checked = true;
@@ -198,7 +185,7 @@ describe("Check module import", () => {
           new modelModule.UrlsOfType("notify", []),
           new modelModule.UrlsOfType("referer", []),
         ]);
-        let setUrls = popupModule.__get__("setUrls");
+        let setUrls = buttonsModule.__get__("setUrls");
         setUrls([
           new modelModule.UrlsOfType("blacklist", [eValue]),
           new modelModule.UrlsOfType("notify", []),
@@ -211,23 +198,20 @@ describe("Check module import", () => {
           new modelModule.UrlsOfType("notify", []),
           new modelModule.UrlsOfType("referer", []),
         ]);
+        const infoContainer = mockEmptyInfoContainer();
         const function_ = buttonsModule.__get__("showStoredInfo");
-        function_(popupModule.__get__("infoContainer"), eKey, eValue);
-        expect(
-          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
-            .value,
-        ).toBe("https://foo.com/test.html");
-        const infoContainer = popupModule.__get__("infoContainer");
+        function_(infoContainer, eKey, eValue);
+        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
+          "https://foo.com/test.html",
+        );
         const updateButton = infoContainer.getElementsByTagName("button")[1];
         expect(updateButton.title).toBe("Update");
         const entryEditInputValue = "https://new-url.com/test-2.html";
-        popupModule
-          .__get__("infoContainer")
-          .getElementsByTagName("input")[0].value = entryEditInputValue;
-        expect(
-          popupModule.__get__("infoContainer").getElementsByTagName("input")[0]
-            .value,
-        ).toBe(entryEditInputValue);
+        infoContainer.getElementsByTagName("input")[0].value =
+          entryEditInputValue;
+        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
+          entryEditInputValue,
+        );
         expect(getUrls()).toStrictEqual([
           new modelModule.UrlsOfType("blacklist", [
             "https://foo.com/test.html",
@@ -314,8 +298,7 @@ describe("buttons", () => {
     );
     it("should not return button if invalid ID", function () {
       const buttonIdHtml = "nonexistent";
-      const function_ = popupModule.__get__("createButton");
-      const result = function_(buttonIdHtml);
+      const result = buttonsModule.createButton(buttonIdHtml);
       expect(result).toBe(false);
     });
   });
@@ -565,22 +548,20 @@ describe("buttons", () => {
   });
   describe("ButtonUrlsNotify", () => {
     it("should have correct button ID", function () {
-      expect(getButton()._idHtml).toBe("buttonUrlsNotify");
+      expect(getButton(null)._idHtml).toBe("buttonUrlsNotify");
     });
     it("click should execute removeShownStoredUrls", async () => {
       // Test config.
-      mockNotEmptyInfoContainer();
-      expect(popupModule.__get__("infoContainer").firstChild.textContent).toBe(
-        "foo",
-      );
+      const infoContainer = mockNotEmptyInfoContainer();
+      expect(infoContainer.firstChild.textContent).toBe("foo");
       // Test.
       // TODO use await (search in all tests all clicks without await)
-      getButton().click();
-      expect(popupModule.__get__("infoContainer").firstChild).toBe(null);
+      getButton(infoContainer).click();
+      expect(infoContainer.firstChild).toBe(null);
     });
-    function getButton() {
+    function getButton(infoContainer) {
       const classType = buttonsModule.__get__("ButtonUrlsNotify");
-      return new classType(popupModule.__get__("infoContainer"));
+      return new classType(infoContainer);
     }
   });
   function initializeButton(buttonStr) {
@@ -604,17 +585,17 @@ function initializeDomAndBrowser() {
 }
 
 function mockEmptyInfoContainer() {
-  const element = document.createElement("div");
-  element.setAttribute("class", "info-container");
-  popupModule.__set__("infoContainer", element);
+  const infoContainer = document.createElement("div");
+  infoContainer.setAttribute("class", "info-container");
+  return infoContainer;
 }
 
 function mockNotEmptyInfoContainer() {
-  const entryElement = document.createElement("div");
+  const infoContainer = document.createElement("div");
   const entryValue = document.createElement("p");
   entryValue.textContent = "foo";
-  entryElement.appendChild(entryValue);
-  popupModule.__set__("infoContainer", entryElement);
+  infoContainer.appendChild(entryValue);
+  return infoContainer;
 }
 
 function fakeInfoContainer(urlsCount) {
@@ -633,10 +614,9 @@ describe("ButtonAlwaysShowSources", () => {
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
-    const popupModule = require("../../src/popup/popup.js");
-    hideBackup = popupModule.__get__("hide");
-    unhideBackup = popupModule.__get__("unhide");
-    const ButtonAlwaysShowSources = popupModule.__get__(
+    hideBackup = buttonsModule.__get__("hide");
+    unhideBackup = buttonsModule.__get__("unhide");
+    const ButtonAlwaysShowSources = buttonsModule.__get__(
       "ButtonAlwaysShowSources",
     );
     button = new ButtonAlwaysShowSources();
@@ -666,7 +646,7 @@ describe("ButtonAlwaysShowSources", () => {
       setOff(buttonElement);
       setPageCannotBeAnalyzed();
       const hideSpy = jest.fn();
-      popupModule.__set__("hide", hideSpy);
+      buttonsModule.__set__("hide", hideSpy);
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test
       await button.click();
@@ -674,7 +654,7 @@ describe("ButtonAlwaysShowSources", () => {
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalledTimes(1);
       // Undo test configuration.
-      popupModule.__set__("hide", hideBackup);
+      buttonsModule.__set__("hide", hideBackup);
       hideSpy.mockRestore();
       showSourcesSpy.mockRestore();
     });
@@ -694,13 +674,13 @@ describe("ButtonAlwaysShowSources", () => {
       setOn(buttonElement);
       setPageCannotBeAnalyzed();
       const unhideSpy = jest.fn();
-      popupModule.__set__("unhide", unhideSpy);
+      buttonsModule.__set__("unhide", unhideSpy);
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(false);
       expect(unhideSpy).not.toHaveBeenCalled();
       // Undo test configuration.
-      popupModule.__set__("unhide", unhideBackup);
+      buttonsModule.__set__("unhide", unhideBackup);
     });
   });
   describe("initializePopup", () => {
@@ -726,7 +706,7 @@ describe("ButtonAlwaysShowSources", () => {
       });
       setPageCannotBeAnalyzed();
       const hideSpy = jest.fn();
-      popupModule.__set__("hide", hideSpy);
+      buttonsModule.__set__("hide", hideSpy);
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test.
       await button.initializePopup();
@@ -734,7 +714,7 @@ describe("ButtonAlwaysShowSources", () => {
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalled();
       // Undo test configuration.
-      popupModule.__set__("hide", hideBackup);
+      buttonsModule.__set__("hide", hideBackup);
       hideSpy.mockRestore();
       showSourcesSpy.mockRestore();
     });
