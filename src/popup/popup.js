@@ -7,7 +7,7 @@ import { getUrlTypeActive } from "./url.js";
 import { initializePopupButtons } from "./buttons.js";
 import { Message } from "./model.js";
 import { reportError } from "./log.js";
-import { saveUrl } from "./buttons.js";
+import { saveUrl } from "./storage.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";

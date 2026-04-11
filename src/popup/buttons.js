@@ -10,6 +10,7 @@ import { isHidden } from "./dom.js";
 import { Message } from "./model.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
+import { saveUrl } from "./storage.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";
 import { setShowSourcesError } from "./ui.js";
@@ -77,21 +78,6 @@ export function initializePopupButtons() {
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
   new ButtonAlwaysShowSources().initializePopup();
-}
-
-// TODO? move to another file, it should not be in buttons.js
-// save input box info
-export function saveUrl(enterKey, urlType) {
-  let info2save = document
-    .querySelector('textarea[id="inputUrl"]')
-    .value.split("\n");
-  if (enterKey == 1) {
-    info2save.pop(); // delete last value (\n)
-  }
-  browser.tabs
-    .query({ active: true, currentWindow: true })
-    .then(() => storeInfo(info2save, infoContainer, urlType))
-    .catch(reportError);
 }
 
 class Button {

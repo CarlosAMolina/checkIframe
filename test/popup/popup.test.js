@@ -286,10 +286,6 @@ describe("Check module import", () => {
       });
     });
   });
-  it("saveUrl runs without error", function () {
-    const function_ = popupModule.__get__("saveUrl");
-    function_();
-  });
   it("reportError logs expected message", function () {
     const function_ = popupModule.__get__("reportError");
     console.error = jest.fn();

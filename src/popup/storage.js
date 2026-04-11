@@ -5,6 +5,21 @@ import { Message } from "./model.js";
 import { sendMessage } from "./message-mediator.js";
 import { showStoredInfo } from "./ui.js";
 
+// TODO? return promise to wait browser.tabs.query to finish
+// save input box info
+export function saveUrl(enterKey, urlType) {
+  let info2save = document
+    .querySelector('textarea[id="inputUrl"]')
+    .value.split("\n");
+  if (enterKey == 1) {
+    info2save.pop(); // delete last value (\n)
+  }
+  browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then(() => storeInfo(info2save, infoContainer, urlType))
+    .catch(reportError);
+}
+
 // TODO drop export when the unique function that calls it is moved here
 // add a tag to the display, and storage
 export async function storeInfo(info2save, infoContainer, urlType) {
