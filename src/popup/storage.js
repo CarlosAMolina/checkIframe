@@ -20,9 +20,8 @@ export function saveUrl(enterKey, urlType) {
     .catch(reportError);
 }
 
-// TODO drop export when the unique function that calls it is moved here
 // add a tag to the display, and storage
-export async function storeInfo(info2save, infoContainer, urlType) {
+async function storeInfo(info2save, infoContainer, urlType) {
   const repository = new BrowserRepository(browser);
   info2save = info2save.filter(function (value, position) {
     // delete duplicates
