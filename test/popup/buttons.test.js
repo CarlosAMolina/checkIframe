@@ -279,57 +279,6 @@ describe("Check ButtonHighlightAllAutomatically", () => {
   });
 });
 
-// TODO extract to file and use in all tests.
-function getBrowserMock() {
-  // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  return {
-    storage: {
-      local: {
-        get: jest.fn(() => Promise.resolve({})),
-        remove: jest.fn(() => Promise.resolve({})),
-        set: jest.fn(() => Promise.resolve({})),
-      },
-    },
-    tabs: {
-      executeScript: getNewPromise,
-      // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
-      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
-    },
-  };
-}
-
-function getNewPromise() {
-  return new Promise(function (resolve) {
-    resolve("Start of new Promise");
-  });
-}
-
-// TODO re-defined in popup.test.js
-function initializeDomAndBrowser() {
-  fakeModule.runFakeDom("src/popup/popup.html");
-  global.browser = fakeModule.fakeBrowser();
-}
-
-// TODO re-defined in popup.test.js (last line is different)
-function mockNotEmptyInfoContainer() {
-  // TODO infoContainer is a global variable and this function returns it too, drop global
-  infoContainer = document.createElement("div");
-  const entryValue = document.createElement("p");
-  entryValue.textContent = "foo";
-  infoContainer.appendChild(entryValue);
-  return infoContainer;
-}
-
-// TODO re-defined in popup.test.js
-function fakeInfoContainer(urlsCount) {
-  const containerFake = document.createElement("div");
-  for (let i = 0; i < urlsCount; i++) {
-    containerFake.appendChild(document.createElement("div"));
-  }
-  return containerFake;
-}
-
 describe("ButtonAlwaysShowSources", () => {
   let button;
   let buttonElement;
@@ -1018,3 +967,53 @@ function initializeMocksAndVariables() {
   modelModule = require("../../src/popup/model.js");
 }
 
+// TODO extract to file and use in all tests.
+function getBrowserMock() {
+  // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
+  return {
+    storage: {
+      local: {
+        get: jest.fn(() => Promise.resolve({})),
+        remove: jest.fn(() => Promise.resolve({})),
+        set: jest.fn(() => Promise.resolve({})),
+      },
+    },
+    tabs: {
+      executeScript: getNewPromise,
+      // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
+      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
+      sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
+    },
+  };
+}
+
+function getNewPromise() {
+  return new Promise(function (resolve) {
+    resolve("Start of new Promise");
+  });
+}
+
+// TODO re-defined in popup.test.js
+function initializeDomAndBrowser() {
+  fakeModule.runFakeDom("src/popup/popup.html");
+  global.browser = fakeModule.fakeBrowser();
+}
+
+// TODO re-defined in popup.test.js (last line is different)
+function mockNotEmptyInfoContainer() {
+  // TODO infoContainer is a global variable and this function returns it too, drop global
+  infoContainer = document.createElement("div");
+  const entryValue = document.createElement("p");
+  entryValue.textContent = "foo";
+  infoContainer.appendChild(entryValue);
+  return infoContainer;
+}
+
+// TODO re-defined in popup.test.js
+function fakeInfoContainer(urlsCount) {
+  const containerFake = document.createElement("div");
+  for (let i = 0; i < urlsCount; i++) {
+    containerFake.appendChild(document.createElement("div"));
+  }
+  return containerFake;
+}
