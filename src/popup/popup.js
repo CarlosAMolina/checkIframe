@@ -8,7 +8,7 @@ import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
 import { reportError } from "./log.js";
-import { saveUrl } from "./storage.js";
+import { saveUrls } from "./storage.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
@@ -46,7 +46,7 @@ function popupMain() {
       if (event.keyCode === enterKey) {
         let urls = getUrlsInInputBox()
         urls.pop(); // delete last value (\n)
-        saveUrl(urls, urlType);
+        saveUrls(urls, urlType);
       }
     });
 }

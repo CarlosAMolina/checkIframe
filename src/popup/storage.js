@@ -7,7 +7,7 @@ import { showStoredInfo } from "./ui.js";
 
 // TODO? return promise to wait browser.tabs.query to finish
 // save input box info
-export function saveUrl(urls, urlType) {
+export function saveUrls(urls, urlType) {
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then(() => storeInfo(urls, infoContainer, urlType))

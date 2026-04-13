@@ -11,7 +11,7 @@ import { isHidden } from "./dom.js";
 import { Message } from "./model.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
-import { saveUrl } from "./storage.js";
+import { saveUrls } from "./storage.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";
 import { setShowSourcesError } from "./ui.js";
@@ -709,7 +709,7 @@ class ButtonAddUrl extends Button {
     this._logButtonName();
     const urls = getUrlsInInputBox()
     const urlType = getUrlTypeActive();
-    saveUrl(urls, urlType);
+    saveUrls(urls, urlType);
   }
 }
 
