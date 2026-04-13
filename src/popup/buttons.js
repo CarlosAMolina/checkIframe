@@ -685,7 +685,7 @@ class ButtonUrlsReferer extends UrlsOfTypeButton {
 
 function showStoredUrlsType(urlType) {
   new BrowserRepository(browser).getAll().then((storageItems) => {
-    var keys = Object.keys(storageItems);
+    const keys = Object.keys(storageItems);
     keys.forEach(function (key) {
       if (key.includes(urlType + "_")) {
         showStoredInfo(infoContainer, key, storageItems[key]);
