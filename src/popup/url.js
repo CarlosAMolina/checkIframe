@@ -8,6 +8,16 @@ var urls = []; // TODO rm
 
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 
+// TODO? rm work with getStoredUrls
+export function getUrls() {
+  return urls;
+}
+
+// TODO? rm, store in memory and work with getStoredUrls
+export function setUrls(values) {
+  urls = values;
+}
+
 export function addUrl(eKey, urls, urlType) {
   urls.forEach(function (url) {
     if (url.type == urlType) {
@@ -43,11 +53,6 @@ export function getStoredUrls(browser) {
   });
 }
 
-// TODO? rm work with getStoredUrls
-export function getUrls() {
-  return urls;
-}
-
 // TODO sometimes it is called once and an inner function calls it again,
 // TODO review the code to reduce the calls to this method.
 export function getUrlTypeActive() {
@@ -65,7 +70,3 @@ export function getUrlTypeActive() {
   return null;
 }
 
-// TODO? rm, store in memory and work with getStoredUrls
-export function setUrls(values) {
-  urls = values;
-}
