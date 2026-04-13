@@ -29,10 +29,10 @@ async function storeInfo(info2save, infoContainer, urlType) {
   });
   await Promise.all(
     info2save.map(async function (arrayValue) {
-      var id2save = urlType + "_" + arrayValue;
+      let id2save = urlType + "_" + arrayValue;
       try {
         const result = await repository.get(id2save);
-        var searchInStorage = Object.keys(result);
+        const searchInStorage = Object.keys(result);
         const is_stored = searchInStorage.length > 0;
         if (!is_stored) {
           let urls = getUrls();
