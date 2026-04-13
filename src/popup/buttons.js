@@ -707,7 +707,7 @@ class ButtonAddUrl extends Button {
 
   click() {
     this._logButtonName();
-    const urls = getUrlsInInputBox()
+    const urls = getUrlsInInputBox();
     const urlType = getUrlTypeActive();
     saveUrls(urls, urlType);
   }

@@ -44,7 +44,7 @@ function popupMain() {
       event.preventDefault();
       const enterKey = 13;
       if (event.keyCode === enterKey) {
-        let urls = getUrlsInInputBox()
+        let urls = getUrlsInInputBox();
         urls.pop(); // delete last value (\n)
         saveUrls(urls, urlType);
       }

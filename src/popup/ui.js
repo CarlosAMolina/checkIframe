@@ -6,9 +6,7 @@ export const infoContainer = document.querySelector(".info-container");
 const sourcesContainer = document.querySelector(".sources-container");
 
 export function getUrlsInInputBox() {
-  return document
-    .querySelector('textarea[id="inputUrl"]')
-    .value.split("\n");
+  return document.querySelector('textarea[id="inputUrl"]').value.split("\n");
 }
 
 export function setShowSourcesError(error) {

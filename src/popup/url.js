@@ -69,4 +69,3 @@ export function getUrlTypeActive() {
   }
   return null;
 }
-
