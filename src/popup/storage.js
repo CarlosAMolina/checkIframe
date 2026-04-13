@@ -1,16 +1,15 @@
-import { reportError } from "./log.js";
 import { BrowserRepository } from "./repository.js";
-import { getUrls, addUrl, setUrls } from "./url.js";
 import { Message } from "./model.js";
+import { getUrlsInInputBox } from "./ui.js";
+import { getUrls, addUrl, setUrls } from "./url.js";
+import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { showStoredInfo } from "./ui.js";
 
 // TODO? return promise to wait browser.tabs.query to finish
 // save input box info
 export function saveUrl(enterKey, urlType) {
-  let info2save = document
-    .querySelector('textarea[id="inputUrl"]')
-    .value.split("\n");
+  let info2save = getUrlsInInputBox()
   if (enterKey == 1) {
     info2save.pop(); // delete last value (\n)
   }
