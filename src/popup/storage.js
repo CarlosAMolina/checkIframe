@@ -1,6 +1,5 @@
 import { BrowserRepository } from "./repository.js";
 import { Message } from "./model.js";
-import { getUrlsInInputBox } from "./ui.js";
 import { getUrls, addUrl, setUrls } from "./url.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
@@ -8,14 +7,10 @@ import { showStoredInfo } from "./ui.js";
 
 // TODO? return promise to wait browser.tabs.query to finish
 // save input box info
-export function saveUrl(enterKey, urlType) {
-  let info2save = getUrlsInInputBox()
-  if (enterKey == 1) {
-    info2save.pop(); // delete last value (\n)
-  }
+export function saveUrl(urls, urlType) {
   browser.tabs
     .query({ active: true, currentWindow: true })
-    .then(() => storeInfo(info2save, infoContainer, urlType))
+    .then(() => storeInfo(urls, infoContainer, urlType))
     .catch(reportError);
 }
 

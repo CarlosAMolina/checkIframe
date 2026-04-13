@@ -2,8 +2,9 @@ import { addUrl } from "./url.js";
 import { BrowserRepository } from "./repository.js";
 import { deleteUrl } from "./url.js";
 import { getStoredUrls } from "./url.js";
-import { getUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
+import { getUrls } from "./url.js";
+import { getUrlsInInputBox } from "./ui.js";
 import { hide } from "./dom.js";
 import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
@@ -706,8 +707,9 @@ class ButtonAddUrl extends Button {
 
   click() {
     this._logButtonName();
+    const urls = getUrlsInInputBox()
     const urlType = getUrlTypeActive();
-    saveUrl(undefined, urlType);
+    saveUrl(urls, urlType);
   }
 }
 

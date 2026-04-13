@@ -1,11 +1,12 @@
-import { ButtonAlwaysShowSources } from "./buttons.js";
 import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
+import { ButtonAlwaysShowSources } from "./buttons.js";
+import { Message } from "./model.js";
 import { createButton } from "./buttons.js";
 import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
+import { getUrlsInInputBox } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
-import { Message } from "./model.js";
 import { reportError } from "./log.js";
 import { saveUrl } from "./storage.js";
 import { sendMessage } from "./message-mediator.js";
@@ -43,7 +44,9 @@ function popupMain() {
       event.preventDefault();
       const enterKey = 13;
       if (event.keyCode === enterKey) {
-        saveUrl(1, urlType);
+        let urls = getUrlsInInputBox()
+        urls.pop(); // delete last value (\n)
+        saveUrl(urls, urlType);
       }
     });
 }
