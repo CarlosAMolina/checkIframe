@@ -23,6 +23,20 @@ const tabId = 1;
 
 // TODO decide if the names for all buttons should be Button... or ...Button
 
+describe("saveUrls", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    buttonsModule = require("../../src/popup/buttons.js");
+    infoContainer = document.createElement("div");
+    global.browser = fakeModule.fakeBrowser();
+  });
+  it("runs without error", async () => {
+    const urls = ["foo", "bar", "foo"]; // includes duplicate
+    const urlType = "notify";
+    await buttonsModule.saveUrls(infoContainer, urls, urlType);
+  });
+});
+
 describe("Check removeShownStoredUrls", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
