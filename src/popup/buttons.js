@@ -709,7 +709,7 @@ class ButtonAddUrl extends Button {
     this._logButtonName();
     const urls = getUrlsInInputBox();
     const urlType = getUrlTypeActive();
-    await saveUrls(urls, urlType);
+    await saveUrls(infoContainer, urls, urlType);
   }
 }
 

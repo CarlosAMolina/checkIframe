@@ -5,16 +5,8 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { showStoredInfo } from "./ui.js";
 
-export async function saveUrls(urls, urlType) {
-  try {
-    await storeInfo(infoContainer, urls, urlType);
-  } catch (e) {
-    reportError(e);
-  }
-}
-
 // add a tag to the display, and storage
-async function storeInfo(infoContainer, urls, urlType) {
+export async function saveUrls(infoContainer, urls, urlType) {
   const repository = new BrowserRepository(browser);
   urls = urls.filter(function (value, position) {
     // delete duplicates

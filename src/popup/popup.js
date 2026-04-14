@@ -6,6 +6,7 @@ import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
+import { infoContainer } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
 import { reportError } from "./log.js";
 import { saveUrls } from "./storage.js";
@@ -46,7 +47,7 @@ function popupMain() {
       if (event.keyCode === enterKey) {
         let urls = getUrlsInInputBox();
         urls.pop(); // delete last value (\n)
-        await saveUrls(urls, urlType);
+        await saveUrls(infoContainer, urls, urlType);
       }
     });
 }

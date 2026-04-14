@@ -1,6 +1,6 @@
 import * as fakeModule from "../fake.js";
 
-describe("storeInfo", () => {
+describe("saveUrls", () => {
   let storageModule;
   let mockRepository;
   let mockGetUrls,
@@ -71,13 +71,9 @@ describe("storeInfo", () => {
 
     storageModule = require("../../src/popup/storage.js");
   });
-  it("saveUrls runs without error", async function () {
-    await storageModule.saveUrls(["foo"], "foo");
-  });
   it("runs without error", async () => {
-    const info2save = ["foo", "bar", "foo"]; // includes duplicate
+    const urls = ["foo", "bar", "foo"]; // includes duplicate
     const urlType = "notify";
-    const function_ = storageModule.__get__("storeInfo");
-    await function_(infoContainer, info2save, urlType);
+    await storageModule.saveUrls(infoContainer, urls, urlType);
   });
 });
