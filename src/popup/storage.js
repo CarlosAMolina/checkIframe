@@ -8,10 +8,7 @@ import { showStoredInfo } from "./ui.js";
 // add a tag to the display, and storage
 export async function saveUrls(infoContainer, urls, urlType) {
   const repository = new BrowserRepository(browser);
-  urls = urls.filter(function (value, position) {
-    // delete duplicates
-    return urls.indexOf(value) == position;
-  });
+  urls = [...new Set(urls)];  // delete duplicates
   await Promise.all(
     urls.map(async function (url) {
       let id2save = urlType + "_" + url;
