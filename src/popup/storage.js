@@ -7,14 +7,14 @@ import { showStoredInfo } from "./ui.js";
 
 export async function saveUrls(urls, urlType) {
   try {
-    await storeInfo(urls, infoContainer, urlType);
+    await storeInfo(infoContainer, urls, urlType);
   } catch (e) {
     reportError(e);
   }
 }
 
 // add a tag to the display, and storage
-async function storeInfo(urls, infoContainer, urlType) {
+async function storeInfo(infoContainer, urls, urlType) {
   const repository = new BrowserRepository(browser);
   urls = urls.filter(function (value, position) {
     // delete duplicates

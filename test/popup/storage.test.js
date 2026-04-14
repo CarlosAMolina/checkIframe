@@ -78,6 +78,6 @@ describe("storeInfo", () => {
     const info2save = ["foo", "bar", "foo"]; // includes duplicate
     const urlType = "notify";
     const function_ = storageModule.__get__("storeInfo");
-    await function_(info2save, infoContainer, urlType);
+    await function_(infoContainer, info2save, urlType);
   });
 });
