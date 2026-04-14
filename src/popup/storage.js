@@ -13,8 +13,7 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
     urlsInput.map(async function (url) {
       let urlKey = urlType + "_" + url;
       try {
-        const storedEntry = await repository.get(urlKey);
-        const isStored = Object.keys(storedEntry).length > 0;
+        const isStored = await repository.isKeyStored(urlKey);
         if (!isStored) {
           let urls = getUrls();
           urls = addUrl(urlKey, urls, urlType);

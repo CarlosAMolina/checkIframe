@@ -19,4 +19,9 @@ export class BrowserRepository {
     // TODO? replace [key] -> key
     return this._browser.storage.local.set({ [key]: value });
   }
+
+  async isKeyStored(key) {
+    const storedEntry = await this.get(key);
+    return Object.keys(storedEntry).length > 0;
+  }
 }
