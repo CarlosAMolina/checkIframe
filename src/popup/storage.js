@@ -9,13 +9,13 @@ import { showStoredInfo } from "./ui.js";
 export async function saveUrls(infoContainer, urlsInput, urlType) {
   urlsInput = [...new Set(urlsInput)];  // delete duplicates
   const repository = new BrowserRepository(browser);
+  let urls = getUrls();
   await Promise.all(
     urlsInput.map(async function (url) {
       let urlKey = urlType + "_" + url;
       try {
         const isStored = await repository.isKeyStored(urlKey);
         if (!isStored) {
-          let urls = getUrls();
           urls = addUrl(urlKey, urls, urlType);
           setUrls(urls);
           const message = Message("urls", urls);
