@@ -5,13 +5,13 @@ import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { showStoredInfo } from "./ui.js";
 
-// TODO? return promise to wait browser.tabs.query to finish
-// save input box info
-export function saveUrls(urls, urlType) {
-  browser.tabs
-    .query({ active: true, currentWindow: true })
-    .then(() => storeInfo(urls, infoContainer, urlType))
-    .catch(reportError);
+export async function saveUrls(urls, urlType) {
+  try {
+    await browser.tabs.query({ active: true, currentWindow: true });
+    await storeInfo(urls, infoContainer, urlType);
+  } catch (e) {
+    reportError(e);
+  }
 }
 
 // add a tag to the display, and storage

@@ -71,8 +71,8 @@ describe("storeInfo", () => {
 
     storageModule = require("../../src/popup/storage.js");
   });
-  it("saveUrls runs without error", function () {
-    storageModule.saveUrls(["foo"], "foo");
+  it("saveUrls runs without error", async function () {
+    await storageModule.saveUrls(["foo"], "foo");
   });
   it("runs without error", async () => {
     const info2save = ["foo", "bar", "foo"]; // includes duplicate

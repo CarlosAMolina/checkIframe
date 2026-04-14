@@ -40,13 +40,13 @@ function popupMain() {
   // set up listener for the input box
   document
     .getElementById("inputUrl")
-    .addEventListener("keyup", function (event) {
+    .addEventListener("keyup", async function (event) {
       event.preventDefault();
       const enterKey = 13;
       if (event.keyCode === enterKey) {
         let urls = getUrlsInInputBox();
         urls.pop(); // delete last value (\n)
-        saveUrls(urls, urlType);
+        await saveUrls(urls, urlType);
       }
     });
 }

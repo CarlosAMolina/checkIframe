@@ -705,11 +705,11 @@ class ButtonAddUrl extends Button {
     return BUTTON_ID_ADD_URL;
   }
 
-  click() {
+  async click() {
     this._logButtonName();
     const urls = getUrlsInInputBox();
     const urlType = getUrlTypeActive();
-    saveUrls(urls, urlType);
+    await saveUrls(urls, urlType);
   }
 }
 
