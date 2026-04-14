@@ -7,7 +7,6 @@ import { showStoredInfo } from "./ui.js";
 
 export async function saveUrls(urls, urlType) {
   try {
-    await browser.tabs.query({ active: true, currentWindow: true });
     await storeInfo(urls, infoContainer, urlType);
   } catch (e) {
     reportError(e);
