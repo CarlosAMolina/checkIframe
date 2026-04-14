@@ -21,8 +21,8 @@ async function storeInfo(infoContainer, urls, urlType) {
     return urls.indexOf(value) == position;
   });
   await Promise.all(
-    urls.map(async function (arrayValue) {
-      let id2save = urlType + "_" + arrayValue;
+    urls.map(async function (url) {
+      let id2save = urlType + "_" + url;
       try {
         const result = await repository.get(id2save);
         const searchInStorage = Object.keys(result);
@@ -33,8 +33,8 @@ async function storeInfo(infoContainer, urls, urlType) {
           setUrls(urls);
           const message = Message("urls", urls);
           sendMessage(message);
-          await repository.save(id2save, arrayValue);
-          showStoredInfo(infoContainer, id2save, arrayValue);
+          await repository.save(id2save, url);
+          showStoredInfo(infoContainer, id2save, url);
         }
       } catch (e) {
         reportError(e);
