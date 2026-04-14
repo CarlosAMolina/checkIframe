@@ -11,18 +11,18 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
   const repository = new BrowserRepository(browser);
   await Promise.all(
     urlsInput.map(async function (url) {
-      let id2save = urlType + "_" + url;
+      let urlKey = urlType + "_" + url;
       try {
-        const storedEntry = await repository.get(id2save);
-        const is_stored = Object.keys(storedEntry).length > 0;
-        if (!is_stored) {
+        const storedEntry = await repository.get(urlKey);
+        const isStored = Object.keys(storedEntry).length > 0;
+        if (!isStored) {
           let urls = getUrls();
-          urls = addUrl(id2save, urls, urlType);
+          urls = addUrl(urlKey, urls, urlType);
           setUrls(urls);
           const message = Message("urls", urls);
           sendMessage(message);
-          await repository.save(id2save, url);
-          showStoredInfo(infoContainer, id2save, url);
+          await repository.save(urlKey, url);
+          showStoredInfo(infoContainer, urlKey, url);
         }
       } catch (e) {
         reportError(e);
