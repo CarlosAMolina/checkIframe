@@ -6,11 +6,11 @@ import { sendMessage } from "./message-mediator.js";
 import { showStoredInfo } from "./ui.js";
 
 // add a tag to the display, and storage
-export async function saveUrls(infoContainer, urls, urlType) {
+export async function saveUrls(infoContainer, urlsInput, urlType) {
+  urlsInput = [...new Set(urlsInput)];  // delete duplicates
   const repository = new BrowserRepository(browser);
-  urls = [...new Set(urls)];  // delete duplicates
   await Promise.all(
-    urls.map(async function (url) {
+    urlsInput.map(async function (url) {
       let id2save = urlType + "_" + url;
       try {
         const result = await repository.get(id2save);
