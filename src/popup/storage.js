@@ -14,14 +14,14 @@ export async function saveUrls(urls, urlType) {
 }
 
 // add a tag to the display, and storage
-async function storeInfo(info2save, infoContainer, urlType) {
+async function storeInfo(urls, infoContainer, urlType) {
   const repository = new BrowserRepository(browser);
-  info2save = info2save.filter(function (value, position) {
+  urls = urls.filter(function (value, position) {
     // delete duplicates
-    return info2save.indexOf(value) == position;
+    return urls.indexOf(value) == position;
   });
   await Promise.all(
-    info2save.map(async function (arrayValue) {
+    urls.map(async function (arrayValue) {
       let id2save = urlType + "_" + arrayValue;
       try {
         const result = await repository.get(id2save);
