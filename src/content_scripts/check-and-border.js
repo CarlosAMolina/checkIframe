@@ -1,7 +1,3 @@
-import { URL_TYPE_BLACKLIST } from "../popup/url.js";
-import { URL_TYPE_NOTIFY } from "../popup/url.js";
-import { URL_TYPE_REFERER } from "../popup/url.js";
-
 function element(tag, info) {
   this.tag = tag;
   this.info = info;

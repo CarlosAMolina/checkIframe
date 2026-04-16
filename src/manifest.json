@@ -18,7 +18,7 @@
       "all_frames": false,
       "run_at": "document_end",
       "matches": ["https://*/*", "http://*/*", "file:///*"],
-      "js": ["content_scripts/check-and-border.js"]
+      "js": ["constants.js", "content_scripts/check-and-border.js"]
     }
   ],
   "background": {

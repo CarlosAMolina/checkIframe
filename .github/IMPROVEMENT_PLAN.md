@@ -55,3 +55,8 @@ Focus on **increasing test coverage comprehensively**:
 - ESLint v10 migration is a blocker - must happen first
 - Test infrastructure is solid (Jest + JSDOM + rewire for private functions)
 - May discover TODOs during implementation that should be addressed alongside tests
+
+## Update to Manifest v3
+
+When this is done, undo these changes because v3 supports ES6 imports:
+- Drop src/constants.js file and from the mainifest.json file, then include the imports in src/content_scripts/check-and-border.js (at the moment, the values in src/constats.js are available globally since they have been added to the manifest).
