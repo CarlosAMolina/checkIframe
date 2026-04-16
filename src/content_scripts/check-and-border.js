@@ -2,7 +2,7 @@ function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
-  this.isBlacklisted = blacklistedSources.indexOf(this.source) != -1 ? 0 : 1;
+  this.isBlacklisted = blacklistedSources.includes(this.source);
 }
 var elements = [];
 var elementsValidSrc = [];
@@ -19,7 +19,6 @@ function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);
 }
 
-// initialize
 function initializeContentScript() {
   getElementsByTags();
   var gettingAllStorageItems = browser.storage.local.get(null);
@@ -308,8 +307,8 @@ initializeContentScript();
 
   // get elements with valid sources
   function getElementsValidSrc() {
-    elementsValidSrc = elements.filter(function (elementsFunc) {
-      return elementsFunc.isBlacklisted != 1;
+    elementsValidSrc = elements.filter(function (element) {
+      return !element.isBlacklisted;
     });
   }
 
@@ -331,7 +330,7 @@ initializeContentScript();
 
     function getValidSourcesOfElements(elementsWithTag) {
       return elementsWithTag
-        .filter((element) => element.isBlacklisted != 1)
+        .filter((element) => !element.isBlacklisted)
         .map((element) => element.source);
     }
   }
