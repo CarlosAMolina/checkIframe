@@ -211,7 +211,7 @@ initializeContentScript();
     }
     let indexInfo = "No elements to show";
     if (elements.length != 0) {
-      getElementsValidSrc();
+      elementsNotBlacklisted();
       if (elementsValidSrc.length != 0) {
         getIndex2Show();
         scrollAndBorder();
@@ -232,7 +232,7 @@ initializeContentScript();
 
   function getLocationUrl() {
     getElementsByTags();
-    getElementsValidSrc();
+    elementsNotBlacklisted();
     return elementsValidSrc.length > 0 ? elementsValidSrc[0].source : false;
   }
 
@@ -270,7 +270,7 @@ initializeContentScript();
       return Promise.resolve({ response: scrollInfo });
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
-      getElementsValidSrc(); // when the pop-up is closed, this info is lost
+      elementsNotBlacklisted(); // when the pop-up is closed, this info is lost
       // The buttonClean must drop all borders and not only one border
       // by index because all borders may be highlighted.
       quitBorderOfAllElements(
@@ -305,8 +305,7 @@ initializeContentScript();
     }
   });
 
-  // get elements with valid sources
-  function getElementsValidSrc() {
+  function elementsNotBlacklisted() {
     elementsValidSrc = elements.filter(function (element) {
       return !element.isBlacklisted;
     });
