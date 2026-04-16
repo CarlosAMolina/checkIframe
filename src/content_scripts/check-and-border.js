@@ -2,7 +2,7 @@ function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
-  this.isNotBlacklisted = invalidSources.indexOf(this.source) == -1 ? 1 : 0;
+  this.isBlacklisted = invalidSources.indexOf(this.source) != -1 ? 0 : 1;
 }
 var elements = [];
 var elementsValidSrc = [];
@@ -309,7 +309,7 @@ initializeContentScript();
   // get elements with valid sources
   function getElementsValidSrc() {
     elementsValidSrc = elements.filter(function (elementsFunc) {
-      return elementsFunc.isNotBlacklisted == 1;
+      return elementsFunc.isBlacklisted != 1;
     });
   }
 
@@ -331,7 +331,7 @@ initializeContentScript();
 
     function getValidSourcesOfElements(elementsWithTag) {
       return elementsWithTag
-        .filter((element) => element.isNotBlacklisted === 1)
+        .filter((element) => element.isBlacklisted != 1)
         .map((element) => element.source);
     }
   }
