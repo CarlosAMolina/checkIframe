@@ -14,28 +14,10 @@ import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 // TODO replace all `var` in all files with let or const.
 
 function popupMain() {
-  // display previously saved stored info on start-up
+  // Display previously saved stored info on start-up
   initializePopup();
-
-  // The user can click a button or an image.
-  // Listen to clicks on the buttons, and send the appropriate message to
-  // the content script in the web page.
-  // Use event delegation: listen for clicks only on actionable buttons or their children.
-  document.addEventListener("click", (e) => {
-    // Traverse up from the event target to find a button with a recognized ID
-    // The user can click a button (detected with eventClick.target.id) or an image (detected with eventClick.target.parentElement.id).
-    let el = e.target;
-    while (el && el !== document) {
-      let button = createButton(el.id);
-      if (button) {
-        button.click();
-        return;
-      }
-      el = el.parentElement;
-    }
-  });
   const urlType = getUrlTypeActive();
-  // set up listener for the input box
+  // Set up listener for the input box
   document
     .getElementById("inputUrl")
     .addEventListener("keyup", async function (event) {
