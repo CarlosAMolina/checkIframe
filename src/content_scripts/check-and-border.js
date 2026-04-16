@@ -44,13 +44,12 @@ function initializeContentScript() {
       key.includes(URL_TYPE_REFERER + "_"),
     ); //array
     refererSources = refererSources.map((source) => results[source]); // array
-    logs();
+    logDetectedIframes();
   }, reportErrorContentScript);
 }
 
-// get elements
 function getElementsByTags() {
-  elements = []; // initialize
+  elements = [];
   tags2Search.forEach(function (tag2search) {
     var elementsByTag = document.getElementsByTagName(tag2search);
     for (
@@ -64,8 +63,7 @@ function getElementsByTags() {
   });
 }
 
-// logs
-function logs() {
+function logDetectedIframes() {
   if (showLogs) {
     console.log("checkIframe) check-and-border) tags info: ", elements);
   }
@@ -260,7 +258,7 @@ initializeContentScript();
       }, reportErrorContentScript);
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
-      logs();
+      logDetectedIframes();
       setBorderOfAllElementsIfRequired(
         elementsValidSrc,
         highlightAllAutomatically,
@@ -269,7 +267,7 @@ initializeContentScript();
     } else if (message.info === "buttonScroll") {
       checkTags();
       var scrollInfo = showElement();
-      logs();
+      logDetectedIframes();
       return Promise.resolve({ response: scrollInfo });
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
@@ -284,11 +282,11 @@ initializeContentScript();
       elementsValidSrcIndex2QuitBorder = undefined;
     } else if (message.info === "buttonShowSources") {
       checkTags();
-      logs();
+      logDetectedIframes();
       return Promise.resolve({ response: getSourcesSummary() });
     } else if (message.info === "buttonShowLogs") {
       showLogs = message.values;
-      logs();
+      logDetectedIframes();
     } else if (message.info === "buttonHighlightAllAutomatically") {
       highlightAllAutomatically = message.values;
       if (highlightAllAutomatically) {
@@ -304,7 +302,7 @@ initializeContentScript();
         values.type.includes(URL_TYPE_NOTIFY),
       )[0].values; //array
       checkAndSend();
-      logs();
+      logDetectedIframes();
     }
   });
 

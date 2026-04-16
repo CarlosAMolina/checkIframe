@@ -26,8 +26,8 @@ describe("Check module import", () => {
     const function_ = checkAndBorderModule.__get__("getElementsByTags");
     function_();
   });
-  it("logs runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("logs");
+  it("logDetectedIframes runs without error", function () {
+    const function_ = checkAndBorderModule.__get__("logDetectedIframes");
     function_();
   });
 });
