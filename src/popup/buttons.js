@@ -45,32 +45,32 @@ const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 //TODO drop last `return false` line.
 export function createButton(elementIdHtml) {
   switch (elementIdHtml) {
-    case BUTTON_ID_RECHECK:
-      return new ButtonRecheck();
+    case BUTTON_ID_ADD_URL:
+      return new ButtonAddUrl();
+    case BUTTON_ID_ALWAYS_SHOW_SOURCES:
+      return new ButtonAlwaysShowSources();
     case BUTTON_ID_CLEAN:
       return new ButtonClean();
+    case BUTTON_ID_CLEAR_ALL:
+      return new ButtonClearAll(infoContainer);
+    case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
+      return new ButtonHighlightAllAutomatically();
+    case BUTTON_ID_RECHECK:
+      return new ButtonRecheck();
     case BUTTON_ID_SCROLL:
       return new ButtonScroll();
-    case BUTTON_ID_SHOW_SOURCES:
-      return new ButtonShowSources();
     case BUTTON_ID_SHOW_CONFIG:
       return new ButtonShowConfig();
     case BUTTON_ID_SHOW_LOGS:
       return new ButtonShowLogs();
-    case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
-      return new ButtonHighlightAllAutomatically();
-    case BUTTON_ID_URLS_NOTIFY:
-      return new ButtonUrlsNotify(infoContainer);
+    case BUTTON_ID_SHOW_SOURCES:
+      return new ButtonShowSources();
     case BUTTON_ID_URLS_BLACKLIST:
       return new ButtonUrlsBlacklist(infoContainer);
+    case BUTTON_ID_URLS_NOTIFY:
+      return new ButtonUrlsNotify(infoContainer);
     case BUTTON_ID_URLS_REFERER:
       return new ButtonUrlsReferer(infoContainer);
-    case BUTTON_ID_ADD_URL:
-      return new ButtonAddUrl();
-    case BUTTON_ID_CLEAR_ALL:
-      return new ButtonClearAll(infoContainer);
-    case BUTTON_ID_ALWAYS_SHOW_SOURCES:
-      return new ButtonAlwaysShowSources();
     default:
       return false;
   }
