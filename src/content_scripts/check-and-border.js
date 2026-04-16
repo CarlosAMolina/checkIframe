@@ -2,13 +2,13 @@ function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
-  this.isBlacklisted = invalidSources.indexOf(this.source) != -1 ? 0 : 1;
+  this.isBlacklisted = blacklistedSources.indexOf(this.source) != -1 ? 0 : 1;
 }
 var elements = [];
 var elementsValidSrc = [];
 var elementsValidSrcIndex;
 var elementsValidSrcIndex2QuitBorder;
-var invalidSources = [];
+var blacklistedSources = [];
 var notifySources = [];
 var refererSources = [];
 var showLogs = false;
@@ -32,10 +32,10 @@ function initializeContentScript() {
     if (typeof results.idHighlightAllAutomatically != "undefined") {
       highlightAllAutomatically = results.idHighlightAllAutomatically;
     }
-    invalidSources = Object.keys(results).filter((key) =>
+    blacklistedSources = Object.keys(results).filter((key) =>
       key.includes(URL_TYPE_BLACKLIST + "_"),
     ); //array
-    invalidSources = invalidSources.map((source) => results[source]); // array
+    blacklistedSources = blacklistedSources.map((source) => results[source]); // array
     notifySources = Object.keys(results).filter((key) =>
       key.includes(URL_TYPE_NOTIFY + "_"),
     ); //array
@@ -295,7 +295,7 @@ initializeContentScript();
         quitBorderOfAllElements(elementsValidSrc);
       }
     } else if (message.info === "urls") {
-      invalidSources = message.values.filter((values) =>
+      blacklistedSources = message.values.filter((values) =>
         values.type.includes(URL_TYPE_BLACKLIST),
       )[0].values; //array
       notifySources = message.values.filter((values) =>
