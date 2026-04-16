@@ -2,7 +2,7 @@ function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
-  this.sourceIsValid = invalidSources.indexOf(this.source) == -1 ? 1 : 0;
+  this.isNotBlacklisted = invalidSources.indexOf(this.source) == -1 ? 1 : 0;
 }
 var elements = [];
 var elementsValidSrc = [];
@@ -44,7 +44,7 @@ function initializeContentScript() {
       key.includes(URL_TYPE_REFERER + "_"),
     ); //array
     refererSources = refererSources.map((source) => results[source]); // array
-    logDetectedIframes();
+    logDetectedTags();
   }, reportErrorContentScript);
 }
 
@@ -63,7 +63,7 @@ function getElementsByTags() {
   });
 }
 
-function logDetectedIframes() {
+function logDetectedTags() {
   if (showLogs) {
     console.log("checkIframe) check-and-border) tags info: ", elements);
   }
@@ -258,7 +258,7 @@ initializeContentScript();
       }, reportErrorContentScript);
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
-      logDetectedIframes();
+      logDetectedTags();
       setBorderOfAllElementsIfRequired(
         elementsValidSrc,
         highlightAllAutomatically,
@@ -267,7 +267,7 @@ initializeContentScript();
     } else if (message.info === "buttonScroll") {
       checkTags();
       var scrollInfo = showElement();
-      logDetectedIframes();
+      logDetectedTags();
       return Promise.resolve({ response: scrollInfo });
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
@@ -282,11 +282,11 @@ initializeContentScript();
       elementsValidSrcIndex2QuitBorder = undefined;
     } else if (message.info === "buttonShowSources") {
       checkTags();
-      logDetectedIframes();
+      logDetectedTags();
       return Promise.resolve({ response: getSourcesSummary() });
     } else if (message.info === "buttonShowLogs") {
       showLogs = message.values;
-      logDetectedIframes();
+      logDetectedTags();
     } else if (message.info === "buttonHighlightAllAutomatically") {
       highlightAllAutomatically = message.values;
       if (highlightAllAutomatically) {
@@ -302,14 +302,14 @@ initializeContentScript();
         values.type.includes(URL_TYPE_NOTIFY),
       )[0].values; //array
       checkAndSend();
-      logDetectedIframes();
+      logDetectedTags();
     }
   });
 
   // get elements with valid sources
   function getElementsValidSrc() {
     elementsValidSrc = elements.filter(function (elementsFunc) {
-      return elementsFunc.sourceIsValid == 1;
+      return elementsFunc.isNotBlacklisted == 1;
     });
   }
 
@@ -331,7 +331,7 @@ initializeContentScript();
 
     function getValidSourcesOfElements(elementsWithTag) {
       return elementsWithTag
-        .filter((element) => element.sourceIsValid === 1)
+        .filter((element) => element.isNotBlacklisted === 1)
         .map((element) => element.source);
     }
   }
