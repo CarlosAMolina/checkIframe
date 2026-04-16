@@ -39,44 +39,62 @@ const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 
-// TODO when all buttons are in this file, review and remove unrequired `export`.
-//TODO move createButton and all buttons to button.js and update tests.
-//TODO improve, instead of list all clicked elements, add listen only to buttons and
-//TODO drop last `return false` line.
-export function createButton(elementIdHtml) {
-  switch (elementIdHtml) {
-    case BUTTON_ID_ADD_URL:
-      return new ButtonAddUrl();
-    case BUTTON_ID_ALWAYS_SHOW_SOURCES:
-      return new ButtonAlwaysShowSources();
-    case BUTTON_ID_CLEAN:
-      return new ButtonClean();
-    case BUTTON_ID_CLEAR_ALL:
-      return new ButtonClearAll(infoContainer);
-    case BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY:
-      return new ButtonHighlightAllAutomatically();
-    case BUTTON_ID_RECHECK:
-      return new ButtonRecheck();
-    case BUTTON_ID_SCROLL:
-      return new ButtonScroll();
-    case BUTTON_ID_SHOW_CONFIG:
-      return new ButtonShowConfig();
-    case BUTTON_ID_SHOW_LOGS:
-      return new ButtonShowLogs();
-    case BUTTON_ID_SHOW_SOURCES:
-      return new ButtonShowSources();
-    case BUTTON_ID_URLS_BLACKLIST:
-      return new ButtonUrlsBlacklist(infoContainer);
-    case BUTTON_ID_URLS_NOTIFY:
-      return new ButtonUrlsNotify(infoContainer);
-    case BUTTON_ID_URLS_REFERER:
-      return new ButtonUrlsReferer(infoContainer);
-    default:
-      return false;
-  }
-}
+// TODO when all buttons are in this file, review and remove unrequired `export` and update tests.
 
 export function initializePopupButtons() {
+  document.getElementById(BUTTON_ID_ADD_URL).addEventListener("click", () => {
+    new ButtonAddUrl().click();
+  });
+  document
+    .getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES)
+    .addEventListener("click", () => {
+      new ButtonAlwaysShowSources().click();
+    });
+  document.getElementById(BUTTON_ID_CLEAN).addEventListener("click", () => {
+    new ButtonClean().click();
+  });
+  document.getElementById(BUTTON_ID_CLEAR_ALL).addEventListener("click", () => {
+    new ButtonClearAll(infoContainer).click();
+  });
+  document
+    .getElementById(BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY)
+    .addEventListener("click", () => {
+      new ButtonHighlightAllAutomatically().click();
+    });
+  document.getElementById(BUTTON_ID_RECHECK).addEventListener("click", () => {
+    new ButtonRecheck().click();
+  });
+  document
+    .getElementById(BUTTON_ID_SHOW_CONFIG)
+    .addEventListener("click", () => {
+      new ButtonShowConfig().click();
+    });
+  document.getElementById(BUTTON_ID_SHOW_LOGS).addEventListener("click", () => {
+    new ButtonShowLogs().click();
+  });
+  document.getElementById(BUTTON_ID_SCROLL).addEventListener("click", () => {
+    new ButtonScroll().click();
+  });
+  document
+    .getElementById(BUTTON_ID_SHOW_SOURCES)
+    .addEventListener("click", () => {
+      new ButtonShowSources().click();
+    });
+  document
+    .getElementById(BUTTON_ID_URLS_BLACKLIST)
+    .addEventListener("click", () => {
+      new ButtonUrlsBlacklist(infoContainer).click();
+    });
+  document
+    .getElementById(BUTTON_ID_URLS_NOTIFY)
+    .addEventListener("click", () => {
+      new ButtonUrlsNotify(infoContainer).click();
+    });
+  document
+    .getElementById(BUTTON_ID_URLS_REFERER)
+    .addEventListener("click", () => {
+      new ButtonUrlsReferer(infoContainer).click();
+    });
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
   new ButtonAlwaysShowSources().initializePopup();

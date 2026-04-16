@@ -1,5 +1,4 @@
 import { Message } from "./model.js";
-import { createButton } from "./buttons.js";
 import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";

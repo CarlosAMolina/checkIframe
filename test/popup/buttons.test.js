@@ -7,18 +7,6 @@ let infoContainer;
 let modelModule;
 let domModule;
 let htmlBuilderModule;
-const buttonIdsHtml = [
-  "buttonRecheck",
-  "buttonClean",
-  "buttonScroll",
-  "buttonShowSources",
-  "buttonShowConfig",
-  "buttonUrlsNotify",
-  "buttonUrlsBlacklist",
-  "buttonUrlsReferer",
-  "buttonAddUrl",
-  "buttonClearAll",
-];
 const tabId = 1;
 
 // TODO decide if the names for all buttons should be Button... or ...Button
@@ -447,29 +435,6 @@ describe("buttons", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
   });
-  describe("createButton", () => {
-    it.each(buttonIdsHtml)(
-      "should return button if valid ID: %p",
-      (buttonIdHtml) => {
-        const function_ = buttonsModule.createButton;
-        const result = function_(buttonIdHtml)._idHtml;
-        expect(result).toBe(buttonIdHtml);
-      },
-    );
-    it("should not return button if invalid ID", function () {
-      const buttonIdHtml = "nonexistent";
-      const result = buttonsModule.createButton(buttonIdHtml);
-      expect(result).toBe(false);
-    });
-  });
-  it.each(buttonIdsHtml)(
-    "click button should not generate error. Button ID %p ",
-    (buttonIdHtml) => {
-      const createButton = buttonsModule.createButton;
-      const button = createButton(buttonIdHtml);
-      button.click();
-    },
-  );
   describe("Button", () => {
     it("buttonIdHtml should return expected result", function () {
       const result = getButton()._idHtml;
