@@ -1,8 +1,5 @@
-import { BUTTON_ID_ALWAYS_SHOW_SOURCES } from "./buttons.js";
-import { ButtonAlwaysShowSources } from "./buttons.js";
 import { Message } from "./model.js";
 import { createButton } from "./buttons.js";
-import { getIdHtmlClicked } from "./dom.js";
 import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
@@ -21,22 +18,23 @@ function popupMain() {
   // display previously saved stored info on start-up
   initializePopup();
 
-  // listen to clicks on the buttons, and send the appropriate message to
+  // The user can click a button or an image.
+  // Listen to clicks on the buttons, and send the appropriate message to
   // the content script in the web page.
+  // Use event delegation: listen for clicks only on actionable buttons or their children.
   document.addEventListener("click", (e) => {
-    let buttonIdHtml = getIdHtmlClicked(e);
-    let button = createButton(buttonIdHtml);
-    if (button) {
-      button.click();
+    // Traverse up from the event target to find a button with a recognized ID
+    // The user can click a button (detected with eventClick.target.id) or an image (detected with eventClick.target.parentElement.id).
+    let el = e.target;
+    while (el && el !== document) {
+      let button = createButton(el.id);
+      if (button) {
+        button.click();
+        return;
+      }
+      el = el.parentElement;
     }
   });
-  // TODO test button is clickable.
-  // TODO move to buttons.js
-  document
-    .getElementById(BUTTON_ID_ALWAYS_SHOW_SOURCES)
-    .addEventListener("click", () => {
-      new ButtonAlwaysShowSources().click();
-    });
   const urlType = getUrlTypeActive();
   // set up listener for the input box
   document

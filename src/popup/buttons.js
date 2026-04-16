@@ -43,8 +43,8 @@ const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
 //TODO move createButton and all buttons to button.js and update tests.
 //TODO improve, instead of list all clicked elements, add listen only to buttons and
 //TODO drop last `return false` line.
-export function createButton(buttonIdHtml) {
-  switch (buttonIdHtml) {
+export function createButton(elementIdHtml) {
+  switch (elementIdHtml) {
     case BUTTON_ID_RECHECK:
       return new ButtonRecheck();
     case BUTTON_ID_CLEAN:
@@ -69,6 +69,8 @@ export function createButton(buttonIdHtml) {
       return new ButtonAddUrl();
     case BUTTON_ID_CLEAR_ALL:
       return new ButtonClearAll(infoContainer);
+    case BUTTON_ID_ALWAYS_SHOW_SOURCES:
+      return new ButtonAlwaysShowSources();
     default:
       return false;
   }
@@ -265,7 +267,7 @@ class OnOffButton extends Button {
   }
 }
 
-export class ButtonAlwaysShowSources extends OnOffButton {
+class ButtonAlwaysShowSources extends OnOffButton {
   constructor() {
     super();
     this._button = new ButtonShowSources();

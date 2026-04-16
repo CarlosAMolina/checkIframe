@@ -1,8 +1,3 @@
-export function getIdHtmlClicked(eventClick) {
-  // The user can click a button or an image.
-  return eventClick.target.id || eventClick.target.parentElement.id;
-}
-
 export function isHidden(idHtml) {
   return document.getElementById(idHtml).classList.contains("hidden");
 }
