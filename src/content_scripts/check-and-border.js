@@ -67,24 +67,18 @@ function logDetectedTags() {
   }
 }
 
-// elementsValidSrc: type elementsValidSrc
-// mustSetBorder: type integer
-function setBorderOfAllElementsIfRequired(elementsValidSrc, mustSetBorder) {
+function setBorderOfAllElementsIfRequired(elements, mustSetBorder) {
   if (mustSetBorder) {
-    setBorderOfAllElements(elementsValidSrc);
+    setBorderOfAllElements(elements);
   }
 }
 
-// elementsValidSrc: type elementsValidSrc
-// mustSetBorder: type integer
-function setBorderOfAllElements(elementsValidSrc) {
-  elementsValidSrc.forEach((element) => setBorder(element));
+function setBorderOfAllElements(elements) {
+  elements.forEach((element) => setBorder(element));
 }
 
-// elementsValidSrc: type elementsValidSrc
-// mustSetBorder: type integer
-function quitBorderOfAllElements(elementsValidSrc) {
-  elementsValidSrc.forEach((element) => quitBorderOfElement(element));
+function quitBorderOfAllElements(elements) {
+  elements.forEach((element) => quitBorderOfElement(element));
 }
 
 function setBorder(element) {
@@ -170,7 +164,9 @@ initializeContentScript();
     }
     function getIndexInfo() {
       var tagElements = elementsValidSrc.filter(function (elementsFunc) {
-        return elementsFunc.tag == elementsValidSrc[currentValidElementIndex].tag;
+        return (
+          elementsFunc.tag == elementsValidSrc[currentValidElementIndex].tag
+        );
       });
       var tag2SearchIndex = TAGS_2_SEARCH.indexOf(
         elementsValidSrc[currentValidElementIndex].tag,
@@ -267,10 +263,7 @@ initializeContentScript();
       elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
       // The buttonClean must drop all borders and not only one border
       // by index because all borders may be highlighted.
-      quitBorderOfAllElements(
-        elementsValidSrc,
-        previousHighlightedIndex,
-      );
+      quitBorderOfAllElements(elementsValidSrc);
       currentValidElementIndex = undefined;
       previousHighlightedIndex = undefined;
     } else if (message.info === "buttonShowSources") {
