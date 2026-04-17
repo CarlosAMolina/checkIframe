@@ -1,5 +1,5 @@
 const BORDER = " 10px solid red ";
-const tags2Search = ["iframe", "frame"];
+const TAGS_2_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
 let elementsValidSrc = []; // TODO review if it is used, i dont see where a value is set.
@@ -44,7 +44,7 @@ function initializeContentScript() {
 
 function detectElements() {
   let result = [];
-  for (const tag of tags2Search) {
+  for (const tag of TAGS_2_SEARCH) {
     const nodes = document.getElementsByTagName(tag);
     for (const node of nodes) {
       result.push(createDetectedElement(tag, node));
@@ -172,14 +172,14 @@ initializeContentScript();
       var tagElements = elementsValidSrc.filter(function (elementsFunc) {
         return elementsFunc.tag == elementsValidSrc[elementsValidSrcIndex].tag;
       });
-      var tag2SearchIndex = tags2Search.indexOf(
+      var tag2SearchIndex = TAGS_2_SEARCH.indexOf(
         elementsValidSrc[elementsValidSrcIndex].tag,
       );
       var previousTagsElementsNumber = 0; // includes the number of elements for the actual tag
       for (let i = 0; i <= tag2SearchIndex; i++) {
         previousTagsElementsNumber += elementsValidSrc.filter(
           function (elementsFunc) {
-            return elementsFunc.tag == tags2Search[i];
+            return elementsFunc.tag == TAGS_2_SEARCH[i];
           },
         ).length;
       }
