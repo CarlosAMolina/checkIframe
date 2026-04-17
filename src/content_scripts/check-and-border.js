@@ -2,7 +2,6 @@ function element(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
-  this.isBlacklisted = blacklistedSources.includes(this.source);
 }
 var elements = [];
 var elementsValidSrc = [];
@@ -211,7 +210,7 @@ initializeContentScript();
     }
     let indexInfo = "No elements to show";
     if (elements.length != 0) {
-      elementsNotBlacklisted();
+      elements = filterNonBlacklistedElements(elements);
       if (elementsValidSrc.length != 0) {
         getIndex2Show();
         scrollAndBorder();
@@ -232,7 +231,7 @@ initializeContentScript();
 
   function getLocationUrl() {
     getElementsByTags();
-    elementsNotBlacklisted();
+    elements = filterNonBlacklistedElements(elements);
     return elementsValidSrc.length > 0 ? elementsValidSrc[0].source : false;
   }
 
@@ -270,7 +269,7 @@ initializeContentScript();
       return Promise.resolve({ response: scrollInfo });
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
-      elementsNotBlacklisted(); // when the pop-up is closed, this info is lost
+      elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
       // The buttonClean must drop all borders and not only one border
       // by index because all borders may be highlighted.
       quitBorderOfAllElements(
@@ -305,32 +304,36 @@ initializeContentScript();
     }
   });
 
-  function elementsNotBlacklisted() {
-    elementsValidSrc = elements.filter(function (element) {
-      return !element.isBlacklisted;
-    });
-  }
-
   function getSourcesSummary() {
     return {
       iframe: {
         sourcesAllNumber: getElementsWithTag("iframe").length,
-        sourcesValid: getValidSourcesOfElements(getElementsWithTag("iframe")),
+        sourcesValid: filterNonBlacklistedSources(getElementsWithTag("iframe")),
       },
       frame: {
         sourcesAllNumber: getElementsWithTag("frame").length,
-        sourcesValid: getValidSourcesOfElements(getElementsWithTag("frame")),
+        sourcesValid: filterNonBlacklistedSources(getElementsWithTag("frame")),
       },
     };
 
     function getElementsWithTag(tag) {
       return elements.filter((element) => element.tag == tag);
     }
-
-    function getValidSourcesOfElements(elementsWithTag) {
-      return elementsWithTag
-        .filter((element) => !element.isBlacklisted)
-        .map((element) => element.source);
-    }
   }
 })();
+
+function filterNonBlacklistedSources(elements) {
+  return filterNonBlacklistedElements(elements).map(
+    (element) => element.source,
+  );
+}
+
+function filterNonBlacklistedElements(elements) {
+  return elements.filter((element) => !isBlacklistedSource(element.source));
+}
+
+function isBlacklistedSource(source) {
+  return blacklistedSources.some((blacklisted) =>
+    source.toLowerCase().includes(blacklisted.toLowerCase()),
+  );
+}
