@@ -80,13 +80,13 @@ function quitBorderOfAllElements(elements) {
   elements.forEach((element) => quitBorder(element));
 }
 
-function setBorder(element) {
-  updateBorderOfElement(element, BORDER);
-}
-
 function quitBorder(element) {
   const borderValue = "";
   updateBorderOfElement(element, borderValue);
+}
+
+function setBorder(element) {
+  updateBorderOfElement(element, BORDER);
 }
 
 // value: string
