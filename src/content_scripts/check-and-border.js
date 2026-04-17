@@ -1,4 +1,4 @@
-function element(tag, info) {
+function DetectedElementWithTag(tag, info) {
   this.tag = tag;
   this.info = info;
   this.source = info.src;
@@ -56,7 +56,10 @@ function getElementsByTags() {
       elementIndex < elementsByTag.length;
       elementIndex++
     ) {
-      var result = new element(tag2search, elementsByTag[elementIndex]);
+      var result = new DetectedElementWithTag(
+        tag2search,
+        elementsByTag[elementIndex],
+      );
       elements.push(result);
     }
   });
@@ -88,7 +91,7 @@ function quitBorderOfAllElements(elementsValidSrc) {
   elementsValidSrc.forEach((element) => quitBorderOfElement(element));
 }
 
-// elementToModify: type element
+// elementToModify: type DetectedElementWithTag
 function setBorderOfElement(elementToModify) {
   const borderValue = " 10px solid red ";
   updateBorderOfElement(elementToModify, borderValue);
@@ -106,13 +109,13 @@ function quitBorderOfIndex(elementsValidSrc, index) {
   }
 }
 
-// elementToModify: type element
+// elementToModify: type DetectedElementWithTag
 function quitBorderOfElement(elementToModify) {
   const borderValue = "";
   updateBorderOfElement(elementToModify, borderValue);
 }
 
-// elementToModify: type element
+// elementToModify: type DetectedElementWithTag
 // value: string
 function updateBorderOfElement(elementToModify, value) {
   elementToModify.info.style.border = value;
@@ -162,7 +165,7 @@ initializeContentScript();
     }
   }
 
-  // show element
+  // show DetectedElementWithTag
   function showElement() {
     function getIndex2Show() {
       if (
