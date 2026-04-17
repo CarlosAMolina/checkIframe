@@ -3,8 +3,8 @@ const TAGS_2_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
 let elementsValidSrc = []; // TODO review if it is used, i dont see where a value is set.
-let elementsValidSrcIndex2QuitBorder;
-let elementsValidSrcIndex;
+let currentValidElementIndex;
+let previousHighlightedIndex;
 let highlightAllAutomatically = false;
 let notifySources = [];
 let refererSources = [];
@@ -91,7 +91,7 @@ function setBorder(element) {
   updateBorderOfElement(element, BORDER);
 }
 
-// elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
+// elementsValidSrc[previousHighlightedIndex].node can be 'undefined' when working with the blacklist
 // elementsValidSrc: type elementsValidSrc
 // index: type int or "undefined"
 function quitBorderOfIndex(elementsValidSrc, index) {
@@ -160,20 +160,20 @@ initializeContentScript();
   function showElement() {
     function getIndex2Show() {
       if (
-        typeof elementsValidSrcIndex != "undefined" &&
-        elementsValidSrcIndex + 1 < elementsValidSrc.length
+        typeof currentValidElementIndex != "undefined" &&
+        currentValidElementIndex + 1 < elementsValidSrc.length
       ) {
-        elementsValidSrcIndex = elementsValidSrcIndex + 1;
+        currentValidElementIndex = currentValidElementIndex + 1;
       } else {
-        elementsValidSrcIndex = 0;
+        currentValidElementIndex = 0;
       }
     }
     function getIndexInfo() {
       var tagElements = elementsValidSrc.filter(function (elementsFunc) {
-        return elementsFunc.tag == elementsValidSrc[elementsValidSrcIndex].tag;
+        return elementsFunc.tag == elementsValidSrc[currentValidElementIndex].tag;
       });
       var tag2SearchIndex = TAGS_2_SEARCH.indexOf(
-        elementsValidSrc[elementsValidSrcIndex].tag,
+        elementsValidSrc[currentValidElementIndex].tag,
       );
       var previousTagsElementsNumber = 0; // includes the number of elements for the actual tag
       for (let i = 0; i <= tag2SearchIndex; i++) {
@@ -184,12 +184,12 @@ initializeContentScript();
         ).length;
       }
       const tagElementsIndex =
-        elementsValidSrcIndex >= previousTagsElementsNumber
+        currentValidElementIndex >= previousTagsElementsNumber
           ? elementsValidSrc.length - previousTagsElementsNumber
-          : elementsValidSrcIndex;
+          : currentValidElementIndex;
       return (
         "Tag " +
-        elementsValidSrc[elementsValidSrcIndex].tag +
+        elementsValidSrc[currentValidElementIndex].tag +
         ": source " +
         (tagElementsIndex + 1) +
         "/" +
@@ -197,11 +197,11 @@ initializeContentScript();
       );
     }
     function scrollAndBorder() {
-      let elementToSetBorder = elementsValidSrc[elementsValidSrcIndex];
+      let elementToSetBorder = elementsValidSrc[currentValidElementIndex];
       elementToSetBorder.info.scrollIntoView(false); //false: element in the lower part of the window
-      quitBorderOfIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
+      quitBorderOfIndex(elementsValidSrc, previousHighlightedIndex);
       setBorder(elementToSetBorder);
-      elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
+      previousHighlightedIndex = currentValidElementIndex;
     }
     let indexInfo = "No elements to show";
     if (elements.length != 0) {
@@ -269,10 +269,10 @@ initializeContentScript();
       // by index because all borders may be highlighted.
       quitBorderOfAllElements(
         elementsValidSrc,
-        elementsValidSrcIndex2QuitBorder,
+        previousHighlightedIndex,
       );
-      elementsValidSrcIndex = undefined;
-      elementsValidSrcIndex2QuitBorder = undefined;
+      currentValidElementIndex = undefined;
+      previousHighlightedIndex = undefined;
     } else if (message.info === "buttonShowSources") {
       checkTags();
       logDetectedTags();
