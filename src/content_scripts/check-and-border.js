@@ -7,7 +7,7 @@ function DetectedElementWithTag(tag, info) {
 const tags2Search = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
-let elementsValidSrc = [];
+let elementsValidSrc = [];  // TODO review if it is used, i dont see where a value is set.
 let elementsValidSrcIndex2QuitBorder;
 let elementsValidSrcIndex;
 let highlightAllAutomatically = false;
