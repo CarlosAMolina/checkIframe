@@ -52,20 +52,12 @@ function initializeContentScript() {
 
 function getElementsByTags() {
   let result = [];
-  tags2Search.forEach(function (tag2search) {
-    var elementsByTag = document.getElementsByTagName(tag2search);
-    for (
-      let elementIndex = 0;
-      elementIndex < elementsByTag.length;
-      elementIndex++
-    ) {
-      var result = createDetectedElement(
-        tag2search,
-        elementsByTag[elementIndex],
-      );
-      result.push(result);
+  for (const tag of tags2Search) {
+    const nodes = document.getElementsByTagName(tag);
+    for (const node of nodes) {
+      result.push(createDetectedElement(tag, node));
     }
-  });
+  }
   return result;
 }
 
