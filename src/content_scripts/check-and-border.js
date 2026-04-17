@@ -3,7 +3,7 @@ const TAGS_TO_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
 let elementsValidSrc = []; // TODO review if it is used, i dont see where a value is set.
-let elementToHighlightIndex;
+let indexToHighlight;
 let lastHighlightedIndex;
 let highlightAllAutomatically = false;
 let notifySources = [];
@@ -154,22 +154,20 @@ initializeContentScript();
   function showElement() {
     function getIndex2Show() {
       if (
-        typeof elementToHighlightIndex != "undefined" &&
-        elementToHighlightIndex + 1 < elementsValidSrc.length
+        typeof indexToHighlight != "undefined" &&
+        indexToHighlight + 1 < elementsValidSrc.length
       ) {
-        elementToHighlightIndex = elementToHighlightIndex + 1;
+        indexToHighlight = indexToHighlight + 1;
       } else {
-        elementToHighlightIndex = 0;
+        indexToHighlight = 0;
       }
     }
     function getIndexInfo() {
       var tagElements = elementsValidSrc.filter(function (elementsFunc) {
-        return (
-          elementsFunc.tag == elementsValidSrc[elementToHighlightIndex].tag
-        );
+        return elementsFunc.tag == elementsValidSrc[indexToHighlight].tag;
       });
       var tag2SearchIndex = TAGS_TO_SEARCH.indexOf(
-        elementsValidSrc[elementToHighlightIndex].tag,
+        elementsValidSrc[indexToHighlight].tag,
       );
       var previousTagsElementsNumber = 0; // includes the number of elements for the actual tag
       for (let i = 0; i <= tag2SearchIndex; i++) {
@@ -180,12 +178,12 @@ initializeContentScript();
         ).length;
       }
       const tagElementsIndex =
-        elementToHighlightIndex >= previousTagsElementsNumber
+        indexToHighlight >= previousTagsElementsNumber
           ? elementsValidSrc.length - previousTagsElementsNumber
-          : elementToHighlightIndex;
+          : indexToHighlight;
       return (
         "Tag " +
-        elementsValidSrc[elementToHighlightIndex].tag +
+        elementsValidSrc[indexToHighlight].tag +
         ": source " +
         (tagElementsIndex + 1) +
         "/" +
@@ -193,11 +191,11 @@ initializeContentScript();
       );
     }
     function scrollAndBorder() {
-      let elementToSetBorder = elementsValidSrc[elementToHighlightIndex];
+      let elementToSetBorder = elementsValidSrc[indexToHighlight];
       elementToSetBorder.info.scrollIntoView(false); //false: element in the lower part of the window
       quitBorderOfIndex(elementsValidSrc, lastHighlightedIndex);
       setBorder(elementToSetBorder);
-      lastHighlightedIndex = elementToHighlightIndex;
+      lastHighlightedIndex = indexToHighlight;
     }
     let indexInfo = "No elements to show";
     if (elements.length != 0) {
@@ -264,7 +262,7 @@ initializeContentScript();
       // The buttonClean must drop all borders and not only one border
       // by index because all borders may be highlighted.
       quitBorderOfAllElements(elementsValidSrc);
-      elementToHighlightIndex = undefined;
+      indexToHighlight = undefined;
       lastHighlightedIndex = undefined;
     } else if (message.info === "buttonShowSources") {
       checkTags();
