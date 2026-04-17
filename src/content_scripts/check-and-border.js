@@ -70,7 +70,7 @@ function logDetectedTags() {
 // elementsValidSrc: type elementsValidSrc
 // mustSetBorder: type integer
 function setBorderOfAllElementsIfRequired(elementsValidSrc, mustSetBorder) {
-  if (mustSetBorder == 1) {
+  if (mustSetBorder) {
     setBorderOfAllElements(elementsValidSrc);
   }
 }
