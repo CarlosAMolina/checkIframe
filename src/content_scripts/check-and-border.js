@@ -3,16 +3,17 @@ function element(tag, info) {
   this.info = info;
   this.source = info.src;
 }
-var elements = [];
-var elementsValidSrc = [];
-var elementsValidSrcIndex;
-var elementsValidSrcIndex2QuitBorder;
-var blacklistedSources = [];
-var notifySources = [];
-var refererSources = [];
-var showLogs = false;
-var highlightAllAutomatically = false;
-var tags2Search = ["iframe", "frame"];
+
+const tags2Search = ["iframe", "frame"];
+let blacklistedSources = [];
+let elements = [];
+let elementsValidSrc = [];
+let elementsValidSrcIndex2QuitBorder;
+let elementsValidSrcIndex;
+let highlightAllAutomatically = false;
+let notifySources = [];
+let refererSources = [];
+let showLogs = false;
 
 function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);
