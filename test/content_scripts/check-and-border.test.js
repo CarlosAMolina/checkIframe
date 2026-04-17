@@ -23,8 +23,8 @@ describe("Check module import", () => {
     const function_ = checkAndBorderModule.__get__("initializeContentScript");
     function_();
   });
-  it("getElementsByTags runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("getElementsByTags");
+  it("detectElements runs without error", function () {
+    const function_ = checkAndBorderModule.__get__("detectElements");
     function_();
   });
   it("logDetectedTags runs without error", function () {
