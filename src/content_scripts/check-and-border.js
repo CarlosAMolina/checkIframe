@@ -1,11 +1,3 @@
-function createDetectedElement(tag, node) {
-  return {
-    tag,
-    node,
-    source: node.src || "",
-  };
-}
-
 const BORDER = " 10px solid red ";
 const tags2Search = ["iframe", "frame"];
 let blacklistedSources = [];
@@ -59,6 +51,14 @@ function detectElements() {
     }
   }
   return result;
+}
+
+function createDetectedElement(tag, node) {
+  return {
+    tag,
+    node,
+    source: node.src || "",
+  };
 }
 
 function logDetectedTags() {
