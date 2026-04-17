@@ -2,7 +2,6 @@ const BORDER = " 10px solid red ";
 const TAGS_TO_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
-let elementsValidSrc = []; // TODO review if it is used, i dont see where a value is set.
 let indexToHighlight;
 let lastHighlightedIndex;
 let highlightAllAutomatically = false;
@@ -176,7 +175,7 @@ initializeContentScript();
   function getLocationUrl() {
     elements = detectElements();
     elements = filterNonBlacklistedElements(elements);
-    return elementsValidSrc.length > 0 ? elementsValidSrc[0].source : false;
+    return elements.length > 0 ? elements[0].source : false;
   }
 
   //main
@@ -194,7 +193,7 @@ initializeContentScript();
           highlightAllAutomatically = result.idHighlightAllAutomatically;
         }
         setBorderOfAllElementsIfRequired(
-          elementsValidSrc,
+          filterNonBlacklistedElements(elements),
           highlightAllAutomatically,
         );
       }, reportErrorContentScript);
@@ -202,7 +201,7 @@ initializeContentScript();
       checkAndSend();
       logDetectedTags();
       setBorderOfAllElementsIfRequired(
-        elementsValidSrc,
+        filterNonBlacklistedElements(elements),
         highlightAllAutomatically,
       );
       return Promise.resolve(getSourcesSummary());
@@ -214,9 +213,8 @@ initializeContentScript();
     } else if (message.info === "buttonClean") {
       checkTags(); // when the pop-up is closed, this info is lost
       elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
-      // The buttonClean must drop all borders and not only one border
-      // by index because all borders may be highlighted.
-      quitBorderOfAllElements(elementsValidSrc);
+      // The buttonClean must drop all borders because all borders may be highlighted.
+      quitBorderOfAllElements(elements);
       indexToHighlight = undefined;
       lastHighlightedIndex = undefined;
     } else if (message.info === "buttonShowSources") {
@@ -228,10 +226,11 @@ initializeContentScript();
       logDetectedTags();
     } else if (message.info === "buttonHighlightAllAutomatically") {
       highlightAllAutomatically = message.values;
+      elements = filterNonBlacklistedElements(elements);
       if (highlightAllAutomatically) {
-        setBorderOfAllElements(elementsValidSrc);
+        setBorderOfAllElements(elements);
       } else {
-        quitBorderOfAllElements(elementsValidSrc);
+        quitBorderOfAllElements(elements);
       }
     } else if (message.info === "urls") {
       blacklistedSources = message.values.filter((values) =>
