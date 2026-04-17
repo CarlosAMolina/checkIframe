@@ -23,7 +23,7 @@ function reportErrorContentScript(error) {
 }
 
 function initializeContentScript() {
-  getElementsByTags();
+  elements = getElementsByTags();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     // 'show log' option has never been used
@@ -51,7 +51,7 @@ function initializeContentScript() {
 }
 
 function getElementsByTags() {
-  elements = [];
+  let result = [];
   tags2Search.forEach(function (tag2search) {
     var elementsByTag = document.getElementsByTagName(tag2search);
     for (
@@ -63,9 +63,10 @@ function getElementsByTags() {
         tag2search,
         elementsByTag[elementIndex],
       );
-      elements.push(result);
+      result.push(result);
     }
   });
+  return result;
 }
 
 function logDetectedTags() {
@@ -154,7 +155,7 @@ initializeContentScript();
 
   // check elements
   function checkTags() {
-    getElementsByTags();
+    elements = getElementsByTags();
     if (checkSrcInList() == 1) {
       return 2;
     } else if (elements.length != 0) {
@@ -232,7 +233,7 @@ initializeContentScript();
   }
 
   function getLocationUrl() {
-    getElementsByTags();
+    elements = getElementsByTags();
     elements = filterNonBlacklistedElements(elements);
     return elementsValidSrc.length > 0 ? elementsValidSrc[0].source : false;
   }
