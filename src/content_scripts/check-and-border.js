@@ -23,7 +23,7 @@ function reportErrorContentScript(error) {
 }
 
 function initializeContentScript() {
-  elements = getElementsByTags();
+  elements = detectElements();
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     // 'show log' option has never been used
@@ -50,7 +50,7 @@ function initializeContentScript() {
   }, reportErrorContentScript);
 }
 
-function getElementsByTags() {
+function detectElements() {
   let result = [];
   for (const tag of tags2Search) {
     const nodes = document.getElementsByTagName(tag);
@@ -147,7 +147,7 @@ initializeContentScript();
 
   // check elements
   function checkTags() {
-    elements = getElementsByTags();
+    elements = detectElements();
     if (checkSrcInList() == 1) {
       return 2;
     } else if (elements.length != 0) {
@@ -225,7 +225,7 @@ initializeContentScript();
   }
 
   function getLocationUrl() {
-    elements = getElementsByTags();
+    elements = detectElements();
     elements = filterNonBlacklistedElements(elements);
     return elementsValidSrc.length > 0 ? elementsValidSrc[0].source : false;
   }
