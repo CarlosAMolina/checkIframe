@@ -1,13 +1,16 @@
-function DetectedElementWithTag(tag, info) {
-  this.tag = tag;
-  this.info = info;
-  this.source = info.src || "" ;
+function createDetectedElement(tag, node) {
+  return {
+    tag,
+    node,
+    source: node.src || "",
+  };
 }
 
+const BORDER = " 10px solid red ";
 const tags2Search = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
-let elementsValidSrc = [];  // TODO review if it is used, i dont see where a value is set.
+let elementsValidSrc = []; // TODO review if it is used, i dont see where a value is set.
 let elementsValidSrcIndex2QuitBorder;
 let elementsValidSrcIndex;
 let highlightAllAutomatically = false;
@@ -56,7 +59,7 @@ function getElementsByTags() {
       elementIndex < elementsByTag.length;
       elementIndex++
     ) {
-      var result = new DetectedElementWithTag(
+      var result = createDetectedElement(
         tag2search,
         elementsByTag[elementIndex],
       );
@@ -82,7 +85,7 @@ function setBorderOfAllElementsIfRequired(elementsValidSrc, mustSetBorder) {
 // elementsValidSrc: type elementsValidSrc
 // mustSetBorder: type integer
 function setBorderOfAllElements(elementsValidSrc) {
-  elementsValidSrc.forEach((element) => setBorderOfElement(element));
+  elementsValidSrc.forEach((element) => setBorder(element));
 }
 
 // elementsValidSrc: type elementsValidSrc
@@ -91,10 +94,8 @@ function quitBorderOfAllElements(elementsValidSrc) {
   elementsValidSrc.forEach((element) => quitBorderOfElement(element));
 }
 
-// elementToModify: type DetectedElementWithTag
-function setBorderOfElement(elementToModify) {
-  const borderValue = " 10px solid red ";
-  updateBorderOfElement(elementToModify, borderValue);
+function setBorder(element) {
+  updateBorderOfElement(element, BORDER);
 }
 
 // elementsValidSrc[elementsValidSrcIndex2QuitBorder].info can be 'undefined' when working with the blacklist
@@ -109,16 +110,14 @@ function quitBorderOfIndex(elementsValidSrc, index) {
   }
 }
 
-// elementToModify: type DetectedElementWithTag
-function quitBorderOfElement(elementToModify) {
+function quitBorderOfElement(element) {
   const borderValue = "";
-  updateBorderOfElement(elementToModify, borderValue);
+  updateBorderOfElement(element, borderValue);
 }
 
-// elementToModify: type DetectedElementWithTag
 // value: string
-function updateBorderOfElement(elementToModify, value) {
-  elementToModify.info.style.border = value;
+function updateBorderOfElement(element, value) {
+  element.info.style.border = value;
 }
 
 initializeContentScript();
@@ -165,7 +164,6 @@ initializeContentScript();
     }
   }
 
-  // show DetectedElementWithTag
   function showElement() {
     function getIndex2Show() {
       if (
@@ -209,7 +207,7 @@ initializeContentScript();
       let elementToSetBorder = elementsValidSrc[elementsValidSrcIndex];
       elementToSetBorder.info.scrollIntoView(false); //false: element in the lower part of the window
       quitBorderOfIndex(elementsValidSrc, elementsValidSrcIndex2QuitBorder);
-      setBorderOfElement(elementToSetBorder);
+      setBorder(elementToSetBorder);
       elementsValidSrcIndex2QuitBorder = elementsValidSrcIndex;
     }
     let indexInfo = "No elements to show";
