@@ -1,7 +1,7 @@
 function DetectedElementWithTag(tag, info) {
   this.tag = tag;
   this.info = info;
-  this.source = info.src;
+  this.source = info.src || "" ;
 }
 
 const tags2Search = ["iframe", "frame"];
