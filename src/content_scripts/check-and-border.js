@@ -78,33 +78,21 @@ function setBorderOfAllElements(elements) {
 }
 
 function quitBorderOfAllElements(elements) {
-  elements.forEach((element) => quitBorderOfElement(element));
+  elements.forEach((element) => quitBorder(element));
 }
 
 function setBorder(element) {
   updateBorderOfElement(element, BORDER);
 }
 
-// elementsValidSrc[lastHighlightedIndex].node can be 'undefined' when working with the blacklist
-// elementsValidSrc: type elementsValidSrc
-// index: type int or "undefined"
-function quitBorderOfIndex(elementsValidSrc, index) {
-  if (typeof index != "undefined") {
-    let elementToModify = elementsValidSrc[index];
-    if (typeof elementToModify != "undefined") {
-      quitBorderOfElement(elementToModify);
-    }
-  }
-}
-
-function quitBorderOfElement(element) {
+function quitBorder(element) {
   const borderValue = "";
   updateBorderOfElement(element, borderValue);
 }
 
 // value: string
 function updateBorderOfElement(element, value) {
-  element.info.style.border = value;
+  element.node.style.border = value;
 }
 
 initializeContentScript();
@@ -152,61 +140,28 @@ initializeContentScript();
   }
 
   function showElement() {
-    function getIndex2Show() {
-      if (
-        typeof indexToHighlight != "undefined" &&
-        indexToHighlight + 1 < elementsValidSrc.length
-      ) {
-        indexToHighlight = indexToHighlight + 1;
-      } else {
-        indexToHighlight = 0;
-      }
+    elements = filterNonBlacklistedElements(elements);
+    if (elements.length == 0) {
+      return "No detections to show";
     }
-    function getIndexInfo() {
-      var tagElements = elementsValidSrc.filter(function (elementsFunc) {
-        return elementsFunc.tag == elementsValidSrc[indexToHighlight].tag;
-      });
-      var tag2SearchIndex = TAGS_TO_SEARCH.indexOf(
-        elementsValidSrc[indexToHighlight].tag,
-      );
-      var previousTagsElementsNumber = 0; // includes the number of elements for the actual tag
-      for (let i = 0; i <= tag2SearchIndex; i++) {
-        previousTagsElementsNumber += elementsValidSrc.filter(
-          function (elementsFunc) {
-            return elementsFunc.tag == TAGS_TO_SEARCH[i];
-          },
-        ).length;
-      }
-      const tagElementsIndex =
-        indexToHighlight >= previousTagsElementsNumber
-          ? elementsValidSrc.length - previousTagsElementsNumber
-          : indexToHighlight;
-      return (
-        "Tag " +
-        elementsValidSrc[indexToHighlight].tag +
-        ": source " +
-        (tagElementsIndex + 1) +
-        "/" +
-        tagElements.length
-      );
-    }
-    function scrollAndBorder() {
-      let elementToSetBorder = elementsValidSrc[indexToHighlight];
-      elementToSetBorder.info.scrollIntoView(false); //false: element in the lower part of the window
-      quitBorderOfIndex(elementsValidSrc, lastHighlightedIndex);
-      setBorder(elementToSetBorder);
-      lastHighlightedIndex = indexToHighlight;
-    }
-    let indexInfo = "No elements to show";
-    if (elements.length != 0) {
-      elements = filterNonBlacklistedElements(elements);
-      if (elementsValidSrc.length != 0) {
-        getIndex2Show();
-        scrollAndBorder();
-        indexInfo = getIndexInfo();
-      }
-    }
-    return indexInfo;
+    indexToHighlight =
+      typeof indexToHighlight === "undefined" ||
+      indexToHighlight >= elements.length
+        ? 0
+        : indexToHighlight + 1;
+    elements[indexToHighlight].node.scrollIntoView(false); // false: to set the element in the lower part of the window
+    quitBorder(elements[lastHighlightedIndex]);
+    setBorder(elements[indexToHighlight]);
+    lastHighlightedIndex = indexToHighlight;
+    return (
+      "Detection " +
+      (indexToHighlight + 1) +
+      "/" +
+      elements.length +
+      ": " +
+      elements[indexToHighlight].tag +
+      " tag"
+    );
   }
 
   // check page required information and send results
