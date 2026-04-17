@@ -208,7 +208,7 @@ initializeContentScript();
       return Promise.resolve(getSourcesSummary());
     } else if (message.info === "buttonScroll") {
       checkTags();
-      var scrollInfo = showElement();
+      const scrollInfo = showElement();
       logDetectedTags();
       return Promise.resolve({ response: scrollInfo });
     } else if (message.info === "buttonClean") {
