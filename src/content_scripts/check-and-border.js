@@ -14,6 +14,35 @@ let notifySources = [];
 let refererSources = [];
 let showLogs = false;
 
+(function () {
+  // check and set a global guard variable.
+  // if this content script is injected into the same web page again,
+  // it will do nothing next time.
+  // avoid saving pop-up messages twice
+  if (window.hasRun) {
+    return;
+  }
+  window.hasRun = true;
+  initializeContentScript();
+
+  const handlers = {
+    protocolok: handleProtocolOk,
+    buttonRecheck: handleButtonRecheck,
+    buttonScroll: handleButtonScroll,
+    buttonClean: handleButtonClean,
+    buttonShowSources: handleButtonShowSources,
+    buttonShowLogs: handleButtonShowLogs,
+    buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
+    urls: handleSourcesUpdate,
+  };
+
+  // Listen for messages from the background script and the pop-up
+  browser.runtime.onMessage.addListener((message) => {
+    const handler = handlers[message.info];
+    return handler(message);
+  });
+})();
+
 function initializeContentScript() {
   elements = detectElements();
   logDetectedTags();
@@ -95,36 +124,6 @@ function setBorder(element) {
 function updateBorderOfElement(element, value) {
   element.node.style.border = value;
 }
-
-// TODO move code to the top of the file and called functions to the down side
-(function () {
-  // check and set a global guard variable.
-  // if this content script is injected into the same web page again,
-  // it will do nothing next time.
-  // avoid saving pop-up messages twice
-  if (window.hasRun) {
-    return;
-  }
-  window.hasRun = true;
-  initializeContentScript();
-
-  const handlers = {
-    protocolok: handleProtocolOk,
-    buttonRecheck: handleButtonRecheck,
-    buttonScroll: handleButtonScroll,
-    buttonClean: handleButtonClean,
-    buttonShowSources: handleButtonShowSources,
-    buttonShowLogs: handleButtonShowLogs,
-    buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
-    urls: handleSourcesUpdate,
-  };
-
-  // Listen for messages from the background script and the pop-up
-  browser.runtime.onMessage.addListener((message) => {
-    const handler = handlers[message.info];
-    return handler(message);
-  });
-})();
 
 function checkTags() {
   elements = detectElements();
