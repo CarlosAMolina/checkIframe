@@ -289,7 +289,7 @@ function getPageElements() {
       });
     }
   }
-  logDetections(elements);
+  logDetections(result);
   return result;
 }
 
