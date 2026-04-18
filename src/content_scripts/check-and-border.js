@@ -124,10 +124,10 @@ function updateBorderOfElement(element, value) {
   element.node.style.border = value;
 }
 
-function tagStatus() {
-  if (isThereAnySourceToNotify(state.elements, state.notifySources)) {
+function tagStatus(elements) {
+  if (isThereAnySourceToNotify(elements, state.notifySources)) {
     return TAGS_STATUS.NOTIFY_MATCH;
-  } else if (state.elements.length > 0) {
+  } else if (elements.length > 0) {
     return TAGS_STATUS.FOUND;
   } else {
     return TAGS_STATUS.NOT_FOUND;
@@ -164,7 +164,7 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 function checkAndSend() {
   refreshDetectedElements();
   browser.runtime.sendMessage({
-    tagsExist: tagStatus(),
+    tagsExist: tagStatus(state.elements),
     referers: state.refererSources,
     locationUrl: getLocationUrl(),
   });
