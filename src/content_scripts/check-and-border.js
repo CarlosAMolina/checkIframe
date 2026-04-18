@@ -172,7 +172,7 @@ function checkAndSend() {
 // TODO understand why this only uses the first element
 function getLocationUrl() {
   refreshDetectedElements();
-  const validElements = filterNonBlacklistedElements(state.elements);
+  const validElements = nonBlacklistedElements(state.elements);
   return validElements.length > 0 ? validElements[0].source : false;
 }
 
@@ -186,7 +186,7 @@ function handleProtocolOk() {
         state.highlightAllAutomatically = result.idHighlightAllAutomatically;
       }
       setBorderOfAllElementsIfRequired(
-        filterNonBlacklistedElements(state.elements),
+        nonBlacklistedElements(state.elements),
         state.highlightAllAutomatically,
       );
     })
@@ -197,7 +197,7 @@ function handleButtonRecheck() {
   checkAndSend();
   logDetections();
   setBorderOfAllElementsIfRequired(
-    filterNonBlacklistedElements(state.elements),
+    nonBlacklistedElements(state.elements),
     state.highlightAllAutomatically,
   );
   return Promise.resolve(getSourcesSummary());
@@ -205,7 +205,7 @@ function handleButtonRecheck() {
 
 function handleButtonScroll() {
   refreshDetectedElements();
-  const validElements = filterNonBlacklistedElements(state.elements);
+  const validElements = nonBlacklistedElements(state.elements);
   logDetections();
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
@@ -230,7 +230,7 @@ function handleButtonScroll() {
 
 function handleButtonClean() {
   refreshDetectedElements();
-  const validElements = filterNonBlacklistedElements(state.elements); // when the pop-up is closed, this info is lost
+  const validElements = nonBlacklistedElements(state.elements); // when the pop-up is closed, this info is lost
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
   state.indexToHighlight = 0;
@@ -248,7 +248,7 @@ function handleButtonShowLogs(message) {
 }
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
-  const validElements = filterNonBlacklistedElements(state.elements);
+  const validElements = nonBlacklistedElements(state.elements);
   if (state.highlightAllAutomatically) {
     setBorderOfAllElements(validElements);
   } else {
@@ -287,12 +287,12 @@ function getSourcesSummary() {
 }
 
 function filterNonBlacklistedSources(elements) {
-  return filterNonBlacklistedElements(elements).map(
+  return nonBlacklistedElements(elements).map(
     (element) => element.source,
   );
 }
 
-function filterNonBlacklistedElements(elements) {
+function nonBlacklistedElements(elements) {
   return elements.filter((element) => !isBlacklistedSource(element.source));
 }
 
