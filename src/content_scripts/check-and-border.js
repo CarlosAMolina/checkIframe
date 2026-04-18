@@ -3,8 +3,10 @@ const TAGS_STATUS = {
   FOUND: 1,
   NOTIFY_MATCH: 2,
 };
+const state = {
+  elements: [],
+};
 let blacklistedSources = [];
-let elements = [];
 let indexToHighlight = 0;
 let highlightAllAutomatically = false;
 let notifySources = [];
@@ -40,7 +42,7 @@ let showLogs = false;
 })();
 
 function initializeGlobalVariables() {
-  elements = detectElements();
+  state.elements = detectElements();
   browser.storage.local
     .get({
       idShowLogs: false,
@@ -84,7 +86,7 @@ function detectElements() {
 
 function logDetections() {
   if (showLogs) {
-    console.log("checkIframe) check-and-border) tags info: ", elements);
+    console.log("checkIframe) check-and-border) tags info: ", state.elements);
   }
 }
 
@@ -118,11 +120,10 @@ function updateBorderOfElement(element, value) {
   element.node.style.border = value;
 }
 
-function checkTags() {
-  elements = detectElements();
-  if (isThereAnySourceToNotify(elements, notifySources)) {
+function tagStatus() {
+  if (isThereAnySourceToNotify(state.elements, notifySources)) {
     return TAGS_STATUS.NOTIFY_MATCH;
-  } else if (elements.length > 0) {
+  } else if (state.elements.length > 0) {
     return TAGS_STATUS.FOUND;
   } else {
     return TAGS_STATUS.NOT_FOUND;
@@ -161,17 +162,19 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 
 // check page required information and send results
 function checkAndSend() {
+  state.elements = detectElements();
   browser.runtime.sendMessage({
-    tagsExist: checkTags(),
+    tagsExist: tagStatus(),
     referers: refererSources,
     locationUrl: getLocationUrl(),
   });
 }
 
+// TODO understand why this only uses the first element
 function getLocationUrl() {
-  elements = detectElements();
-  elements = filterNonBlacklistedElements(elements);
-  return elements.length > 0 ? elements[0].source : false;
+  state.elements = detectElements();
+  const validElements = filterNonBlacklistedElements(state.elements);
+  return validElements.length > 0 ? validElements[0].source : false;
 }
 
 function handleProtocolOk() {
@@ -188,7 +191,7 @@ function handleProtocolOk() {
       reportErrorContentScript(error);
     });
   setBorderOfAllElementsIfRequired(
-    filterNonBlacklistedElements(elements),
+    filterNonBlacklistedElements(state.elements),
     highlightAllAutomatically,
   );
 }
@@ -197,38 +200,38 @@ function handleButtonRecheck() {
   checkAndSend();
   logDetections();
   setBorderOfAllElementsIfRequired(
-    filterNonBlacklistedElements(elements),
+    filterNonBlacklistedElements(state.elements),
     highlightAllAutomatically,
   );
   return Promise.resolve(getSourcesSummary());
 }
 
 function handleButtonScroll() {
-  checkTags();
-  elements = filterNonBlacklistedElements(elements);
+  state.elements = detectElements();
+  const validElements = filterNonBlacklistedElements(state.elements);
   logDetections();
-  if (elements.length === 0) {
+  if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
-  quitBorder(elements[indexToHighlight]);
-  indexToHighlight = calculateIndexToHighlight(elements, indexToHighlight);
-  scroll(elements[indexToHighlight]);
-  setBorder(elements[indexToHighlight]);
+  quitBorder(validElements[indexToHighlight]);
+  indexToHighlight = calculateIndexToHighlight(validElements, indexToHighlight);
+  scroll(validElements[indexToHighlight]);
+  setBorder(validElements[indexToHighlight]);
   return Promise.resolve({
-    response: summaryOfTheHighlightedElement(elements, indexToHighlight),
+    response: summaryOfTheHighlightedElement(validElements, indexToHighlight),
   });
 }
 
 function handleButtonClean() {
-  checkTags(); // when the pop-up is closed, this info is lost
-  elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
+  state.elements = detectElements(); // when the pop-up is closed, this info is lost
+  const validElements = filterNonBlacklistedElements(state.elements); // when the pop-up is closed, this info is lost
   // The buttonClean must drop all borders because all borders may be highlighted.
-  quitBorderOfAllElements(elements);
+  quitBorderOfAllElements(validElements);
   indexToHighlight = 0;
 }
 
 function handleButtonShowSources() {
-  checkTags();
+  state.elements = detectElements();
   logDetections();
   return Promise.resolve({ response: getSourcesSummary() });
 }
@@ -239,11 +242,11 @@ function handleButtonShowLogs(message) {
 }
 function handleButtonHighlightAllAutomatically(message) {
   highlightAllAutomatically = message.values;
-  elements = filterNonBlacklistedElements(elements);
+  const validElements = filterNonBlacklistedElements(state.elements);
   if (highlightAllAutomatically) {
-    setBorderOfAllElements(elements);
+    setBorderOfAllElements(validElements);
   } else {
-    quitBorderOfAllElements(elements);
+    quitBorderOfAllElements(validElements);
   }
 }
 
@@ -273,7 +276,7 @@ function getSourcesSummary() {
   };
 
   function getElementsWithTag(tag) {
-    return elements.filter((element) => element.tag == tag);
+    return state.elements.filter((element) => element.tag == tag);
   }
 }
 
