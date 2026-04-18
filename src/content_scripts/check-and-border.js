@@ -80,7 +80,7 @@ function handleProtocolOk() {
         state.highlightAllAutomatically = result.idHighlightAllAutomatically;
       }
       setBorderOfAllElementsIfRequired(
-        nonBlacklistedElements(elements),
+        getNonBlacklistedElements(elements),
         state.highlightAllAutomatically,
       );
     })
@@ -90,7 +90,7 @@ function handleProtocolOk() {
 function handleButtonRecheck() {
   const elements = detectAndSend();
   setBorderOfAllElementsIfRequired(
-    nonBlacklistedElements(elements),
+    getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
   return Promise.resolve(getSourcesSummary(elements));
@@ -229,7 +229,7 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 
 // TODO understand why this only uses the first element
 function getLocationUrl(elements) {
-  const validElements = nonBlacklistedElements(elements);
+  const validElements = getNonBlacklistedElements(elements);
   return validElements.length > 0 ? validElements[0].source : false;
 }
 
@@ -239,11 +239,11 @@ function getSourcesSummary(elements) {
   return {
     iframe: {
       sourcesAllNumber: iframeElements.length,
-      sourcesValid: nonBlacklistedSources(iframeElements),
+      sourcesValid: getNonBlacklistedSources(iframeElements),
     },
     frame: {
       sourcesAllNumber: frameElements.length,
-      sourcesValid: nonBlacklistedSources(frameElements),
+      sourcesValid: getNonBlacklistedSources(frameElements),
     },
   };
 
@@ -264,7 +264,7 @@ function detectAndSend() {
 }
 
 function getValidPageElements() {
-  return nonBlacklistedElements(getPageElements());
+  return getNonBlacklistedElements(getPageElements());
 }
 
 function getPageElements() {
@@ -283,11 +283,11 @@ function getPageElements() {
   return result;
 }
 
-function nonBlacklistedSources(elements) {
-  return nonBlacklistedElements(elements).map((element) => element.source);
+function getNonBlacklistedSources(elements) {
+  return getNonBlacklistedElements(elements).map((element) => element.source);
 }
 
-function nonBlacklistedElements(elements) {
+function getNonBlacklistedElements(elements) {
   return elements.filter((element) => !isBlacklistedSource(element.source));
 }
 
