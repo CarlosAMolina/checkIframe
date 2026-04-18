@@ -48,19 +48,18 @@ function detectElements() {
   for (const tag of TAGS_TO_SEARCH) {
     const nodes = document.getElementsByTagName(tag);
     for (const node of nodes) {
-      result.push(createDetectedElement(tag, node));
+      result.push(
+        {
+          tag,
+          node,
+          source: node.src || "",
+        }
+      );
     }
   }
   return result;
 }
 
-function createDetectedElement(tag, node) {
-  return {
-    tag,
-    node,
-    source: node.src || "",
-  };
-}
 
 function logDetectedTags() {
   if (showLogs) {

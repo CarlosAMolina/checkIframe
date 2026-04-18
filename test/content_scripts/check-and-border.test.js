@@ -14,11 +14,6 @@ describe("Check module import", () => {
   // TODO   const result = checkAndBorderModule.__get__("URL_TYPE_BLACKLIST");
   // TODO   expect(result).toEqual("blacklist");
   // TODO });
-  it("createDetectedElement runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("createDetectedElement");
-    const element = function_("foo", "bar");
-    expect(element.tag).toEqual("foo");
-  });
   it("initializeContentScript runs without error", function () {
     const function_ = checkAndBorderModule.__get__("initializeContentScript");
     function_();
