@@ -73,21 +73,6 @@ function initializeGlobalVariables() {
     .catch(reportErrorContentScript);
 }
 
-function detectElements() {
-  let result = [];
-  for (const tag of ["frame", "iframe"]) {
-    const nodes = document.getElementsByTagName(tag);
-    for (const node of nodes) {
-      result.push({
-        tag,
-        node,
-        source: node.src || "",
-      });
-    }
-  }
-  return result;
-}
-
 function logDetections(elements) {
   if (state.showLogs) {
     console.log("checkIframe) check-and-border) tags info: ", elements);
@@ -308,4 +293,19 @@ function isBlacklistedSource(source) {
 function refreshDetectedElements() {
   // When the pop-up is closed, this info is lost
   state.elements = detectElements();
+}
+
+function detectElements() {
+  let result = [];
+  for (const tag of ["frame", "iframe"]) {
+    const nodes = document.getElementsByTagName(tag);
+    for (const node of nodes) {
+      result.push({
+        tag,
+        node,
+        source: node.src || "",
+      });
+    }
+  }
+  return result;
 }
