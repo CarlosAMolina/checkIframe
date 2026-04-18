@@ -69,7 +69,7 @@ function initializeContentScript() {
 
 function detectElements() {
   let result = [];
-  for (const tag of ["iframe", "frame"]) {
+  for (const tag of ["frame", "iframe"]) {
     const nodes = document.getElementsByTagName(tag);
     for (const node of nodes) {
       result.push({
