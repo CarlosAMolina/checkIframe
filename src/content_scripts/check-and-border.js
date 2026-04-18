@@ -134,7 +134,7 @@ initializeContentScript();
       return "No detections to show";
     }
     indexToHighlight =
-      typeof indexToHighlight === "undefined" ||
+      indexToHighlight === undefined ||
       indexToHighlight >= elements.length
         ? 0
         : indexToHighlight + 1;
