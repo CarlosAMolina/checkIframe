@@ -98,7 +98,7 @@ function handleButtonRecheck() {
 }
 
 function handleButtonScroll() {
-  const elements = detectElements();
+  const elements = getPageElements();
   const validElements = nonBlacklistedElements(elements);
   logDetections(elements);
   if (validElements.length === 0) {
@@ -127,7 +127,7 @@ function handleButtonScroll() {
 }
 
 function handleButtonClean() {
-  const elements = detectElements();
+  const elements = getPageElements();
   const validElements = nonBlacklistedElements(elements);
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
@@ -135,7 +135,7 @@ function handleButtonClean() {
 }
 
 function handleButtonShowSources() {
-  const elements = detectElements();
+  const elements = getPageElements();
   logDetections(elements);
   return Promise.resolve({ response: getSourcesSummary(elements) });
 }
@@ -146,7 +146,7 @@ function handleButtonShowLogs(message) {
 
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
-  const elements = detectElements();
+  const elements = getPageElements();
   const validElements = nonBlacklistedElements(elements);
   if (state.highlightAllAutomatically) {
     setBorderOfAllElements(validElements);
@@ -281,7 +281,7 @@ function isBlacklistedSource(source) {
 
 // check page required information and send results
 function detectAndSend() {
-  const elements = detectElements();
+  const elements = getPageElements();
   browser.runtime.sendMessage({
     tagsExist: tagStatus(elements),
     referers: state.refererSources,
@@ -290,7 +290,7 @@ function detectAndSend() {
   return elements;
 }
 
-function detectElements() {
+function getPageElements() {
   let result = [];
   for (const tag of ["frame", "iframe"]) {
     const nodes = document.getElementsByTagName(tag);
