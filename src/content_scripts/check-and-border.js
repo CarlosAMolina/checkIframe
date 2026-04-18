@@ -4,9 +4,9 @@ const TAGS_STATUS = {
   NOTIFY_MATCH: 2,
 };
 const state = {
+  blacklistedSources: [],
   elements: [],
 };
-let blacklistedSources = [];
 let indexToHighlight = 0;
 let highlightAllAutomatically = false;
 let notifySources = [];
@@ -58,7 +58,7 @@ function initializeGlobalVariables() {
     .then((results) => {
       for (const [key, value] of Object.entries(results)) {
         if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
-          blacklistedSources.push(value);
+          state.blacklistedSources.push(value);
         } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
           notifySources.push(value);
         } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
@@ -254,7 +254,7 @@ function handleSourcesUpdate(message) {
   const blacklistEntry = message.values.find((item) =>
     item.type.includes(URL_TYPE_BLACKLIST),
   );
-  blacklistedSources = blacklistEntry?.values ?? [];
+  state.blacklistedSources = blacklistEntry?.values ?? [];
   const notifyEntry = message.values.find((item) =>
     item.type.includes(URL_TYPE_NOTIFY),
   );
@@ -291,7 +291,7 @@ function filterNonBlacklistedElements(elements) {
 }
 
 function isBlacklistedSource(source) {
-  return blacklistedSources.some((blacklisted) =>
+  return state.blacklistedSources.some((blacklisted) =>
     source.toLowerCase().includes(blacklisted.toLowerCase()),
   );
 }
