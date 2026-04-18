@@ -45,7 +45,7 @@ let showLogs = false;
 
 function initializeContentScript() {
   elements = detectElements();
-  logDetectedTags();
+  logDetections();
   browser.storage.local
     .get({
       idShowLogs: false,
@@ -87,7 +87,7 @@ function detectElements() {
   return result;
 }
 
-function logDetectedTags() {
+function logDetections() {
   if (showLogs) {
     console.log("checkIframe) check-and-border) tags info: ", elements);
   }
@@ -206,7 +206,7 @@ function handleProtocolOk() {
 
 function handleButtonRecheck() {
   checkAndSend();
-  logDetectedTags();
+  logDetections();
   setBorderOfAllElementsIfRequired(
     filterNonBlacklistedElements(elements),
     highlightAllAutomatically,
@@ -217,7 +217,7 @@ function handleButtonRecheck() {
 function handleButtonScroll() {
   checkTags();
   const scrollInfo = showElement();
-  logDetectedTags();
+  logDetections();
   return Promise.resolve({ response: scrollInfo });
 }
 
@@ -232,13 +232,13 @@ function handleButtonClean() {
 
 function handleButtonShowSources() {
   checkTags();
-  logDetectedTags();
+  logDetections();
   return Promise.resolve({ response: getSourcesSummary() });
 }
 
 function handleButtonShowLogs() {
   showLogs = message.values;
-  logDetectedTags();
+  logDetections();
 }
 function handleButtonHighlightAllAutomatically() {
   highlightAllAutomatically = message.values;
@@ -260,7 +260,7 @@ function handleSourcesUpdate() {
   );
   notifySources = notifyEntry?.values ?? [];
   checkAndSend();
-  logDetectedTags();
+  logDetections();
 }
 
 function getSourcesSummary() {
