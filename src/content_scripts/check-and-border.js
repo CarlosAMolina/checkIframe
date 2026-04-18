@@ -6,8 +6,8 @@ const TAGS_STATUS = {
 const state = {
   blacklistedSources: [],
   elements: [],
+  indexToHighlight: 0,
 };
-let indexToHighlight = 0;
 let highlightAllAutomatically = false;
 let notifySources = [];
 let refererSources = [];
@@ -213,12 +213,18 @@ function handleButtonScroll() {
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
-  quitBorder(validElements[indexToHighlight]);
-  indexToHighlight = calculateIndexToHighlight(validElements, indexToHighlight);
-  scroll(validElements[indexToHighlight]);
-  setBorder(validElements[indexToHighlight]);
+  quitBorder(validElements[state.indexToHighlight]);
+  state.indexToHighlight = calculateIndexToHighlight(
+    validElements,
+    state.indexToHighlight,
+  );
+  scroll(validElements[state.indexToHighlight]);
+  setBorder(validElements[state.indexToHighlight]);
   return Promise.resolve({
-    response: summaryOfTheHighlightedElement(validElements, indexToHighlight),
+    response: summaryOfTheHighlightedElement(
+      validElements,
+      state.indexToHighlight,
+    ),
   });
 }
 
@@ -227,7 +233,7 @@ function handleButtonClean() {
   const validElements = filterNonBlacklistedElements(state.elements); // when the pop-up is closed, this info is lost
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
-  indexToHighlight = 0;
+  state.indexToHighlight = 0;
 }
 
 function handleButtonShowSources() {
