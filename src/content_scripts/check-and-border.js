@@ -273,11 +273,11 @@ function getSourcesSummary() {
   return {
     iframe: {
       sourcesAllNumber: getElementsWithTag("iframe").length,
-      sourcesValid: filterNonBlacklistedSources(getElementsWithTag("iframe")),
+      sourcesValid: nonBlacklistedSources(getElementsWithTag("iframe")),
     },
     frame: {
       sourcesAllNumber: getElementsWithTag("frame").length,
-      sourcesValid: filterNonBlacklistedSources(getElementsWithTag("frame")),
+      sourcesValid: nonBlacklistedSources(getElementsWithTag("frame")),
     },
   };
 
@@ -286,7 +286,7 @@ function getSourcesSummary() {
   }
 }
 
-function filterNonBlacklistedSources(elements) {
+function nonBlacklistedSources(elements) {
   return nonBlacklistedElements(elements).map(
     (element) => element.source,
   );
