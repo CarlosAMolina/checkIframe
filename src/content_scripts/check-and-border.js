@@ -6,7 +6,6 @@ const TAGS_STATUS = {
 // When the pop-up is closed, this info is lost
 const state = {
   blacklistedSources: [],
-  elements: [],
   highlightAllAutomatically: false,
   indexToHighlight: 0,
   notifySources: [],
@@ -180,7 +179,7 @@ function handleButtonRecheck() {
 function handleButtonScroll() {
   const elements = detectElements();
   const validElements = nonBlacklistedElements(elements);
-  logDetections(state.elements);
+  logDetections(elements);
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
@@ -218,8 +217,8 @@ function handleButtonShowSources() {
 
 function handleButtonShowLogs(message) {
   state.showLogs = message.values;
-  logDetections(state.elements);
 }
+
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
   const elements = detectElements();
