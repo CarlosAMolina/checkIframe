@@ -143,8 +143,7 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 }
 
 // TODO understand why this only uses the first element
-function getLocationUrl() {
-  const elements = detectElements();
+function getLocationUrl(elements) {
   const validElements = nonBlacklistedElements(elements);
   return validElements.length > 0 ? validElements[0].source : false;
 }
@@ -244,8 +243,8 @@ function handleSourcesUpdate(message) {
 }
 
 function getSourcesSummary(elements) {
-  const frameElements = getElementsWithTag(elements, "frame");
-  const iframeElements = getElementsWithTag(elements, "iframe");
+  const frameElements = getElementsWithTag("frame");
+  const iframeElements = getElementsWithTag("iframe");
   return {
     iframe: {
       sourcesAllNumber: iframeElements.length,
@@ -257,7 +256,7 @@ function getSourcesSummary(elements) {
     },
   };
 
-  function getElementsWithTag(elements, tag) {
+  function getElementsWithTag(tag) {
     return elements.filter((element) => element.tag == tag);
   }
 }
@@ -282,7 +281,7 @@ function checkAndSend() {
   browser.runtime.sendMessage({
     tagsExist: tagStatus(elements),
     referers: state.refererSources,
-    locationUrl: getLocationUrl(),
+    locationUrl: getLocationUrl(elements),
   });
   return elements;
 }
