@@ -145,16 +145,6 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
   );
 }
 
-// check page required information and send results
-function checkAndSend() {
-  refreshDetectedElements();
-  browser.runtime.sendMessage({
-    tagsExist: tagStatus(state.elements),
-    referers: state.refererSources,
-    locationUrl: getLocationUrl(),
-  });
-}
-
 // TODO understand why this only uses the first element
 function getLocationUrl() {
   refreshDetectedElements();
@@ -163,7 +153,7 @@ function getLocationUrl() {
 }
 
 function handleProtocolOk() {
-  checkAndSend();
+  const elements = checkAndSend();
   // Required to highlight all when changing to a different tab already open.
   browser.storage.local
     .get("idHighlightAllAutomatically")
@@ -172,7 +162,7 @@ function handleProtocolOk() {
         state.highlightAllAutomatically = result.idHighlightAllAutomatically;
       }
       setBorderOfAllElementsIfRequired(
-        nonBlacklistedElements(state.elements),
+        nonBlacklistedElements(elements),
         state.highlightAllAutomatically,
       );
     })
@@ -180,10 +170,10 @@ function handleProtocolOk() {
 }
 
 function handleButtonRecheck() {
-  checkAndSend();
-  logDetections(state.elements);
+  const elements = checkAndSend();
+  logDetections(elements);
   setBorderOfAllElementsIfRequired(
-    nonBlacklistedElements(state.elements),
+    nonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
   return Promise.resolve(getSourcesSummary());
@@ -251,8 +241,8 @@ function handleSourcesUpdate(message) {
     item.type.includes(URL_TYPE_NOTIFY),
   );
   state.notifySources = notifyEntry?.values ?? [];
-  checkAndSend();
-  logDetections(state.elements);
+  const elements = checkAndSend();
+  logDetections(elements);
 }
 
 function getSourcesSummary() {
@@ -294,6 +284,18 @@ function refreshDetectedElements() {
   // When the pop-up is closed, this info is lost
   state.elements = detectElements();
 }
+
+// check page required information and send results
+function checkAndSend() {
+  const elements = detectElements();
+  browser.runtime.sendMessage({
+    tagsExist: tagStatus(elements),
+    referers: state.refererSources,
+    locationUrl: getLocationUrl(),
+  });
+  return elements;
+}
+
 
 function detectElements() {
   let result = [];
