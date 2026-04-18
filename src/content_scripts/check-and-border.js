@@ -8,7 +8,6 @@ const TAGS_TO_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
 let indexToHighlight;
-let lastHighlightedIndex;
 let highlightAllAutomatically = false;
 let notifySources = [];
 let refererSources = [];
@@ -148,6 +147,9 @@ function showElement() {
   if (elements.length === 0) {
     return "No detections to show";
   }
+  if (indexToHighlight !== undefined) {
+    quitBorder(elements[indexToHighlight]);
+  }
   indexToHighlight =
     indexToHighlight === undefined || indexToHighlight >= elements.length
       ? 0
@@ -156,9 +158,7 @@ function showElement() {
     block: "end",
     behavior: "smooth",
   });
-  quitBorder(elements[lastHighlightedIndex]);
   setBorder(elements[indexToHighlight]);
-  lastHighlightedIndex = indexToHighlight;
   return (
     "Detection " +
     (indexToHighlight + 1) +
@@ -227,7 +227,6 @@ function handleButtonClean() {
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(elements);
   indexToHighlight = undefined;
-  lastHighlightedIndex = undefined;
 }
 
 function handleButtonShowSources() {
