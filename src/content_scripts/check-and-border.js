@@ -169,28 +169,24 @@ initializeContentScript();
 
   //main
 
-  // listen for messages from the background script and the pop-up
+  const handlers = {
+    protocolok: handleProtocolOk,
+    buttonRecheck: handleButtonRecheck,
+    buttonScroll: handleButtonScroll,
+    buttonClean: handleButtonClean,
+    buttonShowSources: handleButtonShowSources,
+    buttonShowLogs: handleButtonShowLogs,
+    buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
+    urls: handleSourcesUpdate,
+  };
+
+  // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
-    if (message.info === "protocolok") {
-      return handleProcolOk();
-    } else if (message.info === "buttonRecheck") {
-      return handleButtonRecheck();
-    } else if (message.info === "buttonScroll") {
-      return handleButtonScroll();
-    } else if (message.info === "buttonClean") {
-      return handleButtonClean();
-    } else if (message.info === "buttonShowSources") {
-      return handleButtonShowSources();
-    } else if (message.info === "buttonShowLogs") {
-      return handleButtonShowLogs();
-    } else if (message.info === "buttonHighlightAllAutomatically") {
-      return handleButtonHighlightAllAutomatically();
-    } else if (message.info === "urls") {
-      return handleSourcesUpdate();
-    }
+    const handler = handlers[message.info];
+    return handler(message);
   });
 
-  function handleProcolOk() {
+  function handleProtocolOk() {
     checkAndSend();
     // Required to highlight all when changing to a different tab already open.
     browser.storage.local
@@ -245,7 +241,6 @@ initializeContentScript();
     showLogs = message.values;
     logDetectedTags();
   }
-
   function handleButtonHighlightAllAutomatically() {
     highlightAllAutomatically = message.values;
     elements = filterNonBlacklistedElements(elements);
