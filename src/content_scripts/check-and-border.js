@@ -89,7 +89,6 @@ function handleProtocolOk() {
 
 function handleButtonRecheck() {
   const elements = detectAndSend();
-  logDetections(elements);
   setBorderOfAllElementsIfRequired(
     nonBlacklistedElements(elements),
     state.highlightAllAutomatically,
@@ -98,9 +97,7 @@ function handleButtonRecheck() {
 }
 
 function handleButtonScroll() {
-  const elements = getPageElements();
-  const validElements = nonBlacklistedElements(elements);
-  logDetections(elements);
+  const validElements = getValidPageElements();
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
@@ -127,8 +124,7 @@ function handleButtonScroll() {
 }
 
 function handleButtonClean() {
-  const elements = getPageElements();
-  const validElements = nonBlacklistedElements(elements);
+  const validElements = getValidPageElements();
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
   state.indexToHighlight = 0;
@@ -136,7 +132,6 @@ function handleButtonClean() {
 
 function handleButtonShowSources() {
   const elements = getPageElements();
-  logDetections(elements);
   return Promise.resolve({ response: getSourcesSummary(elements) });
 }
 
@@ -146,8 +141,7 @@ function handleButtonShowLogs(message) {
 
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
-  const elements = getPageElements();
-  const validElements = nonBlacklistedElements(elements);
+  const validElements = getValidPageElements();
   if (state.highlightAllAutomatically) {
     setBorderOfAllElements(validElements);
   } else {
@@ -164,14 +158,7 @@ function handleSourcesUpdate(message) {
     item.type.includes(URL_TYPE_NOTIFY),
   );
   state.notifySources = notifyEntry?.values ?? [];
-  const elements = detectAndSend();
-  logDetections(elements);
-}
-
-function logDetections(elements) {
-  if (state.showLogs) {
-    console.log("checkIframe) check-and-border) tags info: ", elements);
-  }
+  detectAndSend();
 }
 
 function reportErrorContentScript(error) {
@@ -265,20 +252,6 @@ function getSourcesSummary(elements) {
   }
 }
 
-function nonBlacklistedSources(elements) {
-  return nonBlacklistedElements(elements).map((element) => element.source);
-}
-
-function nonBlacklistedElements(elements) {
-  return elements.filter((element) => !isBlacklistedSource(element.source));
-}
-
-function isBlacklistedSource(source) {
-  return state.blacklistedSources.some((blacklisted) =>
-    source.toLowerCase().includes(blacklisted.toLowerCase()),
-  );
-}
-
 // check page required information and send results
 function detectAndSend() {
   const elements = getPageElements();
@@ -288,6 +261,10 @@ function detectAndSend() {
     locationUrl: getLocationUrl(elements),
   });
   return elements;
+}
+
+function getValidPageElements() {
+  return nonBlacklistedElements(getPageElements());
 }
 
 function getPageElements() {
@@ -302,5 +279,26 @@ function getPageElements() {
       });
     }
   }
+  logDetections(elements);
   return result;
+}
+
+function nonBlacklistedSources(elements) {
+  return nonBlacklistedElements(elements).map((element) => element.source);
+}
+
+function nonBlacklistedElements(elements) {
+  return elements.filter((element) => !isBlacklistedSource(element.source));
+}
+
+function isBlacklistedSource(source) {
+  return state.blacklistedSources.some((blacklisted) =>
+    source.toLowerCase().includes(blacklisted.toLowerCase()),
+  );
+}
+
+function logDetections(elements) {
+  if (state.showLogs) {
+    console.log("checkIframe) check-and-border) tags info: ", elements);
+  }
 }
