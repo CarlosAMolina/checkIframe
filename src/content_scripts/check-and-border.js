@@ -10,8 +10,8 @@ const state = {
   indexToHighlight: 0,
   notifySources: [],
   refererSources: [],
+  showLogs: false,
 };
-let showLogs = false;
 
 (function () {
   // check and set a global guard variable.
@@ -49,7 +49,7 @@ function initializeGlobalVariables() {
       idHighlightAllAutomatically: false,
     })
     .then(({ idShowLogs, idHighlightAllAutomatically }) => {
-      showLogs = idShowLogs;
+      state.showLogs = idShowLogs;
       state.highlightAllAutomatically = idHighlightAllAutomatically;
     })
     .catch((error) => reportErrorContentScript(error));
@@ -85,7 +85,7 @@ function detectElements() {
 }
 
 function logDetections() {
-  if (showLogs) {
+  if (state.showLogs) {
     console.log("checkIframe) check-and-border) tags info: ", state.elements);
   }
 }
@@ -243,7 +243,7 @@ function handleButtonShowSources() {
 }
 
 function handleButtonShowLogs(message) {
-  showLogs = message.values;
+  state.showLogs = message.values;
   logDetections();
 }
 function handleButtonHighlightAllAutomatically(message) {
