@@ -9,8 +9,8 @@ const state = {
   highlightAllAutomatically: false,
   indexToHighlight: 0,
   notifySources: [],
+  refererSources: [],
 };
-let refererSources = [];
 let showLogs = false;
 
 (function () {
@@ -62,7 +62,7 @@ function initializeGlobalVariables() {
         } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
           state.notifySources.push(value);
         } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
-          refererSources.push(value);
+          state.refererSources.push(value);
         }
       }
     })
@@ -165,7 +165,7 @@ function checkAndSend() {
   state.elements = detectElements();
   browser.runtime.sendMessage({
     tagsExist: tagStatus(),
-    referers: refererSources,
+    referers: state.refererSources,
     locationUrl: getLocationUrl(),
   });
 }
