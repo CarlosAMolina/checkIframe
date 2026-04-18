@@ -212,8 +212,8 @@ function handleButtonScroll() {
   }
   quitBorder(elements[indexToHighlight]);
   indexToHighlight = calculateIndexToHighlight(elements, indexToHighlight);
-  scroll(element[indexToHighlight]);
-  setBorder(element[indexToHighlight]);
+  scroll(elements[indexToHighlight]);
+  setBorder(elements[indexToHighlight]);
   return Promise.resolve({
     response: summaryOfTheHighlightedElement(elements, indexToHighlight),
   });
