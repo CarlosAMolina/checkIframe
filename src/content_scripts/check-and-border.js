@@ -34,7 +34,6 @@ const state = {
     urls: handleSourcesUpdate,
   };
   initializeGlobalVariables();
-  logDetections(state.elements);
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     const handler = handlers[message.info];
@@ -43,7 +42,6 @@ const state = {
 })();
 
 function initializeGlobalVariables() {
-  refreshDetectedElements();
   browser.storage.local
     .get({
       idShowLogs: false,
@@ -147,8 +145,8 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 
 // TODO understand why this only uses the first element
 function getLocationUrl() {
-  refreshDetectedElements();
-  const validElements = getValidElements();
+  const elements = detectElements();
+  const validElements = nonBlacklistedElements(elements);
   return validElements.length > 0 ? validElements[0].source : false;
 }
 
@@ -176,12 +174,12 @@ function handleButtonRecheck() {
     nonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
-  return Promise.resolve(getSourcesSummary());
+  return Promise.resolve(getSourcesSummary(elements));
 }
 
 function handleButtonScroll() {
-  refreshDetectedElements();
-  const validElements = getValidElements();
+  const elements = detectElements();
+  const validElements = nonBlacklistedElements(elements);
   logDetections(state.elements);
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
@@ -205,17 +203,17 @@ function handleButtonScroll() {
 }
 
 function handleButtonClean() {
-  refreshDetectedElements();
-  const validElements = getValidElements();
+  const elements = detectElements();
+  const validElements = nonBlacklistedElements(elements);
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
   state.indexToHighlight = 0;
 }
 
 function handleButtonShowSources() {
-  refreshDetectedElements();
-  logDetections(state.elements);
-  return Promise.resolve({ response: getSourcesSummary() });
+  const elements = detectElements();
+  logDetections(elements);
+  return Promise.resolve({ response: getSourcesSummary(elements) });
 }
 
 function handleButtonShowLogs(message) {
@@ -224,7 +222,8 @@ function handleButtonShowLogs(message) {
 }
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
-  const validElements = getValidElements();
+  const elements = detectElements();
+  const validElements = nonBlacklistedElements(elements);
   if (state.highlightAllAutomatically) {
     setBorderOfAllElements(validElements);
   } else {
@@ -245,29 +244,27 @@ function handleSourcesUpdate(message) {
   logDetections(elements);
 }
 
-function getSourcesSummary() {
+function getSourcesSummary(elements) {
+  const frameElements = getElementsWithTag(elements, "frame");
+  const iframeElements = getElementsWithTag(elements, "iframe");
   return {
     iframe: {
-      sourcesAllNumber: getElementsWithTag("iframe").length,
-      sourcesValid: nonBlacklistedSources(getElementsWithTag("iframe")),
+      sourcesAllNumber: iframeElements.length,
+      sourcesValid: nonBlacklistedSources(iframeElements),
     },
     frame: {
-      sourcesAllNumber: getElementsWithTag("frame").length,
-      sourcesValid: nonBlacklistedSources(getElementsWithTag("frame")),
+      sourcesAllNumber: frameElements.length,
+      sourcesValid: nonBlacklistedSources(frameElements),
     },
   };
 
-  function getElementsWithTag(tag) {
-    return state.elements.filter((element) => element.tag == tag);
+  function getElementsWithTag(elements, tag) {
+    return elements.filter((element) => element.tag == tag);
   }
 }
 
 function nonBlacklistedSources(elements) {
   return nonBlacklistedElements(elements).map((element) => element.source);
-}
-
-function getValidElements() {
-  return nonBlacklistedElements(state.elements);
 }
 
 function nonBlacklistedElements(elements) {
@@ -280,11 +277,6 @@ function isBlacklistedSource(source) {
   );
 }
 
-function refreshDetectedElements() {
-  // When the pop-up is closed, this info is lost
-  state.elements = detectElements();
-}
-
 // check page required information and send results
 function checkAndSend() {
   const elements = detectElements();
@@ -295,7 +287,6 @@ function checkAndSend() {
   });
   return elements;
 }
-
 
 function detectElements() {
   let result = [];
