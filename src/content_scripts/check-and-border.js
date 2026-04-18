@@ -34,7 +34,7 @@ const state = {
     urls: handleSourcesUpdate,
   };
   initializeGlobalVariables();
-  logDetections();
+  logDetections(state.elements);
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     const handler = handlers[message.info];
@@ -88,9 +88,9 @@ function detectElements() {
   return result;
 }
 
-function logDetections() {
+function logDetections(elements) {
   if (state.showLogs) {
-    console.log("checkIframe) check-and-border) tags info: ", state.elements);
+    console.log("checkIframe) check-and-border) tags info: ", elements);
   }
 }
 
@@ -196,7 +196,7 @@ function handleProtocolOk() {
 
 function handleButtonRecheck() {
   checkAndSend();
-  logDetections();
+  logDetections(state.elements);
   setBorderOfAllElementsIfRequired(
     nonBlacklistedElements(state.elements),
     state.highlightAllAutomatically,
@@ -207,7 +207,7 @@ function handleButtonRecheck() {
 function handleButtonScroll() {
   refreshDetectedElements();
   const validElements = getValidElements();
-  logDetections();
+  logDetections(state.elements);
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
@@ -239,13 +239,13 @@ function handleButtonClean() {
 
 function handleButtonShowSources() {
   refreshDetectedElements();
-  logDetections();
+  logDetections(state.elements);
   return Promise.resolve({ response: getSourcesSummary() });
 }
 
 function handleButtonShowLogs(message) {
   state.showLogs = message.values;
-  logDetections();
+  logDetections(state.elements);
 }
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
@@ -267,7 +267,7 @@ function handleSourcesUpdate(message) {
   );
   state.notifySources = notifyEntry?.values ?? [];
   checkAndSend();
-  logDetections();
+  logDetections(state.elements);
 }
 
 function getSourcesSummary() {
