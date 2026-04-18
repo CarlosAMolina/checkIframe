@@ -14,8 +14,8 @@ describe("Check module import", () => {
   // TODO   const result = checkAndBorderModule.__get__("URL_TYPE_BLACKLIST");
   // TODO   expect(result).toEqual("blacklist");
   // TODO });
-  it("initializeContentScript runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("initializeContentScript");
+  it("initializeGlobalVariables runs without error", function () {
+    const function_ = checkAndBorderModule.__get__("initializeGlobalVariables");
     function_();
   });
   it("detectElements runs without error", function () {
