@@ -132,6 +132,7 @@ function handleButtonClean() {
 
 function handleButtonShowSources() {
   const elements = getPageElements();
+  logDetections(elements);
   const analysis = getPageAnalysis(elements);
   return Promise.resolve({ response: analysis.sourcesSummary });
 }
@@ -221,6 +222,7 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 // check page required information and send results
 function analyzePageAndSend() {
   const elements = getPageElements();
+  logDetections(elements);
   const analysis = getPageAnalysis(elements);
   browser.runtime.sendMessage({
     tagsExist: analysis.tagsExist,
@@ -274,7 +276,9 @@ function tagStatus(elements) {
 }
 
 function getValidPageElements() {
-  return getNonBlacklistedElements(getPageElements());
+  const elements = getPageElements();
+  logDetections(elements);
+  return getNonBlacklistedElements(elements);
 }
 
 function getPageElements() {
@@ -289,7 +293,6 @@ function getPageElements() {
       });
     }
   }
-  logDetections(result);
   return result;
 }
 
