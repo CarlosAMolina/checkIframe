@@ -149,7 +149,7 @@ function getLocationUrl(elements) {
 }
 
 function handleProtocolOk() {
-  const elements = checkAndSend();
+  const elements = detectAndSend();
   // Required to highlight all when changing to a different tab already open.
   browser.storage.local
     .get("idHighlightAllAutomatically")
@@ -166,7 +166,7 @@ function handleProtocolOk() {
 }
 
 function handleButtonRecheck() {
-  const elements = checkAndSend();
+  const elements = detectAndSend();
   logDetections(elements);
   setBorderOfAllElementsIfRequired(
     nonBlacklistedElements(elements),
@@ -238,7 +238,7 @@ function handleSourcesUpdate(message) {
     item.type.includes(URL_TYPE_NOTIFY),
   );
   state.notifySources = notifyEntry?.values ?? [];
-  const elements = checkAndSend();
+  const elements = detectAndSend();
   logDetections(elements);
 }
 
@@ -276,7 +276,7 @@ function isBlacklistedSource(source) {
 }
 
 // check page required information and send results
-function checkAndSend() {
+function detectAndSend() {
   const elements = detectElements();
   browser.runtime.sendMessage({
     tagsExist: tagStatus(elements),
