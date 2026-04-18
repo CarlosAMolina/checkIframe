@@ -1,4 +1,9 @@
 const BORDER = " 10px solid red ";
+const TAGS_STATUS = {
+  NOT_FOUND: 0,
+  FOUND: 1,
+  NOTIFY_MATCH: 2,
+};
 const TAGS_TO_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
@@ -111,11 +116,11 @@ initializeContentScript();
   function checkTags() {
     elements = detectElements();
     if (isThereAnySourceToNotify(elements, notifySources)) {
-      return 2;
+      return TAGS_STATUS.NOTIFY_MATCH;
     } else if (elements.length > 0) {
-      return 1;
+      return TAGS_STATUS.FOUND;
     } else {
-      return 0;
+      return TAGS_STATUS.NOT_FOUND;
     }
   }
 
