@@ -6,9 +6,9 @@ const TAGS_STATUS = {
 const state = {
   blacklistedSources: [],
   elements: [],
+  highlightAllAutomatically: false,
   indexToHighlight: 0,
 };
-let highlightAllAutomatically = false;
 let notifySources = [];
 let refererSources = [];
 let showLogs = false;
@@ -50,7 +50,7 @@ function initializeGlobalVariables() {
     })
     .then(({ idShowLogs, idHighlightAllAutomatically }) => {
       showLogs = idShowLogs;
-      highlightAllAutomatically = idHighlightAllAutomatically;
+      state.highlightAllAutomatically = idHighlightAllAutomatically;
     })
     .catch((error) => reportErrorContentScript(error));
   browser.storage.local
@@ -184,7 +184,7 @@ function handleProtocolOk() {
     .get("idHighlightAllAutomatically")
     .then((result) => {
       if (result.idHighlightAllAutomatically !== undefined) {
-        highlightAllAutomatically = result.idHighlightAllAutomatically;
+        state.highlightAllAutomatically = result.idHighlightAllAutomatically;
       }
     })
     .catch((error) => {
@@ -192,7 +192,7 @@ function handleProtocolOk() {
     });
   setBorderOfAllElementsIfRequired(
     filterNonBlacklistedElements(state.elements),
-    highlightAllAutomatically,
+    state.highlightAllAutomatically,
   );
 }
 
@@ -201,7 +201,7 @@ function handleButtonRecheck() {
   logDetections();
   setBorderOfAllElementsIfRequired(
     filterNonBlacklistedElements(state.elements),
-    highlightAllAutomatically,
+    state.highlightAllAutomatically,
   );
   return Promise.resolve(getSourcesSummary());
 }
@@ -247,9 +247,9 @@ function handleButtonShowLogs(message) {
   logDetections();
 }
 function handleButtonHighlightAllAutomatically(message) {
-  highlightAllAutomatically = message.values;
+  state.highlightAllAutomatically = message.values;
   const validElements = filterNonBlacklistedElements(state.elements);
-  if (highlightAllAutomatically) {
+  if (state.highlightAllAutomatically) {
     setBorderOfAllElements(validElements);
   } else {
     quitBorderOfAllElements(validElements);
