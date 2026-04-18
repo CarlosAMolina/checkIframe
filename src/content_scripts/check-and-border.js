@@ -71,7 +71,7 @@ function initializeGlobalVariables() {
 }
 
 function handleProtocolOk() {
-  const { elements } = detectAndSend();
+  const { elements } = analyzePageAndSend();
   // Required to highlight all when changing to a different tab already open.
   browser.storage.local
     .get("idHighlightAllAutomatically")
@@ -88,7 +88,7 @@ function handleProtocolOk() {
 }
 
 function handleButtonRecheck() {
-  const { elements, analysis } = detectAndSend();
+  const { elements, analysis } = analyzePageAndSend();
   setBorderOfAllElementsIfRequired(
     getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
@@ -159,7 +159,7 @@ function handleSourcesUpdate(message) {
     item.type.includes(URL_TYPE_NOTIFY),
   );
   state.notifySources = notifyEntry?.values ?? [];
-  detectAndSend();
+  analyzePageAndSend();
 }
 
 function reportErrorContentScript(error) {
@@ -219,7 +219,7 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 }
 
 // check page required information and send results
-function detectAndSend() {
+function analyzePageAndSend() {
   const elements = getPageElements();
   const analysis = getPageAnalysis(elements);
   browser.runtime.sendMessage({
