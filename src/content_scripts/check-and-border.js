@@ -1,4 +1,3 @@
-const BORDER = " 10px solid red ";
 const TAGS_STATUS = {
   NOT_FOUND: 0,
   FOUND: 1,
@@ -109,15 +108,13 @@ function quitBorderOfAllElements(elements) {
 }
 
 function quitBorder(element) {
-  const borderValue = "";
-  updateBorderOfElement(element, borderValue);
+  updateBorderOfElement(element, "");
 }
 
 function setBorder(element) {
-  updateBorderOfElement(element, BORDER);
+  updateBorderOfElement(element, " 10px solid red ");
 }
 
-// value: string
 function updateBorderOfElement(element, value) {
   element.node.style.border = value;
 }
