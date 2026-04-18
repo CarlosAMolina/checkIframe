@@ -106,36 +106,25 @@ initializeContentScript();
   }
   window.hasRun = true;
 
-  // check if any source should be notified
-  function checkSrcInList() {
-    var srcInlist = 0;
-    if (elements.length != 0 && notifySources.length != 0) {
-      var allSourcesStr = String(
-        elements.map(function (sourcesFunc) {
-          return sourcesFunc.source;
-        }),
-      ).toLowerCase();
-      for (let i = 0; i < notifySources.length; i++) {
-        var notifySource = notifySources[i].toLowerCase();
-        if (allSourcesStr.indexOf(notifySource) != -1) {
-          i = i + notifySources.length; // finish loop
-          srcInlist = 1;
-        }
-      }
-    }
-    return srcInlist;
-  }
-
   // check elements
   function checkTags() {
     elements = detectElements();
-    if (checkSrcInList() == 1) {
+    if (isThereAnySourceToNotify(elements, notifySources)) {
       return 2;
     } else if (elements.length != 0) {
       return 1;
     } else {
       return 0;
     }
+  }
+
+  function isThereAnySourceToNotify(elements, notifySources) {
+    const sources = elements.map((element) => element.src.toLowerCase())
+      return notifySources.some(
+          (notifySource) => sources.some(
+              (source) => source.includes(notifySource.toLowerCase())
+          )
+      );
   }
 
   function showElement() {
