@@ -9,36 +9,33 @@ let notifySources = [];
 let refererSources = [];
 let showLogs = false;
 
-function reportErrorContentScript(error) {
-  console.error(`Error: ${error}`);
-}
-
 function initializeContentScript() {
   elements = detectElements();
-  var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((results) => {
-    // 'show log' option has never been used
-    if (typeof results.idShowLogs != "undefined") {
-      showLogs = results.idShowLogs;
-    }
-    // 'Highlight all automatically' option has never been used
-    if (typeof results.idHighlightAllAutomatically != "undefined") {
-      highlightAllAutomatically = results.idHighlightAllAutomatically;
-    }
-    blacklistedSources = Object.keys(results).filter((key) =>
-      key.includes(URL_TYPE_BLACKLIST + "_"),
-    ); //array
-    blacklistedSources = blacklistedSources.map((source) => results[source]); // array
-    notifySources = Object.keys(results).filter((key) =>
-      key.includes(URL_TYPE_NOTIFY + "_"),
-    ); //array
-    notifySources = notifySources.map((source) => results[source]); // array
-    refererSources = Object.keys(results).filter((key) =>
-      key.includes(URL_TYPE_REFERER + "_"),
-    ); //array
-    refererSources = refererSources.map((source) => results[source]); // array
-    logDetectedTags();
-  }, reportErrorContentScript);
+  logDetectedTags();
+  browser.storage.local
+    .get({
+      idShowLogs: false,
+      idHighlightAllAutomatically: false,
+    })
+    .then(({ idShowLogs, idHighlightAllAutomatically }) => {
+      showLogs = idShowLogs;
+      highlightAllAutomatically = idHighlightAllAutomatically;
+    })
+    .catch((error) => reportErrorContentScript(error));
+  browser.storage.local
+    .get(null)
+    .then((results) => {
+      for (const [key, value] of Object.entries(results)) {
+        if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
+          blacklistedSources.push(value);
+        } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
+          notifySources.push(value);
+        } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
+          refererSources.push(value);
+        }
+      }
+    })
+    .catch(reportErrorContentScript);
 }
 
 function detectElements() {
@@ -64,6 +61,10 @@ function logDetectedTags() {
   if (showLogs) {
     console.log("checkIframe) check-and-border) tags info: ", elements);
   }
+}
+
+function reportErrorContentScript(error) {
+  console.error(`Error: ${error}`);
 }
 
 function setBorderOfAllElementsIfRequired(elements, mustSetBorder) {
@@ -111,7 +112,7 @@ initializeContentScript();
     elements = detectElements();
     if (isThereAnySourceToNotify(elements, notifySources)) {
       return 2;
-    } else if (elements.length != 0) {
+    } else if (elements.length > 0) {
       return 1;
     } else {
       return 0;
@@ -119,17 +120,15 @@ initializeContentScript();
   }
 
   function isThereAnySourceToNotify(elements, notifySources) {
-    const sources = elements.map((element) => element.src.toLowerCase())
-      return notifySources.some(
-          (notifySource) => sources.some(
-              (source) => source.includes(notifySource.toLowerCase())
-          )
-      );
+    const sources = elements.map((element) => element.src.toLowerCase());
+    return notifySources.some((notifySource) =>
+      sources.some((source) => source.includes(notifySource.toLowerCase())),
+    );
   }
 
   function showElement() {
     elements = filterNonBlacklistedElements(elements);
-    if (elements.length == 0) {
+    if (elements.length === 0) {
       return "No detections to show";
     }
     indexToHighlight =
@@ -174,18 +173,20 @@ initializeContentScript();
     if (message.info === "protocolok") {
       checkAndSend();
       // Required to highlight all when changing to a different tab already open.
-      let gettingItem = browser.storage.local.get(
-        "idHighlightAllAutomatically",
+      browser.storage.local
+        .get("idHighlightAllAutomatically")
+        .then((result) => {
+          if (result.idHighlightAllAutomatically !== undefined) {
+            highlightAllAutomatically = result.idHighlightAllAutomatically;
+          }
+        })
+        .catch((error) => {
+          reportErrorContentScript(error);
+        });
+      setBorderOfAllElementsIfRequired(
+        filterNonBlacklistedElements(elements),
+        highlightAllAutomatically,
       );
-      gettingItem.then((result) => {
-        if (typeof result.idHighlightAllAutomatically != "undefined") {
-          highlightAllAutomatically = result.idHighlightAllAutomatically;
-        }
-        setBorderOfAllElementsIfRequired(
-          filterNonBlacklistedElements(elements),
-          highlightAllAutomatically,
-        );
-      }, reportErrorContentScript);
     } else if (message.info === "buttonRecheck") {
       checkAndSend();
       logDetectedTags();

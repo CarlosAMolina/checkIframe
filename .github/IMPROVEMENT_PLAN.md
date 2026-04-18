@@ -60,3 +60,30 @@ Focus on **increasing test coverage comprehensively**:
 
 When this is done, undo these changes because v3 supports ES6 imports:
 - Drop src/constants.js file and from the mainifest.json file, then include the imports in src/content_scripts/check-and-border.js (at the moment, the values in src/constats.js are available globally since they have been added to the manifest).
+
+## Browser Storage
+
+Instead of:
+
+    blacklist_google: "google.com"
+    blacklist_youtube: "youtube.com"
+
+Store:
+
+    blacklist: ["google.com", "youtube.com"]
+    notify: ["twitter.com"]
+    referer: ["example.com"]
+
+Then change the code to a more trivial solution:
+
+    browser.storage.local.get({
+      blacklist: [],
+      notify: [],
+      referer: []
+    })
+    .then(({ blacklist, notify, referer }) => {
+      blacklistedSources = blacklist;
+      notifySources = notify;
+      refererSources = referer;
+    })
+    .catch(reportErrorContentScript);
