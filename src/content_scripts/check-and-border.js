@@ -96,6 +96,7 @@ function updateBorderOfElement(element, value) {
   element.node.style.border = value;
 }
 
+// TODO move code to the top of the file and called functions to the down side
 initializeContentScript();
 
 (function () {
@@ -252,12 +253,14 @@ initializeContentScript();
   }
 
   function handleSourcesUpdate() {
-    blacklistedSources = message.values.filter((values) =>
-      values.type.includes(URL_TYPE_BLACKLIST),
-    )[0].values; //array
-    notifySources = message.values.filter((values) =>
-      values.type.includes(URL_TYPE_NOTIFY),
-    )[0].values; //array
+    const blacklistEntry = message.values.find((item) =>
+    item.type.includes(URL_TYPE_BLACKLIST)
+    );
+    blacklistedSources = blacklistEntry?.values ?? [];
+    const notifyEntry = message.values.find((item) =>
+      item.type.includes(URL_TYPE_NOTIFY)
+    );
+    notifySources = notifyEntry?.values ?? [];
     checkAndSend();
     logDetectedTags();
   }
