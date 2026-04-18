@@ -3,7 +3,6 @@ const TAGS_STATUS = {
   FOUND: 1,
   NOTIFY_MATCH: 2,
 };
-const TAGS_TO_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
 let indexToHighlight = 0;
@@ -70,7 +69,7 @@ function initializeContentScript() {
 
 function detectElements() {
   let result = [];
-  for (const tag of TAGS_TO_SEARCH) {
+  for (const tag of ["iframe", "frame"]) {
     const nodes = document.getElementsByTagName(tag);
     for (const node of nodes) {
       result.push({
