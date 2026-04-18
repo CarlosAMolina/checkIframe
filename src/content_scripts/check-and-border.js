@@ -219,7 +219,7 @@ function handleButtonScroll() {
   scroll(validElements[state.indexToHighlight]);
   setBorder(validElements[state.indexToHighlight]);
   const response = summaryOfTheHighlightedElement(
-    elements,
+    validElements,
     state.indexToHighlight,
   );
   state.indexToHighlight =
