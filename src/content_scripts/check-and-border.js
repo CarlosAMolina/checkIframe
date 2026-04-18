@@ -8,8 +8,8 @@ const state = {
   elements: [],
   highlightAllAutomatically: false,
   indexToHighlight: 0,
+  notifySources: [],
 };
-let notifySources = [];
 let refererSources = [];
 let showLogs = false;
 
@@ -60,7 +60,7 @@ function initializeGlobalVariables() {
         if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
           state.blacklistedSources.push(value);
         } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
-          notifySources.push(value);
+          state.notifySources.push(value);
         } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
           refererSources.push(value);
         }
@@ -121,7 +121,7 @@ function updateBorderOfElement(element, value) {
 }
 
 function tagStatus() {
-  if (isThereAnySourceToNotify(state.elements, notifySources)) {
+  if (isThereAnySourceToNotify(state.elements, state.notifySources)) {
     return TAGS_STATUS.NOTIFY_MATCH;
   } else if (state.elements.length > 0) {
     return TAGS_STATUS.FOUND;
@@ -264,7 +264,7 @@ function handleSourcesUpdate(message) {
   const notifyEntry = message.values.find((item) =>
     item.type.includes(URL_TYPE_NOTIFY),
   );
-  notifySources = notifyEntry?.values ?? [];
+  state.notifySources = notifyEntry?.values ?? [];
   checkAndSend();
   logDetections();
 }
