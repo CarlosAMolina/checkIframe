@@ -3,6 +3,7 @@ const TAGS_STATUS = {
   FOUND: 1,
   NOTIFY_MATCH: 2,
 };
+// When the pop-up is closed, this info is lost
 const state = {
   blacklistedSources: [],
   elements: [],
@@ -172,7 +173,7 @@ function checkAndSend() {
 // TODO understand why this only uses the first element
 function getLocationUrl() {
   refreshDetectedElements();
-  const validElements = nonBlacklistedElements(state.elements);
+  const validElements = getValidElements();
   return validElements.length > 0 ? validElements[0].source : false;
 }
 
@@ -205,7 +206,7 @@ function handleButtonRecheck() {
 
 function handleButtonScroll() {
   refreshDetectedElements();
-  const validElements = nonBlacklistedElements(state.elements);
+  const validElements = getValidElements();
   logDetections();
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
@@ -230,7 +231,7 @@ function handleButtonScroll() {
 
 function handleButtonClean() {
   refreshDetectedElements();
-  const validElements = nonBlacklistedElements(state.elements); // when the pop-up is closed, this info is lost
+  const validElements = getValidElements();
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
   state.indexToHighlight = 0;
@@ -248,7 +249,7 @@ function handleButtonShowLogs(message) {
 }
 function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
-  const validElements = nonBlacklistedElements(state.elements);
+  const validElements = getValidElements();
   if (state.highlightAllAutomatically) {
     setBorderOfAllElements(validElements);
   } else {
@@ -290,6 +291,10 @@ function nonBlacklistedSources(elements) {
   return nonBlacklistedElements(elements).map(
     (element) => element.source,
   );
+}
+
+function getValidElements() {
+    return nonBlacklistedElements(state.elements);
 }
 
 function nonBlacklistedElements(elements) {
