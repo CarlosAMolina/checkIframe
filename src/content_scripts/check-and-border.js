@@ -30,7 +30,8 @@ let showLogs = false;
     buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
     urls: handleSourcesUpdate,
   };
-  initializeContentScript();
+  initializeGlobalVariables();
+  logDetections();
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     const handler = handlers[message.info];
@@ -38,9 +39,8 @@ let showLogs = false;
   });
 })();
 
-function initializeContentScript() {
+function initializeGlobalVariables() {
   elements = detectElements();
-  logDetections();
   browser.storage.local
     .get({
       idShowLogs: false,
