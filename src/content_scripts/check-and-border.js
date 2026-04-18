@@ -42,7 +42,7 @@ const state = {
 })();
 
 function initializeGlobalVariables() {
-  state.elements = detectElements();
+  refreshDetectedElements();
   browser.storage.local
     .get({
       idShowLogs: false,
@@ -161,7 +161,7 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
 
 // check page required information and send results
 function checkAndSend() {
-  state.elements = detectElements();
+  refreshDetectedElements();
   browser.runtime.sendMessage({
     tagsExist: tagStatus(),
     referers: state.refererSources,
@@ -171,7 +171,7 @@ function checkAndSend() {
 
 // TODO understand why this only uses the first element
 function getLocationUrl() {
-  state.elements = detectElements();
+  refreshDetectedElements();
   const validElements = filterNonBlacklistedElements(state.elements);
   return validElements.length > 0 ? validElements[0].source : false;
 }
@@ -204,7 +204,7 @@ function handleButtonRecheck() {
 }
 
 function handleButtonScroll() {
-  state.elements = detectElements();
+  refreshDetectedElements();
   const validElements = filterNonBlacklistedElements(state.elements);
   logDetections();
   if (validElements.length === 0) {
@@ -229,7 +229,7 @@ function handleButtonScroll() {
 }
 
 function handleButtonClean() {
-  state.elements = detectElements(); // when the pop-up is closed, this info is lost
+  refreshDetectedElements();
   const validElements = filterNonBlacklistedElements(state.elements); // when the pop-up is closed, this info is lost
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(validElements);
@@ -237,7 +237,7 @@ function handleButtonClean() {
 }
 
 function handleButtonShowSources() {
-  state.elements = detectElements();
+  refreshDetectedElements();
   logDetections();
   return Promise.resolve({ response: getSourcesSummary() });
 }
@@ -300,4 +300,9 @@ function isBlacklistedSource(source) {
   return state.blacklistedSources.some((blacklisted) =>
     source.toLowerCase().includes(blacklisted.toLowerCase()),
   );
+}
+
+function refreshDetectedElements() {
+  // When the pop-up is closed, this info is lost
+  state.elements = detectElements();
 }
