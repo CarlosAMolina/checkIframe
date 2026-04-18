@@ -134,14 +134,10 @@ function tagStatus() {
 }
 
 function isThereAnySourceToNotify(elements, notifySources) {
-  const sources = elements.map((element) => element.src.toLowerCase());
+  const sources = elements.map((element) => element.source.toLowerCase());
   return notifySources.some((notifySource) =>
     sources.some((source) => source.includes(notifySource.toLowerCase())),
   );
-}
-
-function calculateIndexToHighlight(elements, indexToHighlight) {
-  return indexToHighlight >= elements.length ? 0 : indexToHighlight + 1;
 }
 
 function scroll(element) {
@@ -214,19 +210,22 @@ function handleButtonScroll() {
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
-  quitBorder(validElements[state.indexToHighlight]);
-  state.indexToHighlight = calculateIndexToHighlight(
-    validElements,
-    state.indexToHighlight,
-  );
+  const indexToQuitHighlight =
+    state.indexToHighlight === 0
+      ? validElements.length - 1
+      : state.indexToHighlight - 1;
+  quitBorder(validElements[indexToQuitHighlight]);
   scroll(validElements[state.indexToHighlight]);
   setBorder(validElements[state.indexToHighlight]);
-  return Promise.resolve({
-    response: summaryOfTheHighlightedElement(
-      validElements,
-      state.indexToHighlight,
-    ),
-  });
+  const response = summaryOfTheHighlightedElement(
+    elements,
+    state.indexToHighlight,
+  );
+  state.indexToHighlight =
+    state.indexToHighlight === validElements.length - 1
+      ? 0
+      : state.indexToHighlight + 1;
+  return Promise.resolve({ response: response });
 }
 
 function handleButtonClean() {
