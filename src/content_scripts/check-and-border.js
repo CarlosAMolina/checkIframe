@@ -56,6 +56,9 @@ function initializeGlobalVariables() {
   browser.storage.local
     .get(null)
     .then((results) => {
+      state.blacklistedSources = [];
+      state.notifySources = [];
+      state.refererSources = [];
       for (const [key, value] of Object.entries(results)) {
         if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
           state.blacklistedSources.push(value);
@@ -186,14 +189,12 @@ function handleProtocolOk() {
       if (result.idHighlightAllAutomatically !== undefined) {
         state.highlightAllAutomatically = result.idHighlightAllAutomatically;
       }
+      setBorderOfAllElementsIfRequired(
+        filterNonBlacklistedElements(state.elements),
+        state.highlightAllAutomatically,
+      );
     })
-    .catch((error) => {
-      reportErrorContentScript(error);
-    });
-  setBorderOfAllElementsIfRequired(
-    filterNonBlacklistedElements(state.elements),
-    state.highlightAllAutomatically,
-  );
+    .catch(reportErrorContentScript);
 }
 
 function handleButtonRecheck() {
