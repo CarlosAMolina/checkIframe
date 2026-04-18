@@ -97,8 +97,6 @@ function updateBorderOfElement(element, value) {
 }
 
 // TODO move code to the top of the file and called functions to the down side
-initializeContentScript();
-
 (function () {
   // check and set a global guard variable.
   // if this content script is injected into the same web page again,
@@ -108,8 +106,7 @@ initializeContentScript();
     return;
   }
   window.hasRun = true;
-
-  // check elements
+  initializeContentScript();
   function checkTags() {
     elements = detectElements();
     if (isThereAnySourceToNotify(elements, notifySources)) {
