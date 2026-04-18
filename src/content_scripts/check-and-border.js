@@ -22,8 +22,6 @@ let showLogs = false;
     return;
   }
   window.hasRun = true;
-  initializeContentScript();
-
   const handlers = {
     protocolok: handleProtocolOk,
     buttonRecheck: handleButtonRecheck,
@@ -34,7 +32,7 @@ let showLogs = false;
     buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
     urls: handleSourcesUpdate,
   };
-
+  initializeContentScript();
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     const handler = handlers[message.info];
