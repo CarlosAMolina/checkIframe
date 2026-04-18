@@ -143,18 +143,23 @@ function isThereAnySourceToNotify(elements, notifySources) {
 function showElement() {
   elements = filterNonBlacklistedElements(elements);
   if (elements.length === 0) {
-    return "No detections to show";
+    return detectionSummary(elements, indexToHighlight);
   }
   quitBorder(elements[indexToHighlight]);
   indexToHighlight =
-    indexToHighlight >= elements.length
-      ? 0
-      : indexToHighlight + 1;
+    indexToHighlight >= elements.length ? 0 : indexToHighlight + 1;
   elements[indexToHighlight].node.scrollIntoView({
     block: "end",
     behavior: "smooth",
   });
   setBorder(elements[indexToHighlight]);
+  return detectionSummary(elements, indexToHighlight);
+}
+
+function detectionSummary(elements, indexToHighlight) {
+  if (elements.length === 0) {
+    return "No detections to show";
+  }
   return (
     "Detection " +
     (indexToHighlight + 1) +
