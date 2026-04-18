@@ -104,6 +104,10 @@ function handleButtonScroll() {
   if (validElements.length === 0) {
     return Promise.resolve({ response: "No detections to show" });
   }
+  // To control if the page or the blacklisted sources have changed
+  if (state.indexToHighlight >= validElements.length) {
+    state.indexToHighlight = 0;
+  }
   const indexToQuitHighlight =
     state.indexToHighlight === 0
       ? validElements.length - 1
@@ -163,8 +167,6 @@ function handleSourcesUpdate(message) {
   const elements = detectAndSend();
   logDetections(elements);
 }
-
-
 
 function logDetections(elements) {
   if (state.showLogs) {
@@ -259,7 +261,7 @@ function getSourcesSummary(elements) {
   };
 
   function getElementsWithTag(tag) {
-    return elements.filter((element) => element.tag == tag);
+    return elements.filter((element) => element.tag === tag);
   }
 }
 
