@@ -7,7 +7,7 @@ const TAGS_STATUS = {
 const TAGS_TO_SEARCH = ["iframe", "frame"];
 let blacklistedSources = [];
 let elements = [];
-let indexToHighlight;
+let indexToHighlight = 0;
 let highlightAllAutomatically = false;
 let notifySources = [];
 let refererSources = [];
@@ -145,11 +145,9 @@ function showElement() {
   if (elements.length === 0) {
     return "No detections to show";
   }
-  if (indexToHighlight !== undefined) {
-    quitBorder(elements[indexToHighlight]);
-  }
+  quitBorder(elements[indexToHighlight]);
   indexToHighlight =
-    indexToHighlight === undefined || indexToHighlight >= elements.length
+    indexToHighlight >= elements.length
       ? 0
       : indexToHighlight + 1;
   elements[indexToHighlight].node.scrollIntoView({
@@ -224,7 +222,7 @@ function handleButtonClean() {
   elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
   // The buttonClean must drop all borders because all borders may be highlighted.
   quitBorderOfAllElements(elements);
-  indexToHighlight = undefined;
+  indexToHighlight = 0;
 }
 
 function handleButtonShowSources() {
