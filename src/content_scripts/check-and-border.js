@@ -140,26 +140,18 @@ function isThereAnySourceToNotify(elements, notifySources) {
   );
 }
 
-function showElement() {
-  elements = filterNonBlacklistedElements(elements);
-  if (elements.length === 0) {
-    return detectionSummary(elements, indexToHighlight);
-  }
-  quitBorder(elements[indexToHighlight]);
-  indexToHighlight =
-    indexToHighlight >= elements.length ? 0 : indexToHighlight + 1;
-  elements[indexToHighlight].node.scrollIntoView({
+function calculateIndexToHighlight(elements, indexToHighlight) {
+  return indexToHighlight >= elements.length ? 0 : indexToHighlight + 1;
+}
+
+function scroll(element) {
+  element.node.scrollIntoView({
     block: "end",
     behavior: "smooth",
   });
-  setBorder(elements[indexToHighlight]);
-  return detectionSummary(elements, indexToHighlight);
 }
 
-function detectionSummary(elements, indexToHighlight) {
-  if (elements.length === 0) {
-    return "No detections to show";
-  }
+function summaryOfTheHighlightedElement(elements, indexToHighlight) {
   return (
     "Detection " +
     (indexToHighlight + 1) +
@@ -217,9 +209,18 @@ function handleButtonRecheck() {
 
 function handleButtonScroll() {
   checkTags();
-  const scrollInfo = showElement();
+  elements = filterNonBlacklistedElements(elements);
   logDetections();
-  return Promise.resolve({ response: scrollInfo });
+  if (elements.length === 0) {
+    return Promise.resolve({ response: "No detections to show" });
+  }
+  quitBorder(elements[indexToHighlight]);
+  indexToHighlight = calculateIndexToHighlight(elements, indexToHighlight);
+  scroll(element[indexToHighlight]);
+  setBorder(element[indexToHighlight]);
+  return Promise.resolve({
+    response: summaryOfTheHighlightedElement(elements, indexToHighlight),
+  });
 }
 
 function handleButtonClean() {
