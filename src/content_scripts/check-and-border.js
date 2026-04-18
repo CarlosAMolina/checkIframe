@@ -71,7 +71,7 @@ function initializeGlobalVariables() {
 }
 
 function handleProtocolOk() {
-  const elements = detectAndSend();
+  const { elements } = detectAndSend();
   // Required to highlight all when changing to a different tab already open.
   browser.storage.local
     .get("idHighlightAllAutomatically")
@@ -88,12 +88,12 @@ function handleProtocolOk() {
 }
 
 function handleButtonRecheck() {
-  const elements = detectAndSend();
+  const { elements, analysis } = detectAndSend();
   setBorderOfAllElementsIfRequired(
     getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
-  return Promise.resolve(getSourcesSummary(elements));
+  return Promise.resolve(analysis.sourcesSummary);
 }
 
 function handleButtonScroll() {
@@ -132,7 +132,8 @@ function handleButtonClean() {
 
 function handleButtonShowSources() {
   const elements = getPageElements();
-  return Promise.resolve({ response: getSourcesSummary(elements) });
+  const analysis = getPageAnalysis(elements);
+  return Promise.resolve({ response: analysis.sourcesSummary });
 }
 
 function handleButtonShowLogs(message) {
@@ -191,16 +192,6 @@ function updateBorderOfElement(element, value) {
   element.node.style.border = value;
 }
 
-function tagStatus(elements) {
-  if (isThereAnySourceToNotify(elements, state.notifySources)) {
-    return TAGS_STATUS.NOTIFY_MATCH;
-  } else if (elements.length > 0) {
-    return TAGS_STATUS.FOUND;
-  } else {
-    return TAGS_STATUS.NOT_FOUND;
-  }
-}
-
 function isThereAnySourceToNotify(elements, notifySources) {
   const sources = elements.map((element) => element.source.toLowerCase());
   return notifySources.some((notifySource) =>
@@ -225,6 +216,26 @@ function summaryOfTheHighlightedElement(elements, indexToHighlight) {
     elements[indexToHighlight].tag +
     " tag"
   );
+}
+
+// check page required information and send results
+function detectAndSend() {
+  const elements = getPageElements();
+  const analysis = getPageAnalysis(elements);
+  browser.runtime.sendMessage({
+    tagsExist: analysis.tagsExist,
+    referers: state.refererSources,
+    locationUrl: analysis.locationUrl,
+  });
+  return { elements, analysis };
+}
+
+function getPageAnalysis(elements) {
+  return {
+    locationUrl: getLocationUrl(elements),
+    sourcesSummary: getSourcesSummary(elements),
+    tagsExist: tagStatus(elements),
+  };
 }
 
 // TODO understand why this only uses the first element
@@ -252,15 +263,14 @@ function getSourcesSummary(elements) {
   }
 }
 
-// check page required information and send results
-function detectAndSend() {
-  const elements = getPageElements();
-  browser.runtime.sendMessage({
-    tagsExist: tagStatus(elements),
-    referers: state.refererSources,
-    locationUrl: getLocationUrl(elements),
-  });
-  return elements;
+function tagStatus(elements) {
+  if (isThereAnySourceToNotify(elements, state.notifySources)) {
+    return TAGS_STATUS.NOTIFY_MATCH;
+  } else if (elements.length > 0) {
+    return TAGS_STATUS.FOUND;
+  } else {
+    return TAGS_STATUS.NOT_FOUND;
+  }
 }
 
 function getValidPageElements() {
