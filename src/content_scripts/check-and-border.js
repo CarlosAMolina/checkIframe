@@ -107,68 +107,6 @@ function updateBorderOfElement(element, value) {
   }
   window.hasRun = true;
   initializeContentScript();
-  function checkTags() {
-    elements = detectElements();
-    if (isThereAnySourceToNotify(elements, notifySources)) {
-      return TAGS_STATUS.NOTIFY_MATCH;
-    } else if (elements.length > 0) {
-      return TAGS_STATUS.FOUND;
-    } else {
-      return TAGS_STATUS.NOT_FOUND;
-    }
-  }
-
-  function isThereAnySourceToNotify(elements, notifySources) {
-    const sources = elements.map((element) => element.src.toLowerCase());
-    return notifySources.some((notifySource) =>
-      sources.some((source) => source.includes(notifySource.toLowerCase())),
-    );
-  }
-
-  function showElement() {
-    elements = filterNonBlacklistedElements(elements);
-    if (elements.length === 0) {
-      return "No detections to show";
-    }
-    indexToHighlight =
-      indexToHighlight === undefined ||
-      indexToHighlight >= elements.length
-        ? 0
-        : indexToHighlight + 1;
-    elements[indexToHighlight].node.scrollIntoView({
-      block: "end",
-      behavior: "smooth",
-    });
-    quitBorder(elements[lastHighlightedIndex]);
-    setBorder(elements[indexToHighlight]);
-    lastHighlightedIndex = indexToHighlight;
-    return (
-      "Detection " +
-      (indexToHighlight + 1) +
-      "/" +
-      elements.length +
-      ": " +
-      elements[indexToHighlight].tag +
-      " tag"
-    );
-  }
-
-  // check page required information and send results
-  function checkAndSend() {
-    browser.runtime.sendMessage({
-      tagsExist: checkTags(),
-      referers: refererSources,
-      locationUrl: getLocationUrl(),
-    });
-  }
-
-  function getLocationUrl() {
-    elements = detectElements();
-    elements = filterNonBlacklistedElements(elements);
-    return elements.length > 0 ? elements[0].source : false;
-  }
-
-  //main
 
   const handlers = {
     protocolok: handleProtocolOk,
@@ -186,102 +124,162 @@ function updateBorderOfElement(element, value) {
     const handler = handlers[message.info];
     return handler(message);
   });
-
-  function handleProtocolOk() {
-    checkAndSend();
-    // Required to highlight all when changing to a different tab already open.
-    browser.storage.local
-      .get("idHighlightAllAutomatically")
-      .then((result) => {
-        if (result.idHighlightAllAutomatically !== undefined) {
-          highlightAllAutomatically = result.idHighlightAllAutomatically;
-        }
-      })
-      .catch((error) => {
-        reportErrorContentScript(error);
-      });
-    setBorderOfAllElementsIfRequired(
-      filterNonBlacklistedElements(elements),
-      highlightAllAutomatically,
-    );
-  }
-
-  function handleButtonRecheck() {
-    checkAndSend();
-    logDetectedTags();
-    setBorderOfAllElementsIfRequired(
-      filterNonBlacklistedElements(elements),
-      highlightAllAutomatically,
-    );
-    return Promise.resolve(getSourcesSummary());
-  }
-
-  function handleButtonScroll() {
-    checkTags();
-    const scrollInfo = showElement();
-    logDetectedTags();
-    return Promise.resolve({ response: scrollInfo });
-  }
-
-  function handleButtonClean() {
-    checkTags(); // when the pop-up is closed, this info is lost
-    elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
-    // The buttonClean must drop all borders because all borders may be highlighted.
-    quitBorderOfAllElements(elements);
-    indexToHighlight = undefined;
-    lastHighlightedIndex = undefined;
-  }
-
-  function handleButtonShowSources() {
-    checkTags();
-    logDetectedTags();
-    return Promise.resolve({ response: getSourcesSummary() });
-  }
-
-  function handleButtonShowLogs() {
-    showLogs = message.values;
-    logDetectedTags();
-  }
-  function handleButtonHighlightAllAutomatically() {
-    highlightAllAutomatically = message.values;
-    elements = filterNonBlacklistedElements(elements);
-    if (highlightAllAutomatically) {
-      setBorderOfAllElements(elements);
-    } else {
-      quitBorderOfAllElements(elements);
-    }
-  }
-
-  function handleSourcesUpdate() {
-    const blacklistEntry = message.values.find((item) =>
-      item.type.includes(URL_TYPE_BLACKLIST),
-    );
-    blacklistedSources = blacklistEntry?.values ?? [];
-    const notifyEntry = message.values.find((item) =>
-      item.type.includes(URL_TYPE_NOTIFY),
-    );
-    notifySources = notifyEntry?.values ?? [];
-    checkAndSend();
-    logDetectedTags();
-  }
-
-  function getSourcesSummary() {
-    return {
-      iframe: {
-        sourcesAllNumber: getElementsWithTag("iframe").length,
-        sourcesValid: filterNonBlacklistedSources(getElementsWithTag("iframe")),
-      },
-      frame: {
-        sourcesAllNumber: getElementsWithTag("frame").length,
-        sourcesValid: filterNonBlacklistedSources(getElementsWithTag("frame")),
-      },
-    };
-
-    function getElementsWithTag(tag) {
-      return elements.filter((element) => element.tag == tag);
-    }
-  }
 })();
+
+function checkTags() {
+  elements = detectElements();
+  if (isThereAnySourceToNotify(elements, notifySources)) {
+    return TAGS_STATUS.NOTIFY_MATCH;
+  } else if (elements.length > 0) {
+    return TAGS_STATUS.FOUND;
+  } else {
+    return TAGS_STATUS.NOT_FOUND;
+  }
+}
+
+function isThereAnySourceToNotify(elements, notifySources) {
+  const sources = elements.map((element) => element.src.toLowerCase());
+  return notifySources.some((notifySource) =>
+    sources.some((source) => source.includes(notifySource.toLowerCase())),
+  );
+}
+
+function showElement() {
+  elements = filterNonBlacklistedElements(elements);
+  if (elements.length === 0) {
+    return "No detections to show";
+  }
+  indexToHighlight =
+    indexToHighlight === undefined || indexToHighlight >= elements.length
+      ? 0
+      : indexToHighlight + 1;
+  elements[indexToHighlight].node.scrollIntoView({
+    block: "end",
+    behavior: "smooth",
+  });
+  quitBorder(elements[lastHighlightedIndex]);
+  setBorder(elements[indexToHighlight]);
+  lastHighlightedIndex = indexToHighlight;
+  return (
+    "Detection " +
+    (indexToHighlight + 1) +
+    "/" +
+    elements.length +
+    ": " +
+    elements[indexToHighlight].tag +
+    " tag"
+  );
+}
+
+// check page required information and send results
+function checkAndSend() {
+  browser.runtime.sendMessage({
+    tagsExist: checkTags(),
+    referers: refererSources,
+    locationUrl: getLocationUrl(),
+  });
+}
+
+function getLocationUrl() {
+  elements = detectElements();
+  elements = filterNonBlacklistedElements(elements);
+  return elements.length > 0 ? elements[0].source : false;
+}
+
+function handleProtocolOk() {
+  checkAndSend();
+  // Required to highlight all when changing to a different tab already open.
+  browser.storage.local
+    .get("idHighlightAllAutomatically")
+    .then((result) => {
+      if (result.idHighlightAllAutomatically !== undefined) {
+        highlightAllAutomatically = result.idHighlightAllAutomatically;
+      }
+    })
+    .catch((error) => {
+      reportErrorContentScript(error);
+    });
+  setBorderOfAllElementsIfRequired(
+    filterNonBlacklistedElements(elements),
+    highlightAllAutomatically,
+  );
+}
+
+function handleButtonRecheck() {
+  checkAndSend();
+  logDetectedTags();
+  setBorderOfAllElementsIfRequired(
+    filterNonBlacklistedElements(elements),
+    highlightAllAutomatically,
+  );
+  return Promise.resolve(getSourcesSummary());
+}
+
+function handleButtonScroll() {
+  checkTags();
+  const scrollInfo = showElement();
+  logDetectedTags();
+  return Promise.resolve({ response: scrollInfo });
+}
+
+function handleButtonClean() {
+  checkTags(); // when the pop-up is closed, this info is lost
+  elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
+  // The buttonClean must drop all borders because all borders may be highlighted.
+  quitBorderOfAllElements(elements);
+  indexToHighlight = undefined;
+  lastHighlightedIndex = undefined;
+}
+
+function handleButtonShowSources() {
+  checkTags();
+  logDetectedTags();
+  return Promise.resolve({ response: getSourcesSummary() });
+}
+
+function handleButtonShowLogs() {
+  showLogs = message.values;
+  logDetectedTags();
+}
+function handleButtonHighlightAllAutomatically() {
+  highlightAllAutomatically = message.values;
+  elements = filterNonBlacklistedElements(elements);
+  if (highlightAllAutomatically) {
+    setBorderOfAllElements(elements);
+  } else {
+    quitBorderOfAllElements(elements);
+  }
+}
+
+function handleSourcesUpdate() {
+  const blacklistEntry = message.values.find((item) =>
+    item.type.includes(URL_TYPE_BLACKLIST),
+  );
+  blacklistedSources = blacklistEntry?.values ?? [];
+  const notifyEntry = message.values.find((item) =>
+    item.type.includes(URL_TYPE_NOTIFY),
+  );
+  notifySources = notifyEntry?.values ?? [];
+  checkAndSend();
+  logDetectedTags();
+}
+
+function getSourcesSummary() {
+  return {
+    iframe: {
+      sourcesAllNumber: getElementsWithTag("iframe").length,
+      sourcesValid: filterNonBlacklistedSources(getElementsWithTag("iframe")),
+    },
+    frame: {
+      sourcesAllNumber: getElementsWithTag("frame").length,
+      sourcesValid: filterNonBlacklistedSources(getElementsWithTag("frame")),
+    },
+  };
+
+  function getElementsWithTag(tag) {
+    return elements.filter((element) => element.tag == tag);
+  }
+}
 
 function filterNonBlacklistedSources(elements) {
   return filterNonBlacklistedElements(elements).map(
