@@ -48,18 +48,15 @@ function detectElements() {
   for (const tag of TAGS_TO_SEARCH) {
     const nodes = document.getElementsByTagName(tag);
     for (const node of nodes) {
-      result.push(
-        {
-          tag,
-          node,
-          source: node.src || "",
-        }
-      );
+      result.push({
+        tag,
+        node,
+        source: node.src || "",
+      });
     }
   }
   return result;
 }
-
 
 function logDetectedTags() {
   if (showLogs) {
@@ -175,68 +172,100 @@ initializeContentScript();
   // listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     if (message.info === "protocolok") {
-      checkAndSend();
-      // Required to highlight all when changing to a different tab already open.
-      browser.storage.local
-        .get("idHighlightAllAutomatically")
-        .then((result) => {
-          if (result.idHighlightAllAutomatically !== undefined) {
-            highlightAllAutomatically = result.idHighlightAllAutomatically;
-          }
-        })
-        .catch((error) => {
-          reportErrorContentScript(error);
-        });
-      setBorderOfAllElementsIfRequired(
-        filterNonBlacklistedElements(elements),
-        highlightAllAutomatically,
-      );
+      return handleProcolOk();
     } else if (message.info === "buttonRecheck") {
-      checkAndSend();
-      logDetectedTags();
-      setBorderOfAllElementsIfRequired(
-        filterNonBlacklistedElements(elements),
-        highlightAllAutomatically,
-      );
-      return Promise.resolve(getSourcesSummary());
+      return handleButtonRecheck();
     } else if (message.info === "buttonScroll") {
-      checkTags();
-      const scrollInfo = showElement();
-      logDetectedTags();
-      return Promise.resolve({ response: scrollInfo });
+      return handleButtonScroll();
     } else if (message.info === "buttonClean") {
-      checkTags(); // when the pop-up is closed, this info is lost
-      elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
-      // The buttonClean must drop all borders because all borders may be highlighted.
-      quitBorderOfAllElements(elements);
-      indexToHighlight = undefined;
-      lastHighlightedIndex = undefined;
+      return handleButtonClean();
     } else if (message.info === "buttonShowSources") {
-      checkTags();
-      logDetectedTags();
-      return Promise.resolve({ response: getSourcesSummary() });
+      return handleButtonShowSources();
     } else if (message.info === "buttonShowLogs") {
-      showLogs = message.values;
-      logDetectedTags();
+      return handleButtonShowLogs();
     } else if (message.info === "buttonHighlightAllAutomatically") {
-      highlightAllAutomatically = message.values;
-      elements = filterNonBlacklistedElements(elements);
-      if (highlightAllAutomatically) {
-        setBorderOfAllElements(elements);
-      } else {
-        quitBorderOfAllElements(elements);
-      }
+      return handleButtonHighlightAllAutomatically();
     } else if (message.info === "urls") {
-      blacklistedSources = message.values.filter((values) =>
-        values.type.includes(URL_TYPE_BLACKLIST),
-      )[0].values; //array
-      notifySources = message.values.filter((values) =>
-        values.type.includes(URL_TYPE_NOTIFY),
-      )[0].values; //array
-      checkAndSend();
-      logDetectedTags();
+      return handleSourcesUpdate();
     }
   });
+
+  function handleProcolOk() {
+    checkAndSend();
+    // Required to highlight all when changing to a different tab already open.
+    browser.storage.local
+      .get("idHighlightAllAutomatically")
+      .then((result) => {
+        if (result.idHighlightAllAutomatically !== undefined) {
+          highlightAllAutomatically = result.idHighlightAllAutomatically;
+        }
+      })
+      .catch((error) => {
+        reportErrorContentScript(error);
+      });
+    setBorderOfAllElementsIfRequired(
+      filterNonBlacklistedElements(elements),
+      highlightAllAutomatically,
+    );
+  }
+
+  function handleButtonRecheck() {
+    checkAndSend();
+    logDetectedTags();
+    setBorderOfAllElementsIfRequired(
+      filterNonBlacklistedElements(elements),
+      highlightAllAutomatically,
+    );
+    return Promise.resolve(getSourcesSummary());
+  }
+
+  function handleButtonScroll() {
+    checkTags();
+    const scrollInfo = showElement();
+    logDetectedTags();
+    return Promise.resolve({ response: scrollInfo });
+  }
+
+  function handleButtonClean() {
+    checkTags(); // when the pop-up is closed, this info is lost
+    elements = filterNonBlacklistedElements(elements); // when the pop-up is closed, this info is lost
+    // The buttonClean must drop all borders because all borders may be highlighted.
+    quitBorderOfAllElements(elements);
+    indexToHighlight = undefined;
+    lastHighlightedIndex = undefined;
+  }
+
+  function handleButtonShowSources() {
+    checkTags();
+    logDetectedTags();
+    return Promise.resolve({ response: getSourcesSummary() });
+  }
+
+  function handleButtonShowLogs() {
+    showLogs = message.values;
+    logDetectedTags();
+  }
+
+  function handleButtonHighlightAllAutomatically() {
+    highlightAllAutomatically = message.values;
+    elements = filterNonBlacklistedElements(elements);
+    if (highlightAllAutomatically) {
+      setBorderOfAllElements(elements);
+    } else {
+      quitBorderOfAllElements(elements);
+    }
+  }
+
+  function handleSourcesUpdate() {
+    blacklistedSources = message.values.filter((values) =>
+      values.type.includes(URL_TYPE_BLACKLIST),
+    )[0].values; //array
+    notifySources = message.values.filter((values) =>
+      values.type.includes(URL_TYPE_NOTIFY),
+    )[0].values; //array
+    checkAndSend();
+    logDetectedTags();
+  }
 
   function getSourcesSummary() {
     return {
