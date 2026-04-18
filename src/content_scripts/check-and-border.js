@@ -233,11 +233,11 @@ function handleButtonShowSources() {
   return Promise.resolve({ response: getSourcesSummary() });
 }
 
-function handleButtonShowLogs() {
+function handleButtonShowLogs(message) {
   showLogs = message.values;
   logDetections();
 }
-function handleButtonHighlightAllAutomatically() {
+function handleButtonHighlightAllAutomatically(message) {
   highlightAllAutomatically = message.values;
   elements = filterNonBlacklistedElements(elements);
   if (highlightAllAutomatically) {
@@ -247,7 +247,7 @@ function handleButtonHighlightAllAutomatically() {
   }
 }
 
-function handleSourcesUpdate() {
+function handleSourcesUpdate(message) {
   const blacklistEntry = message.values.find((item) =>
     item.type.includes(URL_TYPE_BLACKLIST),
   );
