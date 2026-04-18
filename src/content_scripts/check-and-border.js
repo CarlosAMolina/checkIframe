@@ -288,13 +288,11 @@ function getSourcesSummary() {
 }
 
 function nonBlacklistedSources(elements) {
-  return nonBlacklistedElements(elements).map(
-    (element) => element.source,
-  );
+  return nonBlacklistedElements(elements).map((element) => element.source);
 }
 
 function getValidElements() {
-    return nonBlacklistedElements(state.elements);
+  return nonBlacklistedElements(state.elements);
 }
 
 function nonBlacklistedElements(elements) {
