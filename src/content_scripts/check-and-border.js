@@ -138,7 +138,10 @@ initializeContentScript();
       indexToHighlight >= elements.length
         ? 0
         : indexToHighlight + 1;
-    elements[indexToHighlight].node.scrollIntoView(false); // false: to set the element in the lower part of the window
+    elements[indexToHighlight].node.scrollIntoView({
+      block: "end",
+      behavior: "smooth",
+    });
     quitBorder(elements[lastHighlightedIndex]);
     setBorder(elements[indexToHighlight]);
     lastHighlightedIndex = indexToHighlight;
@@ -254,11 +257,11 @@ initializeContentScript();
 
   function handleSourcesUpdate() {
     const blacklistEntry = message.values.find((item) =>
-    item.type.includes(URL_TYPE_BLACKLIST)
+      item.type.includes(URL_TYPE_BLACKLIST),
     );
     blacklistedSources = blacklistEntry?.values ?? [];
     const notifyEntry = message.values.find((item) =>
-      item.type.includes(URL_TYPE_NOTIFY)
+      item.type.includes(URL_TYPE_NOTIFY),
     );
     notifySources = notifyEntry?.values ?? [];
     checkAndSend();
