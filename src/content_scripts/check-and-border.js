@@ -70,84 +70,6 @@ function initializeGlobalVariables() {
     .catch(reportErrorContentScript);
 }
 
-function logDetections(elements) {
-  if (state.showLogs) {
-    console.log("checkIframe) check-and-border) tags info: ", elements);
-  }
-}
-
-function reportErrorContentScript(error) {
-  console.error(`Error: ${error}`);
-}
-
-function setBorderOfAllElementsIfRequired(elements, mustSetBorder) {
-  if (mustSetBorder) {
-    setBorderOfAllElements(elements);
-  }
-}
-
-function setBorderOfAllElements(elements) {
-  elements.forEach((element) => setBorder(element));
-}
-
-function quitBorderOfAllElements(elements) {
-  elements.forEach((element) => quitBorder(element));
-}
-
-function quitBorder(element) {
-  updateBorderOfElement(element, "");
-}
-
-function setBorder(element) {
-  updateBorderOfElement(element, " 10px solid red ");
-}
-
-function updateBorderOfElement(element, value) {
-  element.node.style.border = value;
-}
-
-function tagStatus(elements) {
-  if (isThereAnySourceToNotify(elements, state.notifySources)) {
-    return TAGS_STATUS.NOTIFY_MATCH;
-  } else if (elements.length > 0) {
-    return TAGS_STATUS.FOUND;
-  } else {
-    return TAGS_STATUS.NOT_FOUND;
-  }
-}
-
-function isThereAnySourceToNotify(elements, notifySources) {
-  const sources = elements.map((element) => element.source.toLowerCase());
-  return notifySources.some((notifySource) =>
-    sources.some((source) => source.includes(notifySource.toLowerCase())),
-  );
-}
-
-function scroll(element) {
-  element.node.scrollIntoView({
-    block: "end",
-    behavior: "smooth",
-  });
-}
-
-function summaryOfTheHighlightedElement(elements, indexToHighlight) {
-  return (
-    "Detection " +
-    (indexToHighlight + 1) +
-    "/" +
-    elements.length +
-    ": " +
-    elements[indexToHighlight].tag +
-    " tag"
-  );
-}
-
-// TODO understand why this only uses the first element
-function getLocationUrl(elements) {
-  const validElements = nonBlacklistedElements(elements);
-  return validElements.length > 0 ? validElements[0].source : false;
-}
-
 function handleProtocolOk() {
   const elements = detectAndSend();
   // Required to highlight all when changing to a different tab already open.
@@ -240,6 +162,86 @@ function handleSourcesUpdate(message) {
   state.notifySources = notifyEntry?.values ?? [];
   const elements = detectAndSend();
   logDetections(elements);
+}
+
+
+
+function logDetections(elements) {
+  if (state.showLogs) {
+    console.log("checkIframe) check-and-border) tags info: ", elements);
+  }
+}
+
+function reportErrorContentScript(error) {
+  console.error(`Error: ${error}`);
+}
+
+function setBorderOfAllElementsIfRequired(elements, mustSetBorder) {
+  if (mustSetBorder) {
+    setBorderOfAllElements(elements);
+  }
+}
+
+function setBorderOfAllElements(elements) {
+  elements.forEach((element) => setBorder(element));
+}
+
+function quitBorderOfAllElements(elements) {
+  elements.forEach((element) => quitBorder(element));
+}
+
+function quitBorder(element) {
+  updateBorderOfElement(element, "");
+}
+
+function setBorder(element) {
+  updateBorderOfElement(element, " 10px solid red ");
+}
+
+function updateBorderOfElement(element, value) {
+  element.node.style.border = value;
+}
+
+function tagStatus(elements) {
+  if (isThereAnySourceToNotify(elements, state.notifySources)) {
+    return TAGS_STATUS.NOTIFY_MATCH;
+  } else if (elements.length > 0) {
+    return TAGS_STATUS.FOUND;
+  } else {
+    return TAGS_STATUS.NOT_FOUND;
+  }
+}
+
+function isThereAnySourceToNotify(elements, notifySources) {
+  const sources = elements.map((element) => element.source.toLowerCase());
+  return notifySources.some((notifySource) =>
+    sources.some((source) => source.includes(notifySource.toLowerCase())),
+  );
+}
+
+function scroll(element) {
+  element.node.scrollIntoView({
+    block: "end",
+    behavior: "smooth",
+  });
+}
+
+function summaryOfTheHighlightedElement(elements, indexToHighlight) {
+  return (
+    "Detection " +
+    (indexToHighlight + 1) +
+    "/" +
+    elements.length +
+    ": " +
+    elements[indexToHighlight].tag +
+    " tag"
+  );
+}
+
+// TODO understand why this only uses the first element
+function getLocationUrl(elements) {
+  const validElements = nonBlacklistedElements(elements);
+  return validElements.length > 0 ? validElements[0].source : false;
 }
 
 function getSourcesSummary(elements) {
