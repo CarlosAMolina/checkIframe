@@ -187,8 +187,8 @@ function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);
 }
 
-function highlightAllIfRequired(elements, mustSetBorder) {
-  if (mustSetBorder) {
+function highlightAllIfRequired(elements, shouldHighlight) {
+  if (shouldHighlight) {
     highlightAll(elements);
   }
 }
