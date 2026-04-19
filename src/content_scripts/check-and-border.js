@@ -1,3 +1,5 @@
+const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
+const HIGHLIGHT_STYLE_ID = "check-iframe-detector-style";
 const TAGS_STATUS = {
   NOT_FOUND: 0,
   FOUND: 1,
@@ -33,6 +35,7 @@ const state = {
     urls: handleSourcesUpdate,
   };
   initializeGlobalVariables();
+  setHighlightStyle();
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     const handler = handlers[message.info];
@@ -68,6 +71,24 @@ function initializeGlobalVariables() {
       }
     })
     .catch(reportErrorContentScript);
+}
+
+// It is better to add/drop a custom css class, instead of modify an element property,
+// to avoid lost current page css.
+// !important: ensure the highlight is visible even when the page has its own border rules.
+// outline: is even safer than border because it does not take space in layout.
+function setHighlightStyle() {
+  if (document.getElementById(HIGHLIGHT_STYLE_ID)) {
+    return;
+  }
+  const style = document.createElement("style");
+  style.id = HIGHLIGHT_STYLE_ID;
+  style.textContent = `
+    .${HIGHLIGHT_CLASS} {
+      outline: 10px solid red !important;
+    }
+  `;
+  (document.head || document.documentElement).appendChild(style);
 }
 
 function handleProtocolOk() {
@@ -182,15 +203,11 @@ function quitBorderOfAllElements(elements) {
 }
 
 function quitBorder(element) {
-  updateBorderOfElement(element, "");
+  element.node.classList.remove(HIGHLIGHT_CLASS);
 }
 
 function setBorder(element) {
-  updateBorderOfElement(element, " 10px solid red ");
-}
-
-function updateBorderOfElement(element, value) {
-  element.node.style.border = value;
+  element.node.classList.add(HIGHLIGHT_CLASS);
 }
 
 function isThereAnySourceToNotify(elements, notifySources) {
