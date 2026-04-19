@@ -100,7 +100,7 @@ function handleProtocolOk() {
       if (result.idHighlightAllAutomatically !== undefined) {
         state.highlightAllAutomatically = result.idHighlightAllAutomatically;
       }
-      setBorderOfAllElementsIfRequired(
+      highlightAllIfRequired(
         getNonBlacklistedElements(elements),
         state.highlightAllAutomatically,
       );
@@ -110,7 +110,7 @@ function handleProtocolOk() {
 
 function handleButtonRecheck() {
   const { elements, analysis } = analyzePageAndSend();
-  setBorderOfAllElementsIfRequired(
+  highlightAllIfRequired(
     getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
@@ -126,13 +126,13 @@ function handleButtonScroll() {
   if (state.indexToHighlight >= validElements.length) {
     state.indexToHighlight = 0;
   }
-  const indexToQuitHighlight =
+  const indexToUnhighlight =
     state.indexToHighlight === 0
       ? validElements.length - 1
       : state.indexToHighlight - 1;
-  quitBorder(validElements[indexToQuitHighlight]);
+  unhighlight(validElements[indexToUnhighlight]);
   scroll(validElements[state.indexToHighlight]);
-  setBorder(validElements[state.indexToHighlight]);
+  highlight(validElements[state.indexToHighlight]);
   const response = summaryOfTheHighlightedElement(
     validElements,
     state.indexToHighlight,
@@ -147,7 +147,7 @@ function handleButtonScroll() {
 function handleButtonClean() {
   const validElements = getValidPageElements();
   // The buttonClean must drop all borders because all borders may be highlighted.
-  quitBorderOfAllElements(validElements);
+  unhighlightAll(validElements);
   state.indexToHighlight = 0;
 }
 
@@ -166,9 +166,9 @@ function handleButtonHighlightAllAutomatically(message) {
   state.highlightAllAutomatically = message.values;
   const validElements = getValidPageElements();
   if (state.highlightAllAutomatically) {
-    setBorderOfAllElements(validElements);
+    highlightAll(validElements);
   } else {
-    quitBorderOfAllElements(validElements);
+    unhighlightAll(validElements);
   }
 }
 
@@ -188,26 +188,26 @@ function reportErrorContentScript(error) {
   console.error(`Error: ${error}`);
 }
 
-function setBorderOfAllElementsIfRequired(elements, mustSetBorder) {
+function highlightAllIfRequired(elements, mustSetBorder) {
   if (mustSetBorder) {
-    setBorderOfAllElements(elements);
+    highlightAll(elements);
   }
 }
 
-function setBorderOfAllElements(elements) {
-  elements.forEach((element) => setBorder(element));
+function highlightAll(elements) {
+  elements.forEach((element) => highlight(element));
 }
 
-function quitBorderOfAllElements(elements) {
-  elements.forEach((element) => quitBorder(element));
-}
-
-function quitBorder(element) {
-  element.node.classList.remove(HIGHLIGHT_CLASS);
-}
-
-function setBorder(element) {
+function highlight(element) {
   element.node.classList.add(HIGHLIGHT_CLASS);
+}
+
+function unhighlightAll(elements) {
+  elements.forEach((element) => unhighlight(element));
+}
+
+function unhighlight(element) {
+  element.node.classList.remove(HIGHLIGHT_CLASS);
 }
 
 function isThereAnySourceToNotify(elements, notifySources) {
