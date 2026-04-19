@@ -90,21 +90,21 @@ function setHighlightStyle() {
   (document.head || document.documentElement).appendChild(style);
 }
 
-function handleProtocolOk() {
+async function handleProtocolOk() {
   const { elements } = analyzePageAndSend();
-  // Required to highlight all when changing to a different tab already open.
-  browser.storage.local
-    .get("idHighlightAllAutomatically")
-    .then((result) => {
-      if (result.idHighlightAllAutomatically !== undefined) {
-        state.highlightAllAutomatically = result.idHighlightAllAutomatically;
-      }
-      highlightAllIfRequired(
-        getNonBlacklistedElements(elements),
-        state.highlightAllAutomatically,
-      );
-    })
-    .catch(reportErrorContentScript);
+  try {
+    // Required to highlight all when changing to a different tab already open.
+    const { idHighlightAllAutomatically } = await browser.storage.local.get({
+      idHighlightAllAutomatically: false,
+    });
+    state.highlightAllAutomatically = idHighlightAllAutomatically;
+    highlightAllIfRequired(
+      getNonBlacklistedElements(elements),
+      state.highlightAllAutomatically,
+    );
+  } catch (error) {
+    reportErrorContentScript(error);
+  }
 }
 
 function handleButtonRecheck() {
