@@ -43,34 +43,33 @@ const state = {
   });
 })();
 
-function initializeGlobalVariables() {
-  browser.storage.local
-    .get({
-      idShowLogs: false,
-      idHighlightAllAutomatically: false,
-    })
-    .then(({ idShowLogs, idHighlightAllAutomatically }) => {
-      state.showLogs = idShowLogs;
-      state.highlightAllAutomatically = idHighlightAllAutomatically;
-    })
-    .catch((error) => reportErrorContentScript(error));
-  browser.storage.local
-    .get(null)
-    .then((results) => {
-      state.blacklistedSources = [];
-      state.notifySources = [];
-      state.refererSources = [];
-      for (const [key, value] of Object.entries(results)) {
-        if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
-          state.blacklistedSources.push(value);
-        } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
-          state.notifySources.push(value);
-        } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
-          state.refererSources.push(value);
-        }
+async function initializeGlobalVariables() {
+  state.blacklistedSources = [];
+  state.notifySources = [];
+  state.refererSources = [];
+  try {
+    const [{ idShowLogs, idHighlightAllAutomatically }, storageData] =
+      await Promise.all([
+        browser.storage.local.get({
+          idShowLogs: false,
+          idHighlightAllAutomatically: false,
+        }),
+        browser.storage.local.get(null),
+      ]);
+    state.showLogs = idShowLogs;
+    state.highlightAllAutomatically = idHighlightAllAutomatically;
+    for (const [key, value] of Object.entries(storageData)) {
+      if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
+        state.blacklistedSources.push(value);
+      } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
+        state.notifySources.push(value);
+      } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
+        state.refererSources.push(value);
       }
-    })
-    .catch(reportErrorContentScript);
+    }
+  } catch (error) {
+    reportErrorContentScript(error);
+  }
 }
 
 // It is better to add/drop a custom css class, instead of modify an element property,
