@@ -15,7 +15,7 @@ const state = {
   showLogs: false,
 };
 
-(function () {
+(async function () {
   // check and set a global guard variable.
   // if this content script is injected into the same web page again,
   // it will do nothing next time.
@@ -34,7 +34,7 @@ const state = {
     buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
     urls: handleSourcesUpdate,
   };
-  initializeGlobalVariables();
+  await initializeGlobalVariables();
   setHighlightStyle();
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
