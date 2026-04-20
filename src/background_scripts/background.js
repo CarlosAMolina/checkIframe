@@ -1,6 +1,12 @@
+const FrameDetectionState = {
+  NONE: 0,
+  FOUND: 1,
+  SPECIAL_FOUND: 2,
+};
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 let currentTab;
 let currentTabId;
+let frameDetectionState;
 let iconTitle;
 let info2send = "";
 let referers;
@@ -8,7 +14,6 @@ let protocolIsSupported = false;
 let tabUrl;
 let tabUrlElement;
 let tabUrlProtocol;
-let tagsExist;
 let titleIcon;
 
 function updateActiveTab() {
@@ -96,11 +101,11 @@ function changeTitle() {
 function updateTitle() {
   if (!protocolIsSupported) {
     titleIcon = "This web page cannot be analyzed";
-  } else if (tagsExist == 2) {
+  } else if (frameDetectionState == FrameDetectionState.SPECIAL_FOUND) {
     titleIcon = "Detected special (i)frames to notify";
-  } else if (tagsExist == 1) {
+  } else if (frameDetectionState == FrameDetectionState.FOUND) {
     titleIcon = "Web page with (i)frames";
-  } else if (tagsExist == 0) {
+  } else if (frameDetectionState == FrameDetectionState.NONE) {
     titleIcon = "No (i)frames on the web page";
   }
   changeTitle();
@@ -119,7 +124,7 @@ function saveMessageAndUpdateTitle(message) {
   console.log("Message received from content-script:");
   console.log(message);
   referers = message.referers;
-  tagsExist = message.tagsExist;
+  frameDetectionState = message.tagsExist;  // TODO rename message.tagsExist to message.frameDetectionState
   if (protocolIsSupported) {
     var gettingActiveTab = browser.tabs.query({
       active: true,
