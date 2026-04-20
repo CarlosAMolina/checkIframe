@@ -17,7 +17,7 @@ describe("Check module import", () => {
     jest.useRealTimers();
   });
   it("The module should be imported without errors and has expected values", function () {
-    const result = backgroundModule.__get__("supportedProtocols");
+    const result = backgroundModule.__get__("SUPPORTED_PROTOCOLS");
     expect(result).toEqual(["https:", "http:", "file:"]);
   });
   it("updateActiveTab runs without error", function () {

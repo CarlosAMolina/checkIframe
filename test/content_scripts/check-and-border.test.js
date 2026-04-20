@@ -18,8 +18,8 @@ describe("Check module import", () => {
     const function_ = checkAndBorderModule.__get__("initializeGlobalVariables");
     function_();
   });
-  it("detectElements runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("detectElements");
+  it("getPageElements runs without error", function () {
+    const function_ = checkAndBorderModule.__get__("getPageElements");
     function_();
   });
   it("logDetections runs without error", function () {
