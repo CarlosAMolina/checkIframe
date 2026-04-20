@@ -52,8 +52,8 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("getIconTitleAndUpdateIcon");
     function_();
   });
-  it("saveMessageAndUpdateTittle runs without error", function () {
-    const function_ = backgroundModule.__get__("saveMessageAndUpdateTittle");
+  it("saveMessageAndUpdateTitle runs without error", function () {
+    const function_ = backgroundModule.__get__("saveMessageAndUpdateTitle");
     const message = jest.fn();
     function_(message);
   });

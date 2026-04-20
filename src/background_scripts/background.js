@@ -115,7 +115,7 @@ function getIconTitleAndUpdateIcon() {
 }
 
 // get message from content script
-function saveMessageAndUpdateTittle(message) {
+function saveMessageAndUpdateTitle(message) {
   console.log("Message received from content-script:");
   console.log(message);
   referers = message.referers;
@@ -240,5 +240,5 @@ browser.tabs.onActivated.addListener(handleActivatedTab);
 console.log("Extension initialized");
 updateActiveTab();
 
-// assign 'saveMessageAndUpdateTittle()' as a listener to messages from the content script
-browser.runtime.onMessage.addListener(saveMessageAndUpdateTittle);
+// assign 'saveMessageAndUpdateTitle()' as a listener to messages from the content script
+browser.runtime.onMessage.addListener(saveMessageAndUpdateTitle);
