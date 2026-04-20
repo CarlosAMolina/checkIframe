@@ -6,7 +6,7 @@ const FrameDetectionState = {
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 let currentTab;
 let currentTabId;
-let frameDetectionState;
+let frameDetectionState = FrameDetectionState.NONE;
 let iconTitle;
 let info2send = "";
 let referers;
