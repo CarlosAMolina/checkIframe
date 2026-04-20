@@ -48,7 +48,7 @@ function updateActiveTab() {
   }
 
   function checkSupportedProtocol() {
-    if (SUPPORTED_PROTOCOLS.indexOf(tabUrlProtocol) != -1) {
+    if (SUPPORTED_PROTOCOLS.includes(tabUrlProtocol)) {
       protocolIsSupported = true;
     } else {
       protocolIsSupported = false;
