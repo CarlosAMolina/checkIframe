@@ -1,10 +1,10 @@
-const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
-const HIGHLIGHT_STYLE_ID = "check-iframe-detector-style";
 const DetectionState = {
   NONE: 0,
   FOUND: 1,
   SPECIAL_FOUND: 2,
 };
+const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
+const HIGHLIGHT_STYLE_ID = "check-iframe-detector-style";
 // When the pop-up is closed, this info is lost
 const state = {
   blacklistedSources: [],
@@ -241,7 +241,7 @@ function analyzePageAndSend() {
   logDetections(elements);
   const analysis = getPageAnalysis(elements);
   browser.runtime.sendMessage({
-    tagsExist: analysis.tagsExist,
+    detectionState: analysis.detectionState,
     referers: state.refererSources,
     locationUrl: analysis.locationUrl,
   });
@@ -252,7 +252,7 @@ function getPageAnalysis(elements) {
   return {
     locationUrl: getLocationUrl(elements),
     sourcesSummary: getSourcesSummary(elements),
-    tagsExist: tagStatus(elements),
+    detectionState: getDetectionState(elements),
   };
 }
 
@@ -281,7 +281,7 @@ function getSourcesSummary(elements) {
   }
 }
 
-function tagStatus(elements) {
+function getDetectionState(elements) {
   if (isThereAnySourceToNotify(elements, state.notifySources)) {
     return DetectionState.SPECIAL_FOUND;
   } else if (elements.length > 0) {

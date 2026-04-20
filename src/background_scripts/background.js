@@ -124,7 +124,7 @@ function saveMessageAndUpdateTitle(message) {
   console.log("Message received from content-script:");
   console.log(message);
   referers = message.referers;
-  detectionState = message.tagsExist;  // TODO rename message.tagsExist to message.detectionState
+  detectionState = message.detectionState;
   if (protocolIsSupported) {
     var gettingActiveTab = browser.tabs.query({
       active: true,
