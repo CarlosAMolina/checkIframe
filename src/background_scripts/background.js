@@ -1,15 +1,15 @@
-var currentTab;
-var currentTabId;
-var iconTitle;
-var tagsExist;
-var info2send = "";
-var supportedProtocol;
-var supportedProtocols = ["https:", "http:", "file:"];
-var tabUrl;
-var tabUrlElement;
-var tabUrlProtocol;
-var titleIcon;
-var referers;
+const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
+let currentTab;
+let currentTabId;
+let iconTitle;
+let info2send = "";
+let referers;
+let supportedProtocol = false;
+let tabUrl;
+let tabUrlElement;
+let tabUrlProtocol;
+let tagsExist;
+let titleIcon;
 
 function updateActiveTab() {
   var gettingActiveTab = browser.tabs.query({
@@ -25,7 +25,7 @@ function updateActiveTab() {
       currentTabId = currentTab.id;
       getTabInfo();
       checkSupportedProtocol();
-      if (supportedProtocol == 1) {
+      if (supportedProtocol) {
         info2send = "protocolok";
         sendAmessage();
       } else {
@@ -43,10 +43,10 @@ function updateActiveTab() {
   }
 
   function checkSupportedProtocol() {
-    if (supportedProtocols.indexOf(tabUrlProtocol) != -1) {
-      supportedProtocol = 1;
+    if (SUPPORTED_PROTOCOLS.indexOf(tabUrlProtocol) != -1) {
+      supportedProtocol = true;
     } else {
-      supportedProtocol = 0;
+      supportedProtocol = false;
     }
   }
 }
@@ -94,7 +94,7 @@ function changeTitle() {
 
 // update addon title
 function updateTitle() {
-  if (supportedProtocol == 0) {
+  if (!supportedProtocol) {
     titleIcon = "This web page cannot be analyzed";
   } else if (tagsExist == 2) {
     titleIcon = "Detected special (i)frames to notify";
@@ -120,7 +120,7 @@ function saveMessageAndUpdateTittle(message) {
   console.log(message);
   referers = message.referers;
   tagsExist = message.tagsExist;
-  if (supportedProtocol == 1) {
+  if (supportedProtocol) {
     var gettingActiveTab = browser.tabs.query({
       active: true,
       currentWindow: true,
