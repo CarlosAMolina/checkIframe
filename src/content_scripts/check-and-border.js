@@ -1,9 +1,9 @@
 const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
 const HIGHLIGHT_STYLE_ID = "check-iframe-detector-style";
-const TAGS_STATUS = {
-  NOT_FOUND: 0,
+const DetectionState = {
+  NONE: 0,
   FOUND: 1,
-  NOTIFY_MATCH: 2,
+  SPECIAL_FOUND: 2,
 };
 // When the pop-up is closed, this info is lost
 const state = {
@@ -283,11 +283,11 @@ function getSourcesSummary(elements) {
 
 function tagStatus(elements) {
   if (isThereAnySourceToNotify(elements, state.notifySources)) {
-    return TAGS_STATUS.NOTIFY_MATCH;
+    return DetectionState.SPECIAL_FOUND;
   } else if (elements.length > 0) {
-    return TAGS_STATUS.FOUND;
+    return DetectionState.FOUND;
   } else {
-    return TAGS_STATUS.NOT_FOUND;
+    return DetectionState.NONE;
   }
 }
 
