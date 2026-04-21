@@ -49,10 +49,8 @@ function reportExecuteScriptError(error) {
   popupMain();
 }
 
-// when the pop-up loads, inject a content script into the active tab,
-// and add a click handler.
-// if we couldn't inject the script, handle the error.
-browser.tabs
-  .executeScript({ file: "../content_scripts/check-and-border.js" })
-  .then(popupMain)
-  .catch(reportExecuteScriptError);
+try {
+  popupMain();
+} catch (error) {
+  reportExecuteScriptError(error);
+}
