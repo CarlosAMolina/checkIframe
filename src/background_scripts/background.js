@@ -119,29 +119,6 @@ function getIconTitleAndUpdateIcon() {
   iconTitle.then(updateIcon);
 }
 
-// get message from content script
-function saveMessageAndUpdateTitle(message) {
-  console.log("Message received from content-script:");
-  console.log(message);
-  referers = message.referers;
-  detectionState = message.detectionState;
-  if (protocolIsSupported) {
-    var gettingActiveTab = browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    gettingActiveTab.then((tabs) => {
-      tabUrl = tabs[0].url;
-      console.log(`Current tab url: ${tabUrl}`);
-      if (checkRunRedirect() && message.locationUrl !== false) {
-        redirectTo(message.locationUrl);
-      }
-    });
-  }
-  updateTitle(); // used twice in this .js to avoid bad behaviour
-  getIconTitleAndUpdateIcon();
-}
-
 function checkRunRedirect() {
   return referers.some(isStringInUrl);
 
@@ -246,4 +223,18 @@ console.log("Extension initialized");
 updateActiveTab();
 
 // assign 'saveMessageAndUpdateTitle()' as a listener to messages from the content script
-browser.runtime.onMessage.addListener(saveMessageAndUpdateTitle);
+browser.runtime.onMessage.addListener((message, sender) => {
+  console.log("Message received from content-script:");
+  console.log(message);
+  tabUrl = sender.tab?.url;
+  referers = message.referers;
+  detectionState = message.detectionState;
+  if (protocolIsSupported) {
+    console.log(`Current tab url: ${tabUrl}`);
+    if (checkRunRedirect() && message.locationUrl !== false) {
+      redirectTo(message.locationUrl);
+    }
+  }
+  updateTitle(); // used twice in this .js to avoid bad behaviour
+  getIconTitleAndUpdateIcon();
+});

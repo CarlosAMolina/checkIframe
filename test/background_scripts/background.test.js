@@ -52,11 +52,6 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("getIconTitleAndUpdateIcon");
     function_();
   });
-  it("saveMessageAndUpdateTitle runs without error", function () {
-    const function_ = backgroundModule.__get__("saveMessageAndUpdateTitle");
-    const message = jest.fn();
-    function_(message);
-  });
   it("checkRunRedirect runs without error", function () {
     backgroundModule.__set__("referers", []);
     const function_ = backgroundModule.__get__("checkRunRedirect");
