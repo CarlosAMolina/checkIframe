@@ -58,7 +58,7 @@ function checkRunRedirect() {
 
 async function redirectTo(locationUrl) {
   console.log(`Init redirect to ${locationUrl}`);
-  var updating = browser.tabs.update({ url: locationUrl });
+  const updating = browser.tabs.update({ url: locationUrl });
   updating.then(onUpdated, console.error);
   // Avoid infinitive loops that are raised when a referer source
   // is added to the configuration and the source matches
@@ -77,7 +77,7 @@ async function redirectTo(locationUrl) {
 }
 
 function updateActiveTab() {
-  var gettingActiveTab = browser.tabs.query({
+  const gettingActiveTab = browser.tabs.query({
     active: true,
     currentWindow: true,
   });
