@@ -50,7 +50,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 function isProtocolSupported(protocol) {
-  console.log(protocol)
+  console.log(protocol);
   return SUPPORTED_PROTOCOLS.includes(protocol);
 }
 
@@ -65,8 +65,8 @@ function getProtocol(url) {
 }
 
 function checkRunRedirect() {
-  return referers.some(element =>
-    tabUrl.toLowerCase().includes(element.toLowerCase())
+  return referers.some((element) =>
+    tabUrl.toLowerCase().includes(element.toLowerCase()),
   );
 }
 
@@ -176,7 +176,6 @@ function getIconTitleAndUpdateIcon() {
   iconTitle = browser.browserAction.getTitle({ tabId: currentTabId });
   iconTitle.then(updateIcon);
 }
-
 
 // send a message to the content script in the active tab.
 function sendValue() {
