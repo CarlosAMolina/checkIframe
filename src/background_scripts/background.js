@@ -99,10 +99,13 @@ function updateActiveTab() {
   }
 
   function getProtocol(url) {
-    tabUrlElement = document.createElement("a");
-    tabUrlElement.href = url; // add href value, necessary to get the protocol (e.g.: the protocol of the url 'about:debugging' is 'about:'
     console.log(`Tab url: ${url}`);
-    return tabUrlElement.protocol;
+    try {
+      return new URL(url).protocol;
+    } catch (error) {
+      console.error(`Failed to parse URL "${url}":`, error);
+      return "";
+    }
   }
 
   function checkSupportedProtocol() {
