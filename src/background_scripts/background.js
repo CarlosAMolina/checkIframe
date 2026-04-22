@@ -119,33 +119,6 @@ function getIconTitleAndUpdateIcon() {
   iconTitle.then(updateIcon);
 }
 
-function checkRunRedirect() {
-  return referers.some(isStringInUrl);
-
-  function isStringInUrl(element) {
-    return tabUrl.toLowerCase().includes(element.toLowerCase());
-  }
-}
-
-async function redirectTo(locationUrl) {
-  console.log(`Init redirect to ${locationUrl}`);
-  var updating = browser.tabs.update({ url: locationUrl });
-  updating.then(onUpdated, console.error);
-  // Avoid infinitive loops that are raised when a referer source
-  // is added to the configuration and the source matches
-  // the url of a tab.
-  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.removeListener(handleActivatedTab);
-  await sleepMs(3000);
-  browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.addListener(handleActivatedTab);
-
-  function onUpdated() {
-    console.log("Updated tab");
-  }
-}
 
 // send a message to the content script in the active tab.
 function sendValue() {
@@ -238,3 +211,31 @@ browser.runtime.onMessage.addListener((message, sender) => {
   updateTitle(); // used twice in this .js to avoid bad behaviour
   getIconTitleAndUpdateIcon();
 });
+
+function checkRunRedirect() {
+  return referers.some(isStringInUrl);
+
+  function isStringInUrl(element) {
+    return tabUrl.toLowerCase().includes(element.toLowerCase());
+  }
+}
+
+async function redirectTo(locationUrl) {
+  console.log(`Init redirect to ${locationUrl}`);
+  var updating = browser.tabs.update({ url: locationUrl });
+  updating.then(onUpdated, console.error);
+  // Avoid infinitive loops that are raised when a referer source
+  // is added to the configuration and the source matches
+  // the url of a tab.
+  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
+  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
+  browser.tabs.onActivated.removeListener(handleActivatedTab);
+  await sleepMs(3000);
+  browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
+  browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
+  browser.tabs.onActivated.addListener(handleActivatedTab);
+
+  function onUpdated() {
+    console.log("Updated tab");
+  }
+}
