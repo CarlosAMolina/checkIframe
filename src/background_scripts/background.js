@@ -89,26 +89,27 @@ async function redirectTo(locationUrl) {
   }
 }
 
-function updateActiveTab() {
-  const gettingActiveTab = browser.tabs.query({
-    active: true,
-    currentWindow: true,
-  });
-  gettingActiveTab.then(updateTab);
-
-  function updateTab(tabs) {
+async function updateActiveTab() {
+  try {
+    const tabs = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
     const currentTab = tabs[0];
-    if (currentTab) {
-      console.log("Init updateActiveTab");
-      currentTabId = currentTab.id;
-      const protocolIsSupported = isProtocolSupported(currentTab.url);
-      if (protocolIsSupported) {
-        info2send = "protocolok";
-        sendAmessage();
-      } else {
-        updateAddonTitle(protocolIsSupported);
-      }
+    if (!activeTab) {
+      return;
     }
+    console.log("Init updateActiveTab");
+    currentTabId = currentTab.id;
+    const protocolIsSupported = isProtocolSupported(currentTab.url);
+    if (protocolIsSupported) {
+      info2send = "protocolok";
+      sendAmessage();
+    } else {
+      updateAddonTitle(protocolIsSupported);
+    }
+  } catch (error) {
+    reportError(error);
   }
 }
 
