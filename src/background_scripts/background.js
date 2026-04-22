@@ -213,11 +213,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 function checkRunRedirect() {
-  return referers.some(isStringInUrl);
-
-  function isStringInUrl(element) {
-    return tabUrl.toLowerCase().includes(element.toLowerCase());
-  }
+  return referers.some(element =>
+    tabUrl.toLowerCase().includes(element.toLowerCase())
+  );
 }
 
 async function redirectTo(locationUrl) {
