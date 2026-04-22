@@ -117,29 +117,29 @@ async function updateActiveTab() {
 function updateIcon(title) {
   console.log("Init updateIcon");
   if (title == "Web page with (i)frames") {
-    change2iconOn();
+    change2iconOn(currentTabId);
   } else if (title == "Detected special (i)frames to notify") {
-    change2iconOnInList();
+    change2iconOnInList(currentTabId);
   } else {
-    change2iconOff();
+    change2iconOff(currentTabId);
   }
 }
 
-function change2iconOnInList() {
+function change2iconOnInList(currentTabId) {
   browser.browserAction.setIcon({
     path: "icons/i_purple.png",
     tabId: currentTabId,
   });
 }
 
-function change2iconOn() {
+function change2iconOn(currentTabId) {
   browser.browserAction.setIcon({
     path: "icons/i_orange.png",
     tabId: currentTabId,
   });
 }
 
-function change2iconOff() {
+function change2iconOff(currentTabId) {
   browser.browserAction.setIcon({
     path: "icons/i_green.png",
     tabId: currentTabId,
