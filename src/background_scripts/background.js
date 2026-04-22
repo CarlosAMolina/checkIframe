@@ -12,7 +12,6 @@ let info2send = "";
 let referers;
 let tabUrl;
 let tabUrlElement;
-let tabUrlProtocol;
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -38,7 +37,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
   tabUrl = sender.tab?.url;
   referers = message.referers;
   detectionState = message.detectionState;
-  const protocolIsSupported = isProtocolSupported(getProtocol(tabUrl));
+  const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
     console.log(`Current tab url: ${tabUrl}`);
     if (checkRunRedirect() && message.locationUrl !== false) {
@@ -49,7 +48,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
   getIconTitleAndUpdateIcon();
 });
 
-function isProtocolSupported(protocol) {
+function isProtocolSupported(url) {
+  const protocol = getProtocol(url);
   console.log(protocol);
   return SUPPORTED_PROTOCOLS.includes(protocol);
 }
@@ -102,8 +102,7 @@ function updateActiveTab() {
     if (currentTab) {
       console.log("Init updateActiveTab");
       currentTabId = currentTab.id;
-      tabUrlProtocol = getProtocol(currentTab.url);
-      const protocolIsSupported = isProtocolSupported(tabUrlProtocol);
+      const protocolIsSupported = isProtocolSupported(currentTab.url);
       if (protocolIsSupported) {
         info2send = "protocolok";
         sendAmessage();
