@@ -9,7 +9,6 @@ let currentTabId;
 let detectionState = DetectionState.NONE;
 let iconTitle;
 let info2send = "";
-let referers;
 let tabUrlElement;
 
 // listen to click the button
@@ -34,12 +33,14 @@ browser.runtime.onMessage.addListener((message, sender) => {
   console.log("Message received from content-script:");
   console.log(message);
   const tabUrl = sender.tab?.url;
-  referers = message.referers;
   detectionState = message.detectionState;
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
     console.log(`Current tab url: ${tabUrl}`);
-    if (checkRunRedirect(tabUrl) && message.locationUrl !== false) {
+    if (
+      checkRunRedirect(message.referers, tabUrl) &&
+      message.locationUrl !== false
+    ) {
       redirectTo(message.locationUrl);
     }
   }
@@ -63,7 +64,7 @@ function getProtocol(url) {
   }
 }
 
-function checkRunRedirect(url) {
+function checkRunRedirect(referers, url) {
   return referers.some((element) =>
     url.toLowerCase().includes(element.toLowerCase()),
   );
