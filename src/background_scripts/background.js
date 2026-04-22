@@ -10,7 +10,6 @@ let detectionState = DetectionState.NONE;
 let iconTitle;
 let info2send = "";
 let referers;
-let protocolIsSupported = false;
 let tabUrl;
 let tabUrlElement;
 let tabUrlProtocol;
@@ -39,6 +38,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
   tabUrl = sender.tab?.url;
   referers = message.referers;
   detectionState = message.detectionState;
+  const protocolIsSupported = isProtocolSupported(getProtocol(tabUrl));
   if (protocolIsSupported) {
     console.log(`Current tab url: ${tabUrl}`);
     if (checkRunRedirect() && message.locationUrl !== false) {
@@ -48,6 +48,21 @@ browser.runtime.onMessage.addListener((message, sender) => {
   updateAddonTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
   getIconTitleAndUpdateIcon();
 });
+
+function isProtocolSupported(protocol) {
+  console.log(protocol)
+  return SUPPORTED_PROTOCOLS.includes(protocol);
+}
+
+function getProtocol(url) {
+  console.log(`Tab url: ${url}`);
+  try {
+    return new URL(url).protocol;
+  } catch (error) {
+    console.error(`Failed to parse URL "${url}":`, error);
+    return "";
+  }
+}
 
 function checkRunRedirect() {
   return referers.some(element =>
@@ -88,7 +103,7 @@ function updateActiveTab() {
       console.log("Init updateActiveTab");
       currentTabId = currentTab.id;
       tabUrlProtocol = getProtocol(currentTab.url);
-      protocolIsSupported = SUPPORTED_PROTOCOLS.includes(tabUrlProtocol);
+      const protocolIsSupported = isProtocolSupported(tabUrlProtocol);
       if (protocolIsSupported) {
         info2send = "protocolok";
         sendAmessage();
@@ -97,17 +112,6 @@ function updateActiveTab() {
       }
     }
   }
-
-  function getProtocol(url) {
-    console.log(`Tab url: ${url}`);
-    try {
-      return new URL(url).protocol;
-    } catch (error) {
-      console.error(`Failed to parse URL "${url}":`, error);
-      return "";
-    }
-  }
-
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
