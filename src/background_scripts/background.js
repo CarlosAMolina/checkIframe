@@ -46,7 +46,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateTitle(); // used twice in this .js to avoid bad behaviour
+  updateTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
   getIconTitleAndUpdateIcon();
 });
 
@@ -94,7 +94,7 @@ function updateActiveTab() {
         info2send = "protocolok";
         sendAmessage();
       } else {
-        updateTitle();
+        updateTitle(protocolIsSupported);
       }
     }
   }
@@ -158,7 +158,7 @@ function changeTitle() {
 }
 
 // update addon title
-function updateTitle() {
+function updateTitle(protocolIsSupported) {
   if (!protocolIsSupported) {
     titleIcon = "This web page cannot be analyzed";
   } else if (detectionState == DetectionState.SPECIAL_FOUND) {
