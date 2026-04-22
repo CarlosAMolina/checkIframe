@@ -87,7 +87,7 @@ function updateActiveTab() {
     if (currentTab) {
       console.log("Init updateActiveTab");
       currentTabId = currentTab.id;
-      getTabInfo();
+      getTabInfo(currentTab.url);
       checkSupportedProtocol();
       if (protocolIsSupported) {
         info2send = "protocolok";
@@ -98,10 +98,9 @@ function updateActiveTab() {
     }
   }
 
-  function getTabInfo() {
+  function getTabInfo(tabUrl) {
     tabUrlElement = document.createElement("a");
-    tabUrlElement.href = currentTab.url; // add href value, necessary to get the protocol (e.g.: the protocol of the url 'about:debugging' is 'about:'
-    tabUrl = currentTab.url;
+    tabUrlElement.href = tabUrl; // add href value, necessary to get the protocol (e.g.: the protocol of the url 'about:debugging' is 'about:'
     console.log(`Tab url: ${tabUrl}`);
     tabUrlProtocol = tabUrlElement.protocol;
   }
