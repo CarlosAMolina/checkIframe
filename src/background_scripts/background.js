@@ -14,7 +14,6 @@ let protocolIsSupported = false;
 let tabUrl;
 let tabUrlElement;
 let tabUrlProtocol;
-let titleIcon;
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -46,7 +45,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
+  updateAddonTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
   getIconTitleAndUpdateIcon();
 });
 
@@ -94,7 +93,7 @@ function updateActiveTab() {
         info2send = "protocolok";
         sendAmessage();
       } else {
-        updateTitle(protocolIsSupported);
+        updateAddonTitle(protocolIsSupported);
       }
     }
   }
@@ -149,16 +148,8 @@ function change2iconOff() {
   });
 }
 
-function changeTitle() {
-  browser.browserAction.setTitle({
-    // screen readers can see the title
-    title: titleIcon,
-    tabId: currentTabId,
-  });
-}
-
-// update addon title
-function updateTitle(protocolIsSupported) {
+function updateAddonTitle(protocolIsSupported) {
+  let titleIcon;
   if (!protocolIsSupported) {
     titleIcon = "This web page cannot be analyzed";
   } else if (detectionState == DetectionState.SPECIAL_FOUND) {
@@ -168,7 +159,15 @@ function updateTitle(protocolIsSupported) {
   } else if (detectionState == DetectionState.NONE) {
     titleIcon = "No (i)frames on the web page";
   }
-  changeTitle();
+  changeTitle(currentTabId, titleIcon);
+}
+
+function changeTitle(currentTabId, titleIcon) {
+  browser.browserAction.setTitle({
+    // screen readers can see the title
+    title: titleIcon,
+    tabId: currentTabId,
+  });
 }
 
 // get icon's state of the current tab, looking tittle value, in order to actualize the icon correctly (avoid errors when select another tab)

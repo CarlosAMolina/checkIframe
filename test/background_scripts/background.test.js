@@ -44,8 +44,8 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("changeTitle");
     function_();
   });
-  it("updateTitle runs without error", function () {
-    const function_ = backgroundModule.__get__("updateTitle");
+  it("updateAddonTitle runs without error", function () {
+    const function_ = backgroundModule.__get__("updateAddonTitle");
     function_();
   });
   it("getIconTitleAndUpdateIcon runs without error", function () {
