@@ -4,7 +4,6 @@ const DetectionState = {
   SPECIAL_FOUND: 2,
 };
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
-let currentTab;
 let currentTabId;
 let detectionState = DetectionState.NONE;
 let iconTitle;
@@ -98,7 +97,7 @@ function updateActiveTab() {
   gettingActiveTab.then(updateTab);
 
   function updateTab(tabs) {
-    currentTab = tabs[0];
+    const currentTab = tabs[0];
     if (currentTab) {
       console.log("Init updateActiveTab");
       currentTabId = currentTab.id;
