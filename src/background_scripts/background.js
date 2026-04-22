@@ -88,7 +88,7 @@ function updateActiveTab() {
       console.log("Init updateActiveTab");
       currentTabId = currentTab.id;
       tabUrlProtocol = getProtocol(currentTab.url);
-      checkSupportedProtocol();
+      protocolIsSupported = SUPPORTED_PROTOCOLS.includes(tabUrlProtocol);
       if (protocolIsSupported) {
         info2send = "protocolok";
         sendAmessage();
@@ -108,13 +108,6 @@ function updateActiveTab() {
     }
   }
 
-  function checkSupportedProtocol() {
-    if (SUPPORTED_PROTOCOLS.includes(tabUrlProtocol)) {
-      protocolIsSupported = true;
-    } else {
-      protocolIsSupported = false;
-    }
-  }
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
