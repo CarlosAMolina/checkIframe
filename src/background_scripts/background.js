@@ -16,6 +16,66 @@ let tabUrlElement;
 let tabUrlProtocol;
 let titleIcon;
 
+// listen to click the button
+// it is not necessary, use the popup button to recheck
+//browser.browserAction.onClicked.addListener(updateActiveTab);
+
+// listen to window switching
+browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
+
+// listen to tab URL changes
+browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
+
+// listen to tab switching
+browser.tabs.onActivated.addListener(handleActivatedTab);
+
+// update when the extension loads initially
+console.log("Extension initialized");
+updateActiveTab();
+
+// assign 'saveMessageAndUpdateTitle()' as a listener to messages from the content script
+browser.runtime.onMessage.addListener((message, sender) => {
+  console.log("Message received from content-script:");
+  console.log(message);
+  tabUrl = sender.tab?.url;
+  referers = message.referers;
+  detectionState = message.detectionState;
+  if (protocolIsSupported) {
+    console.log(`Current tab url: ${tabUrl}`);
+    if (checkRunRedirect() && message.locationUrl !== false) {
+      redirectTo(message.locationUrl);
+    }
+  }
+  updateTitle(); // used twice in this .js to avoid bad behaviour
+  getIconTitleAndUpdateIcon();
+});
+
+function checkRunRedirect() {
+  return referers.some(element =>
+    tabUrl.toLowerCase().includes(element.toLowerCase())
+  );
+}
+
+async function redirectTo(locationUrl) {
+  console.log(`Init redirect to ${locationUrl}`);
+  var updating = browser.tabs.update({ url: locationUrl });
+  updating.then(onUpdated, console.error);
+  // Avoid infinitive loops that are raised when a referer source
+  // is added to the configuration and the source matches
+  // the url of a tab.
+  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
+  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
+  browser.tabs.onActivated.removeListener(handleActivatedTab);
+  await sleepMs(3000);
+  browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
+  browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
+  browser.tabs.onActivated.addListener(handleActivatedTab);
+
+  function onUpdated() {
+    console.log("Updated tab");
+  }
+}
+
 function updateActiveTab() {
   var gettingActiveTab = browser.tabs.query({
     active: true,
@@ -174,66 +234,4 @@ function handleActivatedTab(activeInfo) {
 // https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
 function sleepMs(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// main
-
-// listen to click the button
-// it is not necessary, use the popup button to recheck
-//browser.browserAction.onClicked.addListener(updateActiveTab);
-
-// listen to window switching
-browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
-
-// listen to tab URL changes
-browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
-
-// listen to tab switching
-browser.tabs.onActivated.addListener(handleActivatedTab);
-
-// update when the extension loads initially
-console.log("Extension initialized");
-updateActiveTab();
-
-// assign 'saveMessageAndUpdateTitle()' as a listener to messages from the content script
-browser.runtime.onMessage.addListener((message, sender) => {
-  console.log("Message received from content-script:");
-  console.log(message);
-  tabUrl = sender.tab?.url;
-  referers = message.referers;
-  detectionState = message.detectionState;
-  if (protocolIsSupported) {
-    console.log(`Current tab url: ${tabUrl}`);
-    if (checkRunRedirect() && message.locationUrl !== false) {
-      redirectTo(message.locationUrl);
-    }
-  }
-  updateTitle(); // used twice in this .js to avoid bad behaviour
-  getIconTitleAndUpdateIcon();
-});
-
-function checkRunRedirect() {
-  return referers.some(element =>
-    tabUrl.toLowerCase().includes(element.toLowerCase())
-  );
-}
-
-async function redirectTo(locationUrl) {
-  console.log(`Init redirect to ${locationUrl}`);
-  var updating = browser.tabs.update({ url: locationUrl });
-  updating.then(onUpdated, console.error);
-  // Avoid infinitive loops that are raised when a referer source
-  // is added to the configuration and the source matches
-  // the url of a tab.
-  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.removeListener(handleActivatedTab);
-  await sleepMs(3000);
-  browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.addListener(handleActivatedTab);
-
-  function onUpdated() {
-    console.log("Updated tab");
-  }
 }
