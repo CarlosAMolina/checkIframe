@@ -7,7 +7,6 @@ const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 let currentTabId;
 let detectionState = DetectionState.NONE;
 let info2send = "";
-let tabUrlElement;
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
