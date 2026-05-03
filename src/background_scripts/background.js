@@ -29,6 +29,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
   console.log("Message received from content-script:");
   console.log(message);
   const tabUrl = sender.tab?.url;
+  // const tabId = sender.tab?.id;  // TODO check if it works and deprecate global currentTabId
   detectionState = message.detectionState;
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
@@ -97,19 +98,20 @@ async function updateActiveTab() {
       return;
     }
     console.log("Init updateActiveTab");
-    currentTabId = currentTab.id;
+    const tabId = currentTab.id;
+    currentTabId = tabId;
     const protocolIsSupported = isProtocolSupported(currentTab.url);
     if (protocolIsSupported) {
       // send a message to the content script in the active tab.
       console.log("Init sendValue to tab id: " + currentTabId);
       browser.tabs
-        .sendMessage(currentTabId, {
+        .sendMessage(tabId, {
           command: "buttonRecheck",
           info: "protocolOk",
         })
         .catch(console.error);
     } else {
-      updateAddonTitle(detectionState, protocolIsSupported, currentTabId);
+      updateAddonTitle(detectionState, protocolIsSupported, tabId);
     }
   } catch (error) {
     console.error(error);
