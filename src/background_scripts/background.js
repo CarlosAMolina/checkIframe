@@ -40,7 +40,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateAddonTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
+  updateAddonTitle(detectionState, protocolIsSupported); // used twice in this .js to avoid bad behaviour
   updateIcon(currentTabId);
 });
 
@@ -109,7 +109,7 @@ async function updateActiveTab() {
         })
         .catch(console.error);
     } else {
-      updateAddonTitle(protocolIsSupported);
+      updateAddonTitle(detectionState, protocolIsSupported);
     }
   } catch (error) {
     console.error(error);
@@ -151,7 +151,7 @@ function change2iconOff(tabId) {
   });
 }
 
-function updateAddonTitle(protocolIsSupported) {
+function updateAddonTitle(detectionState, protocolIsSupported) {
   let titleIcon;
   if (!protocolIsSupported) {
     titleIcon = "This web page cannot be analyzed";
