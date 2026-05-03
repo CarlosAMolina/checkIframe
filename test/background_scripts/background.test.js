@@ -60,10 +60,6 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("sendValue");
     function_();
   });
-  it("reportError runs without error", function () {
-    const function_ = backgroundModule.__get__("reportError");
-    function_();
-  });
   it("sendAmessage runs without error", function () {
     const function_ = backgroundModule.__get__("sendAmessage");
     function_();
