@@ -56,14 +56,6 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("redirectTo");
     function_();
   });
-  it("sendValue runs without error", function () {
-    const function_ = backgroundModule.__get__("sendValue");
-    function_();
-  });
-  it("sendAmessage runs without error", function () {
-    const function_ = backgroundModule.__get__("sendAmessage");
-    function_();
-  });
   it("handleUpdatedWindow runs without error", function () {
     const function_ = backgroundModule.__get__("handleUpdatedWindow");
     function_();

@@ -102,7 +102,14 @@ async function updateActiveTab() {
     const protocolIsSupported = isProtocolSupported(currentTab.url);
     if (protocolIsSupported) {
       info2send = "protocolok";
-      sendAmessage();
+      // send a message to the content script in the active tab.
+      console.log("Init sendValue to tab id: " + currentTabId);
+      browser.tabs
+        .sendMessage(currentTabId, {
+          command: "buttonRecheck",
+          info: info2send,
+        })
+        .catch(console.error);
     } else {
       updateAddonTitle(protocolIsSupported);
     }
@@ -166,23 +173,6 @@ function changeTitle(tabId, titleIcon) {
     title: titleIcon,
     tabId: tabId,
   });
-}
-
-async function sendAmessage() {
-  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-  currentTabId = tabs[0].id;
-  sendValue(info2send, currentTabId);
-}
-
-// send a message to the content script in the active tab.
-function sendValue(info2send, tabId) {
-  console.log("Init sendValue to tab id: " + tabId);
-  browser.tabs
-    .sendMessage(tabId, {
-      command: "buttonRecheck",
-      info: info2send,
-    })
-    .catch(console.error);
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
