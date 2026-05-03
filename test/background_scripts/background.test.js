@@ -52,11 +52,9 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("getIconTitleAndUpdateIcon");
     function_();
   });
-  it("checkRunRedirect runs without error", function () {
-    backgroundModule.__set__("referers", []);
+  it("checkRunRedirect detects url to redirect", function () {
     const function_ = backgroundModule.__get__("checkRunRedirect");
-    function_();
-    backgroundModule.__set__("referers", undefined);
+    expect(function_(["FOO.COM"], "https://foo.com")).toBe(true);
   });
   it("redirectTo runs without error", function () {
     const function_ = backgroundModule.__get__("redirectTo");
