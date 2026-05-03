@@ -116,42 +116,42 @@ async function updateActiveTab() {
 // access promise value:
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browserAction/getTitle
 async function getIconTitleAndUpdateIcon() {
-  const iconTitle = await browser.browserAction.getTitle({
+  const title = await browser.browserAction.getTitle({
     tabId: currentTabId,
   });
-  updateIcon(iconTitle);
+  updateIcon(currentTabId, title);
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
-function updateIcon(title) {
+function updateIcon(tabId, title) {
   console.log("Init updateIcon");
   if (title == "Web page with (i)frames") {
-    change2iconOn(currentTabId);
+    change2iconOn(tabId);
   } else if (title == "Detected special (i)frames to notify") {
-    change2iconOnInList(currentTabId);
+    change2iconOnInList(tabId);
   } else {
-    change2iconOff(currentTabId);
+    change2iconOff(tabId);
   }
 }
 
-function change2iconOnInList(currentTabId) {
+function change2iconOnInList(tabId) {
   browser.browserAction.setIcon({
     path: "icons/i_purple.png",
-    tabId: currentTabId,
+    tabId: tabId,
   });
 }
 
-function change2iconOn(currentTabId) {
+function change2iconOn(tabId) {
   browser.browserAction.setIcon({
     path: "icons/i_orange.png",
-    tabId: currentTabId,
+    tabId: tabId,
   });
 }
 
-function change2iconOff(currentTabId) {
+function change2iconOff(tabId) {
   browser.browserAction.setIcon({
     path: "icons/i_green.png",
-    tabId: currentTabId,
+    tabId: tabId,
   });
 }
 
@@ -169,11 +169,11 @@ function updateAddonTitle(protocolIsSupported) {
   changeTitle(currentTabId, titleIcon);
 }
 
-function changeTitle(currentTabId, titleIcon) {
+function changeTitle(tabId, titleIcon) {
   browser.browserAction.setTitle({
     // screen readers can see the title
     title: titleIcon,
-    tabId: currentTabId,
+    tabId: tabId,
   });
 }
 
