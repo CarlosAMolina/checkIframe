@@ -6,7 +6,6 @@ const DetectionState = {
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 let currentTabId;
 let detectionState = DetectionState.NONE;
-let info2send = "";
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -25,7 +24,7 @@ browser.tabs.onActivated.addListener(handleActivatedTab);
 console.log("Extension initialized");
 updateActiveTab();
 
-// assign 'saveMessageAndUpdateTitle()' as a listener to messages from the content script
+// listen to messages from the content script
 browser.runtime.onMessage.addListener((message, sender) => {
   console.log("Message received from content-script:");
   console.log(message);
@@ -101,13 +100,12 @@ async function updateActiveTab() {
     currentTabId = currentTab.id;
     const protocolIsSupported = isProtocolSupported(currentTab.url);
     if (protocolIsSupported) {
-      info2send = "protocolok";
       // send a message to the content script in the active tab.
       console.log("Init sendValue to tab id: " + currentTabId);
       browser.tabs
         .sendMessage(currentTabId, {
           command: "buttonRecheck",
-          info: info2send,
+          info: "protocolOk",
         })
         .catch(console.error);
     } else {

@@ -25,7 +25,7 @@ const state = {
   }
   window.hasRun = true;
   const handlers = {
-    protocolok: handleProtocolOk,
+    protocolOk: handleProtocolOk,
     buttonRecheck: handleButtonRecheck,
     buttonScroll: handleButtonScroll,
     buttonClean: handleButtonClean,
