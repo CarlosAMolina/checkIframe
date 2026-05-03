@@ -43,7 +43,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     }
   }
   updateAddonTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
-  getIconTitleAndUpdateIcon();
+  getIconTitleAndUpdateIcon(currentTabId);
 });
 
 function isProtocolSupported(url) {
@@ -112,14 +112,10 @@ async function updateActiveTab() {
   }
 }
 
-// get icon's state of the current tab, looking title value, in order to actualize the icon correctly (avoid errors when select another tab)
-// access promise value:
-// https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browserAction/getTitle
-async function getIconTitleAndUpdateIcon() {
-  const title = await browser.browserAction.getTitle({
-    tabId: currentTabId,
-  });
-  updateIcon(currentTabId, title);
+async function getIconTitleAndUpdateIcon(tabId) {
+  // get icon's state of the current tab, looking title value, in order to actualize the icon correctly (avoid errors when select another tab)
+  const title = await browser.browserAction.getTitle({ tabId });
+  updateIcon(tabId, title);
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
