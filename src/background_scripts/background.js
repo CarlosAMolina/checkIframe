@@ -40,7 +40,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateAddonTitle(detectionState, protocolIsSupported); // used twice in this .js to avoid bad behaviour
+  updateAddonTitle(detectionState, protocolIsSupported, currentTabId); // used twice in this .js to avoid bad behaviour
   updateIcon(currentTabId);
 });
 
@@ -109,7 +109,7 @@ async function updateActiveTab() {
         })
         .catch(console.error);
     } else {
-      updateAddonTitle(detectionState, protocolIsSupported);
+      updateAddonTitle(detectionState, protocolIsSupported, currentTabId);
     }
   } catch (error) {
     console.error(error);
@@ -151,7 +151,7 @@ function change2iconOff(tabId) {
   });
 }
 
-function updateAddonTitle(detectionState, protocolIsSupported) {
+function updateAddonTitle(detectionState, protocolIsSupported, tabId) {
   let titleIcon;
   if (!protocolIsSupported) {
     titleIcon = "This web page cannot be analyzed";
@@ -162,7 +162,7 @@ function updateAddonTitle(detectionState, protocolIsSupported) {
   } else if (detectionState == DetectionState.NONE) {
     titleIcon = "No (i)frames on the web page";
   }
-  changeTitle(currentTabId, titleIcon);
+  changeTitle(tabId, titleIcon);
 }
 
 function changeTitle(tabId, titleIcon) {
