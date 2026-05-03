@@ -171,11 +171,11 @@ function changeTitle(tabId, titleIcon) {
 async function sendAmessage() {
   const tabs = await browser.tabs.query({ active: true, currentWindow: true });
   currentTabId = tabs[0].id;
-  sendValue(currentTabId);
+  sendValue(info2send, currentTabId);
 }
 
 // send a message to the content script in the active tab.
-function sendValue(tabId) {
+function sendValue(info2send, tabId) {
   console.log("Init sendValue to tab id: " + tabId);
   browser.tabs
     .sendMessage(tabId, {
