@@ -43,7 +43,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     }
   }
   updateAddonTitle(protocolIsSupported); // used twice in this .js to avoid bad behaviour
-  getIconTitleAndUpdateIcon(currentTabId);
+  updateIcon(currentTabId);
 });
 
 function isProtocolSupported(url) {
@@ -112,15 +112,11 @@ async function updateActiveTab() {
   }
 }
 
-async function getIconTitleAndUpdateIcon(tabId) {
+// update browserAction icon to reflect if the current web page has any of the searched tags
+async function updateIcon(tabId) {
+  console.log("Init updateIcon");
   // get icon's state of the current tab, looking title value, in order to actualize the icon correctly (avoid errors when select another tab)
   const title = await browser.browserAction.getTitle({ tabId });
-  updateIcon(tabId, title);
-}
-
-// update browserAction icon to reflect if the current web page has any of the searched tags
-function updateIcon(tabId, title) {
-  console.log("Init updateIcon");
   if (title == "Web page with (i)frames") {
     change2iconOn(tabId);
   } else if (title == "Detected special (i)frames to notify") {

@@ -26,7 +26,7 @@ describe("Check module import", () => {
   });
   it("updateIcon runs without error", function () {
     const function_ = backgroundModule.__get__("updateIcon");
-    function_();
+    function_(1);
   });
   it("change2iconOnInList runs without error", function () {
     const function_ = backgroundModule.__get__("change2iconOnInList");
@@ -46,10 +46,6 @@ describe("Check module import", () => {
   });
   it("updateAddonTitle runs without error", function () {
     const function_ = backgroundModule.__get__("updateAddonTitle");
-    function_();
-  });
-  it("getIconTitleAndUpdateIcon runs without error", function () {
-    const function_ = backgroundModule.__get__("getIconTitleAndUpdateIcon");
     function_();
   });
   it("checkRunRedirect detects url to redirect", function () {
