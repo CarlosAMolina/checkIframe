@@ -113,6 +113,14 @@ async function updateActiveTab() {
   }
 }
 
+// get icon's state of the current tab, looking title value, in order to actualize the icon correctly (avoid errors when select another tab)
+// access promise value:
+// https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browserAction/getTitle
+function getIconTitleAndUpdateIcon() {
+  iconTitle = browser.browserAction.getTitle({ tabId: currentTabId });
+  iconTitle.then(updateIcon);
+}
+
 // update browserAction icon to reflect if the current web page has any of the searched tags
 function updateIcon(title) {
   console.log("Init updateIcon");
@@ -166,14 +174,6 @@ function changeTitle(currentTabId, titleIcon) {
     title: titleIcon,
     tabId: currentTabId,
   });
-}
-
-// get icon's state of the current tab, looking tittle value, in order to actualize the icon correctly (avoid errors when select another tab)
-// access promise value:
-// https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browserAction/getTitle
-function getIconTitleAndUpdateIcon() {
-  iconTitle = browser.browserAction.getTitle({ tabId: currentTabId });
-  iconTitle.then(updateIcon);
 }
 
 // send a message to the content script in the active tab.
