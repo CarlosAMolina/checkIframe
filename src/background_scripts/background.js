@@ -94,7 +94,7 @@ async function updateActiveTab() {
       currentWindow: true,
     });
     const currentTab = tabs[0];
-    if (!activeTab) {
+    if (!currentTab) {
       return;
     }
     console.log("Init updateActiveTab");
