@@ -4,7 +4,6 @@ const DetectionState = {
   SPECIAL_FOUND: 2,
 };
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
-let currentTabId;
 let detectionState = DetectionState.NONE;
 
 // listen to click the button
@@ -29,7 +28,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
   console.log("Message received from content-script:");
   console.log(message);
   const tabUrl = sender.tab?.url;
-  // const tabId = sender.tab?.id;  // TODO check if it works and deprecate global currentTabId
+  const tabId = sender.tab?.id;
   detectionState = message.detectionState;
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
@@ -41,8 +40,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateAddonTitle(detectionState, protocolIsSupported, currentTabId); // used twice in this .js to avoid bad behaviour
-  updateIcon(currentTabId);
+  updateAddonTitle(detectionState, protocolIsSupported, tabId); // used twice in this .js to avoid bad behaviour TODO check to avoid
+  updateIcon(tabId);
 });
 
 function isProtocolSupported(url) {
@@ -99,11 +98,10 @@ async function updateActiveTab() {
     }
     console.log("Init updateActiveTab");
     const tabId = currentTab.id;
-    currentTabId = tabId;
     const protocolIsSupported = isProtocolSupported(currentTab.url);
     if (protocolIsSupported) {
       // send a message to the content script in the active tab.
-      console.log("Init sendValue to tab id: " + currentTabId);
+      console.log("Init sendValue to tab id: " + tabId);
       browser.tabs
         .sendMessage(tabId, {
           command: "buttonRecheck",
