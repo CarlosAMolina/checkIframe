@@ -4,7 +4,6 @@ const DetectionState = {
   SPECIAL_FOUND: 2,
 };
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
-let detectionState = DetectionState.NONE;
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -29,7 +28,6 @@ browser.runtime.onMessage.addListener((message, sender) => {
   console.log(message);
   const tabUrl = sender.tab?.url;
   const tabId = sender.tab?.id;
-  detectionState = message.detectionState;
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
     console.log(`Current tab url: ${tabUrl}`);
@@ -40,7 +38,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateAddonTitle(detectionState, protocolIsSupported, tabId); // used twice in this .js to avoid bad behaviour TODO check to avoid
+  updateAddonTitle(message.detectionState, protocolIsSupported, tabId); // used twice in this .js to avoid bad behaviour TODO check to avoid
   updateIcon(tabId);
 });
 
@@ -109,7 +107,7 @@ async function updateActiveTab() {
         })
         .catch(console.error);
     } else {
-      updateAddonTitle(detectionState, protocolIsSupported, tabId);
+      updateAddonTitle(DetectionState.NONE, protocolIsSupported, tabId);
     }
   } catch (error) {
     console.error(error);
