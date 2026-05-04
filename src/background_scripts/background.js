@@ -3,7 +3,9 @@ const DetectionState = {
   FOUND: 1,
   SPECIAL_FOUND: 2,
 };
+const NO_BROWSER_WINDOW_ID = -1;
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
+const lastProcessedByTab = new Map();
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -17,6 +19,10 @@ browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
 
 // listen to tab switching
 browser.tabs.onActivated.addListener(handleActivatedTab);
+
+browser.tabs.onRemoved.addListener((tabId) => {
+  lastProcessedByTab.delete(tabId);
+});
 
 // update when the extension loads initially
 console.log("Extension initialized");
@@ -65,22 +71,13 @@ function checkRunRedirect(referers, url) {
 }
 
 async function redirectTo(locationUrl) {
+  // Be careful with redirects to URLs that cause infinite loops. See test-manual/redirection-loop/
   console.log(`Init redirect to ${locationUrl}`);
-  const updating = browser.tabs.update({ url: locationUrl });
-  updating.then(onUpdated, console.error);
-  // Avoid infinitive loops that are raised when a referer source
-  // is added to the configuration and the source matches
-  // the url of a tab.
-  browser.windows.onFocusChanged.removeListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.removeListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.removeListener(handleActivatedTab);
-  await sleepMs(3000);
-  browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
-  browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
-  browser.tabs.onActivated.addListener(handleActivatedTab);
-
-  function onUpdated() {
+  try {
+    await browser.tabs.update({ url: locationUrl });
     console.log("Updated tab");
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -90,28 +87,54 @@ async function updateActiveTab() {
       active: true,
       currentWindow: true,
     });
-    const currentTab = tabs[0];
-    if (!currentTab) {
+    const activeTab = tabs[0];
+    if (!activeTab) {
       return;
     }
     console.log("Init updateActiveTab");
-    const tabId = currentTab.id;
-    const protocolIsSupported = isProtocolSupported(currentTab.url);
-    if (protocolIsSupported) {
-      // send a message to the content script in the active tab.
-      console.log("Init sendValue to tab id: " + tabId);
-      browser.tabs
-        .sendMessage(tabId, {
-          command: "buttonRecheck",
-          info: "protocolOk",
-        })
-        .catch(console.error);
-    } else {
-      updateAddonTitle(DetectionState.NONE, protocolIsSupported, tabId);
-    }
+    await updateTab(activeTab);
   } catch (error) {
     console.error(error);
   }
+}
+
+async function updateTab(tab) {
+  // TODO check if this if can be dropped
+  if (!tab || typeof tab.id !== "number") {
+    return;
+  }
+  const tabId = tab.id;
+  const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation) // TODO check when tab.url is not an str
+  // TODO fix, now the icon is not updated automatically
+  if (wasAlreadyProcessed(tabId, tabUrl)) {
+    // TODO check if this invalidates the recheck button
+    console.log(`Skip duplicated update for tab ${tabId}`);
+    return;
+  }
+  rememberProcessedTab(tabId, tabUrl);
+  console.log(`Init update for tab id: ${tabId}`);
+  const protocolIsSupported = isProtocolSupported(tabUrl);
+  if (protocolIsSupported) {
+    // send a message to the content script in the active tab.
+    console.log("Init sendValue to tab id: " + tabId);
+    browser.tabs
+      .sendMessage(tabId, {
+        command: "buttonRecheck",
+        info: "protocolOk",
+      })
+      .catch(console.error);
+  } else {
+    updateAddonTitle(DetectionState.NONE, protocolIsSupported, tabId);
+    updateIcon(tabId); // TODO maybe tis can be deleted
+  }
+}
+
+function wasAlreadyProcessed(tabId, tabUrl) {
+  return lastProcessedByTab.get(tabId) === tabUrl;
+}
+
+function rememberProcessedTab(tabId, tabUrl) {
+  lastProcessedByTab.set(tabId, tabUrl);
 }
 
 // update browserAction icon to reflect if the current web page has any of the searched tags
@@ -173,34 +196,34 @@ function changeTitle(tabId, titleIcon) {
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
 function handleUpdatedWindow(windowId) {
-  // Avoid updateIcon twice when a tab is clicked or new url loaded in a new window.
-  browser.tabs.onActivated.removeListener(handleActivatedTab);
-  const notBrowserWindowId = -1;
-  if (windowId != notBrowserWindowId) {
-    console.log("Init newly focused window. Window id: " + windowId);
-    updateActiveTab();
+  // Example: a tab is clicked or new url loaded in a new window.
+  if (windowId === NO_BROWSER_WINDOW_ID) {
+    return;
   }
-  browser.tabs.onActivated.addListener(handleActivatedTab);
+  console.log("Init newly focused window. Window id: " + windowId);
+  updateActiveTab();
 }
 
 //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated
-function handleUpdatedTabUrl(tabId, changeInfo) {
-  if (changeInfo.status === "complete") {
-    console.log("Init newly tab url loaded. Tab id: " + tabId);
-    updateActiveTab();
+// TODO check tab is received when this function is called
+function handleUpdatedTabUrl(tabId, changeInfo, tab) {
+  if (changeInfo.status !== "complete") {
+    return;
   }
+  console.log("Init newly tab url loaded. Tab id: " + tabId);
+  updateTab(tab); // TODO check if it should be replaced with updateActiveTab()
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
-function handleActivatedTab(activeInfo) {
-  // Avoid updateIcon twice when a tab is moved to a new window.
-  browser.tabs.onActivated.removeListener(handleActivatedTab);
+async function handleActivatedTab(activeInfo) {
+  // Example: a tab is moved to a new window.
   console.log("Init newly active tab. Tab id: " + activeInfo.tabId);
-  updateActiveTab();
-  browser.tabs.onActivated.addListener(handleActivatedTab);
+  try {
+    const tab = await browser.tabs.get(activeInfo.tabId);
+    await updateTab(tab);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-// https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
-function sleepMs(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// TODO: ask gpt to simplify the whole flow into a cleaner event-driven design

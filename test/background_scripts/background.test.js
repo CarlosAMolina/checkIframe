@@ -68,8 +68,4 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("handleActivatedTab");
     function_(jest.fn());
   });
-  it("sleepMs runs without error", function () {
-    const function_ = backgroundModule.__get__("sleepMs");
-    function_(jest.fn());
-  });
 });
