@@ -105,10 +105,9 @@ async function updateTab(tab) {
   }
   const tabId = tab.id;
   const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation) // TODO check when tab.url is not an str
-  // TODO fix, now the icon is not updated automatically
   if (wasAlreadyProcessed(tabId, tabUrl)) {
-    // TODO check if this invalidates the recheck button
     console.log(`Skip duplicated update for tab ${tabId}`);
+    updateIcon(tabId);
     return;
   }
   rememberProcessedTab(tabId, tabUrl);
@@ -146,6 +145,8 @@ async function updateIcon(tabId) {
     change2iconOn(tabId);
   } else if (title == "Detected special (i)frames to notify") {
     change2iconOnInList(tabId);
+  } else if (title == "This web page cannot be analyzed") {
+    change2iconGray(tabId);
   } else {
     change2iconOff(tabId);
   }
@@ -168,6 +169,13 @@ function change2iconOn(tabId) {
 function change2iconOff(tabId) {
   browser.browserAction.setIcon({
     path: "icons/i_green.png",
+    tabId: tabId,
+  });
+}
+
+function change2iconGray(tabId) {
+  browser.browserAction.setIcon({
+    path: "icons/i_gray.png",
     tabId: tabId,
   });
 }
