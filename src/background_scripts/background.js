@@ -44,8 +44,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  updateAddonTitle(message.detectionState, protocolIsSupported, tabId); // used twice in this .js to avoid bad behaviour TODO check to avoid
-  updateIcon(tabId);
+  const appearanceKey = appearanceKeyFromDetection(message.detectionState, protocolIsSupported);
+  applyTabAppearance(tabId, appearanceKey);
 });
 
 function isProtocolSupported(url) {
@@ -123,8 +123,8 @@ async function updateTab(tab) {
       })
       .catch(console.error);
   } else {
-    updateAddonTitle(DetectionState.NONE, protocolIsSupported, tabId);
-    updateIcon(tabId); // TODO maybe tis can be deleted
+    const appearanceKey = appearanceKeyFromDetection(DetectionState.NONE, protocolIsSupported);
+    applyTabAppearance(tabId, appearanceKey);
   }
 }
 
@@ -136,70 +136,41 @@ function rememberProcessedTab(tabId, tabUrl) {
   lastProcessedByTab.set(tabId, tabUrl);
 }
 
+const TAB_APPEARANCE = {
+  unsupported: { title: "This web page cannot be analyzed", icon: "icons/i_gray.png" },
+  specialFound: { title: "Detected special (i)frames to notify", icon: "icons/i_purple.png" },
+  found: { title: "Web page with (i)frames", icon: "icons/i_orange.png" },
+  none: { title: "No (i)frames on the web page", icon: "icons/i_green.png" },
+};
+
+function appearanceKeyFromDetection(detectionState, protocolIsSupported) {
+  if (!protocolIsSupported) {
+    return "unsupported";
+  }
+  if (detectionState === DetectionState.SPECIAL_FOUND) {
+    return "specialFound";
+  }
+  if (detectionState === DetectionState.FOUND) {
+    return "found";
+  }
+  return "none";
+}
+
+function applyTabAppearance(tabId, appearanceKey) {
+  const appearance = TAB_APPEARANCE[appearanceKey];
+  browser.browserAction.setTitle({ title: appearance.title, tabId: tabId });
+  browser.browserAction.setIcon({ path: appearance.icon, tabId: tabId });
+}
+
 // update browserAction icon to reflect if the current web page has any of the searched tags
 async function updateIcon(tabId) {
   console.log("Init updateIcon");
   // get icon's state of the current tab, looking title value, in order to actualize the icon correctly (avoid errors when select another tab)
   const title = await browser.browserAction.getTitle({ tabId });
-  if (title == "Web page with (i)frames") {
-    change2iconOn(tabId);
-  } else if (title == "Detected special (i)frames to notify") {
-    change2iconOnInList(tabId);
-  } else if (title == "This web page cannot be analyzed") {
-    change2iconGray(tabId);
-  } else {
-    change2iconOff(tabId);
-  }
-}
-
-function change2iconOnInList(tabId) {
-  browser.browserAction.setIcon({
-    path: "icons/i_purple.png",
-    tabId: tabId,
-  });
-}
-
-function change2iconOn(tabId) {
-  browser.browserAction.setIcon({
-    path: "icons/i_orange.png",
-    tabId: tabId,
-  });
-}
-
-function change2iconOff(tabId) {
-  browser.browserAction.setIcon({
-    path: "icons/i_green.png",
-    tabId: tabId,
-  });
-}
-
-function change2iconGray(tabId) {
-  browser.browserAction.setIcon({
-    path: "icons/i_gray.png",
-    tabId: tabId,
-  });
-}
-
-function updateAddonTitle(detectionState, protocolIsSupported, tabId) {
-  let titleIcon;
-  if (!protocolIsSupported) {
-    titleIcon = "This web page cannot be analyzed";
-  } else if (detectionState == DetectionState.SPECIAL_FOUND) {
-    titleIcon = "Detected special (i)frames to notify";
-  } else if (detectionState == DetectionState.FOUND) {
-    titleIcon = "Web page with (i)frames";
-  } else if (detectionState == DetectionState.NONE) {
-    titleIcon = "No (i)frames on the web page";
-  }
-  changeTitle(tabId, titleIcon);
-}
-
-function changeTitle(tabId, titleIcon) {
-  browser.browserAction.setTitle({
-    // screen readers can see the title
-    title: titleIcon,
-    tabId: tabId,
-  });
+  const key = Object.keys(TAB_APPEARANCE).find(
+    (k) => TAB_APPEARANCE[k].title === title,
+  );
+  applyTabAppearance(tabId, key || "none");
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
