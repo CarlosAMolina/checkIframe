@@ -24,29 +24,24 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("updateActiveTab");
     function_();
   });
-  it("updateIcon runs without error", function () {
-    const function_ = backgroundModule.__get__("updateIcon");
+  it("refreshTabIcon runs without error", function () {
+    const function_ = backgroundModule.__get__("refreshTabIcon");
     function_(1);
   });
-  it("change2iconOnInList runs without error", function () {
-    const function_ = backgroundModule.__get__("change2iconOnInList");
-    function_();
+  it("applyTabAppearance runs without error", function () {
+    const function_ = backgroundModule.__get__("applyTabAppearance");
+    function_(1, "none");
   });
-  it("change2iconOn runs without error", function () {
-    const function_ = backgroundModule.__get__("change2iconOn");
-    function_();
+  it("appearanceKeyFromDetection returns correct keys", function () {
+    const function_ = backgroundModule.__get__("appearanceKeyFromDetection");
+    expect(function_(0, true)).toBe("none");
+    expect(function_(1, true)).toBe("found");
+    expect(function_(2, true)).toBe("specialFound");
+    expect(function_(0, false)).toBe("unsupported");
   });
-  it("change2iconOff runs without error", function () {
-    const function_ = backgroundModule.__get__("change2iconOff");
-    function_();
-  });
-  it("changeTitle runs without error", function () {
-    const function_ = backgroundModule.__get__("changeTitle");
-    function_();
-  });
-  it("updateAddonTitle runs without error", function () {
-    const function_ = backgroundModule.__get__("updateAddonTitle");
-    function_();
+  it("saveTabAppearance runs without error", function () {
+    const function_ = backgroundModule.__get__("saveTabAppearance");
+    function_(1, "found");
   });
   it("checkRunRedirect detects url to redirect", function () {
     const function_ = backgroundModule.__get__("checkRunRedirect");
@@ -62,10 +57,10 @@ describe("Check module import", () => {
   });
   it("handleUpdatedTabUrl runs without error", function () {
     const function_ = backgroundModule.__get__("handleUpdatedTabUrl");
-    function_(undefined, jest.fn());
+    function_(1, { status: "complete" }, { id: 1, url: "https://example.com" });
   });
   it("handleActivatedTab runs without error", function () {
     const function_ = backgroundModule.__get__("handleActivatedTab");
-    function_(jest.fn());
+    function_({ tabId: 1 });
   });
 });
