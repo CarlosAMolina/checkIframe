@@ -5,7 +5,7 @@ const DetectionState = {
 };
 const NO_BROWSER_WINDOW_ID = -1;
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
-const lastProcessedByTab = new Map();
+const tabState = new Map();
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -21,7 +21,7 @@ browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
 browser.tabs.onActivated.addListener(handleActivatedTab);
 
 browser.tabs.onRemoved.addListener((tabId) => {
-  lastProcessedByTab.delete(tabId);
+  tabState.delete(tabId);
 });
 
 // update when the extension loads initially
@@ -45,6 +45,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     }
   }
   const appearanceKey = appearanceKeyFromDetection(message.detectionState, protocolIsSupported);
+  saveTabAppearance(tabId, appearanceKey);
   applyTabAppearance(tabId, appearanceKey);
 });
 
@@ -107,7 +108,7 @@ async function updateTab(tab) {
   const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation) // TODO check when tab.url is not an str
   if (wasAlreadyProcessed(tabId, tabUrl)) {
     console.log(`Skip duplicated update for tab ${tabId}`);
-    updateIcon(tabId);
+    refreshTabIcon(tabId);
     return;
   }
   rememberProcessedTab(tabId, tabUrl);
@@ -124,16 +125,30 @@ async function updateTab(tab) {
       .catch(console.error);
   } else {
     const appearanceKey = appearanceKeyFromDetection(DetectionState.NONE, protocolIsSupported);
+    saveTabAppearance(tabId, appearanceKey);
     applyTabAppearance(tabId, appearanceKey);
   }
 }
 
 function wasAlreadyProcessed(tabId, tabUrl) {
-  return lastProcessedByTab.get(tabId) === tabUrl;
+  const state = tabState.get(tabId);
+  return state !== undefined && state.url === tabUrl;
 }
 
 function rememberProcessedTab(tabId, tabUrl) {
-  lastProcessedByTab.set(tabId, tabUrl);
+  const existing = tabState.get(tabId);
+  tabState.set(tabId, { url: tabUrl, appearanceKey: existing?.appearanceKey || "none" });
+}
+
+function saveTabAppearance(tabId, appearanceKey) {
+  const existing = tabState.get(tabId);
+  tabState.set(tabId, { url: existing?.url || "", appearanceKey: appearanceKey });
+}
+
+function refreshTabIcon(tabId) {
+  const state = tabState.get(tabId);
+  const key = state?.appearanceKey || "none";
+  applyTabAppearance(tabId, key);
 }
 
 const TAB_APPEARANCE = {
@@ -160,17 +175,6 @@ function applyTabAppearance(tabId, appearanceKey) {
   const appearance = TAB_APPEARANCE[appearanceKey];
   browser.browserAction.setTitle({ title: appearance.title, tabId: tabId });
   browser.browserAction.setIcon({ path: appearance.icon, tabId: tabId });
-}
-
-// update browserAction icon to reflect if the current web page has any of the searched tags
-async function updateIcon(tabId) {
-  console.log("Init updateIcon");
-  // get icon's state of the current tab, looking title value, in order to actualize the icon correctly (avoid errors when select another tab)
-  const title = await browser.browserAction.getTitle({ tabId });
-  const key = Object.keys(TAB_APPEARANCE).find(
-    (k) => TAB_APPEARANCE[k].title === title,
-  );
-  applyTabAppearance(tabId, key || "none");
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
