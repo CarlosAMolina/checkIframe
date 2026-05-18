@@ -116,7 +116,7 @@ async function updateTab(tab) {
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
     // send a message to the content script in the active tab.
-    console.log("Init sendValue to tab id: " + tabId);
+    console.log(`Init sendValue to tab id: ${tabId}`);
     browser.tabs
       .sendMessage(tabId, {
         command: "buttonRecheck",
@@ -173,8 +173,8 @@ function appearanceKeyFromDetection(detectionState, protocolIsSupported) {
 
 function applyTabAppearance(tabId, appearanceKey) {
   const appearance = TAB_APPEARANCE[appearanceKey];
-  browser.browserAction.setTitle({ title: appearance.title, tabId: tabId });
-  browser.browserAction.setIcon({ path: appearance.icon, tabId: tabId });
+  browser.browserAction.setTitle({ title: appearance.title, tabId });
+  browser.browserAction.setIcon({ path: appearance.icon, tabId });
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
@@ -183,7 +183,7 @@ function handleUpdatedWindow(windowId) {
   if (windowId === NO_BROWSER_WINDOW_ID) {
     return;
   }
-  console.log("Init newly focused window. Window id: " + windowId);
+  console.log(`Init newly focused window. Window id: ${windowId}`);
   updateActiveTab();
 }
 
@@ -193,14 +193,14 @@ function handleUpdatedTabUrl(tabId, changeInfo, tab) {
   if (changeInfo.status !== "complete") {
     return;
   }
-  console.log("Init newly tab url loaded. Tab id: " + tabId);
+  console.log(`Init newly tab url loaded. Tab id: ${tabId}`);
   updateTab(tab); // TODO check if it should be replaced with updateActiveTab()
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
 async function handleActivatedTab(activeInfo) {
   // Example: a tab is moved to a new window.
-  console.log("Init newly active tab. Tab id: " + activeInfo.tabId);
+  console.log(`Init newly active tab. Tab id: ${activeInfo.tabId}`);
   try {
     const tab = await browser.tabs.get(activeInfo.tabId);
     await updateTab(tab);
