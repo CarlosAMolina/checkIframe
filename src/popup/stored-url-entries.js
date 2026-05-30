@@ -5,7 +5,6 @@ import { getUrlTypeActive } from "./url.js";
 import { getUrls } from "./url.js";
 import { infoContainer } from "./ui.js";
 import { Message } from "./model.js";
-import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
 import { setUrls } from "./url.js";
@@ -19,11 +18,6 @@ export function showStoredUrlsType(urlType) {
       }
     });
   }, reportError);
-}
-
-// TODO deprecate removeShownStoredUrls, use removeChildren only.
-export function removeShownStoredUrls(infoContainer) {
-  removeChildren(infoContainer);
 }
 
 // add a tag to the display, and storage

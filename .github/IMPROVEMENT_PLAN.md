@@ -11,30 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.7 `showStoredInfo` builds complex DOM imperatively — buttons.js
-
-**File:** `src/popup/buttons.js` lines 552-595
-
-This function creates DOM elements, attaches event listeners, and manages display/edit states. It is tightly coupled to both the DOM structure and multiple button classes. Should be extracted to a UI module.
-
-### 2.8 OnOffButton subclasses have massive code duplication — buttons.js
-
-**File:** `src/popup/buttons.js`
-
-`ButtonShowLogs`, `ButtonHighlightAllAutomatically`, and `ButtonAlwaysShowSources` all follow the same pattern: check `isOn`, toggle style, query tabs, send message, save to storage. The toggle+persist+notify logic should be in `OnOffButton` base class.
-
-### 2.9 `removeShownStoredUrls` is a trivial wrapper — buttons.js
-
-**File:** `src/popup/buttons.js` lines 709-712
-
-```js
-function removeShownStoredUrls(infoContainer) {
-    removeChildren(infoContainer);
-}
-```
-
-This adds zero value. Already marked with a TODO to deprecate.
-
 ### 2.10 `_setStyle` calls `document.getElementById` 4 times for same element — buttons.js
 
 **File:** `src/popup/buttons.js` lines 235-240

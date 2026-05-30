@@ -32,14 +32,14 @@ describe("saveUrls", () => {
   });
 });
 
-describe("Check removeShownStoredUrls", () => {
+describe("Check removeChildren", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
     mockNotEmptyInfoContainer();
   });
   it("Elements are modified", function () {
     expect(infoContainer.firstChild.textContent).toBe("foo");
-    storedUrlEntriesModule.removeShownStoredUrls(infoContainer);
+    domModule.removeChildren(infoContainer);
     expect(infoContainer.firstChild).toBe(null);
   });
 });

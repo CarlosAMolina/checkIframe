@@ -7,7 +7,7 @@ import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
 import { Message } from "./model.js";
 import { reportError } from "./log.js";
-import { removeShownStoredUrls } from "./stored-url-entries.js";
+import { removeChildren } from "./dom.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";
@@ -442,7 +442,7 @@ class UrlsOfTypeButton extends Button {
   click() {
     this._logButtonName();
     unhide(HTML_ID_SOURCES_CONFIG);
-    removeShownStoredUrls(this._infoContainer);
+    removeChildren(this._infoContainer);
     showStoredUrlsType(this._urlType);
   }
 }
