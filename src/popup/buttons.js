@@ -341,7 +341,7 @@ class ButtonShowLogs extends OnOffButton {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
-        values: 1,
+        values: true,
       })
       .catch(console.error);
   }
@@ -350,7 +350,7 @@ class ButtonShowLogs extends OnOffButton {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
-        values: 0,
+        values: false,
       })
       .catch(console.error);
   }
@@ -396,7 +396,7 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
-        values: 1,
+        values: true,
       })
       .catch(console.error);
   }
@@ -405,7 +405,7 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
-        values: 0,
+        values: false,
       })
       .catch(console.error);
   }

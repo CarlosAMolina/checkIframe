@@ -115,7 +115,7 @@ describe("Check ButtonShowLogs", () => {
         [{ idShowLogs: true }],
       ]);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: 1 }],
+        [1, { info: "buttonShowLogs", values: true }],
       ]);
     });
     it("If buttonShowLogs is active and clicked to deactivate it", async () => {
@@ -135,7 +135,7 @@ describe("Check ButtonShowLogs", () => {
         [{ idShowLogs: false }],
       ]);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: 0 }],
+        [1, { info: "buttonShowLogs", values: false }],
       ]);
     });
   });
@@ -156,7 +156,7 @@ describe("Check ButtonShowLogs", () => {
       expect(browser.storage.local.get.mock.calls.length).toBe(1);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: 0 }],
+        [1, { info: "buttonShowLogs", values: false }],
       ]);
     });
     it("If buttonShowLogs must be on because the button was clicked previously", async () => {
@@ -178,7 +178,7 @@ describe("Check ButtonShowLogs", () => {
       expect(browser.storage.local.get.mock.calls.length).toBe(1);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: 1 }],
+        [1, { info: "buttonShowLogs", values: true }],
       ]);
     });
   });
@@ -211,7 +211,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
         [{ idHighlightAllAutomatically: true }],
       ]);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: 1 }],
+        [1, { info: "buttonHighlightAllAutomatically", values: true }],
       ]);
     });
     it("If buttonHighlightAllAutomatically is active and clicked to deactivate it", async () => {
@@ -233,7 +233,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
         [{ idHighlightAllAutomatically: false }],
       ]);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: 0 }],
+        [1, { info: "buttonHighlightAllAutomatically", values: false }],
       ]);
     });
   });
@@ -256,7 +256,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       expect(browser.storage.local.get.mock.calls.length).toBe(1);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: 0 }],
+        [1, { info: "buttonHighlightAllAutomatically", values: false }],
       ]);
     });
     it("If buttonHighlightAllAutomatically must be on because the button was clicked previously", async () => {
@@ -280,7 +280,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       expect(browser.storage.local.get.mock.calls.length).toBe(1);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
       expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: 1 }],
+        [1, { info: "buttonHighlightAllAutomatically", values: true }],
       ]);
     });
   });

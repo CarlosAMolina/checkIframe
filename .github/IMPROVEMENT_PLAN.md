@@ -2,20 +2,8 @@
 
 ## Priority Order
 
-1. **Red flags** — Wrong/buggy JavaScript code that could cause runtime errors or unexpected behavior
-2. **Code quality** — Bad practices, misleading names, wrong structure/hierarchy, misplaced code
 3. **Architecture** — How files are connected and interact (deferred to a later discussion)
 4. **Tests** — Coverage gaps and test improvements (deferred to a later discussion)
-
----
-
-## Phase 2: Code Quality Improvements
-
-### 2.14 `handleButtonShowLogs` uses truthy values `1`/`0` instead of booleans — buttons.js + check-and-border.js
-
-**Files:** `src/popup/buttons.js` lines 441, 448 and `src/content_scripts/check-and-border.js` line 161
-
-`values: 1` and `values: 0` are sent as message values, then `state.showLogs = message.values` stores the number. This works due to JS truthiness but should use `true`/`false`. Same issue with `buttonHighlightAllAutomatically`.
 
 ---
 
