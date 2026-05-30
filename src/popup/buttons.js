@@ -508,7 +508,7 @@ class ButtonClearAll extends Button {
     const repository = new BrowserRepository(browser);
     return repository.getAll().then((storageItems) => {
       const keysUrl = Object.keys(storageItems).filter((key) =>
-        key.includes(urlType + "_"),
+        key.startsWith(urlType + "_"),
       );
       keysUrl.forEach(() => {
         // TODO? use removeShownStoredUrls

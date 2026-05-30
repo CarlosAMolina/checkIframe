@@ -13,7 +13,7 @@ export function showStoredUrlsType(urlType) {
   new BrowserRepository(browser).getAll().then((storageItems) => {
     const keys = Object.keys(storageItems);
     keys.forEach(function (key) {
-      if (key.includes(urlType + "_")) {
+      if (key.startsWith(urlType + "_")) {
         showStoredInfo(infoContainer, key, storageItems[key]);
       }
     });

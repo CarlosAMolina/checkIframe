@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.12 `key.includes(urlType + "_")` is a fragile filter — url.js, stored-url-entries.js
-
-**Files:** Multiple locations
-
-Using `includes()` instead of `startsWith()` means a key like `notify_blacklist_foo` would match both `notify` and `blacklist` types. Should use `startsWith()` consistently. `getStoredUrls` in `url.js` (line 45) and `showStoredUrlsType` in `buttons.js` (line 702) both use `includes`.
-
 ### 2.13 `summaryOfTheHighlightedElement` uses string concatenation — check-and-border.js
 
 **File:** `src/content_scripts/check-and-border.js` lines 226-236
@@ -28,12 +22,6 @@ Should use template literals for consistency with the rest of the codebase.
 **Files:** `src/popup/buttons.js` lines 441, 448 and `src/content_scripts/check-and-border.js` line 161
 
 `values: 1` and `values: 0` are sent as message values, then `state.showLogs = message.values` stores the number. This works due to JS truthiness but should use `true`/`false`. Same issue with `buttonHighlightAllAutomatically`.
-
-### 2.12 `key.includes(urlType + "_")` is a fragile filter — url.js, buttons.js, check-and-border.js
-
-**Files:** Multiple locations
-
-Using `includes()` instead of `startsWith()` means a key like `notify_blacklist_foo` would match both `notify` and `blacklist` types. Should use `startsWith()` consistently. `getStoredUrls` in `url.js` (line 45) and `showStoredUrlsType` in `buttons.js` (line 702) both use `includes`.
 
 ---
 

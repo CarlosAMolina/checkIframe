@@ -40,7 +40,7 @@ export function getStoredUrls(browser) {
   return new BrowserRepository(browser).getAll().then((storageItems) => {
     URL_TYPES.forEach(function (urlType) {
       const keysUrl = Object.keys(storageItems).filter((key) =>
-        key.includes(urlType + "_"),
+        key.startsWith(urlType + "_"),
       );
       const urls = keysUrl.map((key) => storageItems[key]);
       const urls_of_type = new UrlsOfType(urlType, urls);
