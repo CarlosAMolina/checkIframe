@@ -11,17 +11,6 @@
 
 ## Phase 1: Red Flags (Bugs & Wrong JS Code)
 
-### 1.4 Missing handler validation in content script — check-and-border.js
-
-**File:** `src/content_scripts/check-and-border.js` line 41-43
-
-```js
-const handler = handlers[message.info];
-return handler(message);
-```
-
-If an unknown `message.info` is received, `handler` will be `undefined` and calling it will throw `TypeError: handler is not a function`. Should guard against unknown message types.
-
 ### 1.5 `getLocationUrl` returns `false` instead of `null`/`undefined` — check-and-border.js
 
 **File:** `src/content_scripts/check-and-border.js` line 262

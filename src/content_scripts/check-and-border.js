@@ -39,6 +39,12 @@ const state = {
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
     const handler = handlers[message.info];
+    if (!handler) {
+      // Return instead of throwing to avoid crashing the content script.
+      // Browser extension message listeners must not throw exceptions.
+      console.warn(`Unknown message type: ${message.info}`);
+      return;
+    }
     return handler(message);
   });
 })();
