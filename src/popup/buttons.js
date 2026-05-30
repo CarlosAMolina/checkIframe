@@ -215,6 +215,16 @@ class OnOffButton extends Button {
   async getIsStoredOn() {
     return getIsStoredOn(this._idStorage);
   }
+
+  async _persistState() {
+    await browser.storage.local
+      .set({ [this._idStorage]: this.isOn })
+      .then(() => {
+        console.log(
+          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
+        );
+      }, console.error);
+  }
 }
 
 class ButtonAlwaysShowSources extends OnOffButton {
@@ -241,13 +251,7 @@ class ButtonAlwaysShowSources extends OnOffButton {
         await this._showSources();
       }
     }
-    await browser.storage.local
-      .set({ [this._idStorage]: this.isOn })
-      .then(() => {
-        console.log(
-          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
-        );
-      }, console.error);
+    await this._persistState();
   }
 
   async initializePopup() {
@@ -311,13 +315,7 @@ class ButtonShowLogs extends OnOffButton {
         .then(this.activateLogs.bind(this))
         .catch(console.error);
     }
-    await browser.storage.local
-      .set({ [this._idStorage]: this.isOn })
-      .then(() => {
-        console.log(
-          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
-        );
-      }, console.error);
+    await this._persistState();
   }
 
   async initializePopup() {
@@ -384,13 +382,7 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
         .then(this.activateHighlightAllAutomatically.bind(this))
         .catch(console.error);
     }
-    await browser.storage.local
-      .set({ [this._idStorage]: this.isOn })
-      .then(() => {
-        console.log(
-          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
-        );
-      }, console.error);
+    await this._persistState();
   }
 
   async initializePopup() {
