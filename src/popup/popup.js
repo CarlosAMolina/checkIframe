@@ -34,7 +34,7 @@ function initializePopup() {
   initializePopupButtons();
   getStoredUrls(browser).then((urls) => {
     setUrls(urls);
-    const message = Message("urls", urls);
+    const message = new Message("urls", urls);
     sendMessage(message);
   }, reportError);
 }

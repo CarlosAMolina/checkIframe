@@ -1,10 +1,10 @@
-export function Message(info, values) {
-  const result = { info: info };
-  if (values === undefined) {
-    return result;
+export class Message {
+  constructor(info, values) {
+    this.info = info;
+    if (values !== undefined) {
+      this.values = values;
+    }
   }
-  result.values = values;
-  return result;
 }
 
 export class UrlsOfType {

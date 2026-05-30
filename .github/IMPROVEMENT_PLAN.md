@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.3 `Message` factory function vs class inconsistency — model.js
-
-**File:** `src/popup/model.js`
-
-`Message` is a plain function (factory), while `UrlsOfType` is a class. Both are data models. Should be consistent — either both functions or both classes.
-
 ### 2.4 Duplicated `DetectionState` enum — background.js and check-and-border.js
 
 **Files:** `src/background_scripts/background.js` line 1-5, `src/content_scripts/check-and-border.js` line 1-5

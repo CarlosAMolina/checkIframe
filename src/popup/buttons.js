@@ -88,7 +88,7 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
     }
   }
   setUrls(urls);
-  sendMessage(Message("urls", urls));
+  sendMessage(new Message("urls", urls));
 }
 
 class Button {
@@ -118,7 +118,7 @@ class ButtonRecheck extends Button {
       hide("infoTags");
     }
     return (
-      sendMessage(Message(this._idHtml))
+      sendMessage(new Message(this._idHtml))
         // Manage content-script response.
         .then((response) => {
           if (mustShowSources) {
@@ -140,7 +140,7 @@ class ButtonScroll extends Button {
     this._logButtonName();
     const htmlIdToChange = "infoScroll";
     unhide(htmlIdToChange);
-    return sendMessage(Message(this._idHtml))
+    return sendMessage(new Message(this._idHtml))
       .then((response) => {
         // Manage content-script response.
         if (response.response === undefined) {
@@ -176,7 +176,7 @@ class ButtonShowSources extends Button {
 
   showSources() {
     // TODO? avoid send message when hidding
-    const message = Message(this._idHtml);
+    const message = new Message(this._idHtml);
     return sendMessage(message)
       .then((response) => {
         // Manage content-script response.
@@ -342,7 +342,7 @@ class ButtonClean extends Button {
   click() {
     this._logButtonName();
     hide("infoScroll");
-    sendMessage(Message(this._idHtml));
+    sendMessage(new Message(this._idHtml));
   }
 }
 
@@ -374,7 +374,7 @@ class ButtonDelete extends DynamicButton {
     // the url deleted before showStoredInfo is called.
     urls = deleteUrl(this._storageKey, urls, urlType);
     setUrls(urls);
-    sendMessage(Message("urls", urls));
+    sendMessage(new Message("urls", urls));
   }
 }
 
@@ -641,7 +641,7 @@ class ButtonUpdate extends DynamicButton {
       urls = deleteUrl(this._storageKey, urls, urlType);
       this._repository.delete(this._storageKey).then(() => {
         setUrls(urls);
-        sendMessage(Message("urls", urls));
+        sendMessage(new Message("urls", urls));
         showStoredInfo(infoContainer, this._key2save, this._info2save);
       }, reportError);
     }, reportError);
@@ -759,7 +759,7 @@ class ButtonClearAll extends Button {
       return Promise.all(deletePromises).then(() => {
         return getStoredUrls(browser).then((storedUrls) => {
           setUrls(storedUrls);
-          const message = Message("urls", storedUrls);
+          const message = new Message("urls", storedUrls);
           sendMessage(message);
           return storedUrls;
         }, reportError);

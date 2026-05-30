@@ -77,7 +77,7 @@ describe("ButtonClearAll", () => {
     expect(storedUrls).toStrictEqual(expectedUrls);
     expect(buttonsModule.__get__("getUrls")()).toEqual(expectedUrls);
     expect(buttonsModule.__get__("sendMessage")).toHaveBeenCalledWith(
-      modelModule.Message("urls", expectedUrls),
+      new modelModule.Message("urls", expectedUrls),
     );
     // Assert infoContainer URLs were removed.
     expect(infoContainer.children.length).toBe(0);
@@ -796,14 +796,11 @@ describe("Check module import", () => {
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
           tabId,
-          {
-            info: "urls",
-            values: [
-              new modelModule.UrlsOfType("blacklist", []),
-              new modelModule.UrlsOfType("notify", []),
-              new modelModule.UrlsOfType("referer", []),
-            ],
-          },
+          new modelModule.Message("urls", [
+            new modelModule.UrlsOfType("blacklist", []),
+            new modelModule.UrlsOfType("notify", []),
+            new modelModule.UrlsOfType("referer", []),
+          ]),
         ]);
       });
       it("Test click img inside deleteBtn removes entry", async () => {
@@ -948,16 +945,13 @@ describe("Check module import", () => {
         expect(browser.tabs.query.mock.calls.length).toBe(1);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
           tabId,
-          {
-            info: "urls",
-            values: [
-              new modelModule.UrlsOfType("blacklist", [
-                "https://new-url.com/test-2.html",
-              ]),
-              new modelModule.UrlsOfType("notify", []),
-              new modelModule.UrlsOfType("referer", []),
-            ],
-          },
+          new modelModule.Message("urls", [
+            new modelModule.UrlsOfType("blacklist", [
+              "https://new-url.com/test-2.html",
+            ]),
+            new modelModule.UrlsOfType("notify", []),
+            new modelModule.UrlsOfType("referer", []),
+          ]),
         ]);
         document.getElementById("buttonUrlsBlacklist").checked = false;
         // TODO not tested entry.parentNode.removeChild(entry);
