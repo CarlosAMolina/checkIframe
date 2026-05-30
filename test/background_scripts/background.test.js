@@ -5,7 +5,6 @@ let backgroundModule;
 describe("Check module import", () => {
   beforeAll(() => {
     global.browser = fakeModule.fakeBrowser();
-    global.DetectionState = require("../../src/constants.js").DetectionState;
     fakeModule.runNoHtmlFakeDom();
     const jsPathName = "../../src/background_scripts/background.js";
     backgroundModule = require(jsPathName);

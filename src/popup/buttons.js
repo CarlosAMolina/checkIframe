@@ -18,9 +18,6 @@ import { setUrls } from "./url.js";
 import { showSources } from "./ui.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
-import { URL_TYPE_BLACKLIST } from "./url.js";
-import { URL_TYPE_NOTIFY } from "./url.js";
-import { URL_TYPE_REFERER } from "./url.js";
 
 // TODO move code with export to the top of the file
 

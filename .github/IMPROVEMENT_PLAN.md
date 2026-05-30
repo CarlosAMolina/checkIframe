@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.5 Duplicated URL type constants — constants.js and url.js
-
-**Files:** `src/constants.js` and `src/popup/url.js` lines 4-6
-
-Same values defined twice. The content script uses the globals from `constants.js`, the popup uses the ES module exports from `url.js`. Same risk of divergence.
-
 ### 2.6 `buttons.js` is too large (769 lines) — mixed responsibilities
 
 **File:** `src/popup/buttons.js`
