@@ -19,7 +19,7 @@ function getTagHtml(tag, tagSummary) {
   let result = `<p>Total number of ${tag}s: ${tagSummary.sourcesAllNumber}</p>`;
   if (tagSummary.sourcesAllNumber > 0) {
     result += "\n";
-    if (tagSummary.sourcesValid.length == 0) {
+    if (tagSummary.sourcesValid.length === 0) {
       result += `<p>All ${tag}s are blacklisted</p>`;
     } else {
       result += `<p>Not blacklisted ${tag}s (${tagSummary.sourcesValid.length}):</p>`;

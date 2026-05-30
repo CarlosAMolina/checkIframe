@@ -20,7 +20,7 @@ export function setUrls(values) {
 
 export function addUrl(eKey, urls, urlType) {
   urls.forEach(function (url) {
-    if (url.type == urlType) {
+    if (url.type === urlType) {
       url.values.push(eKey.replace(urlType + "_", ""));
     }
   });
@@ -31,7 +31,7 @@ export function deleteUrl(eKey, urls, urlType) {
   urls.forEach(function (url) {
     if (url.type == urlType) {
       url.values = url.values.filter(
-        (value) => value != eKey.replace(urlType + "_", ""),
+        (value) => value !== eKey.replace(urlType + "_", ""),
       );
     }
   });

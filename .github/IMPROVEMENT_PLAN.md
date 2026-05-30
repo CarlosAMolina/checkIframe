@@ -11,16 +11,6 @@
 
 ## Phase 1: Red Flags (Bugs & Wrong JS Code)
 
-### 1.2 `==` used instead of `===` — url.js, tags-html.js, buttons.js
-
-**Files:**
-- `src/popup/url.js` line 23: `url.type == urlType`
-- `src/popup/url.js` line 34: `value != eKey.replace(...)`
-- `src/popup/tags-html.js` line 22: `tagSummary.sourcesValid.length == 0`
-- `src/popup/buttons.js` line 620: `Object.keys(result).length == 0`
-
-Loose equality (`==`/`!=`) can cause subtle type coercion bugs. All of these should use strict equality (`===`/`!==`).
-
 ### 1.3 Deprecated `event.keyCode` — popup.js
 
 **File:** `src/popup/popup.js` line 26
