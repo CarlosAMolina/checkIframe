@@ -229,15 +229,7 @@ function scroll(element) {
 }
 
 function summaryOfTheHighlightedElement(elements, indexToHighlight) {
-  return (
-    "Detection " +
-    (indexToHighlight + 1) +
-    "/" +
-    elements.length +
-    ": " +
-    elements[indexToHighlight].tag +
-    " tag"
-  );
+  return `Detection ${indexToHighlight + 1}/${elements.length}: ${elements[indexToHighlight].tag} tag`;
 }
 
 // check page required information and send results

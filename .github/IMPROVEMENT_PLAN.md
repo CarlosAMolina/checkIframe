@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.13 `summaryOfTheHighlightedElement` uses string concatenation — check-and-border.js
-
-**File:** `src/content_scripts/check-and-border.js` lines 226-236
-
-Should use template literals for consistency with the rest of the codebase.
-
 ### 2.14 `handleButtonShowLogs` uses truthy values `1`/`0` instead of booleans — buttons.js + check-and-border.js
 
 **Files:** `src/popup/buttons.js` lines 441, 448 and `src/content_scripts/check-and-border.js` line 161
