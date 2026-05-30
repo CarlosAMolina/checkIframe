@@ -45,29 +45,25 @@ const state = {
 })();
 
 async function initializeGlobalVariables() {
-  state.blacklistedSources = [];
-  state.notifySources = [];
-  state.refererSources = [];
   try {
-    const [{ idShowLogs, idHighlightAllAutomatically }, storageData] =
-      await Promise.all([
-        browser.storage.local.get({
-          idShowLogs: false,
-          idHighlightAllAutomatically: false,
-        }),
-        browser.storage.local.get(null),
-      ]);
+    const {
+      idShowLogs,
+      idHighlightAllAutomatically,
+      blacklist,
+      notify,
+      referer,
+    } = await browser.storage.local.get({
+      idShowLogs: false,
+      idHighlightAllAutomatically: false,
+      blacklist: [],
+      notify: [],
+      referer: [],
+    });
     state.showLogs = idShowLogs;
     state.highlightAllAutomatically = idHighlightAllAutomatically;
-    for (const [key, value] of Object.entries(storageData)) {
-      if (key.startsWith(URL_TYPE_BLACKLIST + "_")) {
-        state.blacklistedSources.push(value);
-      } else if (key.startsWith(URL_TYPE_NOTIFY + "_")) {
-        state.notifySources.push(value);
-      } else if (key.startsWith(URL_TYPE_REFERER + "_")) {
-        state.refererSources.push(value);
-      }
-    }
+    state.blacklistedSources = blacklist;
+    state.notifySources = notify;
+    state.refererSources = referer;
   } catch (error) {
     reportErrorContentScript(error);
   }
@@ -173,18 +169,9 @@ function handleButtonHighlightAllAutomatically(message) {
 }
 
 function handleSourcesUpdate(message) {
-  const blacklistEntry = message.values.find((item) =>
-    item.type.includes(URL_TYPE_BLACKLIST),
-  );
-  state.blacklistedSources = blacklistEntry?.values ?? [];
-  const notifyEntry = message.values.find((item) =>
-    item.type.includes(URL_TYPE_NOTIFY),
-  );
-  state.notifySources = notifyEntry?.values ?? [];
-  const refererEntry = message.values.find((item) =>
-    item.type.includes(URL_TYPE_REFERER),
-  );
-  state.refererSources = refererEntry?.values ?? [];
+  state.blacklistedSources = message.values.blacklist ?? [];
+  state.notifySources = message.values.notify ?? [];
+  state.refererSources = message.values.referer ?? [];
   analyzePageAndSend();
 }
 

@@ -26,7 +26,18 @@ export function fakeBrowser(config) {
     },
     storage: {
       local: {
-        get: jest.fn(() => Promise.resolve(storageItems)),
+        get: jest.fn((keysOrDefaults) => {
+          if (keysOrDefaults === null || keysOrDefaults === undefined) {
+            return Promise.resolve(storageItems);
+          }
+          if (Array.isArray(keysOrDefaults)) {
+            return Promise.resolve(storageItems);
+          }
+          if (typeof keysOrDefaults === "object") {
+            return Promise.resolve({ ...keysOrDefaults, ...storageItems });
+          }
+          return Promise.resolve(storageItems);
+        }),
         remove: jest.fn((key) => removeItem(key, storageItems)),
         set: jest.fn(() => Promise.resolve({})),
       },
