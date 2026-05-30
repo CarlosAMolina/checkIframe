@@ -195,12 +195,11 @@ class OnOffButton extends Button {
         checked: false,
       },
     };
-    document.getElementById(this._idHtml).style.background =
-      styles[style].background;
-    document.getElementById(this._idHtml).style.color = styles[style].color;
-    document.getElementById(this._idHtml).textContent =
-      styles[style].textContent;
-    document.getElementById(this._idHtml).checked = styles[style].checked;
+    const element = document.getElementById(this._idHtml);
+    element.style.background = styles[style].background;
+    element.style.color = styles[style].color;
+    element.textContent = styles[style].textContent;
+    element.checked = styles[style].checked;
   }
 
   // TODO? as private. Review other public methods too

@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.10 `_setStyle` calls `document.getElementById` 4 times for same element — buttons.js
-
-**File:** `src/popup/buttons.js` lines 235-240
-
-Should query the element once and reuse the reference.
-
 ### 2.11 `ButtonClearAll.click()` queries tabs unnecessarily — buttons.js
 
 **File:** `src/popup/buttons.js` lines 736-742
