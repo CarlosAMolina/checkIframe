@@ -186,6 +186,10 @@ function handleSourcesUpdate(message) {
     item.type.includes(URL_TYPE_NOTIFY),
   );
   state.notifySources = notifyEntry?.values ?? [];
+  const refererEntry = message.values.find((item) =>
+    item.type.includes(URL_TYPE_REFERER),
+  );
+  state.refererSources = refererEntry?.values ?? [];
   analyzePageAndSend();
 }
 

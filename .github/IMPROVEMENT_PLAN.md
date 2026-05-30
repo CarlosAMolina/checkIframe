@@ -9,12 +9,6 @@
 
 ---
 
-### 1.6 `refererSources` not updated in `handleSourcesUpdate` — check-and-border.js
-
-**File:** `src/content_scripts/check-and-border.js` lines 174-184
-
-`handleSourcesUpdate` updates `blacklistedSources` and `notifySources` from the message, but never updates `refererSources`. The referer entry is silently ignored. This means referer changes from the popup don't take effect until the page is reloaded.
-
 ### 1.7 `deactivateLogs` missing `.catch()` — buttons.js
 
 **File:** `src/popup/buttons.js` line 446-449
