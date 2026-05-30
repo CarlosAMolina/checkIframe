@@ -22,8 +22,7 @@ function popupMain() {
     .getElementById("inputUrl")
     .addEventListener("keyup", async function (event) {
       event.preventDefault();
-      const enterKey = 13;
-      if (event.keyCode === enterKey) {
+      if (event.key === "Enter") {
         let urls = getUrlsInInputBox();
         urls.pop(); // delete last value (\n)
         await saveUrls(infoContainer, urls, urlType);

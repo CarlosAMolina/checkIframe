@@ -11,12 +11,6 @@
 
 ## Phase 1: Red Flags (Bugs & Wrong JS Code)
 
-### 1.3 Deprecated `event.keyCode` — popup.js
-
-**File:** `src/popup/popup.js` line 26
-
-`event.keyCode` is deprecated. Should use `event.key === "Enter"` instead. The constant `enterKey = 13` becomes unnecessary.
-
 ### 1.4 Missing handler validation in content script — check-and-border.js
 
 **File:** `src/content_scripts/check-and-border.js` line 41-43
