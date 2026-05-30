@@ -896,6 +896,7 @@ describe("Check module import", () => {
         expect(browser.tabs.query.mock.calls.length).toBe(0);
         expect(browser.tabs.query.mock.calls.length).toBe(0);
         await Promise.all([updateButton.click()]);
+        await new Promise((resolve) => setTimeout(resolve, 0));
         expect(browser.storage.local.get.mock.calls.length).toBe(1);
         const expectedId2save = "blacklist_https://new-url.com/test-2.html";
         expect(browser.storage.local.get.mock.lastCall).toEqual([
@@ -938,6 +939,45 @@ describe("Check module import", () => {
         ]);
         document.getElementById("buttonUrlsBlacklist").checked = false;
         // TODO not tested entry.parentNode.removeChild(entry);
+      });
+      it("sendMessage and setUrls are called after delete completes, not before", async () => {
+        document.getElementById("buttonUrlsBlacklist").checked = true;
+        const eValue = "https://foo.com/test.html";
+        const eKey = "blacklist_https://foo.com/test.html";
+        let setUrls = buttonsModule.__get__("setUrls");
+        setUrls([
+          new modelModule.UrlsOfType("blacklist", [eValue]),
+          new modelModule.UrlsOfType("notify", []),
+          new modelModule.UrlsOfType("referer", []),
+        ]);
+        let setUrlsCallCount = 0;
+        const originalSetUrls = buttonsModule.__get__("setUrls");
+        buttonsModule.__set__("setUrls", (...args) => {
+          setUrlsCallCount++;
+          originalSetUrls(...args);
+        });
+        let resolveDelete;
+        browser.storage.local.remove = jest.fn(
+          () =>
+            new Promise((resolve) => {
+              resolveDelete = resolve;
+            }),
+        );
+        const infoContainer = mockEmptyInfoContainer();
+        const function_ = buttonsModule.__get__("showStoredInfo");
+        function_(infoContainer, eKey, eValue);
+        infoContainer.getElementsByTagName("input")[0].value =
+          "https://new-url.com/test-2.html";
+        const updateButton = infoContainer.getElementsByTagName("button")[1];
+        await Promise.all([updateButton.click()]);
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
+        expect(setUrlsCallCount).toBe(0);
+        resolveDelete({});
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+        expect(setUrlsCallCount).toBe(1);
+        buttonsModule.__set__("setUrls", originalSetUrls);
+        document.getElementById("buttonUrlsBlacklist").checked = false;
       });
     });
   });

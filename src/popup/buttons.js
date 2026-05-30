@@ -641,11 +641,11 @@ class ButtonUpdate extends DynamicButton {
     this._repository.save(this._key2save, this._info2save).then(() => {
       urls = deleteUrl(this._storageKey, urls, urlType);
       this._repository.delete(this._storageKey).then(() => {
+        setUrls(urls);
+        sendMessage(Message("urls", urls));
         showStoredInfo(infoContainer, this._key2save, this._info2save);
       }, reportError);
     }, reportError);
-    sendMessage(Message("urls", urls));
-    setUrls(urls);
   }
 }
 

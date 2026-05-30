@@ -9,24 +9,6 @@
 
 ---
 
-### 1.9 `ButtonUpdate._updateEntry` race condition — buttons.js
-
-**File:** `src/popup/buttons.js` lines 635-647
-
-```js
-_updateEntry() {
-    urls = addUrl(...);
-    this._repository.save(...).then(() => {
-        urls = deleteUrl(...);
-        this._repository.delete(...).then(() => { ... });
-    });
-    sendMessage(Message("urls", urls));  // Runs BEFORE save completes!
-    setUrls(urls);                       // Runs BEFORE delete completes!
-}
-```
-
-`sendMessage` and `setUrls` execute immediately, before the async `save`/`delete` chain completes. The message is sent with stale data (has the added URL but still has the old URL that hasn't been deleted yet).
-
 ### 1.10 `saveUrls` mutates the `urlsInput` parameter — buttons.js
 
 **File:** `src/popup/buttons.js` line 74

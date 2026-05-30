@@ -44,7 +44,10 @@ browser.runtime.onMessage.addListener((message, sender) => {
       redirectTo(message.locationUrl);
     }
   }
-  const appearanceKey = appearanceKeyFromDetection(message.detectionState, protocolIsSupported);
+  const appearanceKey = appearanceKeyFromDetection(
+    message.detectionState,
+    protocolIsSupported,
+  );
   saveTabAppearance(tabId, appearanceKey);
   applyTabAppearance(tabId, appearanceKey);
 });
@@ -124,7 +127,10 @@ async function updateTab(tab) {
       })
       .catch(console.error);
   } else {
-    const appearanceKey = appearanceKeyFromDetection(DetectionState.NONE, protocolIsSupported);
+    const appearanceKey = appearanceKeyFromDetection(
+      DetectionState.NONE,
+      protocolIsSupported,
+    );
     saveTabAppearance(tabId, appearanceKey);
     applyTabAppearance(tabId, appearanceKey);
   }
@@ -137,12 +143,18 @@ function wasAlreadyProcessed(tabId, tabUrl) {
 
 function rememberProcessedTab(tabId, tabUrl) {
   const existing = tabState.get(tabId);
-  tabState.set(tabId, { url: tabUrl, appearanceKey: existing?.appearanceKey || "none" });
+  tabState.set(tabId, {
+    url: tabUrl,
+    appearanceKey: existing?.appearanceKey || "none",
+  });
 }
 
 function saveTabAppearance(tabId, appearanceKey) {
   const existing = tabState.get(tabId);
-  tabState.set(tabId, { url: existing?.url || "", appearanceKey: appearanceKey });
+  tabState.set(tabId, {
+    url: existing?.url || "",
+    appearanceKey: appearanceKey,
+  });
 }
 
 function refreshTabIcon(tabId) {
@@ -152,8 +164,14 @@ function refreshTabIcon(tabId) {
 }
 
 const TAB_APPEARANCE = {
-  unsupported: { title: "This web page cannot be analyzed", icon: "icons/i_gray.png" },
-  specialFound: { title: "Detected special (i)frames to notify", icon: "icons/i_purple.png" },
+  unsupported: {
+    title: "This web page cannot be analyzed",
+    icon: "icons/i_gray.png",
+  },
+  specialFound: {
+    title: "Detected special (i)frames to notify",
+    icon: "icons/i_purple.png",
+  },
   found: { title: "Web page with (i)frames", icon: "icons/i_orange.png" },
   none: { title: "No (i)frames on the web page", icon: "icons/i_green.png" },
 };

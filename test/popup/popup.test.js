@@ -41,7 +41,10 @@ describe("Enter key handler on inputUrl", () => {
   it("triggers saveUrls when Enter key is pressed", async function () {
     const textarea = document.getElementById("inputUrl");
     textarea.value = "example.com";
-    const event = new window.KeyboardEvent("keyup", { key: "Enter", bubbles: true });
+    const event = new window.KeyboardEvent("keyup", {
+      key: "Enter",
+      bubbles: true,
+    });
     textarea.dispatchEvent(event);
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(global.browser.tabs.sendMessage).toHaveBeenCalled();
@@ -51,7 +54,10 @@ describe("Enter key handler on inputUrl", () => {
     global.browser.tabs.sendMessage.mockClear();
     const textarea = document.getElementById("inputUrl");
     textarea.value = "example.com";
-    const event = new window.KeyboardEvent("keyup", { key: "a", bubbles: true });
+    const event = new window.KeyboardEvent("keyup", {
+      key: "a",
+      bubbles: true,
+    });
     textarea.dispatchEvent(event);
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();

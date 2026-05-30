@@ -46,7 +46,9 @@ export function fakeBrowser(config) {
         removeListener: jest.fn(),
       },
       query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      get: jest.fn(() => Promise.resolve({ id: 1, url: "https://example.com" })),
+      get: jest.fn(() =>
+        Promise.resolve({ id: 1, url: "https://example.com" }),
+      ),
       sendMessage: jest.fn(() => Promise.resolve(sendMessageResponse)),
       update: getNewPromise,
     },
