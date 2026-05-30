@@ -3,6 +3,7 @@ import * as fakeModule from "../fake.js";
 // Modules that depend on document need to be loaded in beforeEach
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let buttonsModule;
+let storedUrlEntriesModule;
 let infoContainer;
 let modelModule;
 let domModule;
@@ -14,19 +15,19 @@ const tabId = 1;
 describe("saveUrls", () => {
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
-    buttonsModule = require("../../src/popup/buttons.js");
+    storedUrlEntriesModule = require("../../src/popup/stored-url-entries.js");
     infoContainer = document.createElement("div");
     global.browser = fakeModule.fakeBrowser();
   });
   it("runs without error", async () => {
     const urls = ["foo", "bar", "foo"]; // includes duplicate
     const urlType = "notify";
-    await buttonsModule.saveUrls(infoContainer, urls, urlType);
+    await storedUrlEntriesModule.saveUrls(infoContainer, urls, urlType);
   });
   it("sends one message after all URLs are saved, not one per URL", async () => {
     const urls = ["foo", "bar", "baz"];
     const urlType = "notify";
-    await buttonsModule.saveUrls(infoContainer, urls, urlType);
+    await storedUrlEntriesModule.saveUrls(infoContainer, urls, urlType);
     expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
   });
 });
@@ -38,8 +39,7 @@ describe("Check removeShownStoredUrls", () => {
   });
   it("Elements are modified", function () {
     expect(infoContainer.firstChild.textContent).toBe("foo");
-    const function_ = buttonsModule.__get__("removeShownStoredUrls");
-    function_(infoContainer);
+    storedUrlEntriesModule.removeShownStoredUrls(infoContainer);
     expect(infoContainer.firstChild).toBe(null);
   });
 });
@@ -47,8 +47,7 @@ describe("Check removeShownStoredUrls", () => {
 describe("Check showStoredUrlsType", () => {
   // TODO describe("Test showStoredUrlsType call", () => {
   it("showStoredUrlsType runs without error", function () {
-    const function_ = buttonsModule.__get__("showStoredUrlsType");
-    function_();
+    storedUrlEntriesModule.showStoredUrlsType();
   });
 });
 
@@ -75,7 +74,7 @@ describe("ButtonClearAll", () => {
       new modelModule.UrlsOfType("referer", []),
     ];
     expect(storedUrls).toStrictEqual(expectedUrls);
-    expect(buttonsModule.__get__("getUrls")()).toEqual(expectedUrls);
+    expect(storedUrlEntriesModule.__get__("getUrls")()).toEqual(expectedUrls);
     expect(buttonsModule.__get__("sendMessage")).toHaveBeenCalledWith(
       new modelModule.Message("urls", expectedUrls),
     );
@@ -729,7 +728,7 @@ describe("Check module import", () => {
       it("If no values to manage", function () {
         const infoContainer = fakeInfoContainer(0);
         expect(infoContainer.innerHTML).toBe("");
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer);
         expect(infoContainer.innerHTML).toBe(
           '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
@@ -738,7 +737,7 @@ describe("Check module import", () => {
       it("If values to manage", function () {
         const infoContainer = fakeInfoContainer(0);
         expect(infoContainer.innerHTML).toBe("");
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         const eKey = "blacklist_https://foo.com/test.html";
         const eValue = "https://foo.com/test.html";
         function_(infoContainer, eKey, eValue);
@@ -764,7 +763,7 @@ describe("Check module import", () => {
         const eKey = "blacklist_https://foo.com/test.html";
         // TODO in some part of the code the urls.blacklist must have de eKey or eValue value. Add this behaviour to the tests.
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         const infoContainer = mockNotEmptyInfoContainer();
         function_(infoContainer, eKey, eValue);
         const buttons = infoContainer.getElementsByTagName("button");
@@ -774,7 +773,7 @@ describe("Check module import", () => {
         expect(buttons[2].title).toBe("Cancel update");
         const deleteButton = buttons[0];
         expect(browser.storage.local.remove.mock.calls.length).toBe(0);
-        let getUrls = buttonsModule.__get__("getUrls");
+        let getUrls = storedUrlEntriesModule.__get__("getUrls");
         expect(getUrls()).toEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -787,7 +786,7 @@ describe("Check module import", () => {
         expect(buttonsAfterClick.length).toBe(0);
         expect(browser.storage.local.remove.mock.calls.length).toBe(1);
         expect(browser.storage.local.remove.mock.lastCall).toEqual([eKey]);
-        getUrls = buttonsModule.__get__("getUrls");
+        getUrls = storedUrlEntriesModule.__get__("getUrls");
         expect(getUrls()).toEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -806,7 +805,7 @@ describe("Check module import", () => {
       it("Test click img inside deleteBtn removes entry", async () => {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         const infoContainer = mockNotEmptyInfoContainer();
         function_(infoContainer, eKey, eValue);
         const img = infoContainer.querySelector('button[title="Delete"] img');
@@ -819,7 +818,7 @@ describe("Check module import", () => {
         const eKey = "blacklist_https://foo.com/test.html";
         const infoContainer = mockEmptyInfoContainer();
         expect(infoContainer.getElementsByTagName("p").length).toBe(0);
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer, eKey, eValue);
         const pElements = infoContainer.getElementsByTagName("p");
         const entryValue = pElements[0];
@@ -842,7 +841,7 @@ describe("Check module import", () => {
         const eKey = "blacklist_https://foo.com/test.html";
         const infoContainer = mockEmptyInfoContainer();
         expect(infoContainer.getElementsByTagName("button").length).toBe(0);
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer, eKey, eValue);
         const cancelButton = infoContainer.getElementsByTagName("button")[2];
         expect(cancelButton.title).toBe("Cancel update");
@@ -869,7 +868,7 @@ describe("Check module import", () => {
         document.getElementById("buttonUrlsBlacklist").checked = true;
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";
-        let getUrls = buttonsModule.__get__("getUrls");
+        let getUrls = storedUrlEntriesModule.__get__("getUrls");
         expect(getUrls()).toStrictEqual([
           new modelModule.UrlsOfType("blacklist", []),
           new modelModule.UrlsOfType("notify", []),
@@ -889,7 +888,7 @@ describe("Check module import", () => {
           new modelModule.UrlsOfType("referer", []),
         ]);
         const infoContainer = mockEmptyInfoContainer();
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer, eKey, eValue);
         expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
           "https://foo.com/test.html",
@@ -967,8 +966,8 @@ describe("Check module import", () => {
           new modelModule.UrlsOfType("referer", []),
         ]);
         let setUrlsCallCount = 0;
-        const originalSetUrls = buttonsModule.__get__("setUrls");
-        buttonsModule.__set__("setUrls", (...args) => {
+        const originalSetUrls = storedUrlEntriesModule.__get__("setUrls");
+        storedUrlEntriesModule.__set__("setUrls", (...args) => {
           setUrlsCallCount++;
           originalSetUrls(...args);
         });
@@ -980,7 +979,7 @@ describe("Check module import", () => {
             }),
         );
         const infoContainer = mockEmptyInfoContainer();
-        const function_ = buttonsModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer, eKey, eValue);
         infoContainer.getElementsByTagName("input")[0].value =
           "https://new-url.com/test-2.html";
@@ -992,7 +991,7 @@ describe("Check module import", () => {
         await new Promise((resolve) => setTimeout(resolve, 0));
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         expect(setUrlsCallCount).toBe(1);
-        buttonsModule.__set__("setUrls", originalSetUrls);
+        storedUrlEntriesModule.__set__("setUrls", originalSetUrls);
         document.getElementById("buttonUrlsBlacklist").checked = false;
       });
     });
@@ -1008,6 +1007,7 @@ function mockEmptyInfoContainer() {
 function initializeMocksAndVariables() {
   initializeDomAndBrowser();
   buttonsModule = require("../../src/popup/buttons.js");
+  storedUrlEntriesModule = require("../../src/popup/stored-url-entries.js");
   domModule = require("../../src/popup/dom.js");
   htmlBuilderModule = require("../builder.js");
   modelModule = require("../../src/popup/model.js");

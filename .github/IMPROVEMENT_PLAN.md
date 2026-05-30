@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.6 `buttons.js` is too large (769 lines) — mixed responsibilities
-
-**File:** `src/popup/buttons.js`
-
-This file contains 14+ button classes, the `saveUrls` function, `showStoredInfo` DOM builder, `showStoredUrlsType`, `getIsStoredOn`, and `removeShownStoredUrls`. Many of these are not button logic. Should be split.
-
 ### 2.7 `showStoredInfo` builds complex DOM imperatively — buttons.js
 
 **File:** `src/popup/buttons.js` lines 552-595

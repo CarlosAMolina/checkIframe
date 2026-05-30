@@ -5,7 +5,7 @@ import { getUrlsInInputBox } from "./ui.js";
 import { infoContainer } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
 import { reportError } from "./log.js";
-import { saveUrls } from "./buttons.js";
+import { saveUrls } from "./stored-url-entries.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { setUrls } from "./url.js";
