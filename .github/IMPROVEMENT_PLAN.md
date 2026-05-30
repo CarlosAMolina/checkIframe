@@ -9,12 +9,6 @@
 
 ---
 
-### 1.10 `saveUrls` mutates the `urlsInput` parameter — buttons.js
-
-**File:** `src/popup/buttons.js` line 74
-
-`urlsInput = [...new Set(urlsInput)]` reassigns the parameter. While not a mutation of the original array (it creates a new one), the parameter name `urlsInput` suggests it's input-only. More importantly, `saveUrls` sends a message inside the loop for each URL (line 85), which means the content script gets multiple intermediate states. This could be batched.
-
 ### 1.11 `showSources` receives `tagSummary` with wrong shape from `ButtonRecheck` — buttons.js vs content script
 
 **File:** `src/popup/buttons.js` line 124

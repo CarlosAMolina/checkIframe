@@ -23,6 +23,12 @@ describe("saveUrls", () => {
     const urlType = "notify";
     await buttonsModule.saveUrls(infoContainer, urls, urlType);
   });
+  it("sends one message after all URLs are saved, not one per URL", async () => {
+    const urls = ["foo", "bar", "baz"];
+    const urlType = "notify";
+    await buttonsModule.saveUrls(infoContainer, urls, urlType);
+    expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
+  });
 });
 
 describe("Check removeShownStoredUrls", () => {

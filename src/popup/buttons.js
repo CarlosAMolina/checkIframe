@@ -71,18 +71,15 @@ export function initializePopupButtons() {
 
 // add a tag to the display, and storage
 export async function saveUrls(infoContainer, urlsInput, urlType) {
-  urlsInput = [...new Set(urlsInput)]; // delete duplicates
+  const uniqueUrls = [...new Set(urlsInput)];
   const repository = new BrowserRepository(browser);
   let urls = getUrls();
-  for (const url of urlsInput) {
+  for (const url of uniqueUrls) {
     let urlKey = urlType + "_" + url;
     try {
       const isStored = await repository.isStored(urlKey);
       if (!isStored) {
         urls = addUrl(urlKey, urls, urlType);
-        setUrls(urls);
-        const message = Message("urls", urls);
-        sendMessage(message);
         await repository.save(urlKey, url);
         showStoredInfo(infoContainer, urlKey, url);
       }
@@ -90,6 +87,8 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
       reportError(e);
     }
   }
+  setUrls(urls);
+  sendMessage(Message("urls", urls));
 }
 
 class Button {
