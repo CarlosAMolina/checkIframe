@@ -24,6 +24,7 @@ export function addUrl(eKey, urls, urlType) {
   return urls;
 }
 
+// TODO? rm
 export function deleteUrl(eKey, urls, urlType) {
   urls.forEach(function (url) {
     if (url.type == urlType) {
@@ -35,6 +36,7 @@ export function deleteUrl(eKey, urls, urlType) {
   return urls;
 }
 
+// TODO? rm
 export function getStoredUrls(browser) {
   let result = [];
   return new BrowserRepository(browser).getAll().then((storageItems) => {

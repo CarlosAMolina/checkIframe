@@ -1,5 +1,3 @@
-import { BrowserRepository } from "./repository.js";
-import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
 import { hide } from "./dom.js";
@@ -12,7 +10,6 @@ import { saveUrls } from "./stored-url-entries.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";
 import { setShowSourcesError } from "./ui.js";
-import { setUrls } from "./url.js";
 import { showSources } from "./ui.js";
 import { showStoredUrlsType } from "./stored-url-entries.js";
 import { toggleHide } from "./dom.js";
@@ -414,7 +411,7 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
 async function getIsStoredOn(keyName) {
   let resultGetStorage = {};
   try {
-    resultGetStorage = await new BrowserRepository(browser).get(keyName);
+    resultGetStorage = await browser.storage.local.get(keyName);
   } catch (e) {
     console.error(e);
   }
@@ -504,27 +501,19 @@ class ButtonClearAll extends Button {
     return this._clearStorageInfo(urlType).catch(reportError);
   }
 
-  _clearStorageInfo(urlType) {
-    const repository = new BrowserRepository(browser);
-    return repository.getAll().then((storageItems) => {
-      const keysUrl = Object.keys(storageItems).filter((key) =>
-        key.startsWith(urlType + "_"),
-      );
-      keysUrl.forEach(() => {
-        // TODO? use removeShownStoredUrls
-        this._infoContainer.removeChild(this._infoContainer.firstChild);
-      });
-      const deletePromises = keysUrl.map((keyUrl) => {
-        return repository.delete(keyUrl);
-      });
-      return Promise.all(deletePromises).then(() => {
-        return getStoredUrls(browser).then((storedUrls) => {
-          setUrls(storedUrls);
-          const message = new Message("urls", storedUrls);
-          sendMessage(message);
-          return storedUrls;
-        }, reportError);
-      }, reportError);
-    }, reportError);
+  async _clearStorageInfo(urlType) {
+    const result = await browser.storage.local.get({ [urlType]: [] });
+    const count = result[urlType].length;
+    for (let i = 0; i < count; i++) {
+      this._infoContainer.removeChild(this._infoContainer.firstChild);
+    }
+    await browser.storage.local.set({ [urlType]: [] });
+    const allArrays = await browser.storage.local.get({
+      blacklist: [],
+      notify: [],
+      referer: [],
+    });
+    sendMessage(new Message("urls", allArrays));
+    return allArrays;
   }
 }

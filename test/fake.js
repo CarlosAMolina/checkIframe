@@ -39,7 +39,10 @@ export function fakeBrowser(config) {
           return Promise.resolve(storageItems);
         }),
         remove: jest.fn((key) => removeItem(key, storageItems)),
-        set: jest.fn(() => Promise.resolve({})),
+        set: jest.fn((items) => {
+          Object.assign(storageItems, items);
+          return Promise.resolve({});
+        }),
       },
     },
     tabs: {

@@ -1,5 +1,4 @@
 import { Message } from "./model.js";
-import { getStoredUrls } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
 import { infoContainer } from "./ui.js";
@@ -8,7 +7,6 @@ import { reportError } from "./log.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
-import { setUrls } from "./url.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 // TODO replace all `var` in all files with let or const.
@@ -32,11 +30,11 @@ function popupMain() {
 function initializePopup() {
   setNewElementsMaxWidth();
   initializePopupButtons();
-  getStoredUrls(browser).then((urls) => {
-    setUrls(urls);
-    const message = new Message("urls", urls);
-    sendMessage(message);
-  }, reportError);
+  browser.storage.local
+    .get({ blacklist: [], notify: [], referer: [] })
+    .then((allArrays) => {
+      sendMessage(new Message("urls", allArrays));
+    }, reportError);
 }
 
 // there was an error executing the script.

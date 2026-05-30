@@ -1,45 +1,34 @@
-import { addUrl } from "./url.js";
-import { BrowserRepository } from "./repository.js";
-import { deleteUrl } from "./url.js";
-import { getUrlTypeActive } from "./url.js";
-import { getUrls } from "./url.js";
 import { infoContainer } from "./ui.js";
 import { Message } from "./model.js";
 import { reportError } from "./log.js";
 import { sendMessage } from "./message-mediator.js";
-import { setUrls } from "./url.js";
 
 export function showStoredUrlsType(urlType) {
-  new BrowserRepository(browser).getAll().then((storageItems) => {
-    const keys = Object.keys(storageItems);
-    keys.forEach(function (key) {
-      if (key.startsWith(urlType + "_")) {
-        showStoredInfo(infoContainer, key, storageItems[key]);
-      }
-    });
+  browser.storage.local.get({ [urlType]: [] }).then((result) => {
+    result[urlType].forEach((url) =>
+      showStoredInfo(infoContainer, urlType, url),
+    );
   }, reportError);
 }
 
-// add a tag to the display, and storage
 export async function saveUrls(infoContainer, urlsInput, urlType) {
   const uniqueUrls = [...new Set(urlsInput)];
-  const repository = new BrowserRepository(browser);
-  let urls = getUrls();
-  for (const url of uniqueUrls) {
-    let urlKey = urlType + "_" + url;
-    try {
-      const isStored = await repository.isStored(urlKey);
-      if (!isStored) {
-        urls = addUrl(urlKey, urls, urlType);
-        await repository.save(urlKey, url);
-        showStoredInfo(infoContainer, urlKey, url);
-      }
-    } catch (e) {
-      reportError(e);
-    }
+  const result = await browser.storage.local.get({ [urlType]: [] });
+  const storedUrls = result[urlType];
+  const newUrls = uniqueUrls.filter((url) => !storedUrls.includes(url));
+  if (newUrls.length === 0) return;
+  try {
+    await browser.storage.local.set({ [urlType]: [...storedUrls, ...newUrls] });
+    newUrls.forEach((url) => showStoredInfo(infoContainer, urlType, url));
+    const allArrays = await readAllUrlArrays();
+    sendMessage(new Message("urls", allArrays));
+  } catch (e) {
+    reportError(e);
   }
-  setUrls(urls);
-  sendMessage(new Message("urls", urls));
+}
+
+function readAllUrlArrays() {
+  return browser.storage.local.get({ blacklist: [], notify: [], referer: [] });
 }
 
 class DynamicButton {
@@ -53,11 +42,11 @@ class DynamicButton {
 }
 
 class ButtonDelete extends DynamicButton {
-  constructor(entry, storageKey) {
+  constructor(entry, urlType, urlValue) {
     super();
     this._entry = entry;
-    this._repository = new BrowserRepository(browser);
-    this._storageKey = storageKey;
+    this._urlType = urlType;
+    this._urlValue = urlValue;
   }
 
   static createDom() {
@@ -70,17 +59,16 @@ class ButtonDelete extends DynamicButton {
 
   click() {
     this._entry.parentNode.removeChild(this._entry);
-    this._repository.delete(this._storageKey).catch((error) => {
-      reportError(error);
-    });
-    const urlType = getUrlTypeActive();
-    let urls = getUrls();
-    // TODO can be this line deleted?
-    // Maybe it doesn't do anything because the variable `urls` has
-    // the url deleted before showStoredInfo is called.
-    urls = deleteUrl(this._storageKey, urls, urlType);
-    setUrls(urls);
-    sendMessage(new Message("urls", urls));
+    readAllUrlArrays()
+      .then((urls) => {
+        urls[this._urlType] = urls[this._urlType].filter(
+          (v) => v !== this._urlValue,
+        );
+        return browser.storage.local
+          .set({ [this._urlType]: urls[this._urlType] })
+          .then(() => sendMessage(new Message("urls", urls)));
+      })
+      .catch(reportError);
   }
 }
 
@@ -105,13 +93,12 @@ class ButtonCancel extends DynamicButton {
 }
 
 class ButtonUpdate extends DynamicButton {
-  constructor(entry, entryEditInput, storageKey, storageValue) {
+  constructor(entry, entryEditInput, urlType, urlValue) {
     super();
     this._entry = entry;
     this._entryEditInput = entryEditInput;
-    this._repository = new BrowserRepository(browser);
-    this._storageKey = storageKey;
-    this._storageValue = storageValue;
+    this._urlType = urlType;
+    this._urlValue = urlValue;
   }
 
   static createDom() {
@@ -121,50 +108,41 @@ class ButtonUpdate extends DynamicButton {
     return updateBtn;
   }
 
-  click() {
-    if (this._info2save === this._storageValue) {
+  async click() {
+    if (this._newValue === this._urlValue) {
       return;
     }
-    this._repository.get(this._key2save).then((result) => {
-      // result: empty object if the searched value is not stored
-      if (Object.keys(result).length === 0) {
-        this._updateEntry();
-        this._entry.parentNode.removeChild(this._entry);
-      }
-    });
+    const result = await browser.storage.local.get({ [this._urlType]: [] });
+    const urls = result[this._urlType];
+    if (!urls.includes(this._newValue)) {
+      await this._updateEntry(urls);
+      this._entry.parentNode.removeChild(this._entry);
+    }
   }
 
-  get _info2save() {
+  get _newValue() {
     return this._entryEditInput.value;
   }
 
-  get _key2save() {
-    return this._storageKey.split("_")[0] + "_" + this._info2save;
-  }
-
-  _updateEntry() {
-    const urlType = getUrlTypeActive();
-    let urls = getUrls();
-    urls = addUrl(this._key2save, urls, urlType);
-    this._repository.save(this._key2save, this._info2save).then(() => {
-      urls = deleteUrl(this._storageKey, urls, urlType);
-      this._repository.delete(this._storageKey).then(() => {
-        setUrls(urls);
-        sendMessage(new Message("urls", urls));
-        showStoredInfo(infoContainer, this._key2save, this._info2save);
-      }, reportError);
-    }, reportError);
+  async _updateEntry(urls) {
+    const updatedUrls = urls.map((v) =>
+      v === this._urlValue ? this._newValue : v,
+    );
+    await browser.storage.local.set({ [this._urlType]: updatedUrls });
+    const allArrays = await readAllUrlArrays();
+    sendMessage(new Message("urls", allArrays));
+    showStoredInfo(infoContainer, this._urlType, this._newValue);
   }
 }
 
-function showStoredInfo(infoContainer, storageKey, storageValue) {
+function showStoredInfo(infoContainer, urlType, urlValue) {
   // display box
   const entryDisplay = document.createElement("div");
   entryDisplay.setAttribute("class", "section sourceConfig");
   const deleteBtn = ButtonDelete.createDom();
   entryDisplay.appendChild(deleteBtn);
   const entryValue = document.createElement("p");
-  entryValue.textContent = storageValue;
+  entryValue.textContent = urlValue;
   entryDisplay.appendChild(entryValue);
   const entry = document.createElement("div");
   entry.appendChild(entryDisplay);
@@ -179,13 +157,13 @@ function showStoredInfo(infoContainer, storageKey, storageValue) {
   const cancelBtn = ButtonCancel.createDom();
   entryEdit.appendChild(cancelBtn);
   entry.appendChild(entryEdit);
-  entryEditInput.value = storageValue;
+  entryEditInput.value = urlValue;
   entryEdit.style.display = "none";
 
   infoContainer.appendChild(entry);
 
   deleteBtn.addEventListener("click", () => {
-    new ButtonDelete(entry, storageKey).click();
+    new ButtonDelete(entry, urlType, urlValue).click();
   });
 
   entryValue.addEventListener("click", () => {
@@ -198,6 +176,6 @@ function showStoredInfo(infoContainer, storageKey, storageValue) {
   });
 
   updateBtn.addEventListener("click", () => {
-    new ButtonUpdate(entry, entryEditInput, storageKey, storageValue).click();
+    new ButtonUpdate(entry, entryEditInput, urlType, urlValue).click();
   });
 }
