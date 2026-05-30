@@ -265,7 +265,7 @@ function getPageAnalysis(elements) {
 // TODO understand why this only uses the first element
 function getLocationUrl(elements) {
   const validElements = getNonBlacklistedElements(elements);
-  return validElements.length > 0 ? validElements[0].source : false;
+  return validElements.length > 0 ? validElements[0].source : null;
 }
 
 function getSourcesSummary(elements) {

@@ -39,7 +39,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     console.log(`Current tab url: ${tabUrl}`);
     if (
       checkRunRedirect(message.referers, tabUrl) &&
-      message.locationUrl !== false
+      message.locationUrl !== null
     ) {
       redirectTo(message.locationUrl);
     }

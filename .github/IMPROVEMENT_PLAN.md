@@ -9,16 +9,6 @@
 
 ---
 
-## Phase 1: Red Flags (Bugs & Wrong JS Code)
-
-### 1.5 `getLocationUrl` returns `false` instead of `null`/`undefined` — check-and-border.js
-
-**File:** `src/content_scripts/check-and-border.js` line 262
-
-`return validElements.length > 0 ? validElements[0].source : false;`
-
-Returning `false` from a function named `getLocationUrl` that should return a URL string is misleading. Then in `background.js` line 42 it's checked with `message.locationUrl !== false`. Using `null` would be more idiomatic and clearer.
-
 ### 1.6 `refererSources` not updated in `handleSourcesUpdate` — check-and-border.js
 
 **File:** `src/content_scripts/check-and-border.js` lines 174-184
