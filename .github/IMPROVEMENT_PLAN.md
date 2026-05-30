@@ -11,14 +11,6 @@
 
 ## Phase 1: Red Flags (Bugs & Wrong JS Code)
 
-### 1.1 `throw TypeError()` missing `new` keyword — buttons.js, multiple locations
-
-**Files:** `src/popup/buttons.js` (lines 97, 106, 193, 197, 203, 207, 657)
-
-All abstract method stubs use `throw TypeError("Not implemented")` instead of `throw new TypeError("Not implemented")`. Without `new`, `TypeError()` still creates an error object in practice, but it is technically wrong JS — the language spec intends `TypeError` to be called as a constructor. This is a code smell that could confuse readers and linters.
-
-**Fix:** Add `new` before every `TypeError(...)`.
-
 ### 1.2 `==` used instead of `===` — url.js, tags-html.js, buttons.js
 
 **Files:**

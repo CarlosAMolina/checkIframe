@@ -94,7 +94,7 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
 
 class Button {
   click() {
-    throw TypeError("Not implemented");
+    throw new TypeError("Not implemented");
   }
 
   _logButtonName() {
@@ -102,7 +102,7 @@ class Button {
   }
 
   get _idHtml() {
-    throw TypeError("Not implemented");
+    throw new TypeError("Not implemented");
   }
 }
 
@@ -190,22 +190,22 @@ class ButtonShowSources extends Button {
 
 class DynamicButton {
   static createDom() {
-    throw TypeError("Not implemented");
+    throw new TypeError("Not implemented");
   }
 
   click() {
-    throw TypeError("Not implemented");
+    throw new TypeError("Not implemented");
   }
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
 class OnOffButton extends Button {
   initializePopup() {
-    throw TypeError("Not implemented: method initializePopup");
+    throw new TypeError("Not implemented: method initializePopup");
   }
 
   get _idStorage() {
-    throw TypeError("Not implemented");
+    throw new TypeError("Not implemented");
   }
 
   setStyleOn() {
@@ -654,7 +654,7 @@ class UrlsOfTypeButton extends Button {
   }
 
   get _urlType() {
-    throw TypeError("Not implemented");
+    throw new TypeError("Not implemented");
   }
 
   click() {
