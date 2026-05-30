@@ -11,12 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.4 Duplicated `DetectionState` enum — background.js and check-and-border.js
-
-**Files:** `src/background_scripts/background.js` line 1-5, `src/content_scripts/check-and-border.js` line 1-5
-
-The exact same enum is defined in two files. If one changes without the other, it's a silent bug. Should be in `constants.js` (or equivalent shared location).
-
 ### 2.5 Duplicated URL type constants — constants.js and url.js
 
 **Files:** `src/constants.js` and `src/popup/url.js` lines 4-6

@@ -1,8 +1,3 @@
-const DetectionState = {
-  NONE: 0,
-  FOUND: 1,
-  SPECIAL_FOUND: 2,
-};
 const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
 const HIGHLIGHT_STYLE_ID = "check-iframe-detector-style";
 // When the pop-up is closed, this info is lost

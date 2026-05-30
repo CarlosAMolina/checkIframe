@@ -1,8 +1,3 @@
-const DetectionState = {
-  NONE: 0,
-  FOUND: 1,
-  SPECIAL_FOUND: 2,
-};
 const NO_BROWSER_WINDOW_ID = -1;
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 const tabState = new Map();

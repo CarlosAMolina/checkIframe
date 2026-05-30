@@ -22,7 +22,7 @@
     }
   ],
   "background": {
-    "scripts": ["background_scripts/background.js"]
+    "scripts": ["constants.js", "background_scripts/background.js"]
   },
   "browser_specific_settings": {
     "gecko": {
