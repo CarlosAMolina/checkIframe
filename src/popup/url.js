@@ -4,7 +4,7 @@ import { UrlsOfType } from "./model.js";
 export const URL_TYPE_BLACKLIST = "blacklist";
 export const URL_TYPE_NOTIFY = "notify";
 export const URL_TYPE_REFERER = "referer";
-var urls = []; // TODO rm
+let urls = []; // TODO rm
 
 const URL_TYPES = [URL_TYPE_BLACKLIST, URL_TYPE_NOTIFY, URL_TYPE_REFERER];
 

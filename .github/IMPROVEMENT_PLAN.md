@@ -11,18 +11,6 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.1 `var urls` module-level mutable state — url.js
-
-**File:** `src/popup/url.js` line 7
-
-`var urls = []` is the only remaining `var` in the codebase. Should be `let`. More importantly, this module-level mutable state (`getUrls`/`setUrls` as getter/setter) is an anti-pattern. The data should flow through function parameters or a proper state object.
-
-### 2.2 Misleading function name `setUirror` — ui.js
-
-**File:** `src/popup/ui.js` line 27
-
-`setUirror` is a typo — likely meant `setUiError`. Very confusing name.
-
 ### 2.3 `Message` factory function vs class inconsistency — model.js
 
 **File:** `src/popup/model.js`
@@ -106,23 +94,15 @@ Should use template literals for consistency with the rest of the codebase.
 
 `values: 1` and `values: 0` are sent as message values, then `state.showLogs = message.values` stores the number. This works due to JS truthiness but should use `true`/`false`. Same issue with `buttonHighlightAllAutomatically`.
 
-### 2.15 Self-referencing import path in buttons.js — buttons.js
+### 2.12 `key.includes(urlType + "_")` is a fragile filter — url.js, buttons.js, check-and-border.js
 
-**File:** `src/popup/buttons.js` lines 21-23
+**Files:** Multiple locations
 
-```js
-import { URL_TYPE_BLACKLIST } from "../popup/url.js";
-import { URL_TYPE_NOTIFY } from "../popup/url.js";
-import { URL_TYPE_REFERER } from "../popup/url.js";
-```
-
-These imports use a relative path `../popup/url.js` from within the `popup/` directory. Should be `./url.js` like the other imports from the same file on lines 3-6.
+Using `includes()` instead of `startsWith()` means a key like `notify_blacklist_foo` would match both `notify` and `blacklist` types. Should use `startsWith()` consistently. `getStoredUrls` in `url.js` (line 45) and `showStoredUrlsType` in `buttons.js` (line 702) both use `includes`.
 
 ---
 
 ## Phase 3: Architecture Improvements (Deferred)
-
-How files are connected and interact — to be discussed later.
 
 ## Phase 4: Test Improvements (Deferred)
 

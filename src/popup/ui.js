@@ -10,11 +10,11 @@ export function getUrlsInInputBox() {
 }
 
 export function setShowSourcesError(error) {
-  setUirror(error, "infoTags");
+  setUiError(error, "infoTags");
 }
 
 export function setInfoScrollError(error) {
-  setUirror(error, "infoScroll");
+  setUiError(error, "infoScroll");
 }
 
 export function showSources(tagSummary) {
@@ -24,7 +24,7 @@ export function showSources(tagSummary) {
   setupSourcesCopyButtonListeners();
 }
 
-function setUirror(error, htmlId) {
+function setUiError(error, htmlId) {
   reportError(error);
   document.getElementById(htmlId).textContent =
     "Internal error. The action could not be executed";
