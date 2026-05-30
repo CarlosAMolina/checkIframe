@@ -228,12 +228,27 @@ class OnOffButton extends Button {
     await this._persistState();
   }
 
+  async initializePopup() {
+    const mustBeOn = await this.getIsStoredOn();
+    if (mustBeOn) {
+      this.setStyleOn();
+      await this._onTurnOn();
+    } else {
+      this.setStyleOff();
+      await this._onInitializeOff();
+    }
+  }
+
   async _onTurnOn() {
     throw new TypeError("Not implemented");
   }
 
   async _onTurnOff() {
     throw new TypeError("Not implemented");
+  }
+
+  async _onInitializeOff() {
+    return this._onTurnOff();
   }
 
   async _persistState() {
@@ -270,19 +285,7 @@ class ButtonAlwaysShowSources extends OnOffButton {
     }
   }
 
-  async initializePopup() {
-    const mustBeOn = await this.getIsStoredOn();
-    if (mustBeOn) {
-      // TODO refactor, extract method, duplicated code.
-      this.setStyleOn();
-      if (this._canThePageBeAnalyzed()) {
-        hide("buttonShowSources");
-        await this._showSources();
-      }
-    } else {
-      this.setStyleOff();
-    }
-  }
+  async _onInitializeOff() {}
 
   get _idStorage() {
     return "idTagsInfoAlwaysVisible";
@@ -330,23 +333,6 @@ class ButtonShowLogs extends OnOffButton {
       .catch(console.error);
   }
 
-  async initializePopup() {
-    const mustBeOn = await this.getIsStoredOn();
-    if (mustBeOn) {
-      this.setStyleOn();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.activateLogs.bind(this))
-        .catch(console.error);
-    } else {
-      this.setStyleOff();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.deactivateLogs.bind(this))
-        .catch(console.error);
-    }
-  }
-
   get _idStorage() {
     return "idShowLogs";
   }
@@ -391,25 +377,6 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
       .query({ active: true, currentWindow: true })
       .then(this.deactivateHighlightAllAutomatically.bind(this))
       .catch(console.error);
-  }
-
-  async initializePopup() {
-    const mustHighlightAllAutomatically = await this.getIsStoredOn();
-    if (mustHighlightAllAutomatically) {
-      this.setStyleOn();
-      this.hideElementsForHighlightAllAutomatically();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.activateHighlightAllAutomatically.bind(this))
-        .catch(console.error);
-    } else {
-      this.setStyleOff();
-      this.unhideElementsForHighlightAllAutomatically();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.deactivateHighlightAllAutomatically.bind(this))
-        .catch(console.error);
-    }
   }
 
   hideElementsForHighlightAllAutomatically() {
