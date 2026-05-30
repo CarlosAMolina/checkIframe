@@ -9,12 +9,6 @@
 
 ---
 
-### 1.7 `deactivateLogs` missing `.catch()` — buttons.js
-
-**File:** `src/popup/buttons.js` line 446-449
-
-`deactivateLogs` calls `browser.tabs.sendMessage(...)` without `.catch()`, while `activateLogs` (line 437-442) does have `.catch(console.error)`. Same inconsistency exists in `activateHighlightAllAutomatically` (line 518-522, no `.catch()`) vs `deactivateHighlightAllAutomatically` (line 525-531, has `.catch()`). Unhandled promise rejections can crash the extension.
-
 ### 1.8 `ButtonDelete.click()` fragile DOM traversal — buttons.js
 
 **File:** `src/popup/buttons.js` line 367
