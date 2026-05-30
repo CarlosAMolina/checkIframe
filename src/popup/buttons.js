@@ -501,10 +501,7 @@ class ButtonClearAll extends Button {
   click() {
     this._logButtonName();
     const urlType = getUrlTypeActive();
-    return browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(() => this._clearStorageInfo(urlType))
-      .catch(reportError);
+    return this._clearStorageInfo(urlType).catch(reportError);
   }
 
   _clearStorageInfo(urlType) {

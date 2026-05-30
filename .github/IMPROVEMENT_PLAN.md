@@ -11,18 +11,7 @@
 
 ## Phase 2: Code Quality Improvements
 
-### 2.11 `ButtonClearAll.click()` queries tabs unnecessarily — buttons.js
-
-**File:** `src/popup/buttons.js` lines 736-742
-
-```js
-return browser.tabs.query({ active: true, currentWindow: true })
-    .then(() => this._clearStorageInfo(urlType))
-```
-
-The tab query result is discarded (the `.then` callback ignores it). This is a pointless async call.
-
-### 2.12 `key.includes(urlType + "_")` is a fragile filter — url.js, buttons.js, check-and-border.js
+### 2.12 `key.includes(urlType + "_")` is a fragile filter — url.js, stored-url-entries.js
 
 **Files:** Multiple locations
 
