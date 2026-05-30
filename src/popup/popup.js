@@ -16,7 +16,6 @@ import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 function popupMain() {
   // Display previously saved stored info on start-up
   initializePopup();
-  const urlType = getUrlTypeActive();
   // Set up listener for the input box
   document
     .getElementById("inputUrl")
@@ -25,7 +24,7 @@ function popupMain() {
       if (event.key === "Enter") {
         let urls = getUrlsInInputBox();
         urls.pop(); // delete last value (\n)
-        await saveUrls(infoContainer, urls, urlType);
+        await saveUrls(infoContainer, urls, getUrlTypeActive());
       }
     });
 }

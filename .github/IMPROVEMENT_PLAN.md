@@ -9,14 +9,6 @@
 
 ---
 
-### 1.12 `popup.js` captures `urlType` at init time but uses it in async handler — popup.js
-
-**File:** `src/popup/popup.js` lines 19, 29
-
-`const urlType = getUrlTypeActive()` is called once during `popupMain()`, but the Enter-key handler uses this captured value. If the user changes the radio button selection, the old `urlType` is still used for Enter-key submissions. `ButtonAddUrl.click()` correctly calls `getUrlTypeActive()` at click time, so the "Add" button works correctly but the Enter key doesn't.
-
----
-
 ## Phase 2: Code Quality Improvements
 
 ### 2.1 `var urls` module-level mutable state — url.js

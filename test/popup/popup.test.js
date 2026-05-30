@@ -62,6 +62,27 @@ describe("Enter key handler on inputUrl", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
   });
+  it("Enter key uses urlType selected at press time, not at popup open time", async function () {
+    // At popup load time no radio button is checked (getUrlTypeActive returns null).
+    // The user then selects "notify" — the handler must read the current selection.
+    const saveUrlsBackup = popupModule.__get__("saveUrls");
+    const saveUrlsSpy = jest.fn();
+    popupModule.__set__("saveUrls", saveUrlsSpy);
+    document.getElementById("buttonUrlsNotify").checked = true;
+    const textarea = document.getElementById("inputUrl");
+    textarea.value = "example.com";
+    textarea.dispatchEvent(
+      new window.KeyboardEvent("keyup", { key: "Enter", bubbles: true }),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(saveUrlsSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      "notify",
+    );
+    document.getElementById("buttonUrlsNotify").checked = false;
+    popupModule.__set__("saveUrls", saveUrlsBackup);
+  });
 });
 
 function initializeDomAndBrowser() {
