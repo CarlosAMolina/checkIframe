@@ -348,9 +348,9 @@ class ButtonClean extends Button {
 }
 
 class ButtonDelete extends DynamicButton {
-  constructor(event, storageKey) {
+  constructor(entry, storageKey) {
     super();
-    this._event = event;
+    this._entry = entry;
     this._repository = new BrowserRepository(browser);
     this._storageKey = storageKey;
   }
@@ -364,9 +364,7 @@ class ButtonDelete extends DynamicButton {
   }
 
   click() {
-    this._event.target.parentNode.parentNode.parentNode.removeChild(
-      this._event.target.parentNode.parentNode,
-    );
+    this._entry.parentNode.removeChild(this._entry);
     this._repository.delete(this._storageKey).catch((error) => {
       reportError(error);
     });
@@ -580,8 +578,8 @@ function showStoredInfo(infoContainer, storageKey, storageValue) {
 
   infoContainer.appendChild(entry);
 
-  deleteBtn.addEventListener("click", (e) => {
-    new ButtonDelete(e, storageKey).click();
+  deleteBtn.addEventListener("click", () => {
+    new ButtonDelete(entry, storageKey).click();
   });
 
   entryValue.addEventListener("click", () => {

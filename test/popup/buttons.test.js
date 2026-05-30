@@ -784,6 +784,17 @@ describe("Check module import", () => {
           },
         ]);
       });
+      it("Test click img inside deleteBtn removes entry", async () => {
+        const eValue = "https://foo.com/test.html";
+        const eKey = "blacklist_https://foo.com/test.html";
+        const function_ = buttonsModule.__get__("showStoredInfo");
+        const infoContainer = mockNotEmptyInfoContainer();
+        function_(infoContainer, eKey, eValue);
+        const img = infoContainer.querySelector('button[title="Delete"] img');
+        await img.click();
+        const buttonsAfterClick = infoContainer.getElementsByTagName("button");
+        expect(buttonsAfterClick.length).toBe(0);
+      });
       it("Test click entryValue", function () {
         const eValue = "https://foo.com/test.html";
         const eKey = "blacklist_https://foo.com/test.html";

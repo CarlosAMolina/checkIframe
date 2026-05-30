@@ -9,14 +9,6 @@
 
 ---
 
-### 1.8 `ButtonDelete.click()` fragile DOM traversal — buttons.js
-
-**File:** `src/popup/buttons.js` line 367
-
-`this._event.target.parentNode.parentNode.parentNode.removeChild(this._event.target.parentNode.parentNode)`
-
-This triple-parentNode chain is extremely fragile. If the HTML structure changes or the click target is different (e.g., clicking the `<img>` inside the button vs the `<button>` itself), this will remove the wrong element or throw. Should use `element.closest()` instead.
-
 ### 1.9 `ButtonUpdate._updateEntry` race condition — buttons.js
 
 **File:** `src/popup/buttons.js` lines 635-647
