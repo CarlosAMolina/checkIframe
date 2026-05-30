@@ -216,6 +216,26 @@ class OnOffButton extends Button {
     return getIsStoredOn(this._idStorage);
   }
 
+  async click() {
+    this._logButtonName();
+    if (this.isOn) {
+      this.setStyleOff();
+      await this._onTurnOff();
+    } else {
+      this.setStyleOn();
+      await this._onTurnOn();
+    }
+    await this._persistState();
+  }
+
+  async _onTurnOn() {
+    throw new TypeError("Not implemented");
+  }
+
+  async _onTurnOff() {
+    throw new TypeError("Not implemented");
+  }
+
   async _persistState() {
     await browser.storage.local
       .set({ [this._idStorage]: this.isOn })
@@ -237,21 +257,17 @@ class ButtonAlwaysShowSources extends OnOffButton {
     return BUTTON_ID_ALWAYS_SHOW_SOURCES;
   }
 
-  async click() {
-    this._logButtonName();
-    if (this.isOn) {
-      this.setStyleOff();
-      if (this._canThePageBeAnalyzed()) {
-        unhide("buttonShowSources");
-      }
-    } else {
-      this.setStyleOn();
-      if (this._canThePageBeAnalyzed()) {
-        hide("buttonShowSources");
-        await this._showSources();
-      }
+  async _onTurnOn() {
+    if (this._canThePageBeAnalyzed()) {
+      hide("buttonShowSources");
+      await this._showSources();
     }
-    await this._persistState();
+  }
+
+  async _onTurnOff() {
+    if (this._canThePageBeAnalyzed()) {
+      unhide("buttonShowSources");
+    }
   }
 
   async initializePopup() {
@@ -300,22 +316,18 @@ class ButtonShowLogs extends OnOffButton {
     return "buttonShowLogs";
   }
 
-  async click() {
-    this._logButtonName();
-    if (this.isOn) {
-      this.setStyleOff();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.deactivateLogs.bind(this))
-        .catch(console.error);
-    } else {
-      this.setStyleOn();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.activateLogs.bind(this))
-        .catch(console.error);
-    }
-    await this._persistState();
+  async _onTurnOn() {
+    await browser.tabs
+      .query({ active: true, currentWindow: true })
+      .then(this.activateLogs.bind(this))
+      .catch(console.error);
+  }
+
+  async _onTurnOff() {
+    await browser.tabs
+      .query({ active: true, currentWindow: true })
+      .then(this.deactivateLogs.bind(this))
+      .catch(console.error);
   }
 
   async initializePopup() {
@@ -365,24 +377,20 @@ class ButtonHighlightAllAutomatically extends OnOffButton {
     return "buttonHighlightAllAutomatically";
   }
 
-  async click() {
-    this._logButtonName();
-    if (this.isOn) {
-      this.setStyleOff();
-      this.unhideElementsForHighlightAllAutomatically();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.deactivateHighlightAllAutomatically.bind(this))
-        .catch(console.error);
-    } else {
-      this.setStyleOn();
-      this.hideElementsForHighlightAllAutomatically();
-      await browser.tabs
-        .query({ active: true, currentWindow: true })
-        .then(this.activateHighlightAllAutomatically.bind(this))
-        .catch(console.error);
-    }
-    await this._persistState();
+  async _onTurnOn() {
+    this.hideElementsForHighlightAllAutomatically();
+    await browser.tabs
+      .query({ active: true, currentWindow: true })
+      .then(this.activateHighlightAllAutomatically.bind(this))
+      .catch(console.error);
+  }
+
+  async _onTurnOff() {
+    this.unhideElementsForHighlightAllAutomatically();
+    await browser.tabs
+      .query({ active: true, currentWindow: true })
+      .then(this.deactivateHighlightAllAutomatically.bind(this))
+      .catch(console.error);
   }
 
   async initializePopup() {
