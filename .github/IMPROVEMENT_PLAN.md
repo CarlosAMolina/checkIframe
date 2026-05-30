@@ -9,12 +9,6 @@
 
 ---
 
-### 1.11 `showSources` receives `tagSummary` with wrong shape from `ButtonRecheck` — buttons.js vs content script
-
-**File:** `src/popup/buttons.js` line 124
-
-`ButtonRecheck.click()` calls `sendMessage(Message("buttonRecheck"))` and then `.then((tagSummary) => { showSources(tagSummary); })`. But the content script's `handleButtonRecheck` returns `analysis.sourcesSummary` (which has `{ iframe: {...}, frame: {...} }` shape). Meanwhile `ButtonShowSources.showSources()` (line 184) does `response.response` to unwrap it. So `ButtonRecheck` passes the raw `sourcesSummary` to `showSources()`, while `ButtonShowSources` unwraps `response.response` first. This inconsistency means `ButtonRecheck` passes the correct shape, but `ButtonShowSources` wraps it differently — both work but the asymmetry is confusing and fragile.
-
 ### 1.12 `popup.js` captures `urlType` at init time but uses it in async handler — popup.js
 
 **File:** `src/popup/popup.js` lines 19, 29

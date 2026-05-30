@@ -22,6 +22,7 @@ export function fakeBrowser(config) {
       onMessage: {
         addListener: jest.fn(),
       },
+      sendMessage: jest.fn(() => Promise.resolve({})),
     },
     storage: {
       local: {

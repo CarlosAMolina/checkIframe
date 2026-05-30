@@ -119,7 +119,7 @@ function handleButtonRecheck() {
     getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
-  return Promise.resolve(analysis.sourcesSummary);
+  return Promise.resolve({ response: analysis.sourcesSummary });
 }
 
 function handleButtonScroll() {

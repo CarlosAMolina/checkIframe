@@ -519,6 +519,22 @@ describe("buttons", () => {
       // Reset test configuration.
       showSourcesSpy.mockRestore();
     });
+    it("click should pass unwrapped sourcesSummary to showSources", async () => {
+      // Test configuration.
+      const summary = { iframe: { count: 2 }, frame: { count: 0 } };
+      global.browser = fakeModule.fakeBrowser({
+        sendMessageResponse: { response: summary },
+      });
+      const uiModule = require("../../src/popup/ui.js");
+      domModule.unhide("infoTags");
+      const showSourcesSpy = jest.spyOn(uiModule, "showSources");
+      // Test.
+      await getButton().click();
+      expect(showSourcesSpy).toHaveBeenCalledWith(summary);
+      // Reset test configuration.
+      showSourcesSpy.mockRestore();
+      global.browser = fakeModule.fakeBrowser();
+    });
     function getButton() {
       const classType = buttonsModule.__get__("ButtonRecheck");
       return new classType();

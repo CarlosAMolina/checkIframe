@@ -26,4 +26,11 @@ describe("Check module import", () => {
     const function_ = checkAndBorderModule.__get__("logDetections");
     function_();
   });
+  it("handleButtonRecheck returns response wrapped in { response: ... }", async () => {
+    const handleButtonRecheck = checkAndBorderModule.__get__(
+      "handleButtonRecheck",
+    );
+    const result = await handleButtonRecheck();
+    expect(result).toHaveProperty("response");
+  });
 });

@@ -120,10 +120,10 @@ class ButtonRecheck extends Button {
     return (
       sendMessage(Message(this._idHtml))
         // Manage content-script response.
-        .then((tagSummary) => {
+        .then((response) => {
           if (mustShowSources) {
             unhide("infoTags");
-            showSources(tagSummary);
+            showSources(response.response);
           }
         })
         .catch(console.error)
