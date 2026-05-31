@@ -162,29 +162,29 @@ class ButtonOnOff extends Button {
   }
 
   async initializePopup() {
-    const mustBeOn = await this.getIsStoredOn();
+    const mustBeOn = await this._getIsStoredOn();
     if (mustBeOn) {
-      this.setStyleOn();
+      this._setStyleOn();
       await this._onTurnOn();
     } else {
-      this.setStyleOff();
+      this._setStyleOff();
       await this._onInitializeOff();
     }
   }
 
   async click() {
     this._logButtonName();
-    if (this.isOn) {
-      this.setStyleOff();
+    if (this._isOn) {
+      this._setStyleOff();
       await this._onTurnOff();
     } else {
-      this.setStyleOn();
+      this._setStyleOn();
       await this._onTurnOn();
     }
     await this._persistState();
   }
 
-  get isOn() {
+  get _isOn() {
     const element = document.getElementById(this._idHtml);
     console.log(`Is button ${this._idHtml} checked? ${element.checked}`);
     const result = element.checked === undefined ? false : element.checked;
@@ -192,15 +192,15 @@ class ButtonOnOff extends Button {
     return result;
   }
 
-  async getIsStoredOn() {
+  async _getIsStoredOn() {
     return getIsStoredOn(this._idStorage);
   }
 
-  setStyleOn() {
+  _setStyleOn() {
     this._setStyle("on");
   }
 
-  setStyleOff() {
+  _setStyleOff() {
     this._setStyle("off");
   }
 
@@ -241,10 +241,10 @@ class ButtonOnOff extends Button {
 
   async _persistState() {
     await browser.storage.local
-      .set({ [this._idStorage]: this.isOn })
+      .set({ [this._idStorage]: this._isOn })
       .then(() => {
         console.log(
-          `The following value has been stored for ${this._idStorage}: ${this.isOn}`,
+          `The following value has been stored for ${this._idStorage}: ${this._isOn}`,
         );
       }, console.error);
   }
@@ -310,14 +310,14 @@ class ButtonShowLogs extends ButtonOnOff {
   async _onTurnOn() {
     await browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(this.activateLogs.bind(this))
+      .then(this._activateLogs.bind(this))
       .catch(console.error);
   }
 
   async _onTurnOff() {
     await browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(this.deactivateLogs.bind(this))
+      .then(this._deactivateLogs.bind(this))
       .catch(console.error);
   }
 
@@ -325,7 +325,7 @@ class ButtonShowLogs extends ButtonOnOff {
     return "idShowLogs";
   }
 
-  activateLogs(tabs) {
+  _activateLogs(tabs) {
     // TODO use message mediator, search all code to replace
     browser.tabs
       .sendMessage(tabs[0].id, {
@@ -335,7 +335,7 @@ class ButtonShowLogs extends ButtonOnOff {
       .catch(console.error);
   }
 
-  deactivateLogs(tabs) {
+  _deactivateLogs(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
@@ -352,27 +352,27 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
   }
 
   async _onTurnOn() {
-    this.hideElementsForHighlightAllAutomatically();
+    this._hideElementsForHighlightAllAutomatically();
     await browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(this.activateHighlightAllAutomatically.bind(this))
+      .then(this._activateHighlightAllAutomatically.bind(this))
       .catch(console.error);
   }
 
   async _onTurnOff() {
-    this.unhideElementsForHighlightAllAutomatically();
+    this._unhideElementsForHighlightAllAutomatically();
     await browser.tabs
       .query({ active: true, currentWindow: true })
-      .then(this.deactivateHighlightAllAutomatically.bind(this))
+      .then(this._deactivateHighlightAllAutomatically.bind(this))
       .catch(console.error);
   }
 
-  hideElementsForHighlightAllAutomatically() {
+  _hideElementsForHighlightAllAutomatically() {
     hide("buttonClean");
     hide("buttonScroll");
   }
 
-  unhideElementsForHighlightAllAutomatically() {
+  _unhideElementsForHighlightAllAutomatically() {
     unhide("buttonClean");
     unhide("buttonScroll");
   }
@@ -381,7 +381,7 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
     return "idHighlightAllAutomatically";
   }
 
-  activateHighlightAllAutomatically(tabs) {
+  _activateHighlightAllAutomatically(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
@@ -390,7 +390,7 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
       .catch(console.error);
   }
 
-  deactivateHighlightAllAutomatically(tabs) {
+  _deactivateHighlightAllAutomatically(tabs) {
     browser.tabs
       .sendMessage(tabs[0].id, {
         info: this._idHtml,
@@ -487,6 +487,7 @@ class ButtonClearAll extends Button {
     return BUTTON_ID_CLEAR_ALL;
   }
 
+  // TODO? convert to async?
   click() {
     this._logButtonName();
     const urlType = getUrlTypeActive();
