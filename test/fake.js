@@ -100,6 +100,27 @@ export function runNoHtmlFakeDom() {
   global.window = dom.window;
 }
 
+export function initializeDomAndBrowser() {
+  runFakeDom("src/popup/popup.html");
+  global.browser = fakeBrowser();
+}
+
+export function fakeInfoContainer(urlsCount) {
+  const containerFake = document.createElement("div");
+  for (let i = 0; i < urlsCount; i++) {
+    containerFake.appendChild(document.createElement("div"));
+  }
+  return containerFake;
+}
+
+export function mockNotEmptyInfoContainer() {
+  const infoContainer = document.createElement("div");
+  const entryValue = document.createElement("p");
+  entryValue.textContent = "foo";
+  infoContainer.appendChild(entryValue);
+  return infoContainer;
+}
+
 function getNewPromise() {
   return new Promise(function (resolve) {
     resolve("Start of new Promise");

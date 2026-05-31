@@ -5,7 +5,7 @@ let popupModule;
 
 describe("Check module import", () => {
   beforeEach(() => {
-    initializeDomAndBrowser();
+    fakeModule.initializeDomAndBrowser();
     popupModule = require("../../src/popup/popup.js");
   });
   it("The DOM has expected values", function () {
@@ -35,7 +35,7 @@ describe("Check module import", () => {
 describe("Enter key handler on inputUrl", () => {
   beforeEach(() => {
     jest.resetModules();
-    initializeDomAndBrowser();
+    fakeModule.initializeDomAndBrowser();
     popupModule = require("../../src/popup/popup.js");
   });
   it("triggers saveUrls when Enter key is pressed", async function () {
@@ -84,8 +84,3 @@ describe("Enter key handler on inputUrl", () => {
     popupModule.__set__("saveUrls", saveUrlsBackup);
   });
 });
-
-function initializeDomAndBrowser() {
-  fakeModule.runFakeDom("src/popup/popup.html");
-  global.browser = fakeModule.fakeBrowser();
-}

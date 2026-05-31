@@ -4,6 +4,7 @@ import * as fakeModule from "../fake.js";
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let buttonsModule;
 let storedUrlEntriesModule;
+// TODO infoContainer is a global variable and mockNotEmptyInfoContainer() returns it too, drop global var
 let infoContainer;
 let modelModule;
 let domModule;
@@ -86,7 +87,7 @@ describe("ButtonClearAll", () => {
     };
     global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
     const numberOfBlacklistedUrls = 2;
-    const infoContainer = fakeInfoContainer(numberOfBlacklistedUrls);
+    const infoContainer = fakeModule.fakeInfoContainer(numberOfBlacklistedUrls);
     const sendMessageBackup = buttonsModule.__get__("sendMessage");
     buttonsModule.__set__("sendMessage", jest.fn());
     // Test.
@@ -110,7 +111,7 @@ describe("ButtonClearAll", () => {
 describe("Check ButtonShowLogs", () => {
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
-    global.browser = getBrowserMock();
+    global.browser = fakeModule.fakeBrowser();
     buttonsModule = require("../../src/popup/buttons.js");
   });
   it("Check it has correct button ID value", function () {
@@ -122,7 +123,7 @@ describe("Check ButtonShowLogs", () => {
     it("If buttonShowLogs is clicked for the first time", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
       const buttonClass = buttonsModule.__get__("ButtonShowLogs");
       const button = new buttonClass();
@@ -141,7 +142,7 @@ describe("Check ButtonShowLogs", () => {
     it("If buttonShowLogs is active and clicked to deactivate it", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       const buttonClass = buttonsModule.__get__("ButtonShowLogs");
       const button = new buttonClass();
       document.getElementById(button._idHtml).checked = true;
@@ -163,7 +164,7 @@ describe("Check ButtonShowLogs", () => {
     it("If buttonShowLogs must be off because the button has never been clicked", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
       const buttonClass = buttonsModule.__get__("ButtonShowLogs");
       const button = new buttonClass();
@@ -182,7 +183,7 @@ describe("Check ButtonShowLogs", () => {
     it("If buttonShowLogs must be on because the button was clicked previously", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       browser.storage.local.get = jest.fn(() =>
         Promise.resolve({ idShowLogs: true }),
       );
@@ -216,7 +217,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     it("If buttonHighlightAllAutomatically is clicked for the first time", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
       const buttonClass = buttonsModule.__get__(
         "ButtonHighlightAllAutomatically",
@@ -237,7 +238,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     it("If buttonHighlightAllAutomatically is active and clicked to deactivate it", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       const buttonClass = buttonsModule.__get__(
         "ButtonHighlightAllAutomatically",
       );
@@ -261,7 +262,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     it("If buttonHighlightAllAutomatically must be off because the button has never been clicked", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
       const buttonClass = buttonsModule.__get__(
         "ButtonHighlightAllAutomatically",
@@ -282,7 +283,7 @@ describe("Check ButtonHighlightAllAutomatically", () => {
     it("If buttonHighlightAllAutomatically must be on because the button was clicked previously", async () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = getBrowserMock();
+      global.browser = fakeModule.fakeBrowser();
       browser.storage.local.get = jest.fn(() =>
         Promise.resolve({ idHighlightAllAutomatically: true }),
       );
@@ -634,11 +635,11 @@ describe("buttons", () => {
     describe("click behaviour is correct", () => {
       let uiModule;
       beforeEach(() => {
-        initializeDomAndBrowser();
+        fakeModule.initializeDomAndBrowser();
         uiModule = require("../../src/popup/ui.js");
       });
       afterEach(() => {
-        initializeDomAndBrowser();
+        fakeModule.initializeDomAndBrowser();
       });
       it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
@@ -737,7 +738,7 @@ describe("Check module import", () => {
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
       it("If no values to manage", function () {
-        const infoContainer = fakeInfoContainer(0);
+        const infoContainer = fakeModule.fakeInfoContainer(0);
         expect(infoContainer.innerHTML).toBe("");
         const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer, "blacklist", "");
@@ -746,7 +747,7 @@ describe("Check module import", () => {
         );
       });
       it("If values to manage", function () {
-        const infoContainer = fakeInfoContainer(0);
+        const infoContainer = fakeModule.fakeInfoContainer(0);
         expect(infoContainer.innerHTML).toBe("");
         const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         const eValue = "https://foo.com/test.html";
@@ -927,7 +928,7 @@ function mockEmptyInfoContainer() {
 }
 
 function initializeMocksAndVariables() {
-  initializeDomAndBrowser();
+  fakeModule.initializeDomAndBrowser();
   buttonsModule = require("../../src/popup/buttons.js");
   storedUrlEntriesModule = require("../../src/popup/stored-url-entries.js");
   domModule = require("../../src/popup/dom.js");
@@ -935,53 +936,7 @@ function initializeMocksAndVariables() {
   modelModule = require("../../src/popup/model.js");
 }
 
-// TODO extract to file and use in all tests.
-function getBrowserMock() {
-  // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  return {
-    storage: {
-      local: {
-        get: jest.fn(() => Promise.resolve({})),
-        remove: jest.fn(() => Promise.resolve({})),
-        set: jest.fn(() => Promise.resolve({})),
-      },
-    },
-    tabs: {
-      executeScript: getNewPromise,
-      // https://stackoverflow.com/questions/56285530/how-to-create-jest-mock-function-with-promise
-      query: jest.fn(() => Promise.resolve([{ id: 1 }])),
-      sendMessage: jest.fn(() => Promise.resolve({ data: "done sendMessage" })),
-    },
-  };
-}
-
-function getNewPromise() {
-  return new Promise(function (resolve) {
-    resolve("Start of new Promise");
-  });
-}
-
-// TODO re-defined in popup.test.js
-function initializeDomAndBrowser() {
-  fakeModule.runFakeDom("src/popup/popup.html");
-  global.browser = fakeModule.fakeBrowser();
-}
-
-// TODO re-defined in popup.test.js (last line is different)
 function mockNotEmptyInfoContainer() {
-  // TODO infoContainer is a global variable and this function returns it too, drop global
-  infoContainer = document.createElement("div");
-  const entryValue = document.createElement("p");
-  entryValue.textContent = "foo";
-  infoContainer.appendChild(entryValue);
+  infoContainer = fakeModule.mockNotEmptyInfoContainer();
   return infoContainer;
-}
-
-// TODO re-defined in popup.test.js
-function fakeInfoContainer(urlsCount) {
-  const containerFake = document.createElement("div");
-  for (let i = 0; i < urlsCount; i++) {
-    containerFake.appendChild(document.createElement("div"));
-  }
-  return containerFake;
 }
