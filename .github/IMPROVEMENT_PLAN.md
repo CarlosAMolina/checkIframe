@@ -9,22 +9,6 @@
 
 ## Phase 3: Architecture Improvements
 
-### 3.3 Replace numeric DetectionState with string keys in messages
-
-**Problem:** `DetectionState` enum is defined in `constants.js` and shared as a global between content script and background script. Content script sends numeric values (0, 1, 2), which are magic numbers in the message. This global sharing will break in Manifest v3 (service workers).
-
-**Fix:** Content script sends string appearance keys (`"specialFound"`, `"found"`, `"none"`) instead of numeric enum values. Background uses the strings directly for icon appearance lookup. Removes the coupling between files and prepares for Manifest v3 migration.
-
-**Files:** `check-and-border.js`, `background.js`, `constants.js`, tests
-
-### 3.4 Remove unused `command` field from background message
-
-**Problem:** Background sends `{ command: "buttonRecheck", info: "protocolOk" }` but the content script routes only on `message.info`. The `command` field is never read anywhere.
-
-**Fix:** Send only `{ info: "protocolOk" }`.
-
-**Files:** `background.js`, tests
-
 ### 3.5 Move referer reading to background script
 
 **Problem:** Content script sends `referers: state.refererSources` in its message to the background. The background uses this for redirect checks. But referers come from `browser.storage.local` — the background could read them directly, simplifying the message.

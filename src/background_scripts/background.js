@@ -113,7 +113,6 @@ async function updateTab(tab) {
     console.log(`Init sendValue to tab id: ${tabId}`);
     browser.tabs
       .sendMessage(tabId, {
-        command: "buttonRecheck",
         info: "protocolOk",
       })
       .catch(console.error);
