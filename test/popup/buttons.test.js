@@ -88,23 +88,41 @@ describe("ButtonClearAll", () => {
     global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
     const numberOfBlacklistedUrls = 2;
     const infoContainer = fakeModule.fakeInfoContainer(numberOfBlacklistedUrls);
-    const sendMessageBackup = buttonsModule.__get__("sendMessage");
-    buttonsModule.__set__("sendMessage", jest.fn());
+    const notifyBackup = buttonsModule.__get__(
+      "notifyContentScriptOfUrlChange",
+    );
+    buttonsModule.__set__("notifyContentScriptOfUrlChange", jest.fn());
     // Test.
     const buttonClass = buttonsModule.__get__("ButtonClearAll");
     const button = new buttonClass(infoContainer);
-    const storedUrls = await button._clearStorageInfo("blacklist");
-    const expectedUrls = { blacklist: [], notify: ["url3"], referer: [] };
-    expect(storedUrls).toStrictEqual(expectedUrls);
-    expect(buttonsModule.__get__("sendMessage")).toHaveBeenCalledWith(
-      new modelModule.Message("urls", expectedUrls),
-    );
+    // Assert storage has blacklist values before clearing.
+    const storageBefore = await browser.storage.local.get({
+      blacklist: [],
+      notify: [],
+      referer: [],
+    });
+    expect(storageBefore.blacklist).toStrictEqual(["url1", "url2"]);
+    await button._clearStorageInfo("blacklist");
+    // Assert storage was cleared for the target type only.
+    const storageAfter = await browser.storage.local.get({
+      blacklist: [],
+      notify: [],
+      referer: [],
+    });
+    expect(storageAfter).toStrictEqual({
+      blacklist: [],
+      notify: ["url3"],
+      referer: [],
+    });
+    expect(
+      buttonsModule.__get__("notifyContentScriptOfUrlChange"),
+    ).toHaveBeenCalled();
     // Assert infoContainer URLs were removed.
     expect(infoContainer.children.length).toBe(0);
     // Undo test specific config.
     global.browser = fakeModule.fakeBrowser();
     fakeModule.runFakeDom("src/popup/popup.html");
-    buttonsModule.__set__("sendMessage", sendMessageBackup);
+    buttonsModule.__set__("notifyContentScriptOfUrlChange", notifyBackup);
   });
 });
 

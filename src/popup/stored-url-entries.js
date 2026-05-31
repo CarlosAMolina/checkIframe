@@ -20,11 +20,15 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
   try {
     await browser.storage.local.set({ [urlType]: [...storedUrls, ...newUrls] });
     newUrls.forEach((url) => showStoredInfo(infoContainer, urlType, url));
-    const allArrays = await readAllUrlArrays();
-    sendMessage(new Message("urls", allArrays));
+    await notifyContentScriptOfUrlChange();
   } catch (e) {
     reportError(e);
   }
+}
+
+export async function notifyContentScriptOfUrlChange() {
+  const allArrays = await readAllUrlArrays();
+  sendMessage(new Message("urls", allArrays));
 }
 
 function readAllUrlArrays() {
@@ -66,7 +70,7 @@ class ButtonDelete extends ButtonDynamic {
         );
         return browser.storage.local
           .set({ [this._urlType]: urls[this._urlType] })
-          .then(() => sendMessage(new Message("urls", urls)));
+          .then(() => notifyContentScriptOfUrlChange());
       })
       .catch(reportError);
   }
@@ -129,8 +133,7 @@ class ButtonUpdate extends ButtonDynamic {
       v === this._urlValue ? this._newValue : v,
     );
     await browser.storage.local.set({ [this._urlType]: updatedUrls });
-    const allArrays = await readAllUrlArrays();
-    sendMessage(new Message("urls", allArrays));
+    await notifyContentScriptOfUrlChange();
     showStoredInfo(infoContainer, this._urlType, this._newValue);
   }
 }

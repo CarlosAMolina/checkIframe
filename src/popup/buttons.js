@@ -8,6 +8,7 @@ import { HTML_ID_MENU_CONFIG } from "./dom.js";
 import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
 import { Message } from "./model.js";
+import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
 import { reportError } from "./log.js";
 import { removeChildren } from "./dom.js";
 import { saveUrls } from "./stored-url-entries.js";
@@ -457,12 +458,6 @@ class ButtonClearAll extends Button {
       this._infoContainer.removeChild(this._infoContainer.firstChild);
     }
     await browser.storage.local.set({ [urlType]: [] });
-    const allArrays = await browser.storage.local.get({
-      blacklist: [],
-      notify: [],
-      referer: [],
-    });
-    sendMessage(new Message("urls", allArrays));
-    return allArrays;
+    await notifyContentScriptOfUrlChange();
   }
 }

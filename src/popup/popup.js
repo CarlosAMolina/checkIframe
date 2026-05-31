@@ -1,11 +1,10 @@
-import { Message } from "./model.js";
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
 import { infoContainer } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
+import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
 import { reportError } from "./log.js";
 import { saveUrls } from "./stored-url-entries.js";
-import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
@@ -28,11 +27,7 @@ function popupMain() {
 function initializePopup() {
   setNewElementsMaxWidth();
   initializePopupButtons();
-  browser.storage.local
-    .get({ blacklist: [], notify: [], referer: [] })
-    .then((allArrays) => {
-      sendMessage(new Message("urls", allArrays));
-    }, reportError);
+  notifyContentScriptOfUrlChange();
 }
 
 // there was an error executing the script.

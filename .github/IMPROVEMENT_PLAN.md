@@ -9,14 +9,6 @@
 
 ## Phase 3: Architecture Improvements
 
-### 3.1 Extract `readAllUrlArrays` + `notifyContentScriptOfUrlChange`
-
-**Problem:** `browser.storage.local.get({ blacklist: [], notify: [], referer: [] })` is duplicated in `stored-url-entries.js`, `buttons.js`, and `popup.js`. After each URL mutation (add, delete, update, clear), the same read-all + send-message pair is repeated in 4 places.
-
-**Fix:** Export `readAllUrlArrays()` from `stored-url-entries.js`. Extract `notifyContentScriptOfUrlChange()` combining both steps. Import where needed.
-
-**Files:** `stored-url-entries.js`, `buttons.js`, `popup.js`
-
 ### 3.2 Remove `{ response: ... }` wrapper from content script
 
 **Problem:** Content script handlers return `Promise.resolve({ response: value })`, and the popup unwraps with `response.response`. This double nesting adds noise in `handleButtonRecheck`, `handleButtonScroll`, and `handleButtonShowSources`.
