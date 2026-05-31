@@ -6,7 +6,6 @@ const state = {
   highlightAllAutomatically: false,
   indexToHighlight: 0,
   notifySources: [],
-  refererSources: [],
   showLogs: false,
 };
 
@@ -46,24 +45,17 @@ const state = {
 
 async function initializeGlobalVariables() {
   try {
-    const {
-      idShowLogs,
-      idHighlightAllAutomatically,
-      blacklist,
-      notify,
-      referer,
-    } = await browser.storage.local.get({
-      idShowLogs: false,
-      idHighlightAllAutomatically: false,
-      blacklist: [],
-      notify: [],
-      referer: [],
-    });
+    const { idShowLogs, idHighlightAllAutomatically, blacklist, notify } =
+      await browser.storage.local.get({
+        idShowLogs: false,
+        idHighlightAllAutomatically: false,
+        blacklist: [],
+        notify: [],
+      });
     state.showLogs = idShowLogs;
     state.highlightAllAutomatically = idHighlightAllAutomatically;
     state.blacklistedSources = blacklist;
     state.notifySources = notify;
-    state.refererSources = referer;
   } catch (error) {
     reportErrorContentScript(error);
   }
@@ -171,7 +163,6 @@ function handleButtonHighlightAllAutomatically(message) {
 function handleSourcesUpdate(message) {
   state.blacklistedSources = message.values.blacklist ?? [];
   state.notifySources = message.values.notify ?? [];
-  state.refererSources = message.values.referer ?? [];
   analyzePageAndSend();
 }
 
@@ -226,7 +217,6 @@ function analyzePageAndSend() {
   const analysis = getPageAnalysis(elements);
   browser.runtime.sendMessage({
     detectionState: analysis.detectionState,
-    referers: state.refererSources,
     locationUrl: analysis.locationUrl,
   });
   return { elements, analysis };

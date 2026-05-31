@@ -9,14 +9,6 @@
 
 ## Phase 3: Architecture Improvements
 
-### 3.5 Move referer reading to background script
-
-**Problem:** Content script sends `referers: state.refererSources` in its message to the background. The background uses this for redirect checks. But referers come from `browser.storage.local` — the background could read them directly, simplifying the message.
-
-**Fix:** Background reads referers from storage when processing the content script message. Content script message simplifies to `{ detectionState, locationUrl }`.
-
-**Files:** `background.js`, `check-and-border.js`, tests
-
 ### 3.6 Remove `URL_TYPE_*` from constants.js
 
 **Problem:** `URL_TYPE_BLACKLIST`, `URL_TYPE_NOTIFY`, `URL_TYPE_REFERER` are defined in `constants.js` as globals. The content script no longer uses them (storage migration to array format already happened). They're only needed by the popup (`url.js` re-declares them as ES module exports).

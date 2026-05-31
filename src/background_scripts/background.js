@@ -24,7 +24,7 @@ console.log("Extension initialized");
 updateActiveTab();
 
 // listen to messages from the content script
-browser.runtime.onMessage.addListener((message, sender) => {
+browser.runtime.onMessage.addListener(async (message, sender) => {
   console.log("Message received from content-script:");
   console.log(message);
   const tabUrl = sender.tab?.url;
@@ -32,10 +32,10 @@ browser.runtime.onMessage.addListener((message, sender) => {
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
     console.log(`Current tab url: ${tabUrl}`);
-    if (
-      checkRunRedirect(message.referers, tabUrl) &&
-      message.locationUrl !== null
-    ) {
+    const { referer: referers } = await browser.storage.local.get({
+      referer: [],
+    });
+    if (checkRunRedirect(referers, tabUrl) && message.locationUrl !== null) {
       redirectTo(message.locationUrl);
     }
   }
