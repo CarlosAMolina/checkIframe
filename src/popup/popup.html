@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="popup.css" />
   </head>
-  <!-- TODO add margin without using section class-->
   <body>
     <div id="popup-content">
       <div id="error-content" class="hidden">
@@ -35,34 +34,34 @@
           src="/icons/noHighlight.svg"
         />
       </div>
-      <p id="infoScroll" class="section backgroundGray hidden"></p>
-      <button id="buttonShowSources" class="section">Show tags info</button>
+      <p id="infoScroll" class="backgroundGray hidden"></p>
+      <button id="buttonShowSources">Show tags info</button>
       <div
         id="infoTags"
-        class="section backgroundGray sources-container hidden"
+        class="backgroundGray sources-container hidden"
       ></div>
-      <button id="buttonShowConfig" class="section">Configuration</button>
-      <div id="menuConfig" class="section backgroundGray hidden">
+      <button id="buttonShowConfig">Configuration</button>
+      <div id="menuConfig" class="backgroundGray hidden">
         <div class="switchConfig">
           <button id="buttonAlwaysShowSources">
             <div>off</div>
           </button>
           <p>Always show tags info</p>
         </div>
-        <div class="switchConfig section">
+        <div class="switchConfig">
           <button id="buttonHighlightAllAutomatically">
             <div>off</div>
           </button>
           <p>Automatic highlighting</p>
         </div>
-        <div class="switchConfig section">
+        <div class="switchConfig">
           <button id="buttonShowLogs">
             <div>off</div>
           </button>
           <p>Show logs in the console</p>
         </div>
-        <p class="section"><u>Sources options</u></p>
-        <fieldset class="section">
+        <p><u>Sources options</u></p>
+        <fieldset>
           <legend>Type of source to configure:</legend>
           <div>
             <input id="buttonUrlsBlacklist" type="radio" name="urlType" />
@@ -84,15 +83,14 @@
           </div>
         </fieldset>
         <div id="sourcesConfigValues" class="hidden">
-          <p id="pInput" class="section">New values</p>
+          <p id="pInput">New values</p>
           <textarea
             id="inputUrl"
-            class="section"
             type="text"
             style="resize: vertical"
             rows="2"
           ></textarea>
-          <div class="section oneLineButtons">
+          <div class="oneLineButtons">
             <button id="buttonAddUrl">Add</button>
             <button id="buttonClearAll">Clear all</button>
           </div>

@@ -22,11 +22,9 @@ describe("dom", () => {
   it("unhide should remove hidden", function () {
     const htmlId = "infoScroll";
     expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGray hidden",
+      "backgroundGray hidden",
     );
     domModule.unhide(htmlId);
-    expect(document.getElementById(htmlId).className).toBe(
-      "section backgroundGray",
-    );
+    expect(document.getElementById(htmlId).className).toBe("backgroundGray");
   });
 });

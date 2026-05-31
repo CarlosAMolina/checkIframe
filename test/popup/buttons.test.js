@@ -492,13 +492,13 @@ describe("buttons", () => {
     it("Check click has expected calls and values", async () => {
       document.querySelector("#infoScroll").classList.remove("hidden");
       expect(document.getElementById("infoScroll").className).toBe(
-        "section backgroundGray",
+        "backgroundGray",
       );
       browser.tabs.sendMessage.mockClear();
       await getButton().click();
       const buttonIdHtml = "buttonClean";
       expect(document.getElementById("infoScroll").className).toBe(
-        "section backgroundGray hidden",
+        "backgroundGray hidden",
       );
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -589,14 +589,12 @@ describe("buttons", () => {
     }
     function assertHtmlInitialValues() {
       const infoScrollBeforeRun = document.getElementById("infoScroll");
-      expect(infoScrollBeforeRun.className).toBe(
-        "section backgroundGray hidden",
-      );
+      expect(infoScrollBeforeRun.className).toBe("backgroundGray hidden");
       expect(infoScrollBeforeRun.textContent).toBe("");
     }
     function assertTestResult(infoScrollTextContent) {
       expect(document.getElementById("infoScroll").className).toBe(
-        "section backgroundGray",
+        "backgroundGray",
       );
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
@@ -612,11 +610,11 @@ describe("buttons", () => {
     });
     it("click should have expected calls and values", function () {
       expect(document.getElementById("menuConfig").className).toBe(
-        "section backgroundGray hidden",
+        "backgroundGray hidden",
       );
       getButton().click();
       expect(document.getElementById("menuConfig").className).toBe(
-        "section backgroundGray",
+        "backgroundGray",
       );
     });
     function getButton() {
@@ -748,7 +746,7 @@ describe("Check module import", () => {
         const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
         function_(infoContainer, "blacklist", "");
         expect(infoContainer.innerHTML).toBe(
-          '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
+          '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
         );
       });
       it("If values to manage", function () {
@@ -758,7 +756,7 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         function_(infoContainer, "blacklist", eValue);
         expect(infoContainer.innerHTML).toBe(
-          '<div><div class="section sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="section sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
+          '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
         );
       });
     });

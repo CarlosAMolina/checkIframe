@@ -110,7 +110,7 @@ Uses **ES6 modules** (`import`/`export`). Entry point: `popup.html` loads `popup
 
 - **log.js** — `reportError(error)` — logs to `console.error`.
 
-- **popup.css** — Styles for the popup UI. Uses CSS custom properties for dimensions. Key classes: `.hidden`, `.backgroundGray`, `.section`, `.oneLineButtons`, `.switchConfig`, `.sourceConfig`, `.detections`, `.tooltip`.
+- **popup.css** — Styles for the popup UI. Uses CSS custom properties for dimensions. Key classes: `.hidden`, `.backgroundGray`, `.oneLineButtons`, `.switchConfig`, `.sourceConfig`, `.detections`, `.tooltip`.
 
 ### Message Flow
 

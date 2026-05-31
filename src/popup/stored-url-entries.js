@@ -138,7 +138,7 @@ class ButtonUpdate extends ButtonDynamic {
 function showStoredInfo(infoContainer, urlType, urlValue) {
   // display box
   const entryDisplay = document.createElement("div");
-  entryDisplay.setAttribute("class", "section sourceConfig");
+  entryDisplay.setAttribute("class", "sourceConfig");
   const deleteBtn = ButtonDelete.createDom();
   entryDisplay.appendChild(deleteBtn);
   const entryValue = document.createElement("p");
@@ -149,7 +149,7 @@ function showStoredInfo(infoContainer, urlType, urlValue) {
 
   // edit box
   const entryEdit = document.createElement("div");
-  entryEdit.setAttribute("class", "section sourceConfig");
+  entryEdit.setAttribute("class", "sourceConfig");
   const entryEditInput = document.createElement("input");
   entryEdit.appendChild(entryEditInput);
   const updateBtn = ButtonUpdate.createDom();

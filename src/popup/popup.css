@@ -89,7 +89,22 @@ input[type="image"]:hover {
   width: 100%;
 }
 
-.section {
+#infoScroll,
+#buttonShowSources,
+#infoTags,
+#buttonShowConfig,
+#menuConfig {
+  margin-top: var(--SPACE-BETWEEN-SECTIONS);
+}
+
+#menuConfig > .switchConfig ~ .switchConfig,
+#menuConfig > p,
+#menuConfig > fieldset {
+  margin-top: var(--SPACE-BETWEEN-SECTIONS);
+}
+
+#sourcesConfigValues > *,
+.info-container > * {
   margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
 
