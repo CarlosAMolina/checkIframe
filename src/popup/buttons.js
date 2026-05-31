@@ -157,12 +157,43 @@ class ButtonShowSources extends Button {
 
 // https://www.scriptol.com/html5/button-on-off.php
 class ButtonOnOff extends Button {
-  initializePopup() {
-    throw new TypeError("Not implemented: method initializePopup");
-  }
-
   get _idStorage() {
     throw new TypeError("Not implemented");
+  }
+
+  async initializePopup() {
+    const mustBeOn = await this.getIsStoredOn();
+    if (mustBeOn) {
+      this.setStyleOn();
+      await this._onTurnOn();
+    } else {
+      this.setStyleOff();
+      await this._onInitializeOff();
+    }
+  }
+
+  async click() {
+    this._logButtonName();
+    if (this.isOn) {
+      this.setStyleOff();
+      await this._onTurnOff();
+    } else {
+      this.setStyleOn();
+      await this._onTurnOn();
+    }
+    await this._persistState();
+  }
+
+  get isOn() {
+    const element = document.getElementById(this._idHtml);
+    console.log(`Is button ${this._idHtml} checked? ${element.checked}`);
+    const result = element.checked === undefined ? false : element.checked;
+    console.log(`Is button ${this._idHtml} on? ${result}`);
+    return result;
+  }
+
+  async getIsStoredOn() {
+    return getIsStoredOn(this._idStorage);
   }
 
   setStyleOn() {
@@ -194,42 +225,6 @@ class ButtonOnOff extends Button {
     element.style.color = styles[style].color;
     element.textContent = styles[style].textContent;
     element.checked = styles[style].checked;
-  }
-
-  // TODO? as private. Review other public methods too
-  get isOn() {
-    const element = document.getElementById(this._idHtml);
-    console.log(`Is button ${this._idHtml} checked? ${element.checked}`);
-    const result = element.checked === undefined ? false : element.checked;
-    console.log(`Is button ${this._idHtml} on? ${result}`);
-    return result;
-  }
-
-  async getIsStoredOn() {
-    return getIsStoredOn(this._idStorage);
-  }
-
-  async click() {
-    this._logButtonName();
-    if (this.isOn) {
-      this.setStyleOff();
-      await this._onTurnOff();
-    } else {
-      this.setStyleOn();
-      await this._onTurnOn();
-    }
-    await this._persistState();
-  }
-
-  async initializePopup() {
-    const mustBeOn = await this.getIsStoredOn();
-    if (mustBeOn) {
-      this.setStyleOn();
-      await this._onTurnOn();
-    } else {
-      this.setStyleOff();
-      await this._onInitializeOff();
-    }
   }
 
   async _onTurnOn() {
