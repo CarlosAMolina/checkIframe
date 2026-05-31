@@ -489,11 +489,14 @@ class ButtonClearAll extends Button {
     return BUTTON_ID_CLEAR_ALL;
   }
 
-  // TODO? convert to async?
-  click() {
+  async click() {
     this._logButtonName();
     const urlType = getUrlTypeActive();
-    return this._clearStorageInfo(urlType).catch(reportError);
+    try {
+      await this._clearStorageInfo(urlType);
+    } catch (e) {
+      reportError(e);
+    }
   }
 
   async _clearStorageInfo(urlType) {
