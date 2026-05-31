@@ -216,5 +216,3 @@ async function handleActivatedTab(activeInfo) {
     console.error(error);
   }
 }
-
-// TODO: ask gpt to simplify the whole flow into a cleaner event-driven design

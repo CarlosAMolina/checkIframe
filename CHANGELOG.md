@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added `.github/copilot-instructions.md` to provide Copilot with project-specific development guidelines.
 
 ### Changed
-- Refactor code. Simplify code and stored data.
+- Refactor code. Improve and simplify code.
 
 ### Fixed
 - Update dev dependencies to fix vulnerabilities and deprecations.
