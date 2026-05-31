@@ -891,7 +891,9 @@ describe("Check module import", () => {
             referer: [],
           }),
         ]);
-        // TODO not tested entry.parentNode.removeChild(entry);
+        // Assert the entire URL row disappears after editing it (it gets re-added by showStoredInfo with the new value,
+        // but that call writes to the module-level infoContainer from ui.js, not the local one in the test.
+        expect(infoContainer.children.length).toBe(0);
       });
       it("sendMessage is called after storage write completes, not before", async () => {
         const eValue = "https://foo.com/test.html";
