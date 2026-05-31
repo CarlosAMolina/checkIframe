@@ -551,7 +551,7 @@ describe("buttons", () => {
       // Test configuration.
       const summary = { iframe: { count: 2 }, frame: { count: 0 } };
       global.browser = fakeModule.fakeBrowser({
-        sendMessageResponse: { response: summary },
+        sendMessageResponse: summary,
       });
       const uiModule = require("../../src/popup/ui.js");
       domModule.unhide("infoTags");
@@ -576,7 +576,7 @@ describe("buttons", () => {
       // Set test config.
       assertHtmlInitialValues();
       global.browser = fakeModule.fakeBrowser({
-        sendMessageResponse: { response: "done sendMessage" },
+        sendMessageResponse: "done sendMessage",
       });
       // Test.
       await Promise.all([getButton().click()]);
@@ -588,14 +588,14 @@ describe("buttons", () => {
       // Set test config.
       assertHtmlInitialValues();
       global.browser = fakeModule.fakeBrowser({
-        sendMessageResponse: {},
+        sendMessageResponse: undefined,
       });
       const consoleErrorSpy = jest.spyOn(console, "error");
       // Test.
       await Promise.all([getButton().click()]);
       assertTestResult("Internal error. The action could not be executed");
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Error: Error: Incorrect response: {}",
+        "Error: Error: Incorrect response: undefined",
       );
       // Restore test config.
       global.browser = fakeModule.fakeBrowser();
@@ -658,13 +658,11 @@ describe("buttons", () => {
       it("should show (i)frames information in the HTML if all required data exists", async () => {
         // Previous steps.
         const sendMessageResponse = {
-          response: {
-            frame: {
-              sourcesAllNumber: 2,
-              sourcesValid: ["https://frame1.com", "about:blank"],
-            },
-            iframe: { sourcesAllNumber: 0, sourcesValid: [] },
+          frame: {
+            sourcesAllNumber: 2,
+            sourcesValid: ["https://frame1.com", "about:blank"],
           },
+          iframe: { sourcesAllNumber: 0, sourcesValid: [] },
         };
         browser = fakeModule.fakeBrowser({
           sendMessageResponse: sendMessageResponse,

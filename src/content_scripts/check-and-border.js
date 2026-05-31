@@ -110,13 +110,13 @@ function handleButtonRecheck() {
     getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
-  return Promise.resolve({ response: analysis.sourcesSummary });
+  return Promise.resolve(analysis.sourcesSummary);
 }
 
 function handleButtonScroll() {
   const validElements = getValidPageElements();
   if (validElements.length === 0) {
-    return Promise.resolve({ response: "No detections to show" });
+    return Promise.resolve("No detections to show");
   }
   // To control if the page or the blacklisted sources have changed
   if (state.indexToHighlight >= validElements.length) {
@@ -137,7 +137,7 @@ function handleButtonScroll() {
     state.indexToHighlight === validElements.length - 1
       ? 0
       : state.indexToHighlight + 1;
-  return Promise.resolve({ response: response });
+  return Promise.resolve(response);
 }
 
 function handleButtonClean() {
@@ -151,7 +151,7 @@ function handleButtonShowSources() {
   const elements = getPageElements();
   logDetections(elements);
   const analysis = getPageAnalysis(elements);
-  return Promise.resolve({ response: analysis.sourcesSummary });
+  return Promise.resolve(analysis.sourcesSummary);
 }
 
 function handleButtonShowLogs(message) {

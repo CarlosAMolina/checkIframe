@@ -9,14 +9,6 @@
 
 ## Phase 3: Architecture Improvements
 
-### 3.2 Remove `{ response: ... }` wrapper from content script
-
-**Problem:** Content script handlers return `Promise.resolve({ response: value })`, and the popup unwraps with `response.response`. This double nesting adds noise in `handleButtonRecheck`, `handleButtonScroll`, and `handleButtonShowSources`.
-
-**Fix:** Return values directly: `Promise.resolve(analysis.sourcesSummary)`. Popup reads `response` directly (browser API wraps the return).
-
-**Files:** `check-and-border.js`, `buttons.js`, `ui.js`, tests
-
 ### 3.3 Replace numeric DetectionState with string keys in messages
 
 **Problem:** `DetectionState` enum is defined in `constants.js` and shared as a global between content script and background script. Content script sends numeric values (0, 1, 2), which are magic numbers in the message. This global sharing will break in Manifest v3 (service workers).
