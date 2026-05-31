@@ -503,9 +503,7 @@ describe("buttons", () => {
       );
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
-      expect(lastCall[0]).toBe(tabId);
-      expect(lastCall[1].info).toBe(buttonIdHtml);
-      // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
+      expect(lastCall).toEqual([tabId, { info: buttonIdHtml }]);
     });
     function getButton() {
       const classType = buttonsModule.__get__("ButtonClean");
@@ -527,10 +525,8 @@ describe("buttons", () => {
       expect(domModule.isHidden("infoTags")).toBe(false);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
-      expect(lastCall[0]).toBe(tabId);
-      expect(lastCall[1].info).toBe("buttonRecheck");
+      expect(lastCall).toEqual([tabId, { info: "buttonRecheck" }]);
       expect(showSourcesSpy).toHaveBeenCalledTimes(1);
-      // TODO check and control lastCall[1].values (is affected by other tests that create a big array of aleatory size).
       // Reset test configuration.
       showSourcesSpy.mockRestore();
     });
