@@ -332,8 +332,8 @@ describe("ButtonAlwaysShowSources", () => {
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(true);
-      expect(isHidden("buttonShowSources")).toBe(true);
-      expect(isHidden("infoTags")).toBe(false);
+      expect(domModule.isHidden("buttonShowSources")).toBe(true);
+      expect(domModule.isHidden("infoTags")).toBe(false);
       const tabId = 1;
       expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
         info: "buttonShowSources",
@@ -365,7 +365,7 @@ describe("ButtonAlwaysShowSources", () => {
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(false);
-      expect(isHidden("buttonShowSources")).toBe(false);
+      expect(domModule.isHidden("buttonShowSources")).toBe(false);
       expect(browser.storage.local.set).toHaveBeenCalledWith({
         idTagsInfoAlwaysVisible: false,
       });
@@ -393,8 +393,8 @@ describe("ButtonAlwaysShowSources", () => {
       // Test.
       await button.initializePopup();
       expect(isOn(buttonElement)).toBe(true);
-      expect(isHidden("buttonShowSources")).toBe(true);
-      expect(isHidden("infoTags")).toBe(false);
+      expect(domModule.isHidden("buttonShowSources")).toBe(true);
+      expect(domModule.isHidden("infoTags")).toBe(false);
       const tabId = 1;
       expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
         info: "buttonShowSources",
@@ -440,10 +440,6 @@ describe("ButtonAlwaysShowSources", () => {
   });
   function isOn(button) {
     return button.checked;
-  }
-  function isHidden(idHtml) {
-    // TODO remove, use domModule.isHidden, search in other tests too.
-    return document.getElementById(idHtml).classList.contains("hidden");
   }
   function setOff(button) {
     button.checked = false;
