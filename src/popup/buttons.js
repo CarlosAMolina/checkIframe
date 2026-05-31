@@ -15,8 +15,6 @@ import { showStoredUrlsType } from "./stored-url-entries.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
 
-// TODO move code with export to the top of the file
-
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
 const BUTTON_ID_CLEAN = "buttonClean";
@@ -31,8 +29,6 @@ const BUTTON_ID_URLS_BLACKLIST = "buttonUrlsBlacklist";
 const BUTTON_ID_URLS_NOTIFY = "buttonUrlsNotify";
 const BUTTON_ID_URLS_REFERER = "buttonUrlsReferer";
 const HTML_ID_SOURCES_CONFIG = "sourcesConfigValues";
-
-// TODO when all buttons are in this file, review and remove unrequired `export` and update tests.
 
 export function initializePopupButtons() {
   const buttonMap = {
@@ -142,11 +138,12 @@ class ButtonShowSources extends Button {
   click() {
     this._logButtonName();
     toggleHide("infoTags");
-    return this.showSources();
+    if (!isHidden("infoTags")) {
+      return this.showSources();
+    }
   }
 
   showSources() {
-    // TODO? avoid send message when hidding
     const message = new Message(this._idHtml);
     return sendMessage(message)
       .then((response) => {

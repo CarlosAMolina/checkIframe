@@ -691,6 +691,13 @@ describe("buttons", () => {
         assertIsHidden("infoTags");
         assertSendMessageCall();
       });
+      it("click should NOT send message when hiding (infoTags already visible)", async () => {
+        domModule.unhide("infoTags");
+        expect(domModule.isHidden("infoTags")).toBe(false);
+        await initializeButton("ButtonShowSources").click();
+        expect(domModule.isHidden("infoTags")).toBe(true);
+        expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
+      });
       function assertIsHidden(htmlId) {
         expect(
           document.getElementById(htmlId).classList.contains("hidden"),
