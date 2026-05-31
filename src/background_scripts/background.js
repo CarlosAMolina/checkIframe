@@ -99,7 +99,7 @@ async function updateActiveTab() {
 
 async function updateTab(tab) {
   const tabId = tab.id;
-  const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation) // TODO check when tab.url is not an str
+  const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation)
   if (wasAlreadyProcessed(tabId, tabUrl)) {
     console.log(`Skip duplicated update for tab ${tabId}`);
     refreshTabIcon(tabId);
@@ -197,13 +197,12 @@ function handleUpdatedWindow(windowId) {
 }
 
 //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated
-// TODO check tab is received when this function is called
 function handleUpdatedTabUrl(tabId, changeInfo, tab) {
   if (changeInfo.status !== "complete") {
     return;
   }
   console.log(`Init newly tab url loaded. Tab id: ${tabId}`);
-  updateTab(tab); // TODO check if it should be replaced with updateActiveTab()
+  updateTab(tab);
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
