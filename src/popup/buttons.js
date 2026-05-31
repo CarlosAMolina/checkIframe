@@ -311,40 +311,15 @@ class ButtonShowLogs extends ButtonOnOff {
   }
 
   async _onTurnOn() {
-    await browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(this._activateLogs.bind(this))
-      .catch(console.error);
+    await sendMessage(new Message(this._idHtml, true));
   }
 
   async _onTurnOff() {
-    await browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(this._deactivateLogs.bind(this))
-      .catch(console.error);
+    await sendMessage(new Message(this._idHtml, false));
   }
 
   get _idStorage() {
     return "idShowLogs";
-  }
-
-  _activateLogs(tabs) {
-    // TODO use message mediator, search all code to replace
-    browser.tabs
-      .sendMessage(tabs[0].id, {
-        info: this._idHtml,
-        values: true,
-      })
-      .catch(console.error);
-  }
-
-  _deactivateLogs(tabs) {
-    browser.tabs
-      .sendMessage(tabs[0].id, {
-        info: this._idHtml,
-        values: false,
-      })
-      .catch(console.error);
   }
 }
 
@@ -355,18 +330,12 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
 
   async _onTurnOn() {
     this._hideElementsForHighlightAllAutomatically();
-    await browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(this._activateHighlightAllAutomatically.bind(this))
-      .catch(console.error);
+    await sendMessage(new Message(this._idHtml, true));
   }
 
   async _onTurnOff() {
     this._unhideElementsForHighlightAllAutomatically();
-    await browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(this._deactivateHighlightAllAutomatically.bind(this))
-      .catch(console.error);
+    await sendMessage(new Message(this._idHtml, false));
   }
 
   _hideElementsForHighlightAllAutomatically() {
@@ -381,24 +350,6 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
 
   get _idStorage() {
     return "idHighlightAllAutomatically";
-  }
-
-  _activateHighlightAllAutomatically(tabs) {
-    browser.tabs
-      .sendMessage(tabs[0].id, {
-        info: this._idHtml,
-        values: true,
-      })
-      .catch(console.error);
-  }
-
-  _deactivateHighlightAllAutomatically(tabs) {
-    browser.tabs
-      .sendMessage(tabs[0].id, {
-        info: this._idHtml,
-        values: false,
-      })
-      .catch(console.error);
   }
 }
 
