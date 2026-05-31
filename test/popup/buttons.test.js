@@ -4,14 +4,13 @@ import * as fakeModule from "../fake.js";
 // https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
 let buttonsModule;
 let storedUrlEntriesModule;
-// TODO infoContainer is a global variable and mockNotEmptyInfoContainer() returns it too, drop global var
-let infoContainer;
 let modelModule;
 let domModule;
 let htmlBuilderModule;
 const tabId = 1;
 
 describe("saveUrls", () => {
+  let infoContainer;
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
     storedUrlEntriesModule = require("../../src/popup/stored-url-entries.js");
@@ -32,9 +31,10 @@ describe("saveUrls", () => {
 });
 
 describe("Check removeChildren", () => {
+  let infoContainer;
   beforeEach(() => {
     initializeMocksAndVariables();
-    mockNotEmptyInfoContainer();
+    infoContainer = fakeModule.mockNotEmptyInfoContainer();
   });
   it("Elements are modified", function () {
     expect(infoContainer.firstChild.textContent).toBe("foo");
@@ -711,7 +711,7 @@ describe("buttons", () => {
     });
     it("click should execute removeShownStoredUrls", async () => {
       // Test config.
-      const infoContainer = mockNotEmptyInfoContainer();
+      const infoContainer = fakeModule.mockNotEmptyInfoContainer();
       expect(infoContainer.firstChild.textContent).toBe("foo");
       // Test.
       getButton(infoContainer).click();
@@ -767,7 +767,7 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
         const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
-        const infoContainer = mockNotEmptyInfoContainer();
+        const infoContainer = fakeModule.mockNotEmptyInfoContainer();
         function_(infoContainer, "blacklist", eValue);
         const buttons = infoContainer.getElementsByTagName("button");
         expect(buttons.length).toBe(3);
@@ -799,7 +799,7 @@ describe("Check module import", () => {
       it("Test click img inside deleteBtn removes entry", async () => {
         const eValue = "https://foo.com/test.html";
         const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
-        const infoContainer = mockNotEmptyInfoContainer();
+        const infoContainer = fakeModule.mockNotEmptyInfoContainer();
         function_(infoContainer, "blacklist", eValue);
         const img = infoContainer.querySelector('button[title="Delete"] img');
         await img.click();
@@ -934,9 +934,4 @@ function initializeMocksAndVariables() {
   domModule = require("../../src/popup/dom.js");
   htmlBuilderModule = require("../builder.js");
   modelModule = require("../../src/popup/model.js");
-}
-
-function mockNotEmptyInfoContainer() {
-  infoContainer = fakeModule.mockNotEmptyInfoContainer();
-  return infoContainer;
 }
