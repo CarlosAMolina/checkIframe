@@ -43,9 +43,36 @@ describe("Check removeChildren", () => {
 });
 
 describe("Check showStoredUrlsType", () => {
-  // TODO describe("Test showStoredUrlsType call", () => {
+  let uiModule;
+  beforeEach(() => {
+    initializeMocksAndVariables();
+    uiModule = require("../../src/popup/ui.js");
+    uiModule.infoContainer.innerHTML = "";
+  });
   it("showStoredUrlsType runs without error", function () {
     storedUrlEntriesModule.showStoredUrlsType();
+  });
+  describe("Test showStoredUrlsType call", () => {
+    it("renders no entries when storage is empty for that type", async () => {
+      global.browser = fakeModule.fakeBrowser({
+        storageItems: { blacklist: [], notify: [], referer: [] },
+      });
+      storedUrlEntriesModule.showStoredUrlsType("blacklist");
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(uiModule.infoContainer.children.length).toBe(0);
+    });
+    it("renders only entries for the requested type, not others", async () => {
+      global.browser = fakeModule.fakeBrowser({
+        storageItems: {
+          blacklist: ["url1"],
+          notify: ["url2", "url3"],
+          referer: [],
+        },
+      });
+      storedUrlEntriesModule.showStoredUrlsType("notify");
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(uiModule.infoContainer.children.length).toBe(2);
+    });
   });
 });
 
