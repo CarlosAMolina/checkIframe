@@ -1,5 +1,3 @@
-// TODO sometimes it is called once and an inner function calls it again,
-// TODO review the code to reduce the calls to this method.
 export function getUrlTypeActive() {
   const idTypeMap = [
     { idHtml: "buttonUrlsBlacklist", urlType: URL_TYPE_BLACKLIST },

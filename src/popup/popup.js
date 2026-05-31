@@ -9,8 +9,6 @@ import { sendMessage } from "./message-mediator.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
-// TODO replace all `var` in all files with let or const.
-
 function popupMain() {
   // Display previously saved stored info on start-up
   initializePopup();
