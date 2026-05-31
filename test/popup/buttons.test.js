@@ -713,7 +713,6 @@ describe("buttons", () => {
       const infoContainer = mockNotEmptyInfoContainer();
       expect(infoContainer.firstChild.textContent).toBe("foo");
       // Test.
-      // TODO use await (search in all tests all clicks without await)
       getButton(infoContainer).click();
       expect(infoContainer.firstChild).toBe(null);
     });
