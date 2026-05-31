@@ -31,7 +31,7 @@ function readAllUrlArrays() {
   return browser.storage.local.get({ blacklist: [], notify: [], referer: [] });
 }
 
-class DynamicButton {
+class ButtonDynamic {
   static createDom() {
     throw new TypeError("Not implemented");
   }
@@ -41,7 +41,7 @@ class DynamicButton {
   }
 }
 
-class ButtonDelete extends DynamicButton {
+class ButtonDelete extends ButtonDynamic {
   constructor(entry, urlType, urlValue) {
     super();
     this._entry = entry;
@@ -72,7 +72,7 @@ class ButtonDelete extends DynamicButton {
   }
 }
 
-class ButtonCancel extends DynamicButton {
+class ButtonCancel extends ButtonDynamic {
   constructor(entryDisplay, entryEdit) {
     super();
     this._entryDisplay = entryDisplay;
@@ -92,7 +92,7 @@ class ButtonCancel extends DynamicButton {
   }
 }
 
-class ButtonUpdate extends DynamicButton {
+class ButtonUpdate extends ButtonDynamic {
   constructor(entry, entryEditInput, urlType, urlValue) {
     super();
     this._entry = entry;

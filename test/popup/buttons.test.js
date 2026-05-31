@@ -10,8 +10,6 @@ let domModule;
 let htmlBuilderModule;
 const tabId = 1;
 
-// TODO decide if the names for all buttons should be Button... or ...Button
-
 describe("saveUrls", () => {
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");

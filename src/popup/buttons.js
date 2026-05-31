@@ -159,7 +159,7 @@ class ButtonShowSources extends Button {
 }
 
 // https://www.scriptol.com/html5/button-on-off.php
-class OnOffButton extends Button {
+class ButtonOnOff extends Button {
   initializePopup() {
     throw new TypeError("Not implemented: method initializePopup");
   }
@@ -258,7 +258,7 @@ class OnOffButton extends Button {
   }
 }
 
-class ButtonAlwaysShowSources extends OnOffButton {
+class ButtonAlwaysShowSources extends ButtonOnOff {
   constructor() {
     super();
     this._button = new ButtonShowSources();
@@ -309,7 +309,7 @@ class ButtonClean extends Button {
   }
 }
 
-class ButtonShowLogs extends OnOffButton {
+class ButtonShowLogs extends ButtonOnOff {
   // TODO use BUTTON_ID_SHOW_LOGS in popup.js
   get _idHtml() {
     return "buttonShowLogs";
@@ -353,7 +353,7 @@ class ButtonShowLogs extends OnOffButton {
   }
 }
 
-class ButtonHighlightAllAutomatically extends OnOffButton {
+class ButtonHighlightAllAutomatically extends ButtonOnOff {
   // TODO use BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY in popup.js
   get _idHtml() {
     return "buttonHighlightAllAutomatically";
@@ -425,7 +425,7 @@ async function getIsStoredOn(keyName) {
   return result;
 }
 
-class UrlsOfTypeButton extends Button {
+class ButtonUrlType extends Button {
   constructor(infoContainer) {
     super();
     this._infoContainer = infoContainer;
@@ -443,7 +443,7 @@ class UrlsOfTypeButton extends Button {
   }
 }
 
-class ButtonUrlsNotify extends UrlsOfTypeButton {
+class ButtonUrlsNotify extends ButtonUrlType {
   get _idHtml() {
     return BUTTON_ID_URLS_NOTIFY;
   }
@@ -453,7 +453,7 @@ class ButtonUrlsNotify extends UrlsOfTypeButton {
   }
 }
 
-class ButtonUrlsBlacklist extends UrlsOfTypeButton {
+class ButtonUrlsBlacklist extends ButtonUrlType {
   get _idHtml() {
     return BUTTON_ID_URLS_BLACKLIST;
   }
@@ -463,7 +463,7 @@ class ButtonUrlsBlacklist extends UrlsOfTypeButton {
   }
 }
 
-class ButtonUrlsReferer extends UrlsOfTypeButton {
+class ButtonUrlsReferer extends ButtonUrlType {
   get _idHtml() {
     return BUTTON_ID_URLS_REFERER;
   }
