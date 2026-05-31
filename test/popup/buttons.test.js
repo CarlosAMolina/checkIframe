@@ -7,7 +7,7 @@ let storedUrlEntriesModule;
 let modelModule;
 let domModule;
 let htmlBuilderModule;
-const tabId = 1;
+const TAB_ID = 1;
 
 describe("saveUrls", () => {
   let infoContainer;
@@ -335,8 +335,7 @@ describe("ButtonAlwaysShowSources", () => {
       expect(isOn(buttonElement)).toBe(true);
       expect(domModule.isHidden("buttonShowSources")).toBe(true);
       expect(domModule.isHidden("infoTags")).toBe(false);
-      const tabId = 1;
-      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
+      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(TAB_ID, {
         info: "buttonShowSources",
       });
       expect(browser.storage.local.set).toHaveBeenCalledWith({
@@ -396,8 +395,7 @@ describe("ButtonAlwaysShowSources", () => {
       expect(isOn(buttonElement)).toBe(true);
       expect(domModule.isHidden("buttonShowSources")).toBe(true);
       expect(domModule.isHidden("infoTags")).toBe(false);
-      const tabId = 1;
-      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(tabId, {
+      expect(browser.tabs.sendMessage).toHaveBeenCalledWith(TAB_ID, {
         info: "buttonShowSources",
       });
     });
@@ -504,7 +502,7 @@ describe("buttons", () => {
       );
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
-      expect(lastCall).toEqual([tabId, { info: buttonIdHtml }]);
+      expect(lastCall).toEqual([TAB_ID, { info: buttonIdHtml }]);
     });
     function getButton() {
       const classType = buttonsModule.__get__("ButtonClean");
@@ -526,7 +524,7 @@ describe("buttons", () => {
       expect(domModule.isHidden("infoTags")).toBe(false);
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
-      expect(lastCall).toEqual([tabId, { info: "buttonRecheck" }]);
+      expect(lastCall).toEqual([TAB_ID, { info: "buttonRecheck" }]);
       expect(showSourcesSpy).toHaveBeenCalledTimes(1);
       // Reset test configuration.
       showSourcesSpy.mockRestore();
@@ -602,7 +600,7 @@ describe("buttons", () => {
       );
       expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
       const lastCall = browser.tabs.sendMessage.mock.lastCall;
-      expect(lastCall).toEqual([tabId, { info: "buttonScroll" }]);
+      expect(lastCall).toEqual([TAB_ID, { info: "buttonScroll" }]);
       expect(document.getElementById("infoScroll").textContent).toBe(
         infoScrollTextContent,
       );
@@ -701,7 +699,7 @@ describe("buttons", () => {
       function assertSendMessageCall() {
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
-        expect(lastCall).toEqual([tabId, { info: "buttonShowSources" }]);
+        expect(lastCall).toEqual([TAB_ID, { info: "buttonShowSources" }]);
       }
     });
   });
@@ -788,7 +786,7 @@ describe("Check module import", () => {
         ]);
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(1);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-          tabId,
+          TAB_ID,
           new modelModule.Message("urls", {
             blacklist: [],
             notify: [],
@@ -885,7 +883,7 @@ describe("Check module import", () => {
           { blacklist: [entryEditInputValue] },
         ]);
         expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-          tabId,
+          TAB_ID,
           new modelModule.Message("urls", {
             blacklist: [entryEditInputValue],
             notify: [],
