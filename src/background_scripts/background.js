@@ -98,10 +98,6 @@ async function updateActiveTab() {
 }
 
 async function updateTab(tab) {
-  // TODO check if this if can be dropped
-  if (!tab || typeof tab.id !== "number") {
-    return;
-  }
   const tabId = tab.id;
   const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation) // TODO check when tab.url is not an str
   if (wasAlreadyProcessed(tabId, tabUrl)) {
