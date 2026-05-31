@@ -1,6 +1,10 @@
 import { getUrlTypeActive } from "./url.js";
 import { getUrlsInInputBox } from "./ui.js";
 import { hide } from "./dom.js";
+import { HTML_ID_ERROR_CONTENT } from "./dom.js";
+import { HTML_ID_INFO_SCROLL } from "./dom.js";
+import { HTML_ID_INFO_TAGS } from "./dom.js";
+import { HTML_ID_MENU_CONFIG } from "./dom.js";
 import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
 import { Message } from "./model.js";
@@ -79,17 +83,17 @@ class ButtonRecheck extends Button {
 
   click() {
     this._logButtonName();
-    const mustShowSources = !isHidden("infoTags");
+    const mustShowSources = !isHidden(HTML_ID_INFO_TAGS);
     if (mustShowSources) {
       // Hide and unhide (later) to make the visual effect that a recheck has been done.
-      hide("infoTags");
+      hide(HTML_ID_INFO_TAGS);
     }
     return (
       sendMessage(new Message(this._idHtml))
         // Manage content-script response.
         .then((response) => {
           if (mustShowSources) {
-            unhide("infoTags");
+            unhide(HTML_ID_INFO_TAGS);
             showSources(response.response);
           }
         })
@@ -105,7 +109,7 @@ class ButtonScroll extends Button {
 
   click() {
     this._logButtonName();
-    const htmlIdToChange = "infoScroll";
+    const htmlIdToChange = HTML_ID_INFO_SCROLL;
     unhide(htmlIdToChange);
     return sendMessage(new Message(this._idHtml))
       .then((response) => {
@@ -126,7 +130,7 @@ class ButtonShowConfig extends Button {
 
   click() {
     this._logButtonName();
-    toggleHide("menuConfig");
+    toggleHide(HTML_ID_MENU_CONFIG);
   }
 }
 
@@ -137,8 +141,8 @@ class ButtonShowSources extends Button {
 
   click() {
     this._logButtonName();
-    toggleHide("infoTags");
-    if (!isHidden("infoTags")) {
+    toggleHide(HTML_ID_INFO_TAGS);
+    if (!isHidden(HTML_ID_INFO_TAGS)) {
       return this.showSources();
     }
   }
@@ -262,14 +266,14 @@ class ButtonAlwaysShowSources extends ButtonOnOff {
 
   async _onTurnOn() {
     if (this._canThePageBeAnalyzed()) {
-      hide("buttonShowSources");
+      hide(BUTTON_ID_SHOW_SOURCES);
       await this._showSources();
     }
   }
 
   async _onTurnOff() {
     if (this._canThePageBeAnalyzed()) {
-      unhide("buttonShowSources");
+      unhide(BUTTON_ID_SHOW_SOURCES);
     }
   }
 
@@ -280,12 +284,12 @@ class ButtonAlwaysShowSources extends ButtonOnOff {
   }
 
   _canThePageBeAnalyzed() {
-    return isHidden("error-content");
+    return isHidden(HTML_ID_ERROR_CONTENT);
   }
 
   async _showSources() {
     await this._button.showSources();
-    unhide("infoTags");
+    unhide(HTML_ID_INFO_TAGS);
   }
 }
 
@@ -296,15 +300,14 @@ class ButtonClean extends Button {
 
   click() {
     this._logButtonName();
-    hide("infoScroll");
+    hide(HTML_ID_INFO_SCROLL);
     sendMessage(new Message(this._idHtml));
   }
 }
 
 class ButtonShowLogs extends ButtonOnOff {
-  // TODO use BUTTON_ID_SHOW_LOGS in popup.js
   get _idHtml() {
-    return "buttonShowLogs";
+    return BUTTON_ID_SHOW_LOGS;
   }
 
   async _onTurnOn() {
@@ -346,9 +349,8 @@ class ButtonShowLogs extends ButtonOnOff {
 }
 
 class ButtonHighlightAllAutomatically extends ButtonOnOff {
-  // TODO use BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY in popup.js
   get _idHtml() {
-    return "buttonHighlightAllAutomatically";
+    return BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY;
   }
 
   async _onTurnOn() {
@@ -368,13 +370,13 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
   }
 
   _hideElementsForHighlightAllAutomatically() {
-    hide("buttonClean");
-    hide("buttonScroll");
+    hide(BUTTON_ID_CLEAN);
+    hide(BUTTON_ID_SCROLL);
   }
 
   _unhideElementsForHighlightAllAutomatically() {
-    unhide("buttonClean");
-    unhide("buttonScroll");
+    unhide(BUTTON_ID_CLEAN);
+    unhide(BUTTON_ID_SCROLL);
   }
 
   get _idStorage() {

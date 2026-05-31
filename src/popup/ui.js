@@ -1,4 +1,6 @@
 import { getStrTagsHtml } from "./tags-html.js";
+import { HTML_ID_INFO_SCROLL } from "./dom.js";
+import { HTML_ID_INFO_TAGS } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { reportError } from "./log.js";
 
@@ -10,11 +12,11 @@ export function getUrlsInInputBox() {
 }
 
 export function setShowSourcesError(error) {
-  setUiError(error, "infoTags");
+  setUiError(error, HTML_ID_INFO_TAGS);
 }
 
 export function setInfoScrollError(error) {
-  setUiError(error, "infoScroll");
+  setUiError(error, HTML_ID_INFO_SCROLL);
 }
 
 export function showSources(tagSummary) {

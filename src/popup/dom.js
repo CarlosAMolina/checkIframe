@@ -1,3 +1,8 @@
+export const HTML_ID_ERROR_CONTENT = "error-content";
+export const HTML_ID_INFO_SCROLL = "infoScroll";
+export const HTML_ID_INFO_TAGS = "infoTags";
+export const HTML_ID_MENU_CONFIG = "menuConfig";
+
 export function isHidden(idHtml) {
   return document.getElementById(idHtml).classList.contains("hidden");
 }
@@ -20,7 +25,11 @@ export function setNewElementsMaxWidth() {
   const maxWidthNewElements =
     maxWidthCurrentWindow - widthToReduceToAvoidVisualSizeChange;
   const maxWidthNewElementsStr = `${maxWidthNewElements}px`;
-  const htmlIdsToModify = ["infoScroll", "menuConfig", "infoTags"];
+  const htmlIdsToModify = [
+    HTML_ID_INFO_SCROLL,
+    HTML_ID_MENU_CONFIG,
+    HTML_ID_INFO_TAGS,
+  ];
   for (const htmlId of htmlIdsToModify) {
     document.getElementById(htmlId).style.maxWidth = maxWidthNewElementsStr;
   }
@@ -35,11 +44,11 @@ export function unhide(htmlId) {
 }
 
 export function updateElementsWhenIncompatibleWebPage() {
-  unhide("error-content");
+  unhide(HTML_ID_ERROR_CONTENT);
   const elementsToHide = [
     "popup-content div.oneLineButtons",
-    "infoScroll",
-    "infoTags",
+    HTML_ID_INFO_SCROLL,
+    HTML_ID_INFO_TAGS,
     "buttonShowSources",
   ];
   for (const element of elementsToHide) {
