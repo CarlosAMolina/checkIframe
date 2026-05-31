@@ -34,10 +34,10 @@ describe("Check module import", () => {
   });
   it("appearanceKeyFromDetection returns correct keys", function () {
     const function_ = backgroundModule.__get__("appearanceKeyFromDetection");
-    expect(function_(0, true)).toBe("none");
-    expect(function_(1, true)).toBe("found");
-    expect(function_(2, true)).toBe("specialFound");
-    expect(function_(0, false)).toBe("unsupported");
+    expect(function_("none", true)).toBe("none");
+    expect(function_("found", true)).toBe("found");
+    expect(function_("specialFound", true)).toBe("specialFound");
+    expect(function_("none", false)).toBe("unsupported");
   });
   it("saveTabAppearance runs without error", function () {
     const function_ = backgroundModule.__get__("saveTabAppearance");

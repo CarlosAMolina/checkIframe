@@ -267,11 +267,11 @@ function getSourcesSummary(elements) {
 
 function getDetectionState(elements) {
   if (isThereAnySourceToNotify(elements, state.notifySources)) {
-    return DetectionState.SPECIAL_FOUND;
+    return "specialFound";
   } else if (elements.length > 0) {
-    return DetectionState.FOUND;
+    return "found";
   } else {
-    return DetectionState.NONE;
+    return "none";
   }
 }
 

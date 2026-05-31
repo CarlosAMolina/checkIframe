@@ -119,7 +119,7 @@ async function updateTab(tab) {
       .catch(console.error);
   } else {
     const appearanceKey = appearanceKeyFromDetection(
-      DetectionState.NONE,
+      "none",
       protocolIsSupported,
     );
     saveTabAppearance(tabId, appearanceKey);
@@ -171,13 +171,7 @@ function appearanceKeyFromDetection(detectionState, protocolIsSupported) {
   if (!protocolIsSupported) {
     return "unsupported";
   }
-  if (detectionState === DetectionState.SPECIAL_FOUND) {
-    return "specialFound";
-  }
-  if (detectionState === DetectionState.FOUND) {
-    return "found";
-  }
-  return "none";
+  return detectionState;
 }
 
 function applyTabAppearance(tabId, appearanceKey) {
