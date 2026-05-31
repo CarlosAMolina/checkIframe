@@ -240,7 +240,7 @@ function getPageAnalysis(elements) {
   };
 }
 
-// TODO understand why this only uses the first element
+// The add-on redirects to the first iframe. To redirect to another one, blacklist the earlier iframes.
 function getLocationUrl(elements) {
   const validElements = getNonBlacklistedElements(elements);
   return validElements.length > 0 ? validElements[0].source : null;
