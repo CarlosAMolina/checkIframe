@@ -99,7 +99,7 @@ async function updateActiveTab() {
 
 async function updateTab(tab) {
   const tabId = tab.id;
-  const tabUrl = tab.url || ""; // url can be temporaly stale (during navigation)
+  const tabUrl = tab.url || ""; // url can be temporarily stale (during navigation)
   if (wasAlreadyProcessed(tabId, tabUrl)) {
     console.log(`Skip duplicated update for tab ${tabId}`);
     refreshTabIcon(tabId);
