@@ -1,3 +1,7 @@
+export const URL_TYPE_BLACKLIST = "blacklist";
+export const URL_TYPE_NOTIFY = "notify";
+export const URL_TYPE_REFERER = "referer";
+
 export function getUrlTypeActive() {
   const idTypeMap = [
     { idHtml: "buttonUrlsBlacklist", urlType: URL_TYPE_BLACKLIST },

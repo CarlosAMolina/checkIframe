@@ -18,11 +18,11 @@
       "all_frames": false,
       "run_at": "document_end",
       "matches": ["https://*/*", "http://*/*", "file:///*"],
-      "js": ["constants.js", "content_scripts/check-and-border.js"]
+      "js": ["content_scripts/check-and-border.js"]
     }
   ],
   "background": {
-    "scripts": ["constants.js", "background_scripts/background.js"]
+    "scripts": ["background_scripts/background.js"]
   },
   "browser_specific_settings": {
     "gecko": {
