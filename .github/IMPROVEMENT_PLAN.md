@@ -32,13 +32,3 @@
 **Action:** Run `npm audit`, check if the vulnerable transitive paths still exist. Remove pins that are no longer needed.
 
 **Files:** `package.json`
-
----
-
-## Previously Planned Items (Keep for Reference)
-
-### Update to Manifest v3
-
-When this is done, undo these changes because v3 supports ES6 imports:
-- ~~Drop src/constants.js file and from the manifest.json file~~ (Already done — constants.js was removed in Phase 3)
-- Content script could use ES module imports in the future (requires `"type": "module"` in manifest content_scripts — but this has limitations: no `window.hasRun` guard, no IIFE pattern, and not all browsers support it yet)
