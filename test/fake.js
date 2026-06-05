@@ -13,7 +13,7 @@ export function fakeBrowser(config) {
     config && "storageItems" in config ? config.storageItems : {};
   // https://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   return {
-    browserAction: {
+    action: {
       getTitle: getNewPromise,
       setIcon: jest.fn(),
       setTitle: jest.fn(),

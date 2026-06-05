@@ -4,7 +4,7 @@ const tabState = new Map();
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
-//browser.browserAction.onClicked.addListener(updateActiveTab);
+//browser.action.onClicked.addListener(updateActiveTab);
 
 // listen to window switching
 browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
@@ -175,8 +175,8 @@ function appearanceKeyFromDetection(detectionState, protocolIsSupported) {
 
 function applyTabAppearance(tabId, appearanceKey) {
   const appearance = TAB_APPEARANCE[appearanceKey];
-  browser.browserAction.setTitle({ title: appearance.title, tabId });
-  browser.browserAction.setIcon({ path: appearance.icon, tabId });
+  browser.action.setTitle({ title: appearance.title, tabId });
+  browser.action.setIcon({ path: appearance.icon, tabId });
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged
