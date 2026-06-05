@@ -1,6 +1,5 @@
 const NO_BROWSER_WINDOW_ID = -1;
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
-const tabState = new Map();
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -16,7 +15,7 @@ browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
 browser.tabs.onActivated.addListener(handleActivatedTab);
 
 browser.tabs.onRemoved.addListener((tabId) => {
-  tabState.delete(tabId);
+  browser.storage.session.remove(String(tabId));
 });
 
 // update when the extension loads initially
@@ -43,7 +42,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     message.detectionState,
     protocolIsSupported,
   );
-  saveTabAppearance(tabId, appearanceKey);
+  await saveTabAppearance(tabId, appearanceKey);
   applyTabAppearance(tabId, appearanceKey);
 });
 
@@ -100,12 +99,12 @@ async function updateActiveTab() {
 async function updateTab(tab) {
   const tabId = tab.id;
   const tabUrl = tab.url || ""; // url can be temporarily stale (during navigation)
-  if (wasAlreadyProcessed(tabId, tabUrl)) {
+  if (await wasAlreadyProcessed(tabId, tabUrl)) {
     console.log(`Skip duplicated update for tab ${tabId}`);
-    refreshTabIcon(tabId);
+    await refreshTabIcon(tabId);
     return;
   }
-  rememberProcessedTab(tabId, tabUrl);
+  await rememberProcessedTab(tabId, tabUrl);
   console.log(`Init update for tab id: ${tabId}`);
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
@@ -121,34 +120,42 @@ async function updateTab(tab) {
       "none",
       protocolIsSupported,
     );
-    saveTabAppearance(tabId, appearanceKey);
+    await saveTabAppearance(tabId, appearanceKey);
     applyTabAppearance(tabId, appearanceKey);
   }
 }
 
-function wasAlreadyProcessed(tabId, tabUrl) {
-  const state = tabState.get(tabId);
-  return state !== undefined && state.url === tabUrl;
+async function wasAlreadyProcessed(tabId, tabUrl) {
+  const result = await browser.storage.session.get({ [String(tabId)]: null });
+  const state = result[String(tabId)];
+  return state !== null && state.url === tabUrl;
 }
 
-function rememberProcessedTab(tabId, tabUrl) {
-  const existing = tabState.get(tabId);
-  tabState.set(tabId, {
-    url: tabUrl,
-    appearanceKey: existing?.appearanceKey || "none",
+async function rememberProcessedTab(tabId, tabUrl) {
+  const result = await browser.storage.session.get({ [String(tabId)]: null });
+  const existing = result[String(tabId)];
+  await browser.storage.session.set({
+    [String(tabId)]: {
+      url: tabUrl,
+      appearanceKey: existing?.appearanceKey || "none",
+    },
   });
 }
 
-function saveTabAppearance(tabId, appearanceKey) {
-  const existing = tabState.get(tabId);
-  tabState.set(tabId, {
-    url: existing?.url || "",
-    appearanceKey: appearanceKey,
+async function saveTabAppearance(tabId, appearanceKey) {
+  const result = await browser.storage.session.get({ [String(tabId)]: null });
+  const existing = result[String(tabId)];
+  await browser.storage.session.set({
+    [String(tabId)]: {
+      url: existing?.url || "",
+      appearanceKey: appearanceKey,
+    },
   });
 }
 
-function refreshTabIcon(tabId) {
-  const state = tabState.get(tabId);
+async function refreshTabIcon(tabId) {
+  const result = await browser.storage.session.get({ [String(tabId)]: null });
+  const state = result[String(tabId)];
   const key = state?.appearanceKey || "none";
   applyTabAppearance(tabId, key);
 }

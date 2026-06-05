@@ -44,6 +44,7 @@ export function fakeBrowser(config) {
           return Promise.resolve({});
         }),
       },
+      session: createStorageMock(),
     },
     tabs: {
       executeScript: getNewPromise,
@@ -132,4 +133,24 @@ function removeItem(key, storageItems) {
     delete storageItems[key];
     resolve(storageItems);
   });
+}
+
+function createStorageMock() {
+  const items = {};
+  return {
+    get: jest.fn((keysOrDefaults) => {
+      if (
+        typeof keysOrDefaults === "object" &&
+        !Array.isArray(keysOrDefaults)
+      ) {
+        return Promise.resolve({ ...keysOrDefaults, ...items });
+      }
+      return Promise.resolve(items);
+    }),
+    remove: jest.fn((key) => removeItem(key, items)),
+    set: jest.fn((newItems) => {
+      Object.assign(items, newItems);
+      return Promise.resolve({});
+    }),
+  };
 }
