@@ -295,8 +295,8 @@ function getNonBlacklistedElements(elements) {
 }
 
 function isBlacklistedSource(source) {
-  return state.blacklistedSources.some((blacklisted) =>
-    source.toLowerCase().includes(blacklisted.toLowerCase()),
+  return state.blacklistedSources.some(
+    (blacklisted) => source.toLowerCase() === blacklisted.toLowerCase(),
   );
 }
 

@@ -34,3 +34,5 @@ describe("Check module import", () => {
     expect(result).toHaveProperty("frame");
   });
 });
+
+// TODO test isBlacklistedSource does ===, not contains
