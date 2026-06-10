@@ -5,12 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.8.1] - TODO
-### Added
-- Added `.github/copilot-instructions.md` to provide Copilot with project-specific development guidelines.
-
+## [2.0.0] - TODO
 ### Changed
+- Update Manifest V2 to V3.
 - Refactor code. Improve and simplify code.
+- Add `.github/copilot-instructions.md` to provide Copilot with project-specific development guidelines.
 
 ### Fixed
 - Update dev dependencies to fix vulnerabilities and deprecations.
