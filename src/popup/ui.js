@@ -46,14 +46,12 @@ function setupSourcesCopyButtonListeners() {
       button.classList.toggle("show");
     });
     button.addEventListener("click", function () {
-      const url = this.parentElement.querySelector("a").href;
+      const url = this.parentElement.querySelector("a").textContent;
       // Find the anchor tag in the same list item
       // Copy the URL to the clipboard
       navigator.clipboard
         .writeText(url)
         .then(() => {
-          // TODO fix if popup shows empty url and we copy it, the copied url is not
-          // TODO empty, is something like moz-extension://asdf-asdf-asdf/popup/popup.html
           console.log(`Copied (length=${url.length}): ${url}`);
           const button = this.parentElement.querySelector("button");
           const image = button.querySelector("img");

@@ -49,7 +49,7 @@ describe("setupSourcesCopyButtonListeners", () => {
     btn.click();
     await Promise.resolve(); // Wait a microtask to let Promise.then() handlers click
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-      "https://foo.com/",
+      "https://foo.com",
     );
     expect(btn.disabled).toBe(true);
     expect(img.src.endsWith("/icons/ok.svg")).toBe(true);
@@ -59,6 +59,22 @@ describe("setupSourcesCopyButtonListeners", () => {
     expect(btn.disabled).toBe(false);
     expect(img.src.endsWith("/icons/copy.svg")).toBe(true);
     expect(span.textContent).toBe("Copy to clipboard");
+    jest.useRealTimers();
+  });
+  it("should copy empty string for iframe with no src attribute", async () => {
+    jest.useFakeTimers();
+    global.navigator.clipboard = {
+      writeText: jest.fn().mockResolvedValue(undefined),
+    };
+    const html = new htmlBuilderModule.HtmlBuilder().with_urls([""]).build();
+    const container = document.createElement("div");
+    container.innerHTML = html;
+    document.body.appendChild(container.firstElementChild);
+    const btn = document.querySelector(".detections button");
+    uiModule.__get__("setupSourcesCopyButtonListeners")();
+    btn.click();
+    await Promise.resolve();
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("");
     jest.useRealTimers();
   });
 });
