@@ -1,6 +1,6 @@
 ## Introduction
 
-This folder helps ensure that no infinite redirection loop occurs when redirecting to the same configured URL.
+This folder helps to ensure that no infinite redirection loop occurs when redirecting to the same configured URL.
 
 ## Steps
 

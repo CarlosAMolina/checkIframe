@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <!--
+        This `script` creates 2 iframes in the add-on popup:
+        1. Url: https://btloader.com/trustedIframe.html?....
+        2. Url: about:blank
+        Obtained from: https://html.com/tags/iframe/
+        -->
+        <script type="text/javascript">
+            (function () {
+                var bsa_optimize = document.createElement("script");
+                bsa_optimize.src = "https://cdn4.buysellads.net/pub/html.js?";
+                document.getElementsByTagName("head")[0].appendChild(bsa_optimize);
+            })();
+        </script>
+    </head>
+    <body
+        <!--
+        This `article` creates 1 iframe in the add-on popup:
+        1. Url: https://www.youtube.com/...
+        Obtained from: https://html.com/tags/iframe/
+        -->
+        <article>
+            <iframe
+                src="https://www.youtube.com/embed/owsfdh4gxyc"
+            ></iframe>
+        </article>
+        <!--
+        This `article` creates 1 iframe in the add-on popup:
+        1. Url: no url, is blank
+        Obtained from: https://html.com/tags/iframe/
+        -->
+        <script>
+            (function () {
+                if (document.body) {
+                    var a = document.createElement("iframe");
+                    document.body.appendChild(a);
+                }
+            })();
+        </script>
+    </body>
+</html>
