@@ -35,4 +35,20 @@ describe("Check module import", () => {
   });
 });
 
-// TODO test isBlacklistedSource does ===, not contains
+describe("Test isBlacklistedSource", () => {
+  it("isBlacklistedSource uses exact matching, not substring matching", () => {
+    const isBlacklistedSource = checkAndBorderModule.__get__(
+      "isBlacklistedSource",
+    );
+    const state = checkAndBorderModule.__get__("state");
+    state.blacklistedSources = ["example.com", "ads.example.org"];
+    expect(isBlacklistedSource("example.com")).toBe(true);
+    expect(isBlacklistedSource("EXAMPLE.COM")).toBe(true);
+    expect(isBlacklistedSource("Example.Com")).toBe(true);
+    expect(isBlacklistedSource("ads.example.org")).toBe(true);
+    expect(isBlacklistedSource("ADS.EXAMPLE.ORG")).toBe(true);
+    expect(isBlacklistedSource("notblacklisted.com")).toBe(false);
+    expect(isBlacklistedSource("example.com.fake")).toBe(false);
+    expect(isBlacklistedSource("prefix.example.com")).toBe(false);
+  });
+});
