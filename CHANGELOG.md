@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Update dev dependencies to fix vulnerabilities and deprecations.
+- Copy the empty URL instead of the pop-up window's URL when you click the “Copy” button with an empty URL.
 
 ## [1.8.0] - 2026-01-09
 ### Added
