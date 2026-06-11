@@ -207,7 +207,10 @@ function scroll(element) {
 }
 
 function summaryOfTheHighlightedElement(elements, indexToHighlight) {
-  return `Detection ${indexToHighlight + 1}/${elements.length}: ${elements[indexToHighlight].tag} tag`;
+  const element = elements[indexToHighlight];
+  const url = element.source;
+  const link = `<a href="${url}">${url}</a>`;
+  return `Detection ${indexToHighlight + 1}/${elements.length}. Tag: ${element.tag}. Url: ${link}`;
 }
 
 // check page required information and send results

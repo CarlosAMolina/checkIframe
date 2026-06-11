@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.0] - TODO
+### Added
+- Display the URL of the highlighted element in the scroll information.
+
 ### Changed
 - Update Manifest V2 to V3.
 - Refactor code. Improve and simplify code.

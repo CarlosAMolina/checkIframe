@@ -121,7 +121,7 @@ class ButtonScroll extends Button {
         if (response === undefined) {
           throw new Error(`Incorrect response: ${JSON.stringify(response)}`);
         }
-        document.getElementById(htmlIdToChange).textContent = response;
+        document.getElementById(htmlIdToChange).innerHTML = response;
       })
       .catch(setInfoScrollError);
   }
