@@ -24,6 +24,11 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("updateActiveTab");
     function_();
   });
+  it("updateTab skips when tab is still loading", function () {
+    const function_ = backgroundModule.__get__("updateTab");
+    function_({ id: 1, url: "https://example.com", status: "loading" });
+    expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
+  });
   it("applyTabAppearance runs without error", function () {
     const function_ = backgroundModule.__get__("applyTabAppearance");
     function_(1, "none");

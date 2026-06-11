@@ -114,13 +114,17 @@ async function updateActiveTab() {
 }
 
 async function updateTab(tab) {
+  // Avoid `Error. Could not establish connection. Receiving end does not exist.`.
+  // No state is lost, this script has contentScriptReady and protocolOk messages.
+  if (tab.status === "loading") {
+    return;
+  }
   const tabId = tab.id;
   const tabUrl = tab.url || ""; // url can be temporarily stale (during navigation)
   console.log(`Init update for tab id: ${tabId}`);
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
-    // Send a message to the content script in the active tab.
-    console.log(`Init sendValue to tab id: ${tabId}`);
+    console.log(`Init sendMessage to the content script in tab id: ${tabId}`);
     browser.tabs
       .sendMessage(tabId, {
         info: "protocolOk",
