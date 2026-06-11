@@ -41,6 +41,7 @@ const state = {
     }
     return handler(message);
   });
+  browser.runtime.sendMessage({ info: "contentScriptReady" });
 })();
 
 async function initializeGlobalVariables() {

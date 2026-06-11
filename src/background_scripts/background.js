@@ -24,6 +24,24 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   console.log(message);
   const tabUrl = sender.tab?.url;
   const tabId = sender.tab?.id;
+  // Fix race condition on tab duplication using content script ready signal.
+  // Instead of sending protocolOk immediately on tabs.onUpdated complete
+  // (which races with the content script's async init), the content script
+  // sends contentScriptReady after its message listener is registered.
+  // The background responds with protocolOk, guaranteeing the listener exists.
+  // This fixes this error on tab duplication: `Error: Could not establish connection. Receiving
+  // end does not exist. updateTab moz-extension://.../background_scripts/background.js`.
+  // and allows reload detection to work correctly since handleUpdatedTabUrl
+  // no longer needs to trigger detection for supported protocols.
+  if (message.info === "contentScriptReady") {
+    const protocolIsSupported = isProtocolSupported(tabUrl);
+    if (protocolIsSupported) {
+      browser.tabs.sendMessage(tabId, {
+        info: "protocolOk",
+      });
+    }
+    return;
+  }
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
     console.log(`Current tab url: ${tabUrl}`);
@@ -159,7 +177,15 @@ function handleUpdatedTabUrl(tabId, changeInfo, tab) {
     return;
   }
   console.log(`Init newly tab url loaded. Tab id: ${tabId}`);
-  updateTab(tab);
+  const tabUrl = tab.url || "";
+  const protocolIsSupported = isProtocolSupported(tabUrl);
+  if (!protocolIsSupported) {
+    const appearanceKey = appearanceKeyFromDetection(
+      "none",
+      protocolIsSupported,
+    );
+    applyTabAppearance(tabId, appearanceKey);
+  }
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated

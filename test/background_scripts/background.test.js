@@ -55,6 +55,11 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("handleUpdatedTabUrl");
     function_(1, { status: "complete" }, { id: 1, url: "https://example.com" });
   });
+  it("handleUpdatedTabUrl sets unsupported icon for unsupported protocols", function () {
+    const function_ = backgroundModule.__get__("handleUpdatedTabUrl");
+    function_(1, { status: "complete" }, { id: 1, url: "chrome://example" });
+    // TODO add assertion.
+  });
   it("handleActivatedTab runs without error", function () {
     const function_ = backgroundModule.__get__("handleActivatedTab");
     function_({ tabId: 1 });
