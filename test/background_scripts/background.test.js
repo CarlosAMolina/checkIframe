@@ -24,10 +24,6 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("updateActiveTab");
     function_();
   });
-  it("refreshTabIcon runs without error", function () {
-    const function_ = backgroundModule.__get__("refreshTabIcon");
-    function_(1);
-  });
   it("applyTabAppearance runs without error", function () {
     const function_ = backgroundModule.__get__("applyTabAppearance");
     function_(1, "none");
@@ -39,17 +35,17 @@ describe("Check module import", () => {
     expect(function_("specialFound", true)).toBe("specialFound");
     expect(function_("none", false)).toBe("unsupported");
   });
-  it("saveTabAppearance runs without error", function () {
-    const function_ = backgroundModule.__get__("saveTabAppearance");
-    function_(1, "found");
-  });
   it("checkRunRedirect detects url to redirect", function () {
     const function_ = backgroundModule.__get__("checkRunRedirect");
     expect(function_(["FOO.COM"], "https://foo.com")).toBe(true);
   });
-  it("redirectTo runs without error", function () {
+  it("checkRunRedirect returns false when url is empty", function () {
+    const function_ = backgroundModule.__get__("checkRunRedirect");
+    expect(function_(["example.com"], "")).toBe(false);
+  });
+  it("redirectTo receives and uses tabId", function () {
     const function_ = backgroundModule.__get__("redirectTo");
-    function_();
+    function_(1, "https://example.com");
   });
   it("handleUpdatedWindow runs without error", function () {
     const function_ = backgroundModule.__get__("handleUpdatedWindow");

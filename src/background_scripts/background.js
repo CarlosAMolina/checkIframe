@@ -14,10 +14,6 @@ browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
 // listen to tab switching
 browser.tabs.onActivated.addListener(handleActivatedTab);
 
-browser.tabs.onRemoved.addListener((tabId) => {
-  browser.storage.session.remove(String(tabId));
-});
-
 // update when the extension loads initially
 console.log("Extension initialized");
 updateActiveTab();
@@ -34,15 +30,18 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     const { referer: referers } = await browser.storage.local.get({
       referer: [],
     });
-    if (checkRunRedirect(referers, tabUrl) && message.locationUrl !== null) {
-      redirectTo(message.locationUrl);
+    if (
+      checkRunRedirect(referers, tabUrl) &&
+      message.locationUrl !== null &&
+      message.locationUrl !== tabUrl
+    ) {
+      redirectTo(tabId, message.locationUrl);
     }
   }
   const appearanceKey = appearanceKeyFromDetection(
     message.detectionState,
     protocolIsSupported,
   );
-  await saveTabAppearance(tabId, appearanceKey);
   applyTabAppearance(tabId, appearanceKey);
 });
 
@@ -68,11 +67,11 @@ function checkRunRedirect(referers, url) {
   );
 }
 
-async function redirectTo(locationUrl) {
+async function redirectTo(tabId, locationUrl) {
   // Be careful with redirects to URLs that cause infinite loops. See test-manual/redirection-loop/
   console.log(`Init redirect to ${locationUrl}`);
   try {
-    await browser.tabs.update({ url: locationUrl });
+    await browser.tabs.update(tabId, { url: locationUrl });
     console.log("Updated tab");
   } catch (error) {
     console.error(error);
@@ -99,16 +98,10 @@ async function updateActiveTab() {
 async function updateTab(tab) {
   const tabId = tab.id;
   const tabUrl = tab.url || ""; // url can be temporarily stale (during navigation)
-  if (await wasAlreadyProcessed(tabId, tabUrl)) {
-    console.log(`Skip duplicated update for tab ${tabId}`);
-    await refreshTabIcon(tabId);
-    return;
-  }
-  await rememberProcessedTab(tabId, tabUrl);
   console.log(`Init update for tab id: ${tabId}`);
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
-    // send a message to the content script in the active tab.
+    // Send a message to the content script in the active tab.
     console.log(`Init sendValue to tab id: ${tabId}`);
     browser.tabs
       .sendMessage(tabId, {
@@ -120,44 +113,8 @@ async function updateTab(tab) {
       "none",
       protocolIsSupported,
     );
-    await saveTabAppearance(tabId, appearanceKey);
     applyTabAppearance(tabId, appearanceKey);
   }
-}
-
-async function wasAlreadyProcessed(tabId, tabUrl) {
-  const result = await browser.storage.session.get({ [String(tabId)]: null });
-  const state = result[String(tabId)];
-  return state !== null && state.url === tabUrl;
-}
-
-async function rememberProcessedTab(tabId, tabUrl) {
-  const result = await browser.storage.session.get({ [String(tabId)]: null });
-  const existing = result[String(tabId)];
-  await browser.storage.session.set({
-    [String(tabId)]: {
-      url: tabUrl,
-      appearanceKey: existing?.appearanceKey || "none",
-    },
-  });
-}
-
-async function saveTabAppearance(tabId, appearanceKey) {
-  const result = await browser.storage.session.get({ [String(tabId)]: null });
-  const existing = result[String(tabId)];
-  await browser.storage.session.set({
-    [String(tabId)]: {
-      url: existing?.url || "",
-      appearanceKey: appearanceKey,
-    },
-  });
-}
-
-async function refreshTabIcon(tabId) {
-  const result = await browser.storage.session.get({ [String(tabId)]: null });
-  const state = result[String(tabId)];
-  const key = state?.appearanceKey || "none";
-  applyTabAppearance(tabId, key);
 }
 
 const TAB_APPEARANCE = {
