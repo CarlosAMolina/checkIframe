@@ -56,14 +56,17 @@ describe("Check module import", () => {
     const function_ = backgroundModule.__get__("handleUpdatedWindow");
     function_();
   });
-  it("handleUpdatedTabUrl runs without error", function () {
-    const function_ = backgroundModule.__get__("handleUpdatedTabUrl");
-    function_(1, { status: "complete" }, { id: 1, url: "https://example.com" });
-  });
   it("handleUpdatedTabUrl sets unsupported icon for unsupported protocols", function () {
     const function_ = backgroundModule.__get__("handleUpdatedTabUrl");
     function_(1, { status: "complete" }, { id: 1, url: "chrome://example" });
-    // TODO add assertion.
+    expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+      title: "This web page cannot be analyzed",
+      tabId: 1,
+    });
+    expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+      path: "icons/i_gray.png",
+      tabId: 1,
+    });
   });
   it("handleActivatedTab runs without error", function () {
     const function_ = backgroundModule.__get__("handleActivatedTab");
