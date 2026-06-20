@@ -28,7 +28,7 @@ const state = {
     buttonHighlightAllAutomatically: handleButtonHighlightAllAutomatically,
     urls: handleSourcesUpdate,
   };
-  await initializeGlobalVariables();
+  await initializeState();
   setHighlightStyle();
   // Listen for messages from the background script and the pop-up
   browser.runtime.onMessage.addListener((message) => {
@@ -44,7 +44,7 @@ const state = {
   browser.runtime.sendMessage({ info: "contentScriptReady" });
 })();
 
-async function initializeGlobalVariables() {
+async function initializeState() {
   try {
     const { idShowLogs, idHighlightAllAutomatically, blacklist, notify } =
       await browser.storage.local.get({
@@ -83,7 +83,7 @@ function setHighlightStyle() {
 async function handleProtocolOk() {
   try {
     // Required to detect correctly when changing to a different tab already open.
-    await initializeGlobalVariables();
+    await initializeState();
     const { elements } = analyzePageAndSend();
     highlightAllIfRequired(
       getNonBlacklistedElements(elements),

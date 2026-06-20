@@ -13,8 +13,8 @@ describe("Check module import", () => {
     const result = checkAndBorderModule.__get__("HIGHLIGHT_CLASS");
     expect(result).toEqual("check-iframe-detector-highlight");
   });
-  it("initializeGlobalVariables runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("initializeGlobalVariables");
+  it("initializeState runs without error", function () {
+    const function_ = checkAndBorderModule.__get__("initializeState");
     function_();
   });
   it("getPageElements runs without error", function () {
