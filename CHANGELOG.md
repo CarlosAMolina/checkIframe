@@ -5,18 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] - TODO
+## [2.0.0] - 20260620
 ### Added
 - Display the URL of the highlighted element in the scroll information.
 
 ### Changed
 - Update Manifest V2 to V3.
-- Refactor code. Improve and simplify code.
-- Add `.github/copilot-instructions.md` to provide Copilot with project-specific development guidelines.
+- Refactor the code to improve readability and simplify implementation.
+- Add .github/copilot-instructions.md to provide Copilot with project-specific development guidelines.
 
 ### Fixed
-- Update dev dependencies to fix vulnerabilities and deprecations.
-- Copy the empty URL instead of the pop-up window's URL when you click the “Copy” button with an empty URL.
+- Update development dependencies to address vulnerabilities and deprecations.
+- When clicking Copy with an empty URL, copy an empty string instead of the pop-up window’s URL.
+- Avoid error: Could not establish connection. Receiving end does not exist.
+- Add-on icon update when configuration changes and the user switches tabs/windows.
 
 ## [1.8.0] - 2026-01-09
 ### Added

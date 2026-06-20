@@ -71,7 +71,6 @@ function checkRunRedirect(referers, url) {
 }
 
 async function redirectTo(tabId, locationUrl) {
-  // Be careful with redirects to URLs that cause infinite loops. See test-manual/redirection-loop/
   console.log(`Init redirect to ${locationUrl}`);
   try {
     await browser.tabs.update(tabId, { url: locationUrl });

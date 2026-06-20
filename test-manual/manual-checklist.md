@@ -48,7 +48,7 @@ Scenario: The button scrolls to the iframes
   Then the add-on scrolls to each element. Do it twice to check that the detections are looped from the beginning after the last element is reached
   AND the index of the showed URL matches the index of the URL in the `Show tags info box`
 
-Scenario: The button does not scroll to the iframes if all balcklisted
+Scenario: The button does not scroll to the iframes if all blacklisted
   Given the user visits a web page that contains iframes but are all configured as blacklisted
   When the user clicks the `Scroll to element` button
   Then the add-on does not scroll to each element
@@ -62,12 +62,12 @@ Scenario: The button drops the border
 
 Feature: `Show tags info` button
 
-Scenario: The button shows expected info if no balcklisted urls
+Scenario: The button shows expected info if no blacklisted urls
   Given the user visits a web page that contains iframes
   When the user clicks the `Show tags info` button
   Then the add-on shows the information of all the iframes
 
-Scenario: The button shows expected info if balcklisted urls
+Scenario: The button shows expected info if blacklisted urls
   Given the user visits a web page that contains iframes and some of them are blacklisted
   When the user clicks the `Show tags info` button
   Then the add-on shows the information of the non-blacklisted iframes
