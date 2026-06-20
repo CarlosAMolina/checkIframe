@@ -81,13 +81,10 @@ function setHighlightStyle() {
 }
 
 async function handleProtocolOk() {
-  const { elements } = analyzePageAndSend();
   try {
-    // Required to highlight all when changing to a different tab already open.
-    const { idHighlightAllAutomatically } = await browser.storage.local.get({
-      idHighlightAllAutomatically: false,
-    });
-    state.highlightAllAutomatically = idHighlightAllAutomatically;
+    // Required to detect correctly when changing to a different tab already open.
+    await initializeGlobalVariables();
+    const { elements } = analyzePageAndSend();
     highlightAllIfRequired(
       getNonBlacklistedElements(elements),
       state.highlightAllAutomatically,

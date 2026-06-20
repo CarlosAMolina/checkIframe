@@ -52,3 +52,36 @@ describe("Test isBlacklistedSource", () => {
     expect(isBlacklistedSource("prefix.example.com")).toBe(false);
   });
 });
+
+describe("Test handleProtocolOk refreshes state from storage", () => {
+  it("handleProtocolOk should refresh notifySources from storage before analyzing", async () => {
+    // Scenario: User has Tab A and Tab B open, both with iframes from youtube.com.
+    // User updates config in popup (Tab A) to add youtube.com as a notify source.
+    // The popup only sends the "urls" message to Tab A's content script.
+    // When user switches to Tab B, handleActivatedTab triggers handleProtocolOk().
+    // Tab B's content script must refresh notifySources from storage (where the update was saved)
+    // before analyzing the page, so the icon correctly shows "notify" state.
+    const storageItems = {
+      notify: ["youtube.com"],
+      blacklist: [],
+      idHighlightAllAutomatically: false,
+    };
+    global.browser = fakeModule.fakeBrowser({ storageItems });
+    fakeModule.runNoHtmlFakeDom();
+    const jsPathName = "../../src/content_scripts/check-and-border.js";
+    const testModule = require(jsPathName);
+    const handleProtocolOk = testModule.__get__("handleProtocolOk");
+    const state = testModule.__get__("state");
+    state.notifySources = [];
+    let sentMessage = null;
+    global.browser.runtime.sendMessage = jest.fn((message) => {
+      sentMessage = message;
+      return Promise.resolve({});
+    });
+    const { elements } = testModule.__get__("getPageElements");
+    await handleProtocolOk();
+    expect(state.notifySources).toEqual(["youtube.com"]);
+    expect(sentMessage).not.toBeNull();
+    expect(sentMessage.detectionState).toBe("none");
+  });
+});
