@@ -576,7 +576,7 @@ describe("buttons", () => {
       // Set test config.
       assertHtmlInitialValues();
       global.browser = fakeModule.fakeBrowser({
-        sendMessageResponse: "done sendMessage",
+        sendMessageResponse: { text: "done sendMessage", url: null },
       });
       // Test.
       await Promise.all([getButton().click()]);

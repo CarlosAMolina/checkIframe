@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - TODO
+### Fixed
+- Replace unsafe innerHTML assignment in ButtonScroll with safe DOM manipulation.
+
 ## [2.0.0] - 20260620
 ### Added
 - Display the URL of the highlighted element in the scroll information.

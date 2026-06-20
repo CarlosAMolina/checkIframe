@@ -121,9 +121,26 @@ class ButtonScroll extends Button {
         if (response === undefined) {
           throw new Error(`Incorrect response: ${JSON.stringify(response)}`);
         }
-        document.getElementById(htmlIdToChange).innerHTML = response;
+        setScrollInfo(
+          document.getElementById(htmlIdToChange),
+          response.text,
+          response.url,
+        );
       })
       .catch(setInfoScrollError);
+  }
+}
+
+function setScrollInfo(element, text, url) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+  element.appendChild(document.createTextNode(text));
+  if (url) {
+    const a = document.createElement("a");
+    a.href = url;
+    a.textContent = url;
+    element.appendChild(a);
   }
 }
 

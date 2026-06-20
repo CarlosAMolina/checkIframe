@@ -106,7 +106,7 @@ function handleButtonRecheck() {
 function handleButtonScroll() {
   const validElements = getValidPageElements();
   if (validElements.length === 0) {
-    return Promise.resolve("No detections to show");
+    return Promise.resolve({ text: "No detections to show", url: null });
   }
   // To control if the page or the blacklisted sources have changed
   if (state.indexToHighlight >= validElements.length) {
@@ -206,9 +206,10 @@ function scroll(element) {
 
 function summaryOfTheHighlightedElement(elements, indexToHighlight) {
   const element = elements[indexToHighlight];
-  const url = element.source;
-  const link = `<a href="${url}">${url}</a>`;
-  return `Detection ${indexToHighlight + 1}/${elements.length}. Tag: ${element.tag}. Url: ${link}`;
+  return {
+    text: `Detection ${indexToHighlight + 1}/${elements.length}. Tag: ${element.tag}. Url: `,
+    url: element.source,
+  };
 }
 
 // check page required information and send results

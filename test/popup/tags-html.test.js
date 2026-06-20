@@ -1,7 +1,7 @@
 import * as tagsHtmlModule from "../../src/popup/tags-html.js";
 import * as htmlBuilderModule from "../builder.js";
 
-describe.only("Check getTagsHtml", () => {
+describe.only("Check getStrTagsHtml", () => {
   it("Check expected HTML if no frame or iframe tags", function () {
     const frameTagsSummary = {
       sourcesAllNumber: 0,
