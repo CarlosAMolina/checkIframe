@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.0] - TODO
 ### Changed
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
+- Update development dependencies.
 
 ### Fixed
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
