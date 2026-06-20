@@ -39,8 +39,9 @@
   },
   "devDependenciesComments": {
     "babel-plugin-rewire": "Allow test not exported code. https://www.samanthaming.com/journal/2-testing-non-exported-functions/",
-    "eslint, prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
+    "eslint": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
     "eslint-config-prettier": "disables ESLint rules that conflict with Prettier (including no-unexpected-multiline)",
-    "node-forge": "Set to fix vulnerable version as it is a dependency of a not maintained package with a fixed old version"
+    "node-forge": "Set to fix vulnerable version as it is a dependency of a not maintained package with a fixed old version",
+    "prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/"
   }
 }
