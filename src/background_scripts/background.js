@@ -1,4 +1,4 @@
-import { SUPPORTED_PROTOCOLS } from "../constants.js";
+import { isProtocolSupported } from "../supported-protocols.js";
 
 const NO_BROWSER_WINDOW_ID = -1;
 
@@ -63,22 +63,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   );
   applyTabAppearance(tabId, appearanceKey);
 });
-
-function isProtocolSupported(url) {
-  const protocol = getProtocol(url);
-  console.log(protocol);
-  return SUPPORTED_PROTOCOLS.includes(protocol);
-}
-
-function getProtocol(url) {
-  console.log(`Tab url: ${url}`);
-  try {
-    return new URL(url).protocol;
-  } catch (error) {
-    console.error(`Failed to parse URL "${url}":`, error);
-    return "";
-  }
-}
 
 function checkRunRedirect(referers, url) {
   return referers.some((element) =>

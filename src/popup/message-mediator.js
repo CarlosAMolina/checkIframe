@@ -1,19 +1,6 @@
-import { SUPPORTED_PROTOCOLS } from "../constants.js";
+import { isProtocolSupported } from "../supported-protocols.js";
 import { reportError } from "./log.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
-
-function getProtocol(url) {
-  try {
-    return new URL(url).protocol;
-  } catch (error) {
-    return "";
-  }
-}
-
-function isProtocolSupported(url) {
-  const protocol = getProtocol(url);
-  return SUPPORTED_PROTOCOLS.includes(protocol);
-}
 
 export function sendMessage(message) {
   return browser.tabs
