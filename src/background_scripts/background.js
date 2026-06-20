@@ -1,5 +1,6 @@
+import { SUPPORTED_PROTOCOLS } from "../constants.js";
+
 const NO_BROWSER_WINDOW_ID = -1;
-const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck

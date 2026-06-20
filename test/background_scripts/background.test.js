@@ -13,6 +13,9 @@ describe("Check module import", () => {
     // https://marek-rozmus.medium.com/mocking-settimeout-with-jest-3fd6b8fa6307
     jest.useFakeTimers();
   });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   afterAll(() => {
     jest.useRealTimers();
   });
