@@ -35,6 +35,7 @@
     "web-ext": "10.1.0"
   },
   "devDependenciesComments": {
+    "@babel/plugin-transform-modules-commonjs": "transforms ES module import/export into CommonJS so Jest can use require()",
     "eslint": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
     "eslint-config-prettier": "disables ESLint rules that conflict with Prettier (including no-unexpected-multiline)",
     "prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/"
