@@ -8,7 +8,7 @@ describe("cleanShowSources", () => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
     uiModule = require("../../src/popup/ui.js");
-    sourcesContainer = uiModule.__get__("sourcesContainer");
+    sourcesContainer = uiModule._forTesting.sourcesContainer;
     fakeModule.mockNotEmptySourcesContainer(sourcesContainer);
   });
   it("should delete children", () => {
@@ -20,7 +20,7 @@ describe("cleanShowSources", () => {
       sourcesContainer.children[sourcesContainer.children.length - 1]
         .textContent,
     ).toBe("bar");
-    uiModule.__get__("cleanShowSources")();
+    uiModule._forTesting.cleanShowSources();
     expect(sourcesContainer.firstChild).toBe(null);
   });
 });
@@ -45,7 +45,7 @@ describe("setupSourcesCopyButtonListeners", () => {
     const btn = document.querySelector(".detections button");
     const img = btn.querySelector("img");
     const span = btn.querySelector(".tooltiptext");
-    uiModule.__get__("setupSourcesCopyButtonListeners")();
+    uiModule._forTesting.setupSourcesCopyButtonListeners();
     btn.click();
     await Promise.resolve(); // Wait a microtask to let Promise.then() handlers click
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
@@ -71,7 +71,7 @@ describe("setupSourcesCopyButtonListeners", () => {
     container.innerHTML = html;
     document.body.appendChild(container.firstElementChild);
     const btn = document.querySelector(".detections button");
-    uiModule.__get__("setupSourcesCopyButtonListeners")();
+    uiModule._forTesting.setupSourcesCopyButtonListeners();
     btn.click();
     await Promise.resolve();
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("");

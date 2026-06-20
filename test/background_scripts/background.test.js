@@ -20,43 +20,43 @@ describe("Check module import", () => {
     jest.useRealTimers();
   });
   it("updateActiveTab runs without error", function () {
-    const function_ = backgroundModule.__get__("updateActiveTab");
+    const function_ = backgroundModule._forTesting.updateActiveTab;
     function_();
   });
   it("updateTab skips when tab is still loading", function () {
-    const function_ = backgroundModule.__get__("updateTab");
+    const function_ = backgroundModule._forTesting.updateTab;
     function_({ id: 1, url: "https://example.com", status: "loading" });
     expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
   });
   it("applyTabAppearance runs without error", function () {
-    const function_ = backgroundModule.__get__("applyTabAppearance");
+    const function_ = backgroundModule._forTesting.applyTabAppearance;
     function_(1, "none");
   });
   it("appearanceKeyFromDetection returns correct keys", function () {
-    const function_ = backgroundModule.__get__("appearanceKeyFromDetection");
+    const function_ = backgroundModule._forTesting.appearanceKeyFromDetection;
     expect(function_("none", true)).toBe("none");
     expect(function_("found", true)).toBe("found");
     expect(function_("specialFound", true)).toBe("specialFound");
     expect(function_("none", false)).toBe("unsupported");
   });
   it("checkRunRedirect detects url to redirect", function () {
-    const function_ = backgroundModule.__get__("checkRunRedirect");
+    const function_ = backgroundModule._forTesting.checkRunRedirect;
     expect(function_(["FOO.COM"], "https://foo.com")).toBe(true);
   });
   it("checkRunRedirect returns false when url is empty", function () {
-    const function_ = backgroundModule.__get__("checkRunRedirect");
+    const function_ = backgroundModule._forTesting.checkRunRedirect;
     expect(function_(["example.com"], "")).toBe(false);
   });
   it("redirectTo receives and uses tabId", function () {
-    const function_ = backgroundModule.__get__("redirectTo");
+    const function_ = backgroundModule._forTesting.redirectTo;
     function_(1, "https://example.com");
   });
   it("handleUpdatedWindow runs without error", function () {
-    const function_ = backgroundModule.__get__("handleUpdatedWindow");
+    const function_ = backgroundModule._forTesting.handleUpdatedWindow;
     function_();
   });
   it("handleUpdatedTabUrl sets unsupported icon for unsupported protocols", function () {
-    const function_ = backgroundModule.__get__("handleUpdatedTabUrl");
+    const function_ = backgroundModule._forTesting.handleUpdatedTabUrl;
     function_(1, { status: "complete" }, { id: 1, url: "chrome://example" });
     expect(global.browser.action.setTitle).toHaveBeenCalledWith({
       title: "This web page cannot be analyzed",
@@ -68,7 +68,7 @@ describe("Check module import", () => {
     });
   });
   it("handleActivatedTab runs without error", function () {
-    const function_ = backgroundModule.__get__("handleActivatedTab");
+    const function_ = backgroundModule._forTesting.handleActivatedTab;
     function_({ tabId: 1 });
   });
 });

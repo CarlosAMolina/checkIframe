@@ -138,6 +138,10 @@ class ButtonUpdate extends ButtonDynamic {
   }
 }
 
+export const _forTesting = {
+  showStoredInfo,
+};
+
 function showStoredInfo(infoContainer, urlType, urlValue) {
   // display box
   const entryDisplay = document.createElement("div");

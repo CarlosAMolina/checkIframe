@@ -36,6 +36,12 @@ function cleanShowSources() {
   removeChildren(sourcesContainer);
 }
 
+export const _forTesting = {
+  sourcesContainer,
+  cleanShowSources,
+  setupSourcesCopyButtonListeners,
+};
+
 function setupSourcesCopyButtonListeners() {
   const buttons = document.querySelectorAll(".detections button");
   buttons.forEach((button) => {

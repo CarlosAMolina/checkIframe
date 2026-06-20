@@ -187,3 +187,15 @@ async function handleActivatedTab(activeInfo) {
     console.error(error);
   }
 }
+
+export const _forTesting = {
+  updateActiveTab,
+  updateTab,
+  applyTabAppearance,
+  appearanceKeyFromDetection,
+  checkRunRedirect,
+  redirectTo,
+  handleUpdatedWindow,
+  handleUpdatedTabUrl,
+  handleActivatedTab,
+};

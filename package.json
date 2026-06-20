@@ -26,17 +26,15 @@
   "homepage": "https://github.com/CarlosAMolina/checkIframe#readme",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "7.27.1",
-    "babel-plugin-rewire": "1.2.0",
     "eslint": "10.5.0",
     "eslint-config-prettier": "10.1.8",
     "husky": "9.1.7",
     "jest": "30.4.2",
     "jsdom": "26.0.0",
     "prettier": "3.8.4",
-    "web-ext": "10.4.0"
+    "web-ext": "10.1.0"
   },
   "devDependenciesComments": {
-    "babel-plugin-rewire": "Allow test not exported code. https://www.samanthaming.com/journal/2-testing-non-exported-functions/",
     "eslint": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
     "eslint-config-prettier": "disables ESLint rules that conflict with Prettier (including no-unexpected-multiline)",
     "prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/"

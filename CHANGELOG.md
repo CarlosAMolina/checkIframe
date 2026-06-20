@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.0] - TODO
+### Changed
+- Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
+
 ### Fixed
-- Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on’s popup.
+- Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
 
 ## [2.0.0] - 20260620
 ### Added

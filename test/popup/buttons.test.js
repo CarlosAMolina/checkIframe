@@ -88,12 +88,11 @@ describe("ButtonClearAll", () => {
     global.browser = fakeModule.fakeBrowser({ storageItems: storageItems });
     const numberOfBlacklistedUrls = 2;
     const infoContainer = fakeModule.fakeInfoContainer(numberOfBlacklistedUrls);
-    const notifyBackup = buttonsModule.__get__(
-      "notifyContentScriptOfUrlChange",
-    );
-    buttonsModule.__set__("notifyContentScriptOfUrlChange", jest.fn());
+    const notifySpy = jest
+      .spyOn(storedUrlEntriesModule, "notifyContentScriptOfUrlChange")
+      .mockResolvedValue(undefined);
     // Test.
-    const buttonClass = buttonsModule.__get__("ButtonClearAll");
+    const buttonClass = buttonsModule._forTesting.ButtonClearAll;
     const button = new buttonClass(infoContainer);
     // Assert storage has blacklist values before clearing.
     const storageBefore = await browser.storage.local.get({
@@ -114,15 +113,13 @@ describe("ButtonClearAll", () => {
       notify: ["url3"],
       referer: [],
     });
-    expect(
-      buttonsModule.__get__("notifyContentScriptOfUrlChange"),
-    ).toHaveBeenCalled();
+    expect(notifySpy).toHaveBeenCalled();
     // Assert infoContainer URLs were removed.
     expect(infoContainer.children.length).toBe(0);
     // Undo test specific config.
     global.browser = fakeModule.fakeBrowser();
     fakeModule.runFakeDom("src/popup/popup.html");
-    buttonsModule.__set__("notifyContentScriptOfUrlChange", notifyBackup);
+    notifySpy.mockRestore();
   });
 });
 
@@ -133,7 +130,7 @@ describe("Check ButtonShowLogs", () => {
     buttonsModule = require("../../src/popup/buttons.js");
   });
   it("Check it has correct button ID value", function () {
-    const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+    const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
     const button = new buttonClass();
     expect(button._idHtml).toBe("buttonShowLogs");
   });
@@ -143,7 +140,7 @@ describe("Check ButtonShowLogs", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
-      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
       const button = new buttonClass();
       expect(button._isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -161,7 +158,7 @@ describe("Check ButtonShowLogs", () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = fakeModule.fakeBrowser();
-      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
       const button = new buttonClass();
       document.getElementById(button._idHtml).checked = true;
       /* end test required configuration */
@@ -184,7 +181,7 @@ describe("Check ButtonShowLogs", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
-      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
       const button = new buttonClass();
       expect(button._isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
@@ -206,7 +203,7 @@ describe("Check ButtonShowLogs", () => {
         Promise.resolve({ idShowLogs: true }),
       );
       /* end test required configuration */
-      const buttonClass = buttonsModule.__get__("ButtonShowLogs");
+      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
       const button = new buttonClass();
       expect(button._isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
@@ -225,9 +222,8 @@ describe("Check ButtonShowLogs", () => {
 
 describe("Check ButtonHighlightAllAutomatically", () => {
   it("Check it has correct button ID value", function () {
-    const buttonClass = buttonsModule.__get__(
-      "ButtonHighlightAllAutomatically",
-    );
+    const buttonClass =
+      buttonsModule._forTesting.ButtonHighlightAllAutomatically;
     const button = new buttonClass();
     expect(button._idHtml).toBe("buttonHighlightAllAutomatically");
   });
@@ -237,9 +233,8 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
-      const buttonClass = buttonsModule.__get__(
-        "ButtonHighlightAllAutomatically",
-      );
+      const buttonClass =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
       const button = new buttonClass();
       expect(button._isOn).toBe(false);
       expect(browser.storage.local.set.mock.calls.length).toBe(0);
@@ -257,9 +252,8 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       /* start test required configuration */
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = fakeModule.fakeBrowser();
-      const buttonClass = buttonsModule.__get__(
-        "ButtonHighlightAllAutomatically",
-      );
+      const buttonClass =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
       const button = new buttonClass();
       document.getElementById(button._idHtml).checked = true;
       /* end test required configuration */
@@ -282,9 +276,8 @@ describe("Check ButtonHighlightAllAutomatically", () => {
       fakeModule.runFakeDom("src/popup/popup.html");
       global.browser = fakeModule.fakeBrowser();
       /* end test required configuration */
-      const buttonClass = buttonsModule.__get__(
-        "ButtonHighlightAllAutomatically",
-      );
+      const buttonClass =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
       const button = new buttonClass();
       expect(button._isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
@@ -306,9 +299,8 @@ describe("Check ButtonHighlightAllAutomatically", () => {
         Promise.resolve({ idHighlightAllAutomatically: true }),
       );
       /* end test required configuration */
-      const buttonClass = buttonsModule.__get__(
-        "ButtonHighlightAllAutomatically",
-      );
+      const buttonClass =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
       const button = new buttonClass();
       expect(button._isOn).toBe(false);
       expect(browser.storage.local.get.mock.calls.length).toBe(0);
@@ -329,16 +321,11 @@ describe("ButtonAlwaysShowSources", () => {
   let button;
   let buttonElement;
   let domModule = require("../../src/popup/dom.js");
-  let hideBackup;
-  let unhideBackup;
   beforeEach(() => {
     fakeModule.runFakeDom("src/popup/popup.html");
     global.browser = fakeModule.fakeBrowser();
-    hideBackup = buttonsModule.__get__("hide");
-    unhideBackup = buttonsModule.__get__("unhide");
-    const ButtonAlwaysShowSources = buttonsModule.__get__(
-      "ButtonAlwaysShowSources",
-    );
+    const ButtonAlwaysShowSources =
+      buttonsModule._forTesting.ButtonAlwaysShowSources;
     button = new ButtonAlwaysShowSources();
     buttonElement = document.getElementById(
       buttonsModule.BUTTON_ID_ALWAYS_SHOW_SOURCES,
@@ -364,8 +351,7 @@ describe("ButtonAlwaysShowSources", () => {
       // Test configuration.
       setOff(buttonElement);
       setPageCannotBeAnalyzed();
-      const hideSpy = jest.fn();
-      buttonsModule.__set__("hide", hideSpy);
+      const hideSpy = jest.spyOn(domModule, "hide");
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test
       await button.click();
@@ -373,7 +359,6 @@ describe("ButtonAlwaysShowSources", () => {
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalledTimes(1);
       // Undo test configuration.
-      buttonsModule.__set__("hide", hideBackup);
       hideSpy.mockRestore();
       showSourcesSpy.mockRestore();
     });
@@ -392,14 +377,13 @@ describe("ButtonAlwaysShowSources", () => {
       // Test configuration.
       setOn(buttonElement);
       setPageCannotBeAnalyzed();
-      const unhideSpy = jest.fn();
-      buttonsModule.__set__("unhide", unhideSpy);
+      const unhideSpy = jest.spyOn(domModule, "unhide");
       // Test
       await button.click();
       expect(isOn(buttonElement)).toBe(false);
       expect(unhideSpy).not.toHaveBeenCalled();
       // Undo test configuration.
-      buttonsModule.__set__("unhide", unhideBackup);
+      unhideSpy.mockRestore();
     });
   });
   describe("initializePopup", () => {
@@ -423,8 +407,7 @@ describe("ButtonAlwaysShowSources", () => {
         storageItems: { idTagsInfoAlwaysVisible: true },
       });
       setPageCannotBeAnalyzed();
-      const hideSpy = jest.fn();
-      buttonsModule.__set__("hide", hideSpy);
+      const hideSpy = jest.spyOn(domModule, "hide");
       const showSourcesSpy = jest.spyOn(button, "_showSources");
       // Test.
       await button.initializePopup();
@@ -432,7 +415,6 @@ describe("ButtonAlwaysShowSources", () => {
       expect(hideSpy).not.toHaveBeenCalled();
       expect(showSourcesSpy).not.toHaveBeenCalled();
       // Undo test configuration.
-      buttonsModule.__set__("hide", hideBackup);
       hideSpy.mockRestore();
       showSourcesSpy.mockRestore();
     });
@@ -494,7 +476,7 @@ describe("buttons", () => {
       );
     });
     function getButton() {
-      const ButtonBase = buttonsModule.__get__("Button");
+      const ButtonBase = buttonsModule._forTesting.Button;
       class TestButton extends ButtonBase {
         get _idHtml() {
           return "idTest";
@@ -523,7 +505,7 @@ describe("buttons", () => {
       expect(lastCall).toEqual([TAB_ID, { info: buttonIdHtml }]);
     });
     function getButton() {
-      const classType = buttonsModule.__get__("ButtonClean");
+      const classType = buttonsModule._forTesting.ButtonClean;
       return new classType();
     }
   });
@@ -564,7 +546,7 @@ describe("buttons", () => {
       global.browser = fakeModule.fakeBrowser();
     });
     function getButton() {
-      const classType = buttonsModule.__get__("ButtonRecheck");
+      const classType = buttonsModule._forTesting.ButtonRecheck;
       return new classType();
     }
   });
@@ -602,7 +584,7 @@ describe("buttons", () => {
       consoleErrorSpy.mockRestore();
     });
     function getButton() {
-      const classType = buttonsModule.__get__("ButtonScroll");
+      const classType = buttonsModule._forTesting.ButtonScroll;
       return new classType();
     }
     function assertHtmlInitialValues() {
@@ -636,7 +618,7 @@ describe("buttons", () => {
       );
     });
     function getButton() {
-      const classType = buttonsModule.__get__("ButtonShowConfig");
+      const classType = buttonsModule._forTesting.ButtonShowConfig;
       return new classType();
     }
   });
@@ -668,18 +650,19 @@ describe("buttons", () => {
           sendMessageResponse: sendMessageResponse,
         });
         fakeModule.mockNotEmptySourcesContainer(
-          uiModule.__get__("sourcesContainer"),
+          uiModule._forTesting.sourcesContainer,
         );
         expect(
-          uiModule.__get__("sourcesContainer").children[
-            uiModule.__get__("sourcesContainer").children.length - 2
+          uiModule._forTesting.sourcesContainer.children[
+            uiModule._forTesting.sourcesContainer.children.length - 2
           ].textContent,
         ).toBe("foo");
         // Test.
         await Promise.all([initializeButton("ButtonShowSources").click()]);
-        const result = uiModule
-          .__get__("sourcesContainer")
-          .innerHTML.replace(/>\s+</g, "><");
+        const result = uiModule._forTesting.sourcesContainer.innerHTML.replace(
+          />\s+</g,
+          "><",
+        );
         const expectedResult = new htmlBuilderModule.HtmlBuilder()
           .with_total(2)
           .with_element("Frame")
@@ -740,12 +723,12 @@ describe("buttons", () => {
       expect(infoContainer.firstChild).toBe(null);
     });
     function getButton(infoContainer) {
-      const classType = buttonsModule.__get__("ButtonUrlsNotify");
+      const classType = buttonsModule._forTesting.ButtonUrlsNotify;
       return new classType(infoContainer);
     }
   });
   function initializeButton(buttonStr) {
-    const buttonClass = buttonsModule.__get__(buttonStr);
+    const buttonClass = buttonsModule._forTesting[buttonStr];
     return new buttonClass();
   }
 });
@@ -755,14 +738,14 @@ describe("Check module import", () => {
     initializeMocksAndVariables();
   });
   it("The module should be imported without errors and has expected values", function () {
-    expect(buttonsModule.__get__("BUTTON_ID_ADD_URL")).toEqual("buttonAddUrl");
+    expect(buttonsModule._forTesting.BUTTON_ID_ADD_URL).toEqual("buttonAddUrl");
   });
   describe("Check function showStoredInfo", () => {
     describe("DOM elements are created correctly", () => {
       it("If no values to manage", function () {
         const infoContainer = fakeModule.fakeInfoContainer(0);
         expect(infoContainer.innerHTML).toBe("");
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", "");
         expect(infoContainer.innerHTML).toBe(
           '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
@@ -771,7 +754,7 @@ describe("Check module import", () => {
       it("If values to manage", function () {
         const infoContainer = fakeModule.fakeInfoContainer(0);
         expect(infoContainer.innerHTML).toBe("");
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         const eValue = "https://foo.com/test.html";
         function_(infoContainer, "blacklist", eValue);
         expect(infoContainer.innerHTML).toBe(
@@ -788,7 +771,7 @@ describe("Check module import", () => {
       it("Test click deleteBtn", async () => {
         const eValue = "https://foo.com/test.html";
         expect(browser.tabs.sendMessage.mock.calls.length).toBe(0);
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         const infoContainer = fakeModule.mockNotEmptyInfoContainer();
         function_(infoContainer, "blacklist", eValue);
         const buttons = infoContainer.getElementsByTagName("button");
@@ -820,7 +803,7 @@ describe("Check module import", () => {
       });
       it("Test click img inside deleteBtn removes entry", async () => {
         const eValue = "https://foo.com/test.html";
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         const infoContainer = fakeModule.mockNotEmptyInfoContainer();
         function_(infoContainer, "blacklist", eValue);
         const img = infoContainer.querySelector('button[title="Delete"] img');
@@ -832,7 +815,7 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         const infoContainer = mockEmptyInfoContainer();
         expect(infoContainer.getElementsByTagName("p").length).toBe(0);
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
         const pElements = infoContainer.getElementsByTagName("p");
         const entryValue = pElements[0];
@@ -854,7 +837,7 @@ describe("Check module import", () => {
         const eValue = "https://foo.com/test.html";
         const infoContainer = mockEmptyInfoContainer();
         expect(infoContainer.getElementsByTagName("button").length).toBe(0);
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
         const cancelButton = infoContainer.getElementsByTagName("button")[2];
         expect(cancelButton.title).toBe("Cancel update");
@@ -883,7 +866,7 @@ describe("Check module import", () => {
           storageItems: { blacklist: [eValue], notify: [], referer: [] },
         });
         const infoContainer = mockEmptyInfoContainer();
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
         expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
           eValue,
@@ -928,7 +911,7 @@ describe("Check module import", () => {
             }),
         );
         const infoContainer = mockEmptyInfoContainer();
-        const function_ = storedUrlEntriesModule.__get__("showStoredInfo");
+        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
         infoContainer.getElementsByTagName("input")[0].value =
           "https://new-url.com/test-2.html";

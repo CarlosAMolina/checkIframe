@@ -32,5 +32,15 @@ export default [
     },
     rules: js.configs.recommended.rules,
   },
+  {
+    files: ["src/content_scripts/check-and-border.js"],
+    languageOptions: {
+      globals: {
+        // exports is used in the _forTesting block to expose internals to Jest.
+        // It is guarded by typeof so it is safe in the browser where exports is undefined.
+        exports: "writable",
+      },
+    },
+  },
   prettier,
 ];

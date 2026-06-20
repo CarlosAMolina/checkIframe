@@ -12,31 +12,33 @@ describe("Check module import", () => {
     expect(document.getElementById("pInput").textContent).toBe("New values");
   });
   it("popupMain runs without error", function () {
-    const function_ = popupModule.__get__("popupMain");
+    const function_ = popupModule._forTesting.popupMain;
     function_();
   });
   it("initializePopup runs without error", function () {
-    const function_ = popupModule.__get__("initializePopup");
+    const function_ = popupModule._forTesting.initializePopup;
     function_();
   });
   it("reportError logs expected message", function () {
-    const function_ = popupModule.__get__("reportError");
+    const function_ = popupModule._forTesting.reportError;
     console.error = jest.fn();
     function_("foo message");
     expect(console.error).toHaveBeenCalledWith("Error: foo message");
   });
   it("reportExecuteScriptError runs without error", function () {
-    const function_ = popupModule.__get__("reportExecuteScriptError");
+    const function_ = popupModule._forTesting.reportExecuteScriptError;
     const error = {};
     function_(error);
   });
 });
 
 describe("Enter key handler on inputUrl", () => {
+  let storedUrlEntriesModule;
   beforeEach(() => {
     jest.resetModules();
     fakeModule.initializeDomAndBrowser();
     popupModule = require("../../src/popup/popup.js");
+    storedUrlEntriesModule = require("../../src/popup/stored-url-entries.js");
   });
   it("triggers saveUrls when Enter key is pressed", async function () {
     const textarea = document.getElementById("inputUrl");
@@ -65,9 +67,9 @@ describe("Enter key handler on inputUrl", () => {
   it("Enter key uses urlType selected at press time, not at popup open time", async function () {
     // At popup load time no radio button is checked (getUrlTypeActive returns null).
     // The user then selects "notify" — the handler must read the current selection.
-    const saveUrlsBackup = popupModule.__get__("saveUrls");
-    const saveUrlsSpy = jest.fn();
-    popupModule.__set__("saveUrls", saveUrlsSpy);
+    const saveUrlsSpy = jest
+      .spyOn(storedUrlEntriesModule, "saveUrls")
+      .mockResolvedValue(undefined);
     document.getElementById("buttonUrlsNotify").checked = true;
     const textarea = document.getElementById("inputUrl");
     textarea.value = "example.com";
@@ -81,6 +83,6 @@ describe("Enter key handler on inputUrl", () => {
       "notify",
     );
     document.getElementById("buttonUrlsNotify").checked = false;
-    popupModule.__set__("saveUrls", saveUrlsBackup);
+    saveUrlsSpy.mockRestore();
   });
 });

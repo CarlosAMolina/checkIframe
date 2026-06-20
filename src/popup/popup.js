@@ -38,6 +38,14 @@ function reportExecuteScriptError(error) {
   popupMain();
 }
 
+export const _forTesting = {
+  popupMain,
+  initializePopup,
+  reportExecuteScriptError,
+  reportError,
+  saveUrls,
+};
+
 try {
   popupMain();
 } catch (error) {

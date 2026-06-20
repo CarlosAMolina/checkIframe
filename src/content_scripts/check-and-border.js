@@ -307,3 +307,19 @@ function logDetections(elements) {
     console.log("checkIframe) check-and-border) tags info: ", elements);
   }
 }
+
+// Content scripts run as plain scripts in the browser where exports is not defined,
+// so this block is skipped without error. In Jest, Node.js wraps the file in a CJS
+// module that defines exports, enabling tests to access internal symbols.
+if (typeof exports !== "undefined") {
+  exports._forTesting = {
+    HIGHLIGHT_CLASS,
+    initializeState,
+    getPageElements,
+    logDetections,
+    handleButtonRecheck,
+    isBlacklistedSource,
+    state,
+    handleProtocolOk,
+  };
+}

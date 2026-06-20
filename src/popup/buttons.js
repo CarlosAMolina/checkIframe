@@ -479,3 +479,18 @@ class ButtonClearAll extends Button {
     await notifyContentScriptOfUrlChange();
   }
 }
+
+export const _forTesting = {
+  Button,
+  ButtonClearAll,
+  ButtonShowLogs,
+  ButtonHighlightAllAutomatically,
+  ButtonAlwaysShowSources,
+  ButtonClean,
+  ButtonRecheck,
+  ButtonScroll,
+  ButtonShowConfig,
+  ButtonShowSources,
+  ButtonUrlsNotify,
+  BUTTON_ID_ADD_URL,
+};

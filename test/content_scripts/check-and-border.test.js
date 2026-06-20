@@ -10,25 +10,24 @@ describe("Check module import", () => {
     checkAndBorderModule = require(jsPathName);
   });
   it("The module should be imported without errors and has expected values", function () {
-    const result = checkAndBorderModule.__get__("HIGHLIGHT_CLASS");
+    const result = checkAndBorderModule._forTesting.HIGHLIGHT_CLASS;
     expect(result).toEqual("check-iframe-detector-highlight");
   });
   it("initializeState runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("initializeState");
+    const function_ = checkAndBorderModule._forTesting.initializeState;
     function_();
   });
   it("getPageElements runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("getPageElements");
+    const function_ = checkAndBorderModule._forTesting.getPageElements;
     function_();
   });
   it("logDetections runs without error", function () {
-    const function_ = checkAndBorderModule.__get__("logDetections");
+    const function_ = checkAndBorderModule._forTesting.logDetections;
     function_();
   });
   it("handleButtonRecheck returns sourcesSummary directly", async () => {
-    const handleButtonRecheck = checkAndBorderModule.__get__(
-      "handleButtonRecheck",
-    );
+    const handleButtonRecheck =
+      checkAndBorderModule._forTesting.handleButtonRecheck;
     const result = await handleButtonRecheck();
     expect(result).toHaveProperty("iframe");
     expect(result).toHaveProperty("frame");
@@ -37,10 +36,9 @@ describe("Check module import", () => {
 
 describe("Test isBlacklistedSource", () => {
   it("isBlacklistedSource uses exact matching, not substring matching", () => {
-    const isBlacklistedSource = checkAndBorderModule.__get__(
-      "isBlacklistedSource",
-    );
-    const state = checkAndBorderModule.__get__("state");
+    const isBlacklistedSource =
+      checkAndBorderModule._forTesting.isBlacklistedSource;
+    const state = checkAndBorderModule._forTesting.state;
     state.blacklistedSources = ["example.com", "ads.example.org"];
     expect(isBlacklistedSource("example.com")).toBe(true);
     expect(isBlacklistedSource("EXAMPLE.COM")).toBe(true);
@@ -70,15 +68,14 @@ describe("Test handleProtocolOk refreshes state from storage", () => {
     fakeModule.runNoHtmlFakeDom();
     const jsPathName = "../../src/content_scripts/check-and-border.js";
     const testModule = require(jsPathName);
-    const handleProtocolOk = testModule.__get__("handleProtocolOk");
-    const state = testModule.__get__("state");
+    const handleProtocolOk = testModule._forTesting.handleProtocolOk;
+    const state = testModule._forTesting.state;
     state.notifySources = [];
     let sentMessage = null;
     global.browser.runtime.sendMessage = jest.fn((message) => {
       sentMessage = message;
       return Promise.resolve({});
     });
-    const { elements } = testModule.__get__("getPageElements");
     await handleProtocolOk();
     expect(state.notifySources).toEqual(["youtube.com"]);
     expect(sentMessage).not.toBeNull();
