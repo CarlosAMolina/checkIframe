@@ -1,47 +1,70 @@
-export function getStrTagsHtml(frameTagSummary, iframeTagSummary) {
+export function getTagsDom(frameTagSummary, iframeTagSummary) {
+  const fragment = document.createDocumentFragment();
   const countDetectedTags =
     frameTagSummary.sourcesAllNumber + iframeTagSummary.sourcesAllNumber;
-  let result = `<p>Total number of frames and iframes: ${countDetectedTags}</p>`;
+  const totalParagraph = document.createElement("p");
+  totalParagraph.textContent = `Total number of frames and iframes: ${countDetectedTags}`;
+  fragment.appendChild(totalParagraph);
   if (countDetectedTags > 0) {
-    result += "\n";
-    result += "<p><u>Frame elements</u></p>";
-    result += "\n";
-    result += getTagHtml("frame", frameTagSummary);
-    result += "\n";
-    result += "<p><u>IFrame elements</u></p>";
-    result += "\n";
-    result += getTagHtml("iframe", iframeTagSummary);
+    fragment.appendChild(createElementHeader("Frame"));
+    fragment.appendChild(getTagDom("frame", frameTagSummary));
+    fragment.appendChild(createElementHeader("IFrame"));
+    fragment.appendChild(getTagDom("iframe", iframeTagSummary));
   }
-  return result;
+  return fragment;
 }
 
-function getTagHtml(tag, tagSummary) {
-  let result = `<p>Total number of ${tag}s: ${tagSummary.sourcesAllNumber}</p>`;
+function createElementHeader(tag) {
+  const paragraph = document.createElement("p");
+  const u = document.createElement("u");
+  u.textContent = `${tag} elements`;
+  paragraph.appendChild(u);
+  return paragraph;
+}
+
+function getTagDom(tag, tagSummary) {
+  const fragment = document.createDocumentFragment();
+  const paragraph = document.createElement("p");
+  paragraph.textContent = `Total number of ${tag}s: ${tagSummary.sourcesAllNumber}`;
+  fragment.appendChild(paragraph);
   if (tagSummary.sourcesAllNumber > 0) {
-    result += "\n";
     if (tagSummary.sourcesValid.length === 0) {
-      result += `<p>All ${tag}s are blacklisted</p>`;
+      const blacklistedParagraph = document.createElement("p");
+      blacklistedParagraph.textContent = `All ${tag}s are blacklisted`;
+      fragment.appendChild(blacklistedParagraph);
     } else {
-      result += `<p>Not blacklisted ${tag}s (${tagSummary.sourcesValid.length}):</p>`;
-      result += "\n";
-      result += getUrlsHtml(tagSummary);
+      const notBlacklistedParagraph = document.createElement("p");
+      notBlacklistedParagraph.textContent = `Not blacklisted ${tag}s (${tagSummary.sourcesValid.length}):`;
+      fragment.appendChild(notBlacklistedParagraph);
+      fragment.appendChild(getUrlsDom(tagSummary));
     }
   }
-  return result;
+  return fragment;
 }
 
-function getUrlsHtml(tagSummary) {
-  const elements = [];
+function getUrlsDom(tagSummary) {
+  const ol = document.createElement("ol");
+  ol.classList.add("detections");
   for (const [index, url] of tagSummary.sourcesValid.entries()) {
-    const element = `<li>
-  <button class="tooltip">
-    <span class="tooltiptext">Copy to clipboard</span>
-    <img src="/icons/copy.svg" />
-  </button>
-  <p>${index + 1}.</p>
-  <a href="${url}">${url}</a>
-</li>`;
-    elements.push(`  ${element}`);
+    const li = document.createElement("li");
+    const button = document.createElement("button");
+    button.classList.add("tooltip");
+    const span = document.createElement("span");
+    span.classList.add("tooltiptext");
+    span.textContent = "Copy to clipboard";
+    button.appendChild(span);
+    const img = document.createElement("img");
+    img.src = "/icons/copy.svg";
+    button.appendChild(img);
+    li.appendChild(button);
+    const p = document.createElement("p");
+    p.textContent = `${index + 1}.`;
+    li.appendChild(p);
+    const a = document.createElement("a");
+    a.href = url;
+    a.textContent = url;
+    li.appendChild(a);
+    ol.appendChild(li);
   }
-  return `<ol class="detections">\n${elements.join("\n")}\n</ol>`;
+  return ol;
 }

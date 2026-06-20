@@ -677,7 +677,9 @@ describe("buttons", () => {
         ).toBe("foo");
         // Test.
         await Promise.all([initializeButton("ButtonShowSources").click()]);
-        const result = uiModule.__get__("sourcesContainer").innerHTML;
+        const result = uiModule
+          .__get__("sourcesContainer")
+          .innerHTML.replace(/>\s+</g, "><");
         const expectedResult = new htmlBuilderModule.HtmlBuilder()
           .with_total(2)
           .with_element("Frame")
@@ -687,6 +689,7 @@ describe("buttons", () => {
           .with_element("IFrame")
           .with_number("iframes", 0)
           .build()
+          .replace(/>\s+</g, "><")
           .replace(/svg" \//g, 'svg"');
         expect(result).toBe(expectedResult);
         assertIsHidden("infoTags");

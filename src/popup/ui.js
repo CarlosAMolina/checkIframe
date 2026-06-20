@@ -1,4 +1,4 @@
-import { getStrTagsHtml } from "./tags-html.js";
+import { getTagsDom } from "./tags-html.js";
 import { HTML_ID_INFO_SCROLL } from "./dom.js";
 import { HTML_ID_INFO_TAGS } from "./dom.js";
 import { removeChildren } from "./dom.js";
@@ -21,8 +21,8 @@ export function setInfoScrollError(error) {
 
 export function showSources(tagSummary) {
   cleanShowSources();
-  const htmlStr = getStrTagsHtml(tagSummary["frame"], tagSummary["iframe"]);
-  sourcesContainer.insertAdjacentHTML("afterbegin", htmlStr);
+  const tagsDom = getTagsDom(tagSummary["frame"], tagSummary["iframe"]);
+  sourcesContainer.appendChild(tagsDom);
   setupSourcesCopyButtonListeners();
 }
 

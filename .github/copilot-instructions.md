@@ -106,7 +106,7 @@ Uses **ES6 modules** (`import`/`export`). Entry point: `popup.html` loads `popup
   - `getUrlTypeActive()` — reads which radio button is checked in the popup
   - Module-level `var urls` — mutable in-memory state (legacy pattern)
 
-- **tags-html.js** — HTML generation: `getStrTagsHtml()` builds an HTML string showing frame/iframe counts, blacklisted status, and a numbered list of source URLs with copy buttons.
+- **tags-html.js** — HTML generation: `getTagsDom()` builds an HTML element showing frame/iframe counts, blacklisted status, and a numbered list of source URLs with copy buttons.
 
 - **log.js** — `reportError(error)` — logs to `console.error`.
 
