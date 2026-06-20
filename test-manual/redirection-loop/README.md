@@ -22,7 +22,7 @@ Open the html:
 firefox http://127.0.0.1:8000/loop.html
 ```
 
-See the redirection logs:
+You can see the redirection logs:
 
 ```
 firefox about:debugging#/runtime/this-firefox

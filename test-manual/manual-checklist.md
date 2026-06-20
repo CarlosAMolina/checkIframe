@@ -1,4 +1,4 @@
-Feature: Automatic iframe detection
+Feature: Automatic detection
 
 Scenario: Automatic detection in a new page
   Given the user visits a web page that contains iframes
@@ -15,7 +15,7 @@ Scenario: Automatic detection in different tabs and windows
     - Web page without iframes.
     - Iframes detected.
     - Iframes to notify.
-    - No managed web page.
+    - No managed web page. Example: about:debugging#/runtime/this-firefox.
   When the user changes to tabs and windows
   Then the add-on icon changes to the detection state automatically:
     - No detections.
@@ -23,9 +23,9 @@ Scenario: Automatic detection in different tabs and windows
     - Detection to notify.
     - Not managed web page.
 
-Scenario: Automatic detection to notify when changing tab if configuration changes
+Scenario: Automatic detection to notify when changing tab or/and window if configuration changes
   Given the user has two tabs opened, both with iframes with same source (example youtube.com, you can open twice the file [all-types-of-iframes/index.html](all-types-of-iframes/index.html))
-  When the user in a tab and updates the configuration to notify `youtube.com` and changes to the other tab
+  When the user in a tab and updates the configuration to notify `youtube.com` and changes to the other tab or/and another window
   Then the add-on icon changes to the notify detection state automatically
 
 Feature: Recheck button
@@ -62,12 +62,12 @@ Scenario: The button drops the border
 
 Feature: `Show tags info` button
 
-Scenario: The button show expected info if no balcklisted urls
+Scenario: The button shows expected info if no balcklisted urls
   Given the user visits a web page that contains iframes
   When the user clicks the `Show tags info` button
   Then the add-on shows the information of all the iframes
 
-Scenario: The button show expected info if balcklisted urls
+Scenario: The button shows expected info if balcklisted urls
   Given the user visits a web page that contains iframes and some of them are blacklisted
   When the user clicks the `Show tags info` button
   Then the add-on shows the information of the non-blacklisted iframes
@@ -110,7 +110,7 @@ Feature: `Automatic highlighting` works as expected
 Scenario: The `Automatic highlighting` modifies the popup correctly
   Given the add-on is open
   When the user clicks the `Automatic highlighting`  button
-  Then the `Scroll to element`  and `Clean border` disappears
+  Then the `Scroll to element` and `Clean border` disappears
   AND this works after close and open again the add-on
 
 Scenario: The `Automatic highlighting` highlights all iframes
@@ -150,7 +150,7 @@ Scenario: The storage persists the data correctly categorized
   Then the configured sources to omit and sites that redirect appear in the configuration section correctly, without being mixed with other configuration types. And the configured sources to notify are empty
 
 Scenario: The CONFIGURED_OPTION are updated after closing the add-on
-  Given the user modifies any case of the CONFIGURED_OPTION configuration
+  Given the user modifies any case of the CONFIGURED_OPTION configuration using the `Add` button or/and pressing the `enter` key in the keyboard
   When the user confirms the change (clicks the update button), closes the add-on and opens a new tab of the browser
   Then the configured CONFIGURED_OPTION appear with the new values
 
@@ -190,8 +190,12 @@ Scenario: Configure sources to notify detects configured sites
 
 Feature: `Sites where first source opens automatically` works as expected
 
-  Background: The user is on a web page configured in the add-on to run automatic redirects. You have an example in the [redirection-loop](redirection-loop/) folder.
-  Scenario: Redirection to the same domain does not cause infinite redirections
-    Given a web page where the first iframe source is on the same domain, and that iframe source contains another iframe source also on the same domain. The domain is configured in the `Sites where first source opens automatically` option
+  Scenario: Redirection is done
+    Given a web page whose domain is configured in the `Sites where first source opens automatically` option
     When the user visits the web page
-    Then the add-on performs the automatic redirection only once, and the second redirection is not performed
+    Then the add-on performs the automatic redirection
+
+  Scenario: Redirection to the same domain does not cause infinite redirections
+    Given a web page where the first iframe source is on the same domain, and that iframe source contains another iframe source also on the same domain (you can see how to simulate this in [redirection-loop](redirection-loop/README.md) folder). The domain is configured in the `Sites where first source opens automatically` option
+    When the user visits the web page
+    Then the add-on does not perform the automatic redirection
