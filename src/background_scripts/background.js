@@ -49,12 +49,12 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     const { referer: referers } = await browser.storage.local.get({
       referer: [],
     });
-    if (
-      checkRunRedirect(referers, tabUrl) &&
-      message.locationUrl !== null &&
-      message.locationUrl !== tabUrl
-    ) {
-      redirectTo(tabId, message.locationUrl);
+    if (checkRunRedirect(referers, tabUrl) && message.locationUrl !== null) {
+      if (message.locationUrl === tabUrl) {
+        console.log("Omitting redirection to avoid infinitive loops");
+      } else {
+        redirectTo(tabId, message.locationUrl);
+      }
     }
   }
   const appearanceKey = appearanceKeyFromDetection(
