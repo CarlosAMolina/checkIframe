@@ -33,7 +33,6 @@
     "husky": "9.1.7",
     "jest": "30.3.0",
     "jsdom": "^26.0.0",
-    "node-forge": "1.4.0",
     "prettier": "3.7.4",
     "web-ext": "^10.4.0"
   },
@@ -41,7 +40,6 @@
     "babel-plugin-rewire": "Allow test not exported code. https://www.samanthaming.com/journal/2-testing-non-exported-functions/",
     "eslint": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/",
     "eslint-config-prettier": "disables ESLint rules that conflict with Prettier (including no-unexpected-multiline)",
-    "node-forge": "Set to fix vulnerable version as it is a dependency of a not maintained package with a fixed old version",
     "prettier": "https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/"
   }
 }
