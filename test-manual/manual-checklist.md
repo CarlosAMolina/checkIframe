@@ -11,9 +11,22 @@ Scenario: Automatic detection in a new tab when duplicating
   Then the add-on icon changes to the detection state automatically
 
 Scenario: Automatic detection in different tabs and windows
-  Given there are multiple tabs and windows, some of them with iframes are other not, and some of them are configured to be notified
+  Given there are multiple tabs and windows, that each one should raise this detections:
+    - Web page without iframes.
+    - Iframes detected.
+    - Iframes to notify.
+    - No managed web page.
   When the user changes to tabs and windows
-  Then the add-on icon changes to the detection state automatically (correct state: to notify, detected or not detected)
+  Then the add-on icon changes to the detection state automatically:
+    - No detections.
+    - Detections.
+    - Detection to notify.
+    - Not managed web page.
+
+Scenario: Automatic detection to notify when changing tab if configuration changes
+  Given the user has two tabs opened, both with iframes with same source (example youtube.com, you can open twice the file [all-types-of-iframes/index.html](all-types-of-iframes/index.html))
+  When the user in a tab and updates the configuration to notify `youtube.com` and changes to the other tab
+  Then the add-on icon changes to the notify detection state automatically
 
 Feature: Recheck button
 
