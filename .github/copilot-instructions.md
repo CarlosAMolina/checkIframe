@@ -18,7 +18,7 @@
 ### Directory Structure
 
 - **src/manifest.json** - WebExtension manifest (Manifest V3)
-- **src/constants.js** - Shared global constants (`URL_TYPE_BLACKLIST`, `URL_TYPE_NOTIFY`, `URL_TYPE_REFERER`); loaded by the manifest before the content script so both content script and popup can access the same values
+- **src/logger.js** - Shared logging utilities; exports `log()` and `logError()` used throughout the codebase
 - **src/background_scripts/** - Background script (`background.js`) handling browser API events, tab state, icon appearance, and redirection
 - **src/popup/** - Popup UI (HTML/CSS/JS modules) shown when the user clicks the add-on icon
 - **src/content_scripts/** - Content script (`check-and-border.js`) injected into web pages to detect, highlight, and scroll to iframes/frames
@@ -44,7 +44,8 @@ Runs as a persistent background page. Uses global `const`/`function` declaration
 
 #### 2. Content Script (`src/content_scripts/check-and-border.js`)
 
-Injected into every web page matching `https://*/*`, `http://*/*`, `file:///*`. Loaded after `constants.js` (which provides URL_TYPE_* globals). Uses an IIFE with a `window.hasRun` guard to prevent double-initialization.
+Uses ES6 modules (`import`/`export`). Injected into every web page matching `https://*/*`, `http://*/*`, `file:///*`.
+Uses an IIFE with a `window.hasRun` guard to prevent double-initialization. Imports `logError` from `../logger.js` for error logging.
 
 **State**: Maintains a local `state` object:
 - `blacklistedSources`, `notifySources`, `refererSources` — arrays of user-configured URL fragments loaded from `browser.storage.local` on init
@@ -100,7 +101,7 @@ Uses **ES6 modules** (`import`/`export`). Entry point: `popup.html` loads `popup
 - **repository.js** — `BrowserRepository` class wrapping `browser.storage.local` with `get()`, `getAll()`, `save()`, `delete()`, and `isStored()` methods.
 
 - **url.js** — URL type management:
-  - Defines `URL_TYPE_BLACKLIST`, `URL_TYPE_NOTIFY`, `URL_TYPE_REFERER` (same values as `constants.js` but as ES module exports)
+  - Defines `URL_TYPE_BLACKLIST`, `URL_TYPE_NOTIFY`, `URL_TYPE_REFERER`
   - `getStoredUrls(browser)` — reads all storage, groups entries by URL type prefix, returns `UrlsOfType[]`
   - `addUrl()` / `deleteUrl()` — modify in-memory URL arrays
   - `getUrlTypeActive()` — reads which radio button is checked in the popup
@@ -204,8 +205,8 @@ For test files matching **/*.test.js:
 
 ## Code Conventions
 
-- **Module System**: Popup files use ES6 modules (`import`/`export`). The background script and content script use plain global declarations (no module system) — loaded via the manifest's `scripts` arrays.
-- **Shared Constants**: `constants.js` defines URL type constants as globals for the content script. The same values are re-declared as ES module exports in `src/popup/url.js` for the popup.
+- **Module System**: All scripts now use ES6 modules (`import`/`export`). The background script and content script are loaded as modules via the manifest's `type: "module"` configuration.
+- **Shared Constants**: URL type constants were defined in `src/popup/url.js` and can be imported by any module.
 - **Testing Private Code**: Use `require()` + rewire's `__get__()` / `__set__()` to test unexported functions
 - **HTML Fixtures**: Test files load HTML via `runFakeDom("src/popup/popup.html")` from JSDOM
 - **Legacy Code**: `url.js` still uses `var urls` (module-level mutable state); new code should use `let`/`const`
@@ -231,6 +232,6 @@ For test files matching **/*.test.js:
 
 - **Manifest V3** (`src/manifest.json`)
 - **Permissions**: `activeTab`, `storage`, `tabs`
-- **Content script injection**: Runs at `document_end` on `https://*/*`, `http://*/*`, `file:///*` (top frame only, `all_frames: false`). Loads `constants.js` then `content_scripts/check-and-border.js`.
+- **Content script injection**: Runs at `document_end` on `https://*/*`, `http://*/*`, `file:///*` (top frame only, `all_frames: false`). Loaded as an ES module.
 - **Icon States**: Gray (unsupported protocol), Green (no iframes/frames), Orange (iframes/frames found), Purple (special notify sources matched)
 - **Browser API**: Uses `browser.*` namespace (Firefox WebExtensions API), not `chrome.*`

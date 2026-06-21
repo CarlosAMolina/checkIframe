@@ -1,3 +1,5 @@
+import { logError } from "../logger.js";
+
 const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
 const HIGHLIGHT_STYLE_ID = "check-iframe-detector-style";
 // When the pop-up is closed, this info is lost
@@ -58,7 +60,7 @@ async function initializeState() {
     state.blacklistedSources = blacklist;
     state.notifySources = notify;
   } catch (error) {
-    console.error(error);
+    logError(error);
   }
 }
 
@@ -90,7 +92,7 @@ async function handleProtocolOk() {
       state.highlightAllAutomatically,
     );
   } catch (error) {
-    console.error(error);
+    logError(error);
   }
 }
 
@@ -304,18 +306,13 @@ function logDetections(elements) {
   }
 }
 
-// Content scripts run as plain scripts in the browser where exports is not defined,
-// so this block is skipped without error. In Jest, Node.js wraps the file in a CJS
-// module that defines exports, enabling tests to access internal symbols.
-if (typeof exports !== "undefined") {
-  exports._forTesting = {
-    HIGHLIGHT_CLASS,
-    initializeState,
-    getPageElements,
-    logDetections,
-    handleButtonRecheck,
-    isBlacklistedSource,
-    state,
-    handleProtocolOk,
-  };
-}
+export const _forTesting = {
+  HIGHLIGHT_CLASS,
+  initializeState,
+  getPageElements,
+  logDetections,
+  handleButtonRecheck,
+  isBlacklistedSource,
+  state,
+  handleProtocolOk,
+};
