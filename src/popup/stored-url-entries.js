@@ -1,6 +1,6 @@
 import { infoContainer } from "./ui.js";
 import { Message } from "./model.js";
-import { reportError } from "./log.js";
+import { reportError } from "./logger.js";
 import { sendMessage } from "./message-mediator.js";
 
 export function showStoredUrlsType(urlType) {

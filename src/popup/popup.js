@@ -3,7 +3,7 @@ import { getUrlsInInputBox } from "./ui.js";
 import { infoContainer } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
 import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
-import { reportError } from "./log.js";
+import { reportError } from "./logger.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";

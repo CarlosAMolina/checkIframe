@@ -13,7 +13,7 @@ import { infoContainer } from "./ui.js";
 import { isHidden } from "./dom.js";
 import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
 import { removeChildren } from "./dom.js";
-import { reportError } from "./log.js";
+import { reportError } from "./logger.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { sendMessage } from "./message-mediator.js";
 import { setInfoScrollError } from "./ui.js";

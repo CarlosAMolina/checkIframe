@@ -1,5 +1,5 @@
 import { isProtocolSupported } from "../supported-protocols.js";
-import { reportError } from "./log.js";
+import { reportError } from "./logger.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 
 export function sendMessage(message) {
