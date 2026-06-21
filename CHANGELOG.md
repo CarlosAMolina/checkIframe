@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.
-- Development. Add sort imports.
+- Development. Add sort imports library.
 
 ### Fixed
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Update development dependencies to address vulnerabilities and deprecations.
 - When clicking Copy with an empty URL, copy an empty string instead of the pop-up window’s URL.
-- Avoid error: Could not establish connection. Receiving end does not exist.
+- Avoid the error `Could not establish connection. Receiving end does not exist.` in pages that can be analyzed. For example, https://addons.mozilla.org cannot be analyzed by the add-on.
 - Add-on icon update when configuration changes and the user switches tabs/windows.
 
 ## [1.8.0] - 2026-01-09
