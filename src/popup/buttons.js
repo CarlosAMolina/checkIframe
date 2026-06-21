@@ -7,6 +7,7 @@ import { isHidden } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
+import { log } from "./logger.js";
 import { logError } from "./logger.js";
 import { sendMessage } from "./message-mediator.js";
 import { Message } from "./model.js";
@@ -72,7 +73,7 @@ class Button {
   }
 
   _logButtonName() {
-    console.log(`Clicked button ID Html: ${this._idHtml}`);
+    log(`Clicked button ID Html: ${this._idHtml}`);
   }
 
   get _idHtml() {
@@ -209,9 +210,9 @@ class ButtonOnOff extends Button {
 
   get _isOn() {
     const element = document.getElementById(this._idHtml);
-    console.log(`Is button ${this._idHtml} checked? ${element.checked}`);
+    log(`Is button ${this._idHtml} checked? ${element.checked}`);
     const result = element.checked === undefined ? false : element.checked;
-    console.log(`Is button ${this._idHtml} on? ${result}`);
+    log(`Is button ${this._idHtml} on? ${result}`);
     return result;
   }
 
@@ -228,7 +229,7 @@ class ButtonOnOff extends Button {
   }
 
   _setStyle(style) {
-    console.log("Setting style", style);
+    log("Setting style", style);
     const styles = {
       on: {
         background: "green",
@@ -266,7 +267,7 @@ class ButtonOnOff extends Button {
     await browser.storage.local
       .set({ [this._idStorage]: this._isOn })
       .then(() => {
-        console.log(
+        log(
           `The following value has been stored for ${this._idStorage}: ${this._isOn}`,
         );
       }, console.error);
@@ -381,11 +382,11 @@ async function getIsStoredOn(keyName) {
   }
   // The result is an empty object if the searched value is not stored.
   const storedButtonIdStorage = resultGetStorage[keyName];
-  console.log(`The stored value for ${keyName} is ${storedButtonIdStorage}`);
+  log(`The stored value for ${keyName} is ${storedButtonIdStorage}`);
   // storedButtonIdStorage === undefined -> not previous value was stored
   const result =
     storedButtonIdStorage === undefined ? false : storedButtonIdStorage;
-  console.log("Is stored on?", result);
+  log("Is stored on?", result);
   return result;
 }
 
