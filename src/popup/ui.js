@@ -1,6 +1,7 @@
 import { HTML_ID_INFO_SCROLL } from "./dom.js";
 import { HTML_ID_INFO_TAGS } from "./dom.js";
 import { removeChildren } from "./dom.js";
+import { log } from "./logger.js";
 import { logError } from "./logger.js";
 import { getTagsDom } from "./tags-html.js";
 
@@ -58,7 +59,7 @@ function setupSourcesCopyButtonListeners() {
       navigator.clipboard
         .writeText(url)
         .then(() => {
-          console.log(`Copied (length=${url.length}): ${url}`);
+          log(`Copied (length=${url.length}): ${url}`);
           const button = this.parentElement.querySelector("button");
           const image = button.querySelector("img");
           const tooltip = button.querySelector("span");
