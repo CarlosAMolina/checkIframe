@@ -577,7 +577,9 @@ describe("buttons", () => {
       await Promise.all([getButton().click()]);
       assertTestResult("Internal error. The action could not be executed");
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Error: Error: Incorrect response: undefined",
+        expect.objectContaining({
+          message: "Incorrect response: undefined",
+        }),
       );
       // Restore test config.
       global.browser = fakeModule.fakeBrowser();

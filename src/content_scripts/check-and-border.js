@@ -58,7 +58,7 @@ async function initializeState() {
     state.blacklistedSources = blacklist;
     state.notifySources = notify;
   } catch (error) {
-    logError(error);
+    console.error(error);
   }
 }
 
@@ -90,7 +90,7 @@ async function handleProtocolOk() {
       state.highlightAllAutomatically,
     );
   } catch (error) {
-    logError(error);
+    console.error(error);
   }
 }
 
@@ -162,10 +162,6 @@ function handleSourcesUpdate(message) {
   state.blacklistedSources = message.values.blacklist ?? [];
   state.notifySources = message.values.notify ?? [];
   analyzePageAndSend();
-}
-
-function logError(error) {
-  console.error(`Error: ${error}`);
 }
 
 function highlightAllIfRequired(elements, shouldHighlight) {
