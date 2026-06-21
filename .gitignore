@@ -2,8 +2,9 @@
 .DS_Store
 
 # npm
-node_modules
 coverage
+node_modules
+package-lock.json
 
 # vi
 *.swp
