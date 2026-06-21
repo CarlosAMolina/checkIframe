@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.
 - Development. Add sort imports library.
+- Content-script. Convert to ES module and use shared logger.
 
 ### Fixed
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
