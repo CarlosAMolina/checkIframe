@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default [
   {
@@ -12,6 +13,7 @@ export default [
         browser: "writable",
         navigator: "readonly",
         setTimeout: "readonly",
+        URL: "readonly",
         // Jest
         describe: "readonly",
         it: "readonly",
@@ -30,7 +32,14 @@ export default [
         console: "readonly",
       },
     },
-    rules: js.configs.recommended.rules,
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
   },
   {
     files: ["src/content_scripts/check-and-border.js"],

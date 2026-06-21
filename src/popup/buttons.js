@@ -2,26 +2,26 @@ import { HTML_ID_ERROR_CONTENT } from "./dom.js";
 import { HTML_ID_INFO_SCROLL } from "./dom.js";
 import { HTML_ID_INFO_TAGS } from "./dom.js";
 import { HTML_ID_MENU_CONFIG } from "./dom.js";
+import { hide } from "./dom.js";
+import { isHidden } from "./dom.js";
+import { removeChildren } from "./dom.js";
+import { toggleHide } from "./dom.js";
+import { unhide } from "./dom.js";
+import { logError } from "./logger.js";
+import { sendMessage } from "./message-mediator.js";
 import { Message } from "./model.js";
+import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
+import { saveUrls } from "./stored-url-entries.js";
+import { showStoredUrlsType } from "./stored-url-entries.js";
+import { getUrlsInInputBox } from "./ui.js";
+import { infoContainer } from "./ui.js";
+import { setInfoScrollError } from "./ui.js";
+import { setShowSourcesError } from "./ui.js";
+import { showSources } from "./ui.js";
 import { URL_TYPE_BLACKLIST } from "./url.js";
 import { URL_TYPE_NOTIFY } from "./url.js";
 import { URL_TYPE_REFERER } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
-import { getUrlsInInputBox } from "./ui.js";
-import { hide } from "./dom.js";
-import { infoContainer } from "./ui.js";
-import { isHidden } from "./dom.js";
-import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
-import { removeChildren } from "./dom.js";
-import { reportError } from "./logger.js";
-import { saveUrls } from "./stored-url-entries.js";
-import { sendMessage } from "./message-mediator.js";
-import { setInfoScrollError } from "./ui.js";
-import { setShowSourcesError } from "./ui.js";
-import { showSources } from "./ui.js";
-import { showStoredUrlsType } from "./stored-url-entries.js";
-import { toggleHide } from "./dom.js";
-import { unhide } from "./dom.js";
 
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
@@ -465,7 +465,7 @@ class ButtonClearAll extends Button {
     try {
       await this._clearStorageInfo(urlType);
     } catch (e) {
-      reportError(e);
+      logError(e);
     }
   }
 

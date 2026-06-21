@@ -1,12 +1,12 @@
-import { getUrlTypeActive } from "./url.js";
-import { getUrlsInInputBox } from "./ui.js";
-import { infoContainer } from "./ui.js";
 import { initializePopupButtons } from "./buttons.js";
-import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
-import { reportError } from "./logger.js";
-import { saveUrls } from "./stored-url-entries.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
+import { logError } from "./logger.js";
+import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
+import { saveUrls } from "./stored-url-entries.js";
+import { getUrlsInInputBox } from "./ui.js";
+import { infoContainer } from "./ui.js";
+import { getUrlTypeActive } from "./url.js";
 
 function popupMain() {
   // Display previously saved stored info on start-up
@@ -33,7 +33,7 @@ function initializePopup() {
 // there was an error executing the script.
 // display the pop-up's error message, and hide the normal UI.
 function reportExecuteScriptError(error) {
-  reportError(`Failed to check this web page: ${error.message}`);
+  logError(`Failed to check this web page: ${error.message}`);
   updateElementsWhenIncompatibleWebPage();
   popupMain();
 }
@@ -42,7 +42,7 @@ export const _forTesting = {
   popupMain,
   initializePopup,
   reportExecuteScriptError,
-  reportError,
+  logError,
   saveUrls,
 };
 

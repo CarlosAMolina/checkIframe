@@ -1,6 +1,6 @@
 import { isProtocolSupported } from "../supported-protocols.js";
-import { reportError } from "./logger.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
+import { logError } from "./logger.js";
 
 export function sendMessage(message) {
   return browser.tabs
@@ -17,6 +17,6 @@ export function sendMessage(message) {
 }
 
 function onSendInfoError(error) {
-  reportError(error);
+  logError(error);
   updateElementsWhenIncompatibleWebPage();
 }

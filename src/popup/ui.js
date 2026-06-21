@@ -1,8 +1,8 @@
-import { getTagsDom } from "./tags-html.js";
 import { HTML_ID_INFO_SCROLL } from "./dom.js";
 import { HTML_ID_INFO_TAGS } from "./dom.js";
 import { removeChildren } from "./dom.js";
-import { reportError } from "./logger.js";
+import { logError } from "./logger.js";
+import { getTagsDom } from "./tags-html.js";
 
 export const infoContainer = document.querySelector(".info-container");
 const sourcesContainer = document.querySelector(".sources-container");
@@ -27,7 +27,7 @@ export function showSources(tagSummary) {
 }
 
 function setUiError(error, htmlId) {
-  reportError(error);
+  logError(error);
   document.getElementById(htmlId).textContent =
     "Internal error. The action could not be executed";
 }

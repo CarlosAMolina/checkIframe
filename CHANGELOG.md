@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.
+- Development. Add sort imports.
 
 ### Fixed
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
+- ESLint error `URL` is not defined. Added `URL` to the ESLint globals config.
 
 ## [2.0.0] - 20260620
 ### Added

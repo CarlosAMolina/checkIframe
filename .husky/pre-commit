@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 npm run prettier
+npm run lint
 npm test

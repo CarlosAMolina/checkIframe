@@ -58,7 +58,7 @@ async function initializeState() {
     state.blacklistedSources = blacklist;
     state.notifySources = notify;
   } catch (error) {
-    reportErrorContentScript(error);
+    logError(error);
   }
 }
 
@@ -90,7 +90,7 @@ async function handleProtocolOk() {
       state.highlightAllAutomatically,
     );
   } catch (error) {
-    reportErrorContentScript(error);
+    logError(error);
   }
 }
 
@@ -164,7 +164,7 @@ function handleSourcesUpdate(message) {
   analyzePageAndSend();
 }
 
-function reportErrorContentScript(error) {
+function logError(error) {
   console.error(`Error: ${error}`);
 }
 

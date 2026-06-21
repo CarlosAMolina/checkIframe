@@ -1,8 +1,8 @@
 // https://stackoverflow.com/questions/41098009/mocking-document-in-jest
 
 import fs from "fs";
-import path from "path";
 import { JSDOM } from "jsdom";
+import path from "path";
 
 export function fakeBrowser(config) {
   const sendMessageResponse =

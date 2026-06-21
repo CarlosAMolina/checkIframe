@@ -1,14 +1,14 @@
-import { infoContainer } from "./ui.js";
-import { Message } from "./model.js";
-import { reportError } from "./logger.js";
+import { logError } from "./logger.js";
 import { sendMessage } from "./message-mediator.js";
+import { Message } from "./model.js";
+import { infoContainer } from "./ui.js";
 
 export function showStoredUrlsType(urlType) {
   browser.storage.local.get({ [urlType]: [] }).then((result) => {
     result[urlType].forEach((url) =>
       showStoredInfo(infoContainer, urlType, url),
     );
-  }, reportError);
+  }, logError);
 }
 
 export async function saveUrls(infoContainer, urlsInput, urlType) {
@@ -22,7 +22,7 @@ export async function saveUrls(infoContainer, urlsInput, urlType) {
     newUrls.forEach((url) => showStoredInfo(infoContainer, urlType, url));
     await notifyContentScriptOfUrlChange();
   } catch (e) {
-    reportError(e);
+    logError(e);
   }
 }
 
@@ -72,7 +72,7 @@ class ButtonDelete extends ButtonDynamic {
           .set({ [this._urlType]: urls[this._urlType] })
           .then(() => notifyContentScriptOfUrlChange());
       })
-      .catch(reportError);
+      .catch(logError);
   }
 }
 

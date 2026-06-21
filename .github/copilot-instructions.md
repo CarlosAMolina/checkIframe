@@ -108,7 +108,7 @@ Uses **ES6 modules** (`import`/`export`). Entry point: `popup.html` loads `popup
 
 - **tags-html.js** — HTML generation: `getTagsDom()` builds an HTML element showing frame/iframe counts, blacklisted status, and a numbered list of source URLs with copy buttons.
 
-- **logger.js** — `reportError(error)` — logs to `console.error`.
+- **logger.js** — `logError(error)` — logs to `console.error`.
 
 - **popup.css** — Styles for the popup UI. Uses CSS custom properties for dimensions. Key classes: `.hidden`, `.backgroundGray`, `.oneLineButtons`, `.switchConfig`, `.sourceConfig`, `.detections`, `.tooltip`.
 

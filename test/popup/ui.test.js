@@ -1,5 +1,5 @@
-import * as fakeModule from "../fake.js";
 import * as htmlBuilderModule from "../builder.js";
+import * as fakeModule from "../fake.js";
 
 describe("cleanShowSources", () => {
   let uiModule;

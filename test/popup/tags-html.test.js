@@ -1,6 +1,6 @@
-import * as fakeModule from "../fake.js";
 import * as tagsHtmlModule from "../../src/popup/tags-html.js";
 import * as htmlBuilderModule from "../builder.js";
+import * as fakeModule from "../fake.js";
 
 describe("Check getTagsDom", () => {
   beforeEach(() => {

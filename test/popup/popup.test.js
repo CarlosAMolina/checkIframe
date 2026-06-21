@@ -19,8 +19,8 @@ describe("Check module import", () => {
     const function_ = popupModule._forTesting.initializePopup;
     function_();
   });
-  it("reportError logs expected message", function () {
-    const function_ = popupModule._forTesting.reportError;
+  it("logError logs expected message", function () {
+    const function_ = popupModule._forTesting.logError;
     console.error = jest.fn();
     function_("foo message");
     expect(console.error).toHaveBeenCalledWith("Error: foo message");
