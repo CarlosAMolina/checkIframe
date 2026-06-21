@@ -1,7 +1,7 @@
+import { logError } from "../logger.js";
 import { initializePopupButtons } from "./buttons.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
-import { logError } from "./logger.js";
 import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { getUrlsInInputBox } from "./ui.js";

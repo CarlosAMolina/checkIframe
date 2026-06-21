@@ -1,6 +1,7 @@
+import { log } from "../logger.js";
+import { logError } from "../logger.js";
 import { isProtocolSupported } from "../supported-protocols.js";
 
-const DEBUG = true;
 const NO_BROWSER_WINDOW_ID = -1;
 
 // listen to click the button
@@ -77,7 +78,7 @@ async function redirectTo(tabId, locationUrl) {
     await browser.tabs.update(tabId, { url: locationUrl });
     log("Updated tab");
   } catch (error) {
-    console.error(error);
+    logError(error);
   }
 }
 
@@ -94,7 +95,7 @@ async function updateActiveTab() {
     log("Init updateActiveTab");
     await updateTab(activeTab);
   } catch (error) {
-    console.error(error);
+    logError(error);
   }
 }
 
@@ -114,7 +115,7 @@ async function updateTab(tab) {
       .sendMessage(tabId, {
         info: "protocolOk",
       })
-      .catch(console.error);
+      .catch(logError);
   } else {
     const appearanceKey = appearanceKeyFromDetection(
       "none",
@@ -185,13 +186,7 @@ async function handleActivatedTab(activeInfo) {
     const tab = await browser.tabs.get(activeInfo.tabId);
     await updateTab(tab);
   } catch (error) {
-    console.error(error);
-  }
-}
-
-function log(...args) {
-  if (DEBUG) {
-    console.log(...args);
+    logError(error);
   }
 }
 

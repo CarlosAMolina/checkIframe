@@ -1,3 +1,5 @@
+import { log } from "../logger.js";
+import { logError } from "../logger.js";
 import { HTML_ID_ERROR_CONTENT } from "./dom.js";
 import { HTML_ID_INFO_SCROLL } from "./dom.js";
 import { HTML_ID_INFO_TAGS } from "./dom.js";
@@ -7,8 +9,6 @@ import { isHidden } from "./dom.js";
 import { removeChildren } from "./dom.js";
 import { toggleHide } from "./dom.js";
 import { unhide } from "./dom.js";
-import { log } from "./logger.js";
-import { logError } from "./logger.js";
 import { sendMessage } from "./message-mediator.js";
 import { Message } from "./model.js";
 import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
@@ -102,7 +102,7 @@ class ButtonRecheck extends Button {
             showSources(response);
           }
         })
-        .catch(console.error)
+        .catch(logError)
     );
   }
 }
@@ -270,7 +270,7 @@ class ButtonOnOff extends Button {
         log(
           `The following value has been stored for ${this._idStorage}: ${this._isOn}`,
         );
-      }, console.error);
+      }, logError);
   }
 }
 
@@ -378,7 +378,7 @@ async function getIsStoredOn(keyName) {
   try {
     resultGetStorage = await browser.storage.local.get(keyName);
   } catch (e) {
-    console.error(e);
+    logError(e);
   }
   // The result is an empty object if the searched value is not stored.
   const storedButtonIdStorage = resultGetStorage[keyName];

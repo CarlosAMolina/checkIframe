@@ -1,3 +1,6 @@
+import { log } from "./logger.js";
+import { logError } from "./logger.js";
+
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 
 export function isProtocolSupported(url) {
@@ -6,11 +9,11 @@ export function isProtocolSupported(url) {
 }
 
 function getProtocol(url) {
-  console.log(`Tab url: ${url}`);
+  log(`Tab url: ${url}`);
   try {
     return new URL(url).protocol;
   } catch (error) {
-    console.error(`Failed to parse URL "${url}":`, error);
+    logError(`Failed to parse URL "${url}":`, error);
     return "";
   }
 }
