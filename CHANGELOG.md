@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
 - ESLint error `URL` is not defined. Added `URL` to the ESLint globals config.
+- GitHub Copilot instructions. Update manifest version
 
 ## [2.0.0] - 20260620
 ### Added

@@ -13,11 +13,11 @@
 
 ## Project Architecture
 
-**checkIframe** is a Firefox WebExtension (Manifest v2) that detects iframe/frame elements on web pages, lets the user scroll through and highlight them, and optionally auto-redirects to the first iframe source on configured sites.
+**checkIframe** is a Firefox WebExtension (Manifest V3) that detects iframe/frame elements on web pages, lets the user scroll through and highlight them, and optionally auto-redirects to the first iframe source on configured sites.
 
 ### Directory Structure
 
-- **src/manifest.json** - WebExtension manifest (Manifest v2)
+- **src/manifest.json** - WebExtension manifest (Manifest V3)
 - **src/constants.js** - Shared global constants (`URL_TYPE_BLACKLIST`, `URL_TYPE_NOTIFY`, `URL_TYPE_REFERER`); loaded by the manifest before the content script so both content script and popup can access the same values
 - **src/background_scripts/** - Background script (`background.js`) handling browser API events, tab state, icon appearance, and redirection
 - **src/popup/** - Popup UI (HTML/CSS/JS modules) shown when the user clicks the add-on icon
@@ -229,7 +229,7 @@ For test files matching **/*.test.js:
 
 ## Firefox WebExtension Details
 
-- **Manifest v2** (`src/manifest.json`)
+- **Manifest V3** (`src/manifest.json`)
 - **Permissions**: `activeTab`, `storage`, `tabs`
 - **Content script injection**: Runs at `document_end` on `https://*/*`, `http://*/*`, `file:///*` (top frame only, `all_frames: false`). Loads `constants.js` then `content_scripts/check-and-border.js`.
 - **Icon States**: Gray (unsupported protocol), Green (no iframes/frames), Orange (iframes/frames found), Purple (special notify sources matched)
