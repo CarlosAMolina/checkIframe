@@ -1,3 +1,4 @@
+import { log } from "../logger.js";
 import { logError } from "../logger.js";
 
 const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
@@ -302,7 +303,7 @@ function isBlacklistedSource(source) {
 
 function logDetections(elements) {
   if (state.showLogs) {
-    console.log("checkIframe) check-and-border) tags info: ", elements);
+    log("checkIframe) check-and-border) tags info: ", elements);
   }
 }
 
