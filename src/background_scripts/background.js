@@ -1,5 +1,6 @@
 import { isProtocolSupported } from "../supported-protocols.js";
 
+const DEBUG = true;
 const NO_BROWSER_WINDOW_ID = -1;
 
 // listen to click the button
@@ -16,13 +17,13 @@ browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);
 browser.tabs.onActivated.addListener(handleActivatedTab);
 
 // update when the extension loads initially
-console.log("Extension initialized");
+log("Extension initialized");
 updateActiveTab();
 
 // listen to messages from the content script
 browser.runtime.onMessage.addListener(async (message, sender) => {
-  console.log("Message received from content-script:");
-  console.log(message);
+  log("Message received from content-script:");
+  log(message);
   const tabUrl = sender.tab?.url;
   const tabId = sender.tab?.id;
   // Fix race condition on tab duplication using content script ready signal.
@@ -45,13 +46,13 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
   }
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
-    console.log(`Current tab url: ${tabUrl}`);
+    log(`Current tab url: ${tabUrl}`);
     const { referer: referers } = await browser.storage.local.get({
       referer: [],
     });
     if (checkRunRedirect(referers, tabUrl) && message.locationUrl !== null) {
       if (message.locationUrl === tabUrl) {
-        console.log("Omitting redirection to avoid infinitive loops");
+        log("Omitting redirection to avoid infinitive loops");
       } else {
         redirectTo(tabId, message.locationUrl);
       }
@@ -71,10 +72,10 @@ function checkRunRedirect(referers, url) {
 }
 
 async function redirectTo(tabId, locationUrl) {
-  console.log(`Init redirect to ${locationUrl}`);
+  log(`Init redirect to ${locationUrl}`);
   try {
     await browser.tabs.update(tabId, { url: locationUrl });
-    console.log("Updated tab");
+    log("Updated tab");
   } catch (error) {
     console.error(error);
   }
@@ -90,7 +91,7 @@ async function updateActiveTab() {
     if (!activeTab) {
       return;
     }
-    console.log("Init updateActiveTab");
+    log("Init updateActiveTab");
     await updateTab(activeTab);
   } catch (error) {
     console.error(error);
@@ -105,10 +106,10 @@ async function updateTab(tab) {
   }
   const tabId = tab.id;
   const tabUrl = tab.url || ""; // url can be temporarily stale (during navigation)
-  console.log(`Init update for tab id: ${tabId}`);
+  log(`Init update for tab id: ${tabId}`);
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
-    console.log(`Init sendMessage to the content script in tab id: ${tabId}`);
+    log(`Init sendMessage to the content script in tab id: ${tabId}`);
     browser.tabs
       .sendMessage(tabId, {
         info: "protocolOk",
@@ -155,7 +156,7 @@ function handleUpdatedWindow(windowId) {
   if (windowId === NO_BROWSER_WINDOW_ID) {
     return;
   }
-  console.log(`Init newly focused window. Window id: ${windowId}`);
+  log(`Init newly focused window. Window id: ${windowId}`);
   updateActiveTab();
 }
 
@@ -164,7 +165,7 @@ function handleUpdatedTabUrl(tabId, changeInfo, tab) {
   if (changeInfo.status !== "complete") {
     return;
   }
-  console.log(`Init newly tab url loaded. Tab id: ${tabId}`);
+  log(`Init newly tab url loaded. Tab id: ${tabId}`);
   const tabUrl = tab.url || "";
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (!protocolIsSupported) {
@@ -179,12 +180,18 @@ function handleUpdatedTabUrl(tabId, changeInfo, tab) {
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/Tabs/onActivated
 async function handleActivatedTab(activeInfo) {
   // Example: a tab is moved to a new window.
-  console.log(`Init newly active tab. Tab id: ${activeInfo.tabId}`);
+  log(`Init newly active tab. Tab id: ${activeInfo.tabId}`);
   try {
     const tab = await browser.tabs.get(activeInfo.tabId);
     await updateTab(tab);
   } catch (error) {
     console.error(error);
+  }
+}
+
+function log(...args) {
+  if (DEBUG) {
+    console.log(...args);
   }
 }
 
