@@ -274,3 +274,53 @@ describe("handleContentScriptMessage", () => {
     expect(global.browser.tabs.update).not.toHaveBeenCalled();
   });
 });
+
+describe("redirectTo error path", () => {
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    console.error = jest.fn();
+    console.log = jest.fn();
+    jest.clearAllMocks();
+  });
+  it("logs error when tabs.update rejects", async function () {
+    global.browser.tabs.update = jest.fn(() =>
+      Promise.reject(new Error("tab closed")),
+    );
+    await backgroundModule._forTesting.redirectTo(1, "https://target.com");
+    expect(console.error).toHaveBeenCalled();
+  });
+});
+
+describe("updateActiveTab edge cases", () => {
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    console.log = jest.fn();
+    jest.clearAllMocks();
+  });
+  it("check the `it (line 94: if (!activeTab)` guard works. The add-on returns early when tabs.query returns empty array", async function () {
+    // tabs.query can return empty array when:
+    // - All browser windows are minimized — currentWindow may be undefined
+    // - A devtools window or sidebar has focus — no "active tab" in the traditional sense
+    // - During browser startup — tabs haven't fully loaded yet
+    global.browser.tabs.query = jest.fn(() => Promise.resolve([]));
+    await backgroundModule._forTesting.updateActiveTab();
+    expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
+    expect(global.browser.action.setTitle).not.toHaveBeenCalled();
+  });
+});
+
+describe("handleActivatedTab error path", () => {
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    console.error = jest.fn();
+    console.log = jest.fn();
+    jest.clearAllMocks();
+  });
+  it("logs error when tabs.get rejects", async function () {
+    global.browser.tabs.get = jest.fn(() =>
+      Promise.reject(new Error("tab not found")),
+    );
+    await backgroundModule._forTesting.handleActivatedTab({ tabId: 99 });
+    expect(console.error).toHaveBeenCalled();
+  });
+});
