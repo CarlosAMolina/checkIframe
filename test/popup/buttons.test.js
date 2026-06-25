@@ -625,195 +625,191 @@ describe("buttons", () => {
   }
 });
 
-describe("Check module import", () => {
+describe("showStoredInfo", () => {
   beforeEach(() => {
     initializeMocksAndVariables();
   });
-  it("The module should be imported without errors and has expected values", function () {
+  it("module exports expected constants", function () {
     expect(buttonsModule._forTesting.BUTTON_ID_ADD_URL).toEqual("buttonAddUrl");
   });
-  describe("Check function showStoredInfo", () => {
-    describe("DOM elements are created correctly", () => {
-      it("If no values to manage", function () {
-        const infoContainer = fakeModule.fakeInfoContainer(0);
-        expect(infoContainer.innerHTML).toBe("");
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        function_(infoContainer, "blacklist", "");
-        expect(infoContainer.innerHTML).toBe(
-          '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
-        );
-      });
-      it("If values to manage", function () {
-        const infoContainer = fakeModule.fakeInfoContainer(0);
-        expect(infoContainer.innerHTML).toBe("");
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        const eValue = "https://foo.com/test.html";
-        function_(infoContainer, "blacklist", eValue);
-        expect(infoContainer.innerHTML).toBe(
-          '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
-        );
-      });
+  describe("DOM elements are created correctly", () => {
+    it("If no values to manage", function () {
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      expect(infoContainer.innerHTML).toBe("");
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      function_(infoContainer, "blacklist", "");
+      expect(infoContainer.innerHTML).toBe(
+        '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p></p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
+      );
     });
-    describe("Buttons click works correctly", () => {
-      beforeEach(() => {
-        browser.tabs.sendMessage = jest.fn(() =>
-          Promise.resolve({ data: "done sendMessage" }),
-        );
+    it("If values to manage", function () {
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      expect(infoContainer.innerHTML).toBe("");
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      const eValue = "https://foo.com/test.html";
+      function_(infoContainer, "blacklist", eValue);
+      expect(infoContainer.innerHTML).toBe(
+        '<div><div class="sourceConfig"><button title="Delete"><img src="/icons/trash.svg" alt="Delete"></button><p>https://foo.com/test.html</p></div><div class="sourceConfig" style="display: none;"><input><button title="Update"><img src="/icons/ok.svg" alt="Update"></button><button title="Cancel update"><img src="/icons/cancel.svg" alt="Cancel update"></button></div></div>',
+      );
+    });
+  });
+  describe("Buttons click works correctly", () => {
+    beforeEach(() => {
+      browser.tabs.sendMessage = jest.fn(() =>
+        Promise.resolve({ data: "done sendMessage" }),
+      );
+    });
+    it("Test click deleteBtn", async () => {
+      const eValue = "https://foo.com/test.html";
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      const infoContainer = fakeModule.mockNotEmptyInfoContainer();
+      function_(infoContainer, "blacklist", eValue);
+      const buttons = infoContainer.getElementsByTagName("button");
+      expect(buttons.length).toBe(3);
+      expect(buttons[0].title).toBe("Delete");
+      expect(buttons[1].title).toBe("Update");
+      expect(buttons[2].title).toBe("Cancel update");
+      const deleteButton = buttons[0];
+      expect(browser.storage.local.set).not.toHaveBeenCalled();
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+      await deleteButton.click();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      const buttonsAfterClick = infoContainer.getElementsByTagName("button");
+      // Test elements have been deleted.
+      expect(buttonsAfterClick.length).toBe(0);
+      expect(browser.storage.local.set).toHaveBeenCalledTimes(1);
+      expect(browser.storage.local.set.mock.lastCall).toEqual([
+        { blacklist: [] },
+      ]);
+      expect(browser.tabs.sendMessage).toHaveBeenCalledTimes(1);
+      expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+        TAB_ID,
+        new modelModule.Message("urls", {
+          blacklist: [],
+          notify: [],
+          referer: [],
+        }),
+      ]);
+    });
+    it("Test click img inside deleteBtn removes entry", async () => {
+      const eValue = "https://foo.com/test.html";
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      const infoContainer = fakeModule.mockNotEmptyInfoContainer();
+      function_(infoContainer, "blacklist", eValue);
+      const img = infoContainer.querySelector('button[title="Delete"] img');
+      await img.click();
+      const buttonsAfterClick = infoContainer.getElementsByTagName("button");
+      expect(buttonsAfterClick.length).toBe(0);
+    });
+    it("Test click entryValue", function () {
+      const eValue = "https://foo.com/test.html";
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      expect(infoContainer.getElementsByTagName("p").length).toBe(0);
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      function_(infoContainer, "blacklist", eValue);
+      const pElements = infoContainer.getElementsByTagName("p");
+      const entryValue = pElements[0];
+      expect(entryValue.textContent).toBe("https://foo.com/test.html");
+      const indexDivElementToCheck = 1;
+      expect(
+        infoContainer
+          .getElementsByTagName("div")
+          [indexDivElementToCheck].getAttribute("style"),
+      ).toBe(null);
+      entryValue.click();
+      expect(
+        infoContainer
+          .getElementsByTagName("div")
+          [indexDivElementToCheck].getAttribute("style"),
+      ).toBe("display: none;");
+    });
+    it("Test click cancelBtn", function () {
+      const eValue = "https://foo.com/test.html";
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      expect(infoContainer.getElementsByTagName("button").length).toBe(0);
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      function_(infoContainer, "blacklist", eValue);
+      const cancelButton = infoContainer.getElementsByTagName("button")[2];
+      expect(cancelButton.title).toBe("Cancel update");
+      const indexDivElementToCheck = 1;
+      expect(
+        infoContainer
+          .getElementsByTagName("div")
+          [indexDivElementToCheck].getAttribute("style"),
+      ).toBe(null);
+      expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
+        "https://foo.com/test.html",
+      );
+      cancelButton.click();
+      expect(
+        infoContainer
+          .getElementsByTagName("div")
+          [indexDivElementToCheck].getAttribute("style"),
+      ).toBe(null);
+      expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
+        "https://foo.com/test.html",
+      );
+    });
+    it("Test click updateBtn", async () => {
+      const eValue = "https://foo.com/test.html";
+      global.browser = fakeModule.fakeBrowser({
+        storageItems: { blacklist: [eValue], notify: [], referer: [] },
       });
-      it("Test click deleteBtn", async () => {
-        const eValue = "https://foo.com/test.html";
-        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        const infoContainer = fakeModule.mockNotEmptyInfoContainer();
-        function_(infoContainer, "blacklist", eValue);
-        const buttons = infoContainer.getElementsByTagName("button");
-        expect(buttons.length).toBe(3);
-        expect(buttons[0].title).toBe("Delete");
-        expect(buttons[1].title).toBe("Update");
-        expect(buttons[2].title).toBe("Cancel update");
-        const deleteButton = buttons[0];
-        expect(browser.storage.local.set).not.toHaveBeenCalled();
-        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-        await deleteButton.click();
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        const buttonsAfterClick = infoContainer.getElementsByTagName("button");
-        // Test elements have been deleted.
-        expect(buttonsAfterClick.length).toBe(0);
-        expect(browser.storage.local.set).toHaveBeenCalledTimes(1);
-        expect(browser.storage.local.set.mock.lastCall).toEqual([
-          { blacklist: [] },
-        ]);
-        expect(browser.tabs.sendMessage).toHaveBeenCalledTimes(1);
-        expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-          TAB_ID,
-          new modelModule.Message("urls", {
-            blacklist: [],
-            notify: [],
-            referer: [],
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      function_(infoContainer, "blacklist", eValue);
+      expect(infoContainer.getElementsByTagName("input")[0].value).toBe(eValue);
+      const updateButton = infoContainer.getElementsByTagName("button")[1];
+      expect(updateButton.title).toBe("Update");
+      const entryEditInputValue = "https://new-url.com/test-2.html";
+      infoContainer.getElementsByTagName("input")[0].value =
+        entryEditInputValue;
+      expect(browser.storage.local.get).not.toHaveBeenCalled();
+      expect(browser.storage.local.set).not.toHaveBeenCalled();
+      await updateButton.click();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      // get called twice: once to check if new URL exists, once for readAllUrlArrays
+      expect(browser.storage.local.get).toHaveBeenCalledTimes(2);
+      expect(browser.storage.local.get.mock.calls[0]).toEqual([
+        { blacklist: [] },
+      ]);
+      expect(browser.storage.local.set).toHaveBeenCalledTimes(1);
+      expect(browser.storage.local.set.mock.lastCall).toStrictEqual([
+        { blacklist: [entryEditInputValue] },
+      ]);
+      expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
+        TAB_ID,
+        new modelModule.Message("urls", {
+          blacklist: [entryEditInputValue],
+          notify: [],
+          referer: [],
+        }),
+      ]);
+      // Assert the entire URL row disappears after editing it (it gets re-added by showStoredInfo with the new value,
+      // but that call writes to the module-level infoContainer from ui.js, not the local one in the test.
+      expect(infoContainer.children.length).toBe(0);
+    });
+    it("sendMessage is called after storage write completes, not before", async () => {
+      const eValue = "https://foo.com/test.html";
+      let resolveSet;
+      browser.storage.local.set = jest.fn(
+        () =>
+          new Promise((resolve) => {
+            resolveSet = resolve;
           }),
-        ]);
-      });
-      it("Test click img inside deleteBtn removes entry", async () => {
-        const eValue = "https://foo.com/test.html";
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        const infoContainer = fakeModule.mockNotEmptyInfoContainer();
-        function_(infoContainer, "blacklist", eValue);
-        const img = infoContainer.querySelector('button[title="Delete"] img');
-        await img.click();
-        const buttonsAfterClick = infoContainer.getElementsByTagName("button");
-        expect(buttonsAfterClick.length).toBe(0);
-      });
-      it("Test click entryValue", function () {
-        const eValue = "https://foo.com/test.html";
-        const infoContainer = fakeModule.fakeInfoContainer(0);
-        expect(infoContainer.getElementsByTagName("p").length).toBe(0);
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        function_(infoContainer, "blacklist", eValue);
-        const pElements = infoContainer.getElementsByTagName("p");
-        const entryValue = pElements[0];
-        expect(entryValue.textContent).toBe("https://foo.com/test.html");
-        const indexDivElementToCheck = 1;
-        expect(
-          infoContainer
-            .getElementsByTagName("div")
-            [indexDivElementToCheck].getAttribute("style"),
-        ).toBe(null);
-        entryValue.click();
-        expect(
-          infoContainer
-            .getElementsByTagName("div")
-            [indexDivElementToCheck].getAttribute("style"),
-        ).toBe("display: none;");
-      });
-      it("Test click cancelBtn", function () {
-        const eValue = "https://foo.com/test.html";
-        const infoContainer = fakeModule.fakeInfoContainer(0);
-        expect(infoContainer.getElementsByTagName("button").length).toBe(0);
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        function_(infoContainer, "blacklist", eValue);
-        const cancelButton = infoContainer.getElementsByTagName("button")[2];
-        expect(cancelButton.title).toBe("Cancel update");
-        const indexDivElementToCheck = 1;
-        expect(
-          infoContainer
-            .getElementsByTagName("div")
-            [indexDivElementToCheck].getAttribute("style"),
-        ).toBe(null);
-        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
-          "https://foo.com/test.html",
-        );
-        cancelButton.click();
-        expect(
-          infoContainer
-            .getElementsByTagName("div")
-            [indexDivElementToCheck].getAttribute("style"),
-        ).toBe(null);
-        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
-          "https://foo.com/test.html",
-        );
-      });
-      it("Test click updateBtn", async () => {
-        const eValue = "https://foo.com/test.html";
-        global.browser = fakeModule.fakeBrowser({
-          storageItems: { blacklist: [eValue], notify: [], referer: [] },
-        });
-        const infoContainer = fakeModule.fakeInfoContainer(0);
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        function_(infoContainer, "blacklist", eValue);
-        expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
-          eValue,
-        );
-        const updateButton = infoContainer.getElementsByTagName("button")[1];
-        expect(updateButton.title).toBe("Update");
-        const entryEditInputValue = "https://new-url.com/test-2.html";
-        infoContainer.getElementsByTagName("input")[0].value =
-          entryEditInputValue;
-        expect(browser.storage.local.get).not.toHaveBeenCalled();
-        expect(browser.storage.local.set).not.toHaveBeenCalled();
-        await updateButton.click();
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        // get called twice: once to check if new URL exists, once for readAllUrlArrays
-        expect(browser.storage.local.get).toHaveBeenCalledTimes(2);
-        expect(browser.storage.local.get.mock.calls[0]).toEqual([
-          { blacklist: [] },
-        ]);
-        expect(browser.storage.local.set).toHaveBeenCalledTimes(1);
-        expect(browser.storage.local.set.mock.lastCall).toStrictEqual([
-          { blacklist: [entryEditInputValue] },
-        ]);
-        expect(browser.tabs.sendMessage.mock.lastCall).toStrictEqual([
-          TAB_ID,
-          new modelModule.Message("urls", {
-            blacklist: [entryEditInputValue],
-            notify: [],
-            referer: [],
-          }),
-        ]);
-        // Assert the entire URL row disappears after editing it (it gets re-added by showStoredInfo with the new value,
-        // but that call writes to the module-level infoContainer from ui.js, not the local one in the test.
-        expect(infoContainer.children.length).toBe(0);
-      });
-      it("sendMessage is called after storage write completes, not before", async () => {
-        const eValue = "https://foo.com/test.html";
-        let resolveSet;
-        browser.storage.local.set = jest.fn(
-          () =>
-            new Promise((resolve) => {
-              resolveSet = resolve;
-            }),
-        );
-        const infoContainer = fakeModule.fakeInfoContainer(0);
-        const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
-        function_(infoContainer, "blacklist", eValue);
-        infoContainer.getElementsByTagName("input")[0].value =
-          "https://new-url.com/test-2.html";
-        const updateButton = infoContainer.getElementsByTagName("button")[1];
-        await updateButton.click();
-        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-        resolveSet({});
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        expect(browser.tabs.sendMessage).toHaveBeenCalledTimes(1);
-      });
+      );
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      function_(infoContainer, "blacklist", eValue);
+      infoContainer.getElementsByTagName("input")[0].value =
+        "https://new-url.com/test-2.html";
+      const updateButton = infoContainer.getElementsByTagName("button")[1];
+      await updateButton.click();
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+      resolveSet({});
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(browser.tabs.sendMessage).toHaveBeenCalledTimes(1);
     });
   });
 });
