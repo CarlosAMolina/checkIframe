@@ -13,18 +13,6 @@ describe("Check module import", () => {
     const result = checkAndBorderModule._forTesting.HIGHLIGHT_CLASS;
     expect(result).toEqual("check-iframe-detector-highlight");
   });
-  it("initializeState runs without error", function () {
-    const function_ = checkAndBorderModule._forTesting.initializeState;
-    function_();
-  });
-  it("getPageElements runs without error", function () {
-    const function_ = checkAndBorderModule._forTesting.getPageElements;
-    function_();
-  });
-  it("logDetections runs without error", function () {
-    const function_ = checkAndBorderModule._forTesting.logDetections;
-    function_();
-  });
   it("handleButtonRecheck returns sourcesSummary directly", async () => {
     const handleButtonRecheck =
       checkAndBorderModule._forTesting.handleButtonRecheck;

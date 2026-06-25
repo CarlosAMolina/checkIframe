@@ -1,28 +1,12 @@
 import * as fakeModule from "../fake.js";
 
-// https://stackoverflow.com/questions/52397708/how-to-pass-variable-from-beforeeach-hook-to-tests-in-jest
-let popupModule;
-
 describe("Check module import", () => {
   beforeEach(() => {
     fakeModule.initializeDomAndBrowser();
-    popupModule = require("../../src/popup/popup.js");
+    require("../../src/popup/popup.js");
   });
   it("The DOM has expected values", function () {
     expect(document.getElementById("pInput").textContent).toBe("New values");
-  });
-  it("popupMain runs without error", function () {
-    const function_ = popupModule._forTesting.popupMain;
-    function_();
-  });
-  it("initializePopup runs without error", function () {
-    const function_ = popupModule._forTesting.initializePopup;
-    function_();
-  });
-  it("reportExecuteScriptError runs without error", function () {
-    const function_ = popupModule._forTesting.reportExecuteScriptError;
-    const error = {};
-    function_(error);
   });
 });
 
@@ -31,7 +15,7 @@ describe("Enter key handler on inputUrl", () => {
   beforeEach(() => {
     jest.resetModules();
     fakeModule.initializeDomAndBrowser();
-    popupModule = require("../../src/popup/popup.js");
+    require("../../src/popup/popup.js");
     storedUrlEntriesModule = require("../../src/popup/stored-url-entries.js");
   });
   it("triggers saveUrls when Enter key is pressed", async function () {

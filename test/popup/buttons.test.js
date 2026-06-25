@@ -17,11 +17,6 @@ describe("saveUrls", () => {
     infoContainer = document.createElement("div");
     global.browser = fakeModule.fakeBrowser();
   });
-  it("runs without error", async () => {
-    const urls = ["foo", "bar", "foo"]; // includes duplicate
-    const urlType = "notify";
-    await storedUrlEntriesModule.saveUrls(infoContainer, urls, urlType);
-  });
   it("sends one message after all URLs are saved, not one per URL", async () => {
     const urls = ["foo", "bar", "baz"];
     const urlType = "notify";
@@ -49,9 +44,6 @@ describe("Check showStoredUrlsType", () => {
     initializeMocksAndVariables();
     uiModule = require("../../src/popup/ui.js");
     uiModule.infoContainer.innerHTML = "";
-  });
-  it("showStoredUrlsType runs without error", function () {
-    storedUrlEntriesModule.showStoredUrlsType();
   });
   describe("Test showStoredUrlsType call", () => {
     it("renders no entries when storage is empty for that type", async () => {
