@@ -68,7 +68,7 @@ export function fakeBrowser(config) {
         Promise.resolve({ id: 1, url: "https://example.com" }),
       ),
       sendMessage: jest.fn(() => Promise.resolve(sendMessageResponse)),
-      update: getNewPromise,
+      update: jest.fn(() => Promise.resolve({})),
     },
     windows: {
       onFocusChanged: {

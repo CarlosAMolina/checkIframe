@@ -70,3 +70,187 @@ describe("Test handleProtocolOk refreshes state from storage", () => {
     expect(sentMessage.detectionState).toBe("none");
   });
 });
+
+describe("getDetectionState", () => {
+  let testModule;
+  let state;
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    fakeModule.runNoHtmlFakeDom();
+    testModule = require("../../src/content_scripts/check-and-border.js");
+    state = testModule._forTesting.state;
+    state.notifySources = [];
+    state.blacklistedSources = [];
+  });
+  it("returns 'none' when no elements exist", () => {
+    const result = testModule._forTesting.getDetectionState([]);
+    expect(result).toBe("none");
+  });
+  it("returns 'found' when elements exist but no notify match", () => {
+    const elements = [{ tag: "iframe", node: {}, source: "https://foo.com" }];
+    const result = testModule._forTesting.getDetectionState(elements);
+    expect(result).toBe("found");
+  });
+  it("returns 'specialFound' when a notify source matches", () => {
+    state.notifySources = ["youtube.com"];
+    const elements = [
+      { tag: "iframe", node: {}, source: "https://youtube.com/embed/abc" },
+    ];
+    const result = testModule._forTesting.getDetectionState(elements);
+    expect(result).toBe("specialFound");
+  });
+});
+
+describe("handleButtonScroll", () => {
+  let testModule;
+  let state;
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    const dom = new (require("jsdom").JSDOM)(
+      '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>',
+      { url: "https://test.com" },
+    );
+    global.document = dom.window.document;
+    global.window = dom.window;
+    dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
+    testModule = require("../../src/content_scripts/check-and-border.js");
+    state = testModule._forTesting.state;
+    state.blacklistedSources = [];
+    state.notifySources = [];
+    state.indexToHighlight = 0;
+    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
+  });
+  it("cycles through elements and wraps around", async () => {
+    const result1 = await testModule._forTesting.handleButtonScroll();
+    expect(result1.text).toContain("1/2");
+    const result2 = await testModule._forTesting.handleButtonScroll();
+    expect(result2.text).toContain("2/2");
+    const result3 = await testModule._forTesting.handleButtonScroll();
+    expect(result3.text).toContain("1/2");
+  });
+  it("returns 'No detections to show' when all elements are blacklisted", async () => {
+    state.blacklistedSources = ["https://a.com/page", "https://b.com/page"];
+    const result = await testModule._forTesting.handleButtonScroll();
+    expect(result).toEqual({ text: "No detections to show", url: null });
+  });
+});
+
+describe("handleButtonClean", () => {
+  let testModule;
+  let state;
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    const dom = new (require("jsdom").JSDOM)(
+      '<html><body><iframe src="https://a.com/page" class="check-iframe-detector-highlight"></iframe></body></html>',
+      { url: "https://test.com" },
+    );
+    global.document = dom.window.document;
+    global.window = dom.window;
+    dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
+    testModule = require("../../src/content_scripts/check-and-border.js");
+    state = testModule._forTesting.state;
+    state.blacklistedSources = [];
+    state.notifySources = [];
+    state.indexToHighlight = 5;
+    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
+  });
+  it("removes highlight class from all elements and resets index", () => {
+    testModule._forTesting.handleButtonClean();
+    const iframe = document.querySelector("iframe");
+    expect(iframe.classList.contains("check-iframe-detector-highlight")).toBe(
+      false,
+    );
+    expect(state.indexToHighlight).toBe(0);
+  });
+});
+
+describe("handleButtonHighlightAllAutomatically", () => {
+  let testModule;
+  let state;
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    const dom = new (require("jsdom").JSDOM)(
+      '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>',
+      { url: "https://test.com" },
+    );
+    global.document = dom.window.document;
+    global.window = dom.window;
+    dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
+    testModule = require("../../src/content_scripts/check-and-border.js");
+    state = testModule._forTesting.state;
+    state.blacklistedSources = [];
+    state.notifySources = [];
+    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
+  });
+  it("highlights all non-blacklisted elements when turned on", () => {
+    testModule._forTesting.handleButtonHighlightAllAutomatically({
+      values: true,
+    });
+    const iframes = document.querySelectorAll("iframe");
+    iframes.forEach((iframe) => {
+      expect(iframe.classList.contains("check-iframe-detector-highlight")).toBe(
+        true,
+      );
+    });
+  });
+  it("removes all highlights when turned off", () => {
+    testModule._forTesting.handleButtonHighlightAllAutomatically({
+      values: true,
+    });
+    testModule._forTesting.handleButtonHighlightAllAutomatically({
+      values: false,
+    });
+    const iframes = document.querySelectorAll("iframe");
+    iframes.forEach((iframe) => {
+      expect(iframe.classList.contains("check-iframe-detector-highlight")).toBe(
+        false,
+      );
+    });
+  });
+  it("does not highlight blacklisted elements", () => {
+    state.blacklistedSources = ["https://b.com/page"];
+    testModule._forTesting.handleButtonHighlightAllAutomatically({
+      values: true,
+    });
+    const iframes = document.querySelectorAll("iframe");
+    expect(
+      iframes[0].classList.contains("check-iframe-detector-highlight"),
+    ).toBe(true);
+    expect(
+      iframes[1].classList.contains("check-iframe-detector-highlight"),
+    ).toBe(false);
+  });
+});
+
+describe("handleSourcesUpdate", () => {
+  let testModule;
+  let state;
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    fakeModule.runNoHtmlFakeDom();
+    testModule = require("../../src/content_scripts/check-and-border.js");
+    state = testModule._forTesting.state;
+    state.blacklistedSources = [];
+    state.notifySources = [];
+    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
+  });
+  it("updates blacklistedSources and notifySources from message", () => {
+    testModule._forTesting.handleSourcesUpdate({
+      values: {
+        blacklist: ["ads.com", "tracker.org"],
+        notify: ["important.com"],
+        referer: ["site.com"],
+      },
+    });
+    expect(state.blacklistedSources).toEqual(["ads.com", "tracker.org"]);
+    expect(state.notifySources).toEqual(["important.com"]);
+  });
+  it("sends updated detection state to background script", () => {
+    testModule._forTesting.handleSourcesUpdate({
+      values: { blacklist: [], notify: [], referer: [] },
+    });
+    expect(global.browser.runtime.sendMessage).toHaveBeenCalledWith(
+      expect.objectContaining({ detectionState: "none" }),
+    );
+  });
+});

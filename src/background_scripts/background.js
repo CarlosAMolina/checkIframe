@@ -22,7 +22,9 @@ log("Extension initialized");
 updateActiveTab();
 
 // listen to messages from the content script
-browser.runtime.onMessage.addListener(async (message, sender) => {
+browser.runtime.onMessage.addListener(handleContentScriptMessage);
+
+async function handleContentScriptMessage(message, sender) {
   log("Message received from content-script:");
   log(message);
   const tabUrl = sender.tab?.url;
@@ -64,7 +66,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
     protocolIsSupported,
   );
   applyTabAppearance(tabId, appearanceKey);
-});
+}
 
 function checkRunRedirect(referers, url) {
   return referers.some((element) =>
@@ -200,4 +202,5 @@ export const _forTesting = {
   handleUpdatedWindow,
   handleUpdatedTabUrl,
   handleActivatedTab,
+  handleContentScriptMessage,
 };
