@@ -107,6 +107,25 @@ describe("saveUrls", () => {
     await storedUrlEntriesModule.saveUrls(infoContainer, urls, urlType);
     expect(browser.tabs.sendMessage).toHaveBeenCalledTimes(1);
   });
+  it("logs error when storage.local.set rejects", async () => {
+    console.error = jest.fn();
+    global.browser.storage.local.set = jest.fn(() =>
+      Promise.reject(new Error("storage write failed")),
+    );
+    await storedUrlEntriesModule.saveUrls(infoContainer, ["foo"], "notify");
+    expect(console.error).toHaveBeenCalled();
+  });
+  it("does nothing when all URLs are already stored", async () => {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { notify: ["foo", "bar"] },
+    });
+    await storedUrlEntriesModule.saveUrls(
+      infoContainer,
+      ["foo", "bar"],
+      "notify",
+    );
+    expect(browser.storage.local.set).not.toHaveBeenCalled();
+  });
 });
 
 describe("Check removeChildren", () => {
@@ -810,6 +829,19 @@ describe("showStoredInfo", () => {
       resolveSet({});
       await new Promise((resolve) => setTimeout(resolve, 0));
       expect(browser.tabs.sendMessage).toHaveBeenCalledTimes(1);
+    });
+    it("Test click updateBtn does nothing when value is unchanged", async () => {
+      const eValue = "https://foo.com/test.html";
+      global.browser = fakeModule.fakeBrowser({
+        storageItems: { blacklist: [eValue], notify: [], referer: [] },
+      });
+      const infoContainer = fakeModule.fakeInfoContainer(0);
+      const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
+      function_(infoContainer, "blacklist", eValue);
+      const updateButton = infoContainer.getElementsByTagName("button")[1];
+      await updateButton.click();
+      expect(browser.storage.local.get).not.toHaveBeenCalled();
+      expect(browser.storage.local.set).not.toHaveBeenCalled();
     });
   });
 });
