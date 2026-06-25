@@ -102,23 +102,13 @@ describe("getDetectionState", () => {
 });
 
 describe("handleButtonScroll", () => {
+  const html =
+    '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>';
   let testModule;
   let state;
   beforeEach(() => {
-    global.browser = fakeModule.fakeBrowser();
-    const dom = new (require("jsdom").JSDOM)(
-      '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>',
-      { url: "https://test.com" },
-    );
-    global.document = dom.window.document;
-    global.window = dom.window;
-    dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
-    testModule = require("../../src/content_scripts/check-and-border.js");
+    testModule = fakeModule.setupContentScriptWithIframes(html);
     state = testModule._forTesting.state;
-    state.blacklistedSources = [];
-    state.notifySources = [];
-    state.indexToHighlight = 0;
-    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
   });
   it("cycles through elements and wraps around", async () => {
     const result1 = await testModule._forTesting.handleButtonScroll();
@@ -136,23 +126,14 @@ describe("handleButtonScroll", () => {
 });
 
 describe("handleButtonClean", () => {
+  const html =
+    '<html><body><iframe src="https://a.com/page" class="check-iframe-detector-highlight"></iframe></body></html>';
   let testModule;
   let state;
   beforeEach(() => {
-    global.browser = fakeModule.fakeBrowser();
-    const dom = new (require("jsdom").JSDOM)(
-      '<html><body><iframe src="https://a.com/page" class="check-iframe-detector-highlight"></iframe></body></html>',
-      { url: "https://test.com" },
-    );
-    global.document = dom.window.document;
-    global.window = dom.window;
-    dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
-    testModule = require("../../src/content_scripts/check-and-border.js");
+    testModule = fakeModule.setupContentScriptWithIframes(html);
     state = testModule._forTesting.state;
-    state.blacklistedSources = [];
-    state.notifySources = [];
     state.indexToHighlight = 5;
-    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
   });
   it("removes highlight class from all elements and resets index", () => {
     testModule._forTesting.handleButtonClean();
@@ -165,22 +146,13 @@ describe("handleButtonClean", () => {
 });
 
 describe("handleButtonHighlightAllAutomatically", () => {
+  const html =
+    '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>';
   let testModule;
   let state;
   beforeEach(() => {
-    global.browser = fakeModule.fakeBrowser();
-    const dom = new (require("jsdom").JSDOM)(
-      '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>',
-      { url: "https://test.com" },
-    );
-    global.document = dom.window.document;
-    global.window = dom.window;
-    dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
-    testModule = require("../../src/content_scripts/check-and-border.js");
+    testModule = fakeModule.setupContentScriptWithIframes(html);
     state = testModule._forTesting.state;
-    state.blacklistedSources = [];
-    state.notifySources = [];
-    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
   });
   it("highlights all non-blacklisted elements when turned on", () => {
     testModule._forTesting.handleButtonHighlightAllAutomatically({
@@ -226,13 +198,10 @@ describe("handleSourcesUpdate", () => {
   let testModule;
   let state;
   beforeEach(() => {
-    global.browser = fakeModule.fakeBrowser();
-    fakeModule.runNoHtmlFakeDom();
-    testModule = require("../../src/content_scripts/check-and-border.js");
+    testModule = fakeModule.setupContentScriptWithIframes(
+      "<html><body></body></html>",
+    );
     state = testModule._forTesting.state;
-    state.blacklistedSources = [];
-    state.notifySources = [];
-    global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
   });
   it("updates blacklistedSources and notifySources from message", () => {
     testModule._forTesting.handleSourcesUpdate({

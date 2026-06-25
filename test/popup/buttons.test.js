@@ -9,6 +9,90 @@ let domModule;
 let htmlBuilderModule;
 const TAB_ID = 1;
 
+function describeOnOffButton(config) {
+  const { className, expectedIdHtml, storageKey, messageInfo } = config;
+  describe(`Check ${className}`, () => {
+    beforeEach(() => {
+      fakeModule.runFakeDom("src/popup/popup.html");
+      global.browser = fakeModule.fakeBrowser();
+      buttonsModule = require("../../src/popup/buttons.js");
+    });
+    it("has correct button ID value", function () {
+      const buttonClass = buttonsModule._forTesting[className];
+      const button = new buttonClass();
+      expect(button._idHtml).toBe(expectedIdHtml);
+    });
+    describe("click", () => {
+      it("activates when clicked for the first time", async () => {
+        const buttonClass = buttonsModule._forTesting[className];
+        const button = new buttonClass();
+        expect(button._isOn).toBe(false);
+        expect(browser.storage.local.set).not.toHaveBeenCalled();
+        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        await button.click();
+        expect(button._isOn).toBe(true);
+        expect(browser.storage.local.set.mock.calls).toEqual([
+          [{ [storageKey]: true }],
+        ]);
+        expect(browser.tabs.sendMessage.mock.calls).toEqual([
+          [1, { info: messageInfo, values: true }],
+        ]);
+      });
+      it("deactivates when clicked while active", async () => {
+        const buttonClass = buttonsModule._forTesting[className];
+        const button = new buttonClass();
+        document.getElementById(button._idHtml).checked = true;
+        expect(button._isOn).toBe(true);
+        expect(browser.storage.local.set).not.toHaveBeenCalled();
+        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        await button.click();
+        expect(button._isOn).toBe(false);
+        expect(browser.storage.local.set.mock.calls).toEqual([
+          [{ [storageKey]: false }],
+        ]);
+        expect(browser.tabs.sendMessage.mock.calls).toEqual([
+          [1, { info: messageInfo, values: false }],
+        ]);
+      });
+    });
+    describe("initializePopup", () => {
+      it("stays off when never clicked before", async () => {
+        const buttonClass = buttonsModule._forTesting[className];
+        const button = new buttonClass();
+        expect(button._isOn).toBe(false);
+        expect(browser.storage.local.get).not.toHaveBeenCalled();
+        expect(browser.storage.local.set).not.toHaveBeenCalled();
+        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        await button.initializePopup();
+        expect(button._isOn).toBe(false);
+        expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
+        expect(browser.storage.local.set).not.toHaveBeenCalled();
+        expect(browser.tabs.sendMessage.mock.calls).toEqual([
+          [1, { info: messageInfo, values: false }],
+        ]);
+      });
+      it("restores on state from storage", async () => {
+        browser.storage.local.get = jest.fn(() =>
+          Promise.resolve({ [storageKey]: true }),
+        );
+        const buttonClass = buttonsModule._forTesting[className];
+        const button = new buttonClass();
+        expect(button._isOn).toBe(false);
+        expect(browser.storage.local.get).not.toHaveBeenCalled();
+        expect(browser.storage.local.set).not.toHaveBeenCalled();
+        expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        await button.initializePopup();
+        expect(button._isOn).toBe(true);
+        expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
+        expect(browser.storage.local.set).not.toHaveBeenCalled();
+        expect(browser.tabs.sendMessage.mock.calls).toEqual([
+          [1, { info: messageInfo, values: true }],
+        ]);
+      });
+    });
+  });
+}
+
 describe("saveUrls", () => {
   let infoContainer;
   beforeEach(() => {
@@ -115,174 +199,18 @@ describe("ButtonClearAll", () => {
   });
 });
 
-describe("Check ButtonShowLogs", () => {
-  beforeEach(() => {
-    fakeModule.runFakeDom("src/popup/popup.html");
-    global.browser = fakeModule.fakeBrowser();
-    buttonsModule = require("../../src/popup/buttons.js");
-  });
-  it("Check it has correct button ID value", function () {
-    const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
-    const button = new buttonClass();
-    expect(button._idHtml).toBe("buttonShowLogs");
-  });
-  describe("Check click has expected calls and values", () => {
-    it("If buttonShowLogs is clicked for the first time", async () => {
-      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
-      const button = new buttonClass();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.click();
-      expect(button._isOn).toBe(true);
-      expect(browser.storage.local.set.mock.calls).toEqual([
-        [{ idShowLogs: true }],
-      ]);
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: true }],
-      ]);
-    });
-    it("If buttonShowLogs is active and clicked to deactivate it", async () => {
-      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
-      const button = new buttonClass();
-      document.getElementById(button._idHtml).checked = true;
-      expect(button._isOn).toBe(true);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.click();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.set.mock.calls).toEqual([
-        [{ idShowLogs: false }],
-      ]);
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: false }],
-      ]);
-    });
-  });
-  describe("Check initializePopup has expected calls and values", () => {
-    it("If buttonShowLogs must be off because the button has never been clicked", async () => {
-      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
-      const button = new buttonClass();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.get).not.toHaveBeenCalled();
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.initializePopup();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: false }],
-      ]);
-    });
-    it("If buttonShowLogs must be on because the button was clicked previously", async () => {
-      browser.storage.local.get = jest.fn(() =>
-        Promise.resolve({ idShowLogs: true }),
-      );
-      const buttonClass = buttonsModule._forTesting.ButtonShowLogs;
-      const button = new buttonClass();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.get).not.toHaveBeenCalled();
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.initializePopup();
-      expect(button._isOn).toBe(true);
-      expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonShowLogs", values: true }],
-      ]);
-    });
-  });
+describeOnOffButton({
+  className: "ButtonShowLogs",
+  expectedIdHtml: "buttonShowLogs",
+  storageKey: "idShowLogs",
+  messageInfo: "buttonShowLogs",
 });
 
-describe("Check ButtonHighlightAllAutomatically", () => {
-  it("Check it has correct button ID value", function () {
-    const buttonClass =
-      buttonsModule._forTesting.ButtonHighlightAllAutomatically;
-    const button = new buttonClass();
-    expect(button._idHtml).toBe("buttonHighlightAllAutomatically");
-  });
-  describe("Check click has expected calls and values", () => {
-    it("If buttonHighlightAllAutomatically is clicked for the first time", async () => {
-      fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = fakeModule.fakeBrowser();
-      const buttonClass =
-        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
-      const button = new buttonClass();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.click();
-      expect(button._isOn).toBe(true);
-      expect(browser.storage.local.set.mock.calls).toEqual([
-        [{ idHighlightAllAutomatically: true }],
-      ]);
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: true }],
-      ]);
-    });
-    it("If buttonHighlightAllAutomatically is active and clicked to deactivate it", async () => {
-      fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = fakeModule.fakeBrowser();
-      const buttonClass =
-        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
-      const button = new buttonClass();
-      document.getElementById(button._idHtml).checked = true;
-      expect(button._isOn).toBe(true);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.click();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.set.mock.calls).toEqual([
-        [{ idHighlightAllAutomatically: false }],
-      ]);
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: false }],
-      ]);
-    });
-  });
-  describe("Check initializePopup has expected calls and values", () => {
-    it("If buttonHighlightAllAutomatically must be off because the button has never been clicked", async () => {
-      fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = fakeModule.fakeBrowser();
-      const buttonClass =
-        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
-      const button = new buttonClass();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.get).not.toHaveBeenCalled();
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.initializePopup();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: false }],
-      ]);
-    });
-    it("If buttonHighlightAllAutomatically must be on because the button was clicked previously", async () => {
-      fakeModule.runFakeDom("src/popup/popup.html");
-      global.browser = fakeModule.fakeBrowser();
-      browser.storage.local.get = jest.fn(() =>
-        Promise.resolve({ idHighlightAllAutomatically: true }),
-      );
-      const buttonClass =
-        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
-      const button = new buttonClass();
-      expect(button._isOn).toBe(false);
-      expect(browser.storage.local.get).not.toHaveBeenCalled();
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
-      await button.initializePopup();
-      expect(button._isOn).toBe(true);
-      expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
-      expect(browser.storage.local.set).not.toHaveBeenCalled();
-      expect(browser.tabs.sendMessage.mock.calls).toEqual([
-        [1, { info: "buttonHighlightAllAutomatically", values: true }],
-      ]);
-    });
-  });
+describeOnOffButton({
+  className: "ButtonHighlightAllAutomatically",
+  expectedIdHtml: "buttonHighlightAllAutomatically",
+  storageKey: "idHighlightAllAutomatically",
+  messageInfo: "buttonHighlightAllAutomatically",
 });
 
 describe("ButtonAlwaysShowSources", () => {
@@ -777,7 +705,7 @@ describe("Check module import", () => {
       });
       it("Test click entryValue", function () {
         const eValue = "https://foo.com/test.html";
-        const infoContainer = mockEmptyInfoContainer();
+        const infoContainer = fakeModule.fakeInfoContainer(0);
         expect(infoContainer.getElementsByTagName("p").length).toBe(0);
         const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
@@ -799,7 +727,7 @@ describe("Check module import", () => {
       });
       it("Test click cancelBtn", function () {
         const eValue = "https://foo.com/test.html";
-        const infoContainer = mockEmptyInfoContainer();
+        const infoContainer = fakeModule.fakeInfoContainer(0);
         expect(infoContainer.getElementsByTagName("button").length).toBe(0);
         const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
@@ -829,7 +757,7 @@ describe("Check module import", () => {
         global.browser = fakeModule.fakeBrowser({
           storageItems: { blacklist: [eValue], notify: [], referer: [] },
         });
-        const infoContainer = mockEmptyInfoContainer();
+        const infoContainer = fakeModule.fakeInfoContainer(0);
         const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
         expect(infoContainer.getElementsByTagName("input")[0].value).toBe(
@@ -874,7 +802,7 @@ describe("Check module import", () => {
               resolveSet = resolve;
             }),
         );
-        const infoContainer = mockEmptyInfoContainer();
+        const infoContainer = fakeModule.fakeInfoContainer(0);
         const function_ = storedUrlEntriesModule._forTesting.showStoredInfo;
         function_(infoContainer, "blacklist", eValue);
         infoContainer.getElementsByTagName("input")[0].value =
@@ -889,12 +817,6 @@ describe("Check module import", () => {
     });
   });
 });
-
-function mockEmptyInfoContainer() {
-  const infoContainer = document.createElement("div");
-  infoContainer.setAttribute("class", "info-container");
-  return infoContainer;
-}
 
 function initializeMocksAndVariables() {
   fakeModule.initializeDomAndBrowser();

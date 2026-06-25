@@ -124,6 +124,22 @@ export function mockNotEmptyInfoContainer() {
   return infoContainer;
 }
 
+export function setupContentScriptWithIframes(html, config) {
+  const storageItems = config && config.storageItems ? config.storageItems : {};
+  global.browser = fakeBrowser({ storageItems });
+  const dom = new JSDOM(html, { url: "https://test.com" });
+  global.document = dom.window.document;
+  global.window = dom.window;
+  dom.window.HTMLElement.prototype.scrollIntoView = jest.fn();
+  const testModule = require("../src/content_scripts/check-and-border.js");
+  const state = testModule._forTesting.state;
+  state.blacklistedSources = [];
+  state.notifySources = [];
+  state.indexToHighlight = 0;
+  global.browser.runtime.sendMessage = jest.fn(() => Promise.resolve({}));
+  return testModule;
+}
+
 function getNewPromise() {
   return new Promise(function (resolve) {
     resolve("Start of new Promise");
