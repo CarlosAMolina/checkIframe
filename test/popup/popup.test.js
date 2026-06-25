@@ -64,3 +64,22 @@ describe("Enter key handler on inputUrl", () => {
     saveUrlsSpy.mockRestore();
   });
 });
+
+describe("reportExecuteScriptError", () => {
+  let popupModule;
+  beforeEach(() => {
+    jest.resetModules();
+    fakeModule.initializeDomAndBrowser();
+    console.error = jest.fn();
+    popupModule = require("../../src/popup/popup.js");
+  });
+  it("logs error message and calls updateElementsWhenIncompatibleWebPage", () => {
+    const error = new Error("test error");
+    popupModule._forTesting.reportExecuteScriptError(error);
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining("test error"),
+    );
+    const errorContent = document.getElementById("error-content");
+    expect(errorContent.classList.contains("hidden")).toBe(false);
+  });
+});
