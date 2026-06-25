@@ -91,6 +91,14 @@ describe("getDetectionState", () => {
     const result = testModule._forTesting.getDetectionState(elements);
     expect(result).toBe("found");
   });
+  it("returns 'found' when notify sources are set but none match", () => {
+    state.notifySources = ["youtube.com"];
+    const elements = [
+      { tag: "iframe", node: {}, source: "https://unrelated.com/page" },
+    ];
+    const result = testModule._forTesting.getDetectionState(elements);
+    expect(result).toBe("found");
+  });
   it("returns 'specialFound' when a notify source matches", () => {
     state.notifySources = ["youtube.com"];
     const elements = [
@@ -122,6 +130,23 @@ describe("handleButtonScroll", () => {
     state.blacklistedSources = ["https://a.com/page", "https://b.com/page"];
     const result = await testModule._forTesting.handleButtonScroll();
     expect(result).toEqual({ text: "No detections to show", url: null });
+  });
+  it("highlights the current element and unhighlights the previous one", async () => {
+    const iframes = document.querySelectorAll("iframe");
+    await testModule._forTesting.handleButtonScroll();
+    expect(
+      iframes[0].classList.contains("check-iframe-detector-highlight"),
+    ).toBe(true);
+    expect(
+      iframes[1].classList.contains("check-iframe-detector-highlight"),
+    ).toBe(false);
+    await testModule._forTesting.handleButtonScroll();
+    expect(
+      iframes[0].classList.contains("check-iframe-detector-highlight"),
+    ).toBe(false);
+    expect(
+      iframes[1].classList.contains("check-iframe-detector-highlight"),
+    ).toBe(true);
   });
 });
 

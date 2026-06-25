@@ -39,6 +39,12 @@ describe("Check module import", () => {
     const function_ = backgroundModule._forTesting.checkRunRedirect;
     expect(function_(["example.com"], "")).toBe(false);
   });
+  it("checkRunRedirect returns false when url does not match any referer", function () {
+    const function_ = backgroundModule._forTesting.checkRunRedirect;
+    expect(
+      function_(["example.com", "other.org"], "https://unrelated.net"),
+    ).toBe(false);
+  });
   it("handleUpdatedTabUrl sets unsupported icon for unsupported protocols", function () {
     const function_ = backgroundModule._forTesting.handleUpdatedTabUrl;
     function_(1, { status: "complete" }, { id: 1, url: "chrome://example" });
