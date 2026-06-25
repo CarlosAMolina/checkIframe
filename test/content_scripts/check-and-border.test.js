@@ -248,3 +248,92 @@ describe("handleSourcesUpdate", () => {
     );
   });
 });
+
+describe("handleButtonShowSources", () => {
+  const html =
+    '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>';
+  let testModule;
+  beforeEach(() => {
+    testModule = fakeModule.setupContentScriptWithIframes(html);
+  });
+  it("returns sources summary with correct iframe counts", () => {
+    const result = testModule._forTesting.handleButtonShowSources();
+    return result.then((summary) => {
+      expect(summary.iframe.sourcesAllNumber).toBe(2);
+      expect(summary.iframe.sourcesValid).toEqual([
+        "https://a.com/page",
+        "https://b.com/page",
+      ]);
+    });
+  });
+  it("excludes blacklisted sources from valid list", () => {
+    const state = testModule._forTesting.state;
+    state.blacklistedSources = ["https://a.com/page"];
+    const result = testModule._forTesting.handleButtonShowSources();
+    return result.then((summary) => {
+      expect(summary.iframe.sourcesAllNumber).toBe(2);
+      expect(summary.iframe.sourcesValid).toEqual(["https://b.com/page"]);
+    });
+  });
+});
+
+describe("handleProtocolOk highlights when auto-highlight is on", () => {
+  const html =
+    '<html><body><iframe src="https://a.com/page"></iframe><iframe src="https://b.com/page"></iframe></body></html>';
+  it("highlights all elements when highlightAllAutomatically is stored as true", async () => {
+    const storageItems = {
+      idHighlightAllAutomatically: true,
+      blacklist: [],
+      notify: [],
+    };
+    const testModule = fakeModule.setupContentScriptWithIframes(html, {
+      storageItems,
+    });
+    await testModule._forTesting.handleProtocolOk();
+    const iframes = document.querySelectorAll("iframe");
+    iframes.forEach((iframe) => {
+      expect(iframe.classList.contains("check-iframe-detector-highlight")).toBe(
+        true,
+      );
+    });
+  });
+});
+
+describe("initializeState error path", () => {
+  it("logs error and does not crash when storage.local.get rejects", async () => {
+    global.browser = fakeModule.fakeBrowser();
+    fakeModule.runNoHtmlFakeDom();
+    global.browser.storage.local.get = jest.fn(() =>
+      Promise.reject(new Error("storage error")),
+    );
+    console.error = jest.fn();
+    const testModule = require("../../src/content_scripts/check-and-border.js");
+    await testModule._forTesting.initializeState();
+    expect(console.error).toHaveBeenCalled();
+  });
+});
+
+describe("setHighlightStyle", () => {
+  let testModule;
+  beforeEach(() => {
+    testModule = fakeModule.setupContentScriptWithIframes(
+      "<html><head></head><body></body></html>",
+    );
+  });
+  it("adds a style element with the highlight class", () => {
+    testModule._forTesting.setHighlightStyle();
+    const styleEl = document.getElementById(
+      testModule._forTesting.HIGHLIGHT_STYLE_ID,
+    );
+    expect(styleEl).not.toBeNull();
+    expect(styleEl.textContent).toContain("check-iframe-detector-highlight");
+  });
+  it("does not add duplicate style elements when called twice", () => {
+    testModule._forTesting.setHighlightStyle();
+    testModule._forTesting.setHighlightStyle();
+    const styles = document.querySelectorAll(
+      `#${testModule._forTesting.HIGHLIGHT_STYLE_ID}`,
+    );
+    expect(styles.length).toBe(1);
+  });
+});

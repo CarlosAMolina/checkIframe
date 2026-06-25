@@ -309,16 +309,19 @@ function logDetections(elements) {
 
 export const _forTesting = {
   HIGHLIGHT_CLASS,
+  HIGHLIGHT_STYLE_ID,
   initializeState,
   getPageElements,
   logDetections,
   handleButtonRecheck,
   handleButtonScroll,
   handleButtonClean,
+  handleButtonShowSources,
   handleButtonHighlightAllAutomatically,
   handleSourcesUpdate,
   getDetectionState,
   isBlacklistedSource,
+  setHighlightStyle,
   state,
   handleProtocolOk,
 };
