@@ -483,6 +483,7 @@ class ButtonClearAll extends Button {
 
 export const _forTesting = {
   Button,
+  ButtonAddUrl,
   ButtonClearAll,
   ButtonShowLogs,
   ButtonHighlightAllAutomatically,
@@ -493,5 +494,7 @@ export const _forTesting = {
   ButtonShowConfig,
   ButtonShowSources,
   ButtonUrlsNotify,
+  ButtonUrlsBlacklist,
   BUTTON_ID_ADD_URL,
+  getIsStoredOn,
 };

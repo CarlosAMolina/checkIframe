@@ -814,6 +814,101 @@ describe("showStoredInfo", () => {
   });
 });
 
+describe("ButtonUrlType click", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
+  it("unhides sources config and calls showStoredUrlsType for blacklist", () => {
+    const infoContainer = document.createElement("div");
+    infoContainer.appendChild(document.createElement("span"));
+    const button = new buttonsModule._forTesting.ButtonUrlsBlacklist(
+      infoContainer,
+    );
+    button.click();
+    const configEl = document.getElementById("sourcesConfigValues");
+    expect(configEl.classList.contains("hidden")).toBe(false);
+    expect(infoContainer.children.length).toBe(0);
+  });
+});
+
+describe("ButtonAddUrl click", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
+  it("reads textarea input and saves URLs to storage", async () => {
+    document.querySelector('textarea[id="inputUrl"]').value = "example.com";
+    document.getElementById("buttonUrlsBlacklist").checked = true;
+    const button = new buttonsModule._forTesting.ButtonAddUrl();
+    await button.click();
+    expect(browser.storage.local.set).toHaveBeenCalledWith({
+      blacklist: ["example.com"],
+    });
+  });
+});
+
+describe("ButtonClearAll click", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { blacklist: ["a.com", "b.com"] },
+    });
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
+  it("removes DOM children and clears storage for the active URL type", async () => {
+    const infoContainer = document.createElement("div");
+    infoContainer.appendChild(document.createElement("span"));
+    infoContainer.appendChild(document.createElement("span"));
+    document.getElementById("buttonUrlsBlacklist").checked = true;
+    const button = new buttonsModule._forTesting.ButtonClearAll(infoContainer);
+    await button.click();
+    expect(infoContainer.children.length).toBe(0);
+    expect(browser.storage.local.set).toHaveBeenCalledWith({ blacklist: [] });
+  });
+  it("logs error when clearStorageInfo fails", async () => {
+    console.error = jest.fn();
+    global.browser.storage.local.get = jest.fn(() =>
+      Promise.reject(new Error("storage error")),
+    );
+    const infoContainer = document.createElement("div");
+    document.getElementById("buttonUrlsBlacklist").checked = true;
+    const button = new buttonsModule._forTesting.ButtonClearAll(infoContainer);
+    await button.click();
+    expect(console.error).toHaveBeenCalled();
+  });
+});
+
+describe("getIsStoredOn", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
+  it("returns false when key is not stored", async () => {
+    const result = await buttonsModule._forTesting.getIsStoredOn("idShowLogs");
+    expect(result).toBe(false);
+  });
+  it("returns stored value when key exists", async () => {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idShowLogs: true },
+    });
+    const result = await buttonsModule._forTesting.getIsStoredOn("idShowLogs");
+    expect(result).toBe(true);
+  });
+  it("logs error and returns false when storage.local.get rejects", async () => {
+    console.error = jest.fn();
+    global.browser.storage.local.get = jest.fn(() =>
+      Promise.reject(new Error("storage error")),
+    );
+    const result = await buttonsModule._forTesting.getIsStoredOn("idShowLogs");
+    expect(result).toBe(false);
+    expect(console.error).toHaveBeenCalled();
+  });
+});
+
 function initializeMocksAndVariables() {
   fakeModule.initializeDomAndBrowser();
   buttonsModule = require("../../src/popup/buttons.js");
