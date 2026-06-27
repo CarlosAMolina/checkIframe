@@ -187,6 +187,7 @@ button:active {
   align-items: center;
   justify-content: center;
   padding: 4px;
+  height: calc(var(--BUTTON-HEIGHT) * 1.5);
 }
 
 .oneLineButtons button img {
