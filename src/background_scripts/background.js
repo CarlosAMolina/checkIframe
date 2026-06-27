@@ -10,8 +10,19 @@ const NO_BROWSER_WINDOW_ID = -1;
 // it is not necessary, use the popup button to recheck
 //browser.action.onClicked.addListener(updateActiveTab);
 
-// listen to window switching
-browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
+// Listen to window switching (not supported on Firefox for Android).
+// This `if` guard prevents the background script from crashing on Firefox for Android
+// where browser.windows is unsupported.
+// Android doesn't lose functionailty because it doesn't have multiple browser windows,
+// Firefox for Android is a single-window browser, so windows.onFocusChanged
+// would never fire meaningfully anyway.
+// Once the crash is avoided,
+// the tabs.onUpdated, tabs.onActivated, and runtime.onMessage listeners
+// register normally, and the contentScriptReady ->protocolOk flow works as
+// expected for automatic detection.
+if (browser.windows?.onFocusChanged) {
+  browser.windows.onFocusChanged.addListener(handleUpdatedWindow);
+}
 
 // listen to tab URL changes
 browser.tabs.onUpdated.addListener(handleUpdatedTabUrl);

@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Content-script. Convert to ES module and use shared logger.
 
 ### Fixed
+- Fixed automatic detection not working on Firefox for Android. The background script crashed on startup because browser.windows is unsupported on Android, preventing all event listeners from registering.
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
 - Fixed an issue where long URLs in the popup's detected sources list overflowed the popup's width.
 - ESLint error `URL` is not defined. Added `URL` to the ESLint globals config.
