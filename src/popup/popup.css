@@ -205,6 +205,11 @@ input[type="image"]:active {
   padding: var(--MARGIN);
 }
 
+#infoScroll a {
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
 #infoTags li + li,
 p + p {
   margin-top: var(--MARGIN);
