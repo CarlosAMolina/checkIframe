@@ -117,6 +117,17 @@ describe("applyTabAppearance", () => {
       tabId: 1,
     });
   });
+  it("sets blue icon and title for 'disabled' key", function () {
+    backgroundModule._forTesting.applyTabAppearance(1, "disabled");
+    expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+      title: "Automatic detection is off",
+      tabId: 1,
+    });
+    expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+      path: "icons/i_blue.png",
+      tabId: 1,
+    });
+  });
 });
 
 describe("handleActivatedTab", () => {
@@ -371,6 +382,24 @@ describe("updateTab respects automatic detection setting", () => {
     });
     expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
   });
+  it("sets blue icon when automatic detection is disabled on supported protocol", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    await backgroundModule._forTesting.updateTab({
+      id: 3,
+      url: "https://example.com",
+      status: "complete",
+    });
+    expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+      title: "Automatic detection is off",
+      tabId: 3,
+    });
+    expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+      path: "icons/i_blue.png",
+      tabId: 3,
+    });
+  });
   it("sends protocolOk when automatic detection is enabled", async function () {
     global.browser = fakeModule.fakeBrowser({
       storageItems: { idAutomaticDetection: true },
@@ -403,6 +432,25 @@ describe("handleContentScriptMessage respects automatic detection setting", () =
       sender,
     );
     expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
+  });
+  it("sets blue icon on contentScriptReady when automatic detection is disabled", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    const message = { info: "contentScriptReady" };
+    const sender = { tab: { id: 7, url: "https://example.com" } };
+    await backgroundModule._forTesting.handleContentScriptMessage(
+      message,
+      sender,
+    );
+    expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+      title: "Automatic detection is off",
+      tabId: 7,
+    });
+    expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+      path: "icons/i_blue.png",
+      tabId: 7,
+    });
   });
   it("sends protocolOk on contentScriptReady when automatic detection is enabled", async function () {
     global.browser = fakeModule.fakeBrowser({

@@ -44,6 +44,8 @@ async function handleContentScriptMessage(message, sender) {
       browser.tabs.sendMessage(tabId, {
         info: "protocolOk",
       });
+    } else if (protocolIsSupported) {
+      applyTabAppearance(tabId, "disabled");
     }
     return;
   }
@@ -126,6 +128,8 @@ async function updateTab(tab) {
           info: "protocolOk",
         })
         .catch(logError);
+    } else {
+      applyTabAppearance(tabId, "disabled");
     }
   } else {
     const appearanceKey = appearanceKeyFromDetection(
@@ -140,6 +144,10 @@ const TAB_APPEARANCE = {
   unsupported: {
     title: "This web page cannot be analyzed",
     icon: "icons/i_gray.png",
+  },
+  disabled: {
+    title: "Automatic detection is off",
+    icon: "icons/i_blue.png",
   },
   specialFound: {
     title: "Detected special (i)frames to notify",
