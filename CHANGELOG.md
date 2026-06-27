@@ -7,9 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.1.0] - TODO
 ### Added
-- Configuration option to disable automatic iframe detection, so the add-on only scans when the user manually clicks Recheck. Enabled by default.
-- Blue icon indicates automatic detection is off, distinguishing from gray (unsupported page).
-- When automatic detection is off, opening the popup automatically triggers a page scan.
+- Configuration option to disable automatic iframe detection. Blue icon indicates automatic detection is off, distinguishing from gray (unsupported page).
 
 ### Changed
 - Log management is centralized in a single file and can be enabled or disabled by changing a constant flag.
