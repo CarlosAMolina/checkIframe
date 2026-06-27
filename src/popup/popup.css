@@ -156,6 +156,13 @@ p + p {
   display: flex;
   align-items: center;
   gap: var(--MARGIN);
+  min-width: 0;
+}
+
+.detections a {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  min-width: 0;
 }
 
 /* flex-shrink: to respect width if the UR~ is too long https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */

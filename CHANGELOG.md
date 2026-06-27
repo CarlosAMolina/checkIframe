@@ -19,7 +19,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
+- Fixed an issue where long URLs in the popup's detected sources list overflowed the popup's width.
 - ESLint error `URL` is not defined. Added `URL` to the ESLint globals config.
+- When long URLs are displayed in the popup's detected sources list, they overflowed the popup width.
 - GitHub Copilot instructions. Update manifest version
 
 ## [2.0.0] - 20260620
