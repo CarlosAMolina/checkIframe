@@ -8,7 +8,7 @@ A background script will listen for tab, window and URL events and update the ad
 
 ## Storage
 
-To save the add-on configuration.
+Used to save the add-on configuration.
 
 ## Documentation links
 

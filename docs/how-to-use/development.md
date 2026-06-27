@@ -4,7 +4,7 @@
 
 ### Initial steps
 
-In the same path as the `package.json` file, install the requirements:
+In the same directory as the `package.json` file, install the dependencies:
 
 ```bash
 npm install
@@ -16,7 +16,7 @@ npm install
 npm test
 ```
 
-### Development
+## Development
 
 Load extension in the browser:
 

@@ -14,14 +14,14 @@ Click on the add-on icon to work with a pop-up window that gives you details and
 
 ### Add-on notifications
 
-Set the mouse over the icon to see a description of the result.
+Hover your mouse over the icon to see a description of the result.
 
 The meaning of the icon's colours is: 
 
 - Gray icon: the website cannot be checked.
-- Green icon: no tag iframe or frame detected.
+- Green icon: no iframe or frame tag detected.
 - Orange icon: tag detected.
-- Purple icon: tag detected and at least one source matches with any term in the configured user's list of special sources to notify.
+- Purple icon: tag detected and at least one source matches any term in the configured user's list of special sources to notify.
 
 ## Table of contents
 

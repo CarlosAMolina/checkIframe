@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This option scrolls the window to the elements with iframe/frame tags and highlight them with a red border.
+This option scrolls the window to the elements with iframe/frame tags and highlights them with a red border.
  
 ## Steps
 

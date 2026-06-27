@@ -2,7 +2,8 @@
 
 ## Introduction
 
-This is sometimes necessary when a new configuration has been added to the add-on and the website cannot be checked automatically.
+(TODO check if this is correct or the new version is auto-updated when the configuration changes, if it is auto updated, change the sentence to something like `This button allows you to manually run a page review manually`).
+This is sometimes necessary when a new configuration has been added and the page was not automatically re-checked.
 
 ## Steps
 

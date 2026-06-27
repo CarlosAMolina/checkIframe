@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In order to quit the red border set by the `Scroll` button, you shoul use the `Clean border` button.
+In order to remove the red border set by the `Scroll` button, you should use the `Clean border` button.
  
 ## Steps
 

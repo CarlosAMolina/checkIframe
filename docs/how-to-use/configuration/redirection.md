@@ -8,13 +8,13 @@ If the current tab URL contains any term in the list, it will be redirected to t
 
 For example, if you visit `https://html.com/tags/iframe/` and scroll down to where the `https://www.youtube.com/embed/owsfdh4gxyc` iframe loads, if you have added any of the tab URL terms, for example `html.com`, to the configuration list, you will be redirected to that iframe.
 
-You can read a perfect explanation of this option at the following issue:
+You can find a more detailed explanation of this option at the following issue:
 
 <https://github.com/CarlosAMolina/checkIframe/issues/1>
 
 ## Configuration
 
-Note. If the first iframe/frame URL should not be used as the redirection location, you can add it to the blacklist and will be omitted
+Note. If the first iframe/frame URL should not be used as the redirection location, you can add it to the blacklist and it will be omitted.
 
 The steps to add a term are:
 

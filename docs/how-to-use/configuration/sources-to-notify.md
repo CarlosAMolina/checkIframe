@@ -4,9 +4,9 @@
 
 With this option you can create and modify a list with terms to search in the sources of the elements and notify with the add-on icon using a different colour.
 
-All urls that contains the specified terms will be notified.
+All URLs that contain the specified terms will be notified.
 
-Example. Saving the term `youtube`, the add-on will nofity the source `https://www.youtube.com/embed/owsfdh4gxyc`.
+Example. Saving the term `youtube`, the add-on will notify the source `https://www.youtube.com/embed/owsfdh4gxyc`.
 
 ## Configuration
 

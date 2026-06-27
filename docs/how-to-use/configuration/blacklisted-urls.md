@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This option creates and modifies a blacklist of sources that should not be listed in the message shown when the `Show tags info` button is clicked, these sources won't be bordered neither.
+This option creates and modifies a blacklist of sources that should not be listed in the message shown when the `Show tags info` button is clicked, these sources won't be highlighted either.
 
-These sources will be taken into account when changing the add-on's icon colour to notify something has been detected.
+Despite being blacklisted, these sources will still be taken into account when changing the add-on's icon color to indicate that something has been detected.
 
 ## Configuration
 
@@ -27,7 +27,7 @@ The steps to add a new blacklisted source are:
 
 4. Edit saved sources
 
-    You can edit them by clicking over each saved rule and modify the values.
+    You can edit them by clicking on each saved source and modify the values.
 
 ## Documentation links
 
