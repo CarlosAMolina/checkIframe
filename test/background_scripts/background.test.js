@@ -186,8 +186,8 @@ describe("updateTab", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it("sends protocolOk for supported protocols", function () {
-    backgroundModule._forTesting.updateTab({
+  it("sends protocolOk for supported protocols", async function () {
+    await backgroundModule._forTesting.updateTab({
       id: 3,
       url: "https://example.com",
       status: "complete",
@@ -322,5 +322,100 @@ describe("handleActivatedTab error path", () => {
     );
     await backgroundModule._forTesting.handleActivatedTab({ tabId: 99 });
     expect(console.error).toHaveBeenCalled();
+  });
+});
+
+describe("isAutomaticDetectionEnabled", () => {
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    console.log = jest.fn();
+    jest.clearAllMocks();
+  });
+  it("returns true when no stored value exists", async function () {
+    const result =
+      await backgroundModule._forTesting.isAutomaticDetectionEnabled();
+    expect(result).toBe(true);
+  });
+  it("returns true when stored value is true", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: true },
+    });
+    const result =
+      await backgroundModule._forTesting.isAutomaticDetectionEnabled();
+    expect(result).toBe(true);
+  });
+  it("returns false when stored value is false", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    const result =
+      await backgroundModule._forTesting.isAutomaticDetectionEnabled();
+    expect(result).toBe(false);
+  });
+});
+
+describe("updateTab respects automatic detection setting", () => {
+  beforeEach(() => {
+    global.browser = fakeModule.fakeBrowser();
+    console.log = jest.fn();
+    jest.clearAllMocks();
+  });
+  it("does not send protocolOk when automatic detection is disabled", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    await backgroundModule._forTesting.updateTab({
+      id: 3,
+      url: "https://example.com",
+      status: "complete",
+    });
+    expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
+  });
+  it("sends protocolOk when automatic detection is enabled", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: true },
+    });
+    await backgroundModule._forTesting.updateTab({
+      id: 3,
+      url: "https://example.com",
+      status: "complete",
+    });
+    expect(global.browser.tabs.sendMessage).toHaveBeenCalledWith(3, {
+      info: "protocolOk",
+    });
+  });
+});
+
+describe("handleContentScriptMessage respects automatic detection setting", () => {
+  beforeEach(() => {
+    console.log = jest.fn();
+    console.error = jest.fn();
+    jest.clearAllMocks();
+  });
+  it("does not send protocolOk on contentScriptReady when automatic detection is disabled", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    const message = { info: "contentScriptReady" };
+    const sender = { tab: { id: 7, url: "https://example.com" } };
+    await backgroundModule._forTesting.handleContentScriptMessage(
+      message,
+      sender,
+    );
+    expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
+  });
+  it("sends protocolOk on contentScriptReady when automatic detection is enabled", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: true },
+    });
+    const message = { info: "contentScriptReady" };
+    const sender = { tab: { id: 7, url: "https://example.com" } };
+    await backgroundModule._forTesting.handleContentScriptMessage(
+      message,
+      sender,
+    );
+    expect(global.browser.tabs.sendMessage).toHaveBeenCalledWith(7, {
+      info: "protocolOk",
+    });
   });
 });

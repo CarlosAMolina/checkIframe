@@ -11,6 +11,8 @@ const TAB_ID = 1;
 
 function describeOnOffButton(config) {
   const { className, expectedIdHtml, storageKey, messageInfo } = config;
+  const sendsMessage = config.sendsMessage !== false;
+  const defaultOn = config.defaultOn === true;
   describe(`Check ${className}`, () => {
     beforeEach(() => {
       fakeModule.runFakeDom("src/popup/popup.html");
@@ -34,9 +36,13 @@ function describeOnOffButton(config) {
         expect(browser.storage.local.set.mock.calls).toEqual([
           [{ [storageKey]: true }],
         ]);
-        expect(browser.tabs.sendMessage.mock.calls).toEqual([
-          [1, { info: messageInfo, values: true }],
-        ]);
+        if (sendsMessage) {
+          expect(browser.tabs.sendMessage.mock.calls).toEqual([
+            [1, { info: messageInfo, values: true }],
+          ]);
+        } else {
+          expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        }
       });
       it("deactivates when clicked while active", async () => {
         const buttonClass = buttonsModule._forTesting[className];
@@ -50,13 +56,17 @@ function describeOnOffButton(config) {
         expect(browser.storage.local.set.mock.calls).toEqual([
           [{ [storageKey]: false }],
         ]);
-        expect(browser.tabs.sendMessage.mock.calls).toEqual([
-          [1, { info: messageInfo, values: false }],
-        ]);
+        if (sendsMessage) {
+          expect(browser.tabs.sendMessage.mock.calls).toEqual([
+            [1, { info: messageInfo, values: false }],
+          ]);
+        } else {
+          expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        }
       });
     });
     describe("initializePopup", () => {
-      it("stays off when never clicked before", async () => {
+      it("uses correct default when never clicked before", async () => {
         const buttonClass = buttonsModule._forTesting[className];
         const button = new buttonClass();
         expect(button._isOn).toBe(false);
@@ -64,12 +74,16 @@ function describeOnOffButton(config) {
         expect(browser.storage.local.set).not.toHaveBeenCalled();
         expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
         await button.initializePopup();
-        expect(button._isOn).toBe(false);
+        expect(button._isOn).toBe(defaultOn);
         expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
         expect(browser.storage.local.set).not.toHaveBeenCalled();
-        expect(browser.tabs.sendMessage.mock.calls).toEqual([
-          [1, { info: messageInfo, values: false }],
-        ]);
+        if (sendsMessage) {
+          expect(browser.tabs.sendMessage.mock.calls).toEqual([
+            [1, { info: messageInfo, values: defaultOn }],
+          ]);
+        } else {
+          expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        }
       });
       it("restores on state from storage", async () => {
         browser.storage.local.get = jest.fn(() =>
@@ -85,9 +99,30 @@ function describeOnOffButton(config) {
         expect(button._isOn).toBe(true);
         expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
         expect(browser.storage.local.set).not.toHaveBeenCalled();
-        expect(browser.tabs.sendMessage.mock.calls).toEqual([
-          [1, { info: messageInfo, values: true }],
-        ]);
+        if (sendsMessage) {
+          expect(browser.tabs.sendMessage.mock.calls).toEqual([
+            [1, { info: messageInfo, values: true }],
+          ]);
+        } else {
+          expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        }
+      });
+      it("restores off state from storage", async () => {
+        browser.storage.local.get = jest.fn(() =>
+          Promise.resolve({ [storageKey]: false }),
+        );
+        const buttonClass = buttonsModule._forTesting[className];
+        const button = new buttonClass();
+        expect(button._isOn).toBe(false);
+        await button.initializePopup();
+        expect(button._isOn).toBe(false);
+        if (sendsMessage) {
+          expect(browser.tabs.sendMessage.mock.calls).toEqual([
+            [1, { info: messageInfo, values: false }],
+          ]);
+        } else {
+          expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+        }
       });
     });
   });
@@ -230,6 +265,14 @@ describeOnOffButton({
   expectedIdHtml: "buttonHighlightAllAutomatically",
   storageKey: "idHighlightAllAutomatically",
   messageInfo: "buttonHighlightAllAutomatically",
+});
+
+describeOnOffButton({
+  className: "ButtonAutomaticDetection",
+  expectedIdHtml: "buttonAutomaticDetection",
+  storageKey: "idAutomaticDetection",
+  sendsMessage: false,
+  defaultOn: true,
 });
 
 describe("ButtonAlwaysShowSources", () => {

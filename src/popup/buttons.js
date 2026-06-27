@@ -25,6 +25,7 @@ import { URL_TYPE_REFERER } from "./url.js";
 import { getUrlTypeActive } from "./url.js";
 
 const BUTTON_ID_ADD_URL = "buttonAddUrl";
+const BUTTON_ID_AUTOMATIC_DETECTION = "buttonAutomaticDetection";
 export const BUTTON_ID_ALWAYS_SHOW_SOURCES = "buttonAlwaysShowSources";
 const BUTTON_ID_CLEAN = "buttonClean";
 const BUTTON_ID_CLEAR_ALL = "buttonClearAll";
@@ -43,6 +44,7 @@ export function initializePopupButtons() {
   const buttonMap = {
     [BUTTON_ID_ADD_URL]: () => new ButtonAddUrl(),
     [BUTTON_ID_ALWAYS_SHOW_SOURCES]: () => new ButtonAlwaysShowSources(),
+    [BUTTON_ID_AUTOMATIC_DETECTION]: () => new ButtonAutomaticDetection(),
     [BUTTON_ID_CLEAN]: () => new ButtonClean(),
     [BUTTON_ID_CLEAR_ALL]: () => new ButtonClearAll(infoContainer),
     [BUTTON_ID_HIGHLIGHT_ALL_AUTOMATICALLY]: () =>
@@ -65,6 +67,7 @@ export function initializePopupButtons() {
   new ButtonShowLogs().initializePopup();
   new ButtonHighlightAllAutomatically().initializePopup();
   new ButtonAlwaysShowSources().initializePopup();
+  new ButtonAutomaticDetection().initializePopup();
 }
 
 class Button {
@@ -373,6 +376,26 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
   }
 }
 
+class ButtonAutomaticDetection extends ButtonOnOff {
+  get _idHtml() {
+    return BUTTON_ID_AUTOMATIC_DETECTION;
+  }
+
+  async _getIsStoredOn() {
+    const result = await browser.storage.local.get(this._idStorage);
+    const stored = result[this._idStorage];
+    return stored === undefined ? true : stored;
+  }
+
+  async _onTurnOn() {}
+
+  async _onTurnOff() {}
+
+  get _idStorage() {
+    return "idAutomaticDetection";
+  }
+}
+
 async function getIsStoredOn(keyName) {
   let resultGetStorage = {};
   try {
@@ -484,6 +507,7 @@ class ButtonClearAll extends Button {
 export const _forTesting = {
   Button,
   ButtonAddUrl,
+  ButtonAutomaticDetection,
   ButtonClearAll,
   ButtonShowLogs,
   ButtonHighlightAllAutomatically,

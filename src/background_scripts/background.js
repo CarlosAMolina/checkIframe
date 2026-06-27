@@ -40,7 +40,7 @@ async function handleContentScriptMessage(message, sender) {
   // no longer needs to trigger detection for supported protocols.
   if (message.info === "contentScriptReady") {
     const protocolIsSupported = isProtocolSupported(tabUrl);
-    if (protocolIsSupported) {
+    if (protocolIsSupported && (await isAutomaticDetectionEnabled())) {
       browser.tabs.sendMessage(tabId, {
         info: "protocolOk",
       });
@@ -84,6 +84,13 @@ async function redirectTo(tabId, locationUrl) {
   }
 }
 
+async function isAutomaticDetectionEnabled() {
+  const { idAutomaticDetection } = await browser.storage.local.get({
+    idAutomaticDetection: true,
+  });
+  return idAutomaticDetection;
+}
+
 async function updateActiveTab() {
   try {
     const tabs = await browser.tabs.query({
@@ -112,12 +119,14 @@ async function updateTab(tab) {
   log(`Init update for tab id: ${tabId}`);
   const protocolIsSupported = isProtocolSupported(tabUrl);
   if (protocolIsSupported) {
-    log(`Init sendMessage to the content script in tab id: ${tabId}`);
-    browser.tabs
-      .sendMessage(tabId, {
-        info: "protocolOk",
-      })
-      .catch(logError);
+    if (await isAutomaticDetectionEnabled()) {
+      log(`Init sendMessage to the content script in tab id: ${tabId}`);
+      browser.tabs
+        .sendMessage(tabId, {
+          info: "protocolOk",
+        })
+        .catch(logError);
+    }
   } else {
     const appearanceKey = appearanceKeyFromDetection(
       "none",
@@ -198,6 +207,7 @@ export const _forTesting = {
   applyTabAppearance,
   appearanceKeyFromDetection,
   checkRunRedirect,
+  isAutomaticDetectionEnabled,
   redirectTo,
   handleUpdatedWindow,
   handleUpdatedTabUrl,
