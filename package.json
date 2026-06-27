@@ -1,6 +1,7 @@
 {
   "name": "check_iframe",
   "version": "2.0.0",
+  "type": "module",
   "description": "Tests for the project",
   "main": "src/background_scripts/background.js",
   "scripts": {
