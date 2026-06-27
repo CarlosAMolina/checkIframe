@@ -135,7 +135,6 @@ input[type="image"]:active {
   font-size: 12.5px;
 }
 
-/* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 .sourceConfig button {
   display: flex;
   align-items: center;
@@ -143,6 +142,7 @@ input[type="image"]:active {
   height: var(--BUTTON-HEIGHT);
   width: var(--SQUARE-BUTTON-WIDTH);
   flex-shrink: 0;
+  padding: 4px;
 }
 
 .sourceConfig input {
@@ -284,10 +284,14 @@ fieldset input[type="radio"] {
   text-decoration: underline;
 }
 
-/* flex-shrink: to respect width if the UR~ is too long https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 .detections button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: var(--SQUARE-BUTTON-WIDTH);
+  height: var(--SQUARE-BUTTON-WIDTH);
   flex-shrink: 0;
+  padding: 4px;
 }
 
 .detections img {
