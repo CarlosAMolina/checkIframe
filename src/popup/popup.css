@@ -7,16 +7,17 @@
   --SQUARE-BUTTON-WIDTH: 32px;
   --RADIUS: 8px;
   --RADIUS-SM: 6px;
-  --COLOR-ACCENT: #0d9488;
-  --COLOR-ACCENT-LIGHT: #ccfbf1;
-  --COLOR-ACCENT-HOVER: #0f766e;
-  --COLOR-BG: #ffffff;
-  --COLOR-SURFACE: #f8fafa;
-  --COLOR-BORDER: #e2e8f0;
-  --COLOR-TEXT: #1e293b;
-  --COLOR-LINK: #2563eb;
-  --SHADOW-SM: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --SHADOW-MD: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --COLOR-ACCENT: #3b82f6;
+  --COLOR-ACCENT-LIGHT: #1e3a5f;
+  --COLOR-ACCENT-HOVER: #2563eb;
+  --COLOR-BG: #1e1e2e;
+  --COLOR-SURFACE: #2a2a3c;
+  --COLOR-BORDER: #3f3f5a;
+  --COLOR-TEXT: #e2e2e8;
+  --COLOR-LINK: #60a5fa;
+  --COLOR-BUTTON-ON: #3b82f6;
+  --SHADOW-SM: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --SHADOW-MD: 0 2px 6px rgba(0, 0, 0, 0.4);
   --TRANSITION: 150ms ease;
   --FONT-FAMILY:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
@@ -59,7 +60,7 @@ textarea {
 textarea:focus {
   outline: none;
   border-color: var(--COLOR-ACCENT);
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
 p {
@@ -94,7 +95,7 @@ input[type="image"]:hover {
 
 button:active,
 input[type="image"]:active {
-  background-color: #b2f5ea;
+  background-color: var(--COLOR-ACCENT-HOVER);
   box-shadow: var(--SHADOW-SM);
 }
 
@@ -152,6 +153,8 @@ input[type="image"]:active {
   padding: 6px 10px;
   border: 1px solid var(--COLOR-BORDER);
   border-radius: var(--RADIUS-SM);
+  background-color: var(--COLOR-SURFACE);
+  color: var(--COLOR-TEXT);
   transition:
     border-color var(--TRANSITION),
     box-shadow var(--TRANSITION);
@@ -160,7 +163,7 @@ input[type="image"]:active {
 .sourceConfig input:focus {
   outline: none;
   border-color: var(--COLOR-ACCENT);
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
 #infoScroll,
@@ -187,6 +190,10 @@ input[type="image"]:active {
   flex-direction: row;
   justify-content: space-between;
   gap: var(--FLEX-PADDING);
+}
+
+.oneLineButtons input[type="image"] {
+  filter: invert(0.8);
 }
 
 .hidden {
@@ -298,6 +305,13 @@ fieldset input[type="radio"] {
 .detections img {
   height: 100%;
   width: 100%;
+  filter: invert(0.8);
+}
+
+.sourceConfig button img {
+  height: 100%;
+  width: 100%;
+  filter: invert(0.8);
 }
 
 .tooltip {
@@ -308,8 +322,8 @@ fieldset input[type="radio"] {
 .tooltiptext {
   visibility: hidden;
   width: 130px;
-  background-color: var(--COLOR-TEXT);
-  color: #fff;
+  background-color: #1e293b;
+  color: #e2e2e8;
   border-radius: var(--RADIUS-SM);
   padding: 8px 10px;
   font-size: 12px;
