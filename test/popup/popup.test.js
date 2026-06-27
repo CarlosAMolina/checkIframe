@@ -83,3 +83,44 @@ describe("reportExecuteScriptError", () => {
     expect(errorContent.classList.contains("hidden")).toBe(false);
   });
 });
+
+describe("recheckIfAutomaticDetectionIsOff", () => {
+  let popupModule;
+  beforeEach(() => {
+    jest.resetModules();
+    fakeModule.runFakeDom("src/popup/popup.html");
+    console.log = jest.fn();
+  });
+  it("sends buttonRecheck when automatic detection is disabled", async () => {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    popupModule = require("../../src/popup/popup.js");
+    await popupModule._forTesting.recheckIfAutomaticDetectionIsOff();
+    expect(global.browser.tabs.sendMessage).toHaveBeenCalledWith(1, {
+      info: "buttonRecheck",
+    });
+  });
+  it("does not send buttonRecheck when automatic detection is enabled", async () => {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: true },
+    });
+    popupModule = require("../../src/popup/popup.js");
+    global.browser.tabs.sendMessage.mockClear();
+    await popupModule._forTesting.recheckIfAutomaticDetectionIsOff();
+    expect(global.browser.tabs.sendMessage).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ info: "buttonRecheck" }),
+    );
+  });
+  it("does not send buttonRecheck when no stored value exists (automatic detection button defaults to on)", async () => {
+    global.browser = fakeModule.fakeBrowser({ storageItems: {} });
+    popupModule = require("../../src/popup/popup.js");
+    global.browser.tabs.sendMessage.mockClear();
+    await popupModule._forTesting.recheckIfAutomaticDetectionIsOff();
+    expect(global.browser.tabs.sendMessage).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ info: "buttonRecheck" }),
+    );
+  });
+});

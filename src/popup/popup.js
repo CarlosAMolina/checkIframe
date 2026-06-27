@@ -2,6 +2,8 @@ import { logError } from "../logger.js";
 import { initializePopupButtons } from "./buttons.js";
 import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
+import { sendMessage } from "./message-mediator.js";
+import { Message } from "./model.js";
 import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { getUrlsInInputBox } from "./ui.js";
@@ -28,6 +30,16 @@ function initializePopup() {
   setNewElementsMaxWidth();
   initializePopupButtons();
   notifyContentScriptOfUrlChange();
+  recheckIfAutomaticDetectionIsOff();
+}
+
+async function recheckIfAutomaticDetectionIsOff() {
+  const { idAutomaticDetection } = await browser.storage.local.get({
+    idAutomaticDetection: true,
+  });
+  if (!idAutomaticDetection) {
+    sendMessage(new Message("buttonRecheck")).catch(logError);
+  }
 }
 
 // there was an error executing the script.
@@ -41,6 +53,7 @@ function reportExecuteScriptError(error) {
 export const _forTesting = {
   popupMain,
   initializePopup,
+  recheckIfAutomaticDetectionIsOff,
   reportExecuteScriptError,
   logError,
   saveUrls,
