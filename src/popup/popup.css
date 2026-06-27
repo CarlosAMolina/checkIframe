@@ -12,6 +12,7 @@
   --COLOR-ACCENT-HOVER: #2563eb;
   --COLOR-BG: #1e1e2e;
   --COLOR-SURFACE: #2a2a3c;
+  --COLOR-PANEL: #16161f;
   --COLOR-BORDER: #3f3f5a;
   --COLOR-TEXT: #e2e2e8;
   --COLOR-LINK: #60a5fa;
@@ -208,7 +209,7 @@ button:active {
 }
 
 .backgroundGray {
-  background: var(--COLOR-SURFACE);
+  background: var(--COLOR-PANEL);
   border: 1px solid var(--COLOR-BORDER);
   border-radius: var(--RADIUS);
 }
