@@ -2,7 +2,6 @@ import "../browser-polyfill.js";
 
 import { logError } from "../logger.js";
 import { initializePopupButtons } from "./buttons.js";
-import { setNewElementsMaxWidth } from "./dom.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 import { sendMessage } from "./message-mediator.js";
 import { Message } from "./model.js";
@@ -29,7 +28,6 @@ function popupMain() {
 }
 
 function initializePopup() {
-  setNewElementsMaxWidth();
   initializePopupButtons();
   notifyContentScriptOfUrlChange();
   recheckIfAutomaticDetectionIsOff();

@@ -17,24 +17,6 @@ export function removeChildren(container) {
   }
 }
 
-// This is necessay to avoid changes in the pop-up width.
-export function setNewElementsMaxWidth() {
-  const maxWidthCurrentWindow =
-    document.getElementById("buttonShowConfig").offsetWidth;
-  const widthToReduceToAvoidVisualSizeChange = 5;
-  const maxWidthNewElements =
-    maxWidthCurrentWindow - widthToReduceToAvoidVisualSizeChange;
-  const maxWidthNewElementsStr = `${maxWidthNewElements}px`;
-  const htmlIdsToModify = [
-    HTML_ID_INFO_SCROLL,
-    HTML_ID_MENU_CONFIG,
-    HTML_ID_INFO_TAGS,
-  ];
-  for (const htmlId of htmlIdsToModify) {
-    document.getElementById(htmlId).style.maxWidth = maxWidthNewElementsStr;
-  }
-}
-
 export function toggleHide(htmlId) {
   document.getElementById(htmlId).classList.toggle("hidden");
 }
