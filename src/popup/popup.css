@@ -131,7 +131,7 @@ input[type="image"]:active {
   display: flex;
   align-items: center;
   color: var(--COLOR-TEXT);
-  font-size: 12.5px;
+  font-size: var(--FONT-SIZE);
 }
 
 .sourceConfig button {
@@ -230,7 +230,7 @@ fieldset {
 }
 
 fieldset legend {
-  font-size: 12px;
+  font-size: var(--FONT-SIZE);
   font-weight: 500;
   color: var(--COLOR-TEXT);
   padding: 0 4px;
