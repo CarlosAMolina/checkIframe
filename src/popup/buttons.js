@@ -235,25 +235,18 @@ class ButtonOnOff extends Button {
 
   _setStyle(style) {
     log("Setting style", style);
-    const styles = {
-      on: {
-        background: "#3b82f6",
-        color: "#e2e2e8",
-        textContent: "on",
-        checked: true,
-      },
-      off: {
-        background: "#3f3f5a",
-        color: "#9ca3af",
-        textContent: "off",
-        checked: false,
-      },
-    };
     const element = document.getElementById(this._idHtml);
-    element.style.background = styles[style].background;
-    element.style.color = styles[style].color;
-    element.textContent = styles[style].textContent;
-    element.checked = styles[style].checked;
+    if (style === "on") {
+      element.classList.add("switch-on");
+      element.classList.remove("switch-off");
+      element.textContent = "on";
+      element.checked = true;
+    } else {
+      element.classList.add("switch-off");
+      element.classList.remove("switch-on");
+      element.textContent = "off";
+      element.checked = false;
+    }
   }
 
   async _onTurnOn() {

@@ -2,13 +2,14 @@ export const HTML_ID_ERROR_CONTENT = "error-content";
 export const HTML_ID_INFO_SCROLL = "infoScroll";
 export const HTML_ID_INFO_TAGS = "infoTags";
 export const HTML_ID_MENU_CONFIG = "menuConfig";
+export const HTML_ID_TOP_BUTTONS = "topButtons";
 
 export function isHidden(idHtml) {
   return document.getElementById(idHtml).classList.contains("hidden");
 }
 
 export function hide(htmlId) {
-  document.querySelector("#" + htmlId).classList.add("hidden");
+  document.getElementById(htmlId).classList.add("hidden");
 }
 
 export function removeChildren(container) {
@@ -28,10 +29,10 @@ export function unhide(htmlId) {
 export function updateElementsWhenIncompatibleWebPage() {
   unhide(HTML_ID_ERROR_CONTENT);
   const elementsToHide = [
-    "popup-content div.oneLineButtons",
+    "buttonShowSources",
     HTML_ID_INFO_SCROLL,
     HTML_ID_INFO_TAGS,
-    "buttonShowSources",
+    HTML_ID_TOP_BUTTONS,
   ];
   for (const element of elementsToHide) {
     hide(element);

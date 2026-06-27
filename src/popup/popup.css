@@ -116,6 +116,16 @@ button:active {
     border-color var(--TRANSITION);
 }
 
+.switchConfig button.switch-on {
+  background: var(--COLOR-BUTTON-ON);
+  color: var(--COLOR-TEXT);
+}
+
+.switchConfig button.switch-off {
+  background: var(--COLOR-BORDER);
+  color: #9ca3af;
+}
+
 .onOffButton div {
   color: inherit;
   font-size: 10px;
