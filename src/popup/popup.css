@@ -5,6 +5,7 @@
   --MARGIN: 12px;
   --SPACE-BETWEEN-SECTIONS: 12px;
   --SQUARE-BUTTON-WIDTH: 32px;
+  --POPUP-WIDTH: 320px;
   --RADIUS: 8px;
   --RADIUS-SM: 6px;
   --COLOR-ACCENT: #3b82f6;
@@ -32,7 +33,8 @@ body {
   color: var(--COLOR-TEXT);
   line-height: 1.5;
   overflow-x: hidden; /* no x-axis scroll */
-  min-width: 320px;
+  min-width: var(--POPUP-WIDTH);
+  max-width: var(--POPUP-WIDTH);
   margin: 0;
 }
 
@@ -40,6 +42,7 @@ body {
   width: 92%;
   margin: var(--MARGIN) auto;
   padding-bottom: 4px;
+  overflow: hidden;
 }
 
 /* https://stackoverflow.com/questions/271067/how-can-i-make-a-textarea-100-width-without-overflowing-when-padding-is-present */
