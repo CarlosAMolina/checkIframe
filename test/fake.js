@@ -76,9 +76,6 @@ export function fakeBrowser(config) {
         removeListener: jest.fn(),
       },
     },
-    scripting: {
-      registerContentScripts: jest.fn(() => Promise.resolve()),
-    },
   };
 }
 

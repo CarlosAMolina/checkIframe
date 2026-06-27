@@ -7,7 +7,7 @@
   "icons": {
     "123": "icons/addonIcon.png"
   },
-  "permissions": ["activeTab", "scripting", "storage", "tabs"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "host_permissions": ["https://*/*", "http://*/*", "file:///*"],
   "action": {
     "default_icon": "icons/i_gray.png",
@@ -19,7 +19,17 @@
       "all_frames": false,
       "run_at": "document_end",
       "matches": ["https://*/*", "http://*/*", "file:///*"],
-      "js": ["content_scripts/check-and-border.js"]
+      "js": ["content_scripts/loader.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content_scripts/check-and-border.js",
+        "browser-polyfill.js",
+        "logger.js"
+      ],
+      "matches": ["https://*/*", "http://*/*", "file:///*"]
     }
   ],
   "background": {
