@@ -18,6 +18,7 @@ Hover your mouse over the icon to see a description of the result.
 
 The meaning of the icon's colours is: 
 
+- Blue icon: automatic detection is off, the page has not been scanned yet.
 - Gray icon: the website cannot be checked.
 - Green icon: no iframe or frame tag detected.
 - Orange icon: tag detected.
@@ -29,6 +30,7 @@ The meaning of the icon's colours is:
 - [Permissions](permissions/permissions.html)
 - How to use the add-on
   - Configuration
+    - [Automatic detection](how-to-use/configuration/automatic-detection.html)
     - [Always show tags info](how-to-use/configuration/always-show-tags-info.html)
     - [Automatic highlighting](how-to-use/configuration/automatic-highlighting.html)
     - [Logs](how-to-use/configuration/logs.html)
