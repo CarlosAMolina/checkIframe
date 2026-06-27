@@ -182,7 +182,7 @@ button:active {
   margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
 
-.oneLineButtons button {
+#popup-content > .oneLineButtons button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,7 +190,7 @@ button:active {
   height: calc(var(--BUTTON-HEIGHT) * 1.5);
 }
 
-.oneLineButtons button img {
+#popup-content > .oneLineButtons button img {
   height: 100%;
   width: 100%;
   filter: invert(0.8);
