@@ -3,6 +3,8 @@ import { logError } from "./logger.js";
 
 const SUPPORTED_PROTOCOLS = ["https:", "http:", "file:"];
 
+export { SUPPORTED_PROTOCOLS };
+
 export function isProtocolSupported(url) {
   const protocol = getProtocol(url);
   return SUPPORTED_PROTOCOLS.includes(protocol);

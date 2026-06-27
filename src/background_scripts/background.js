@@ -3,8 +3,11 @@ import "../browser-polyfill.js";
 import { log } from "../logger.js";
 import { logError } from "../logger.js";
 import { isProtocolSupported } from "../supported-protocols.js";
+import { SUPPORTED_PROTOCOLS } from "../supported-protocols.js";
 
 const NO_BROWSER_WINDOW_ID = -1;
+
+registerContentScript();
 
 // listen to click the button
 // it is not necessary, use the popup button to recheck
@@ -222,6 +225,32 @@ async function handleActivatedTab(activeInfo) {
   }
 }
 
+const CONTENT_SCRIPT_MATCH_PATTERN = {
+  "https:": "https://*/*",
+  "http:": "http://*/*",
+  "file:": "file:///*",
+};
+
+async function registerContentScript() {
+  try {
+    const matches = SUPPORTED_PROTOCOLS.map(
+      (protocol) => CONTENT_SCRIPT_MATCH_PATTERN[protocol],
+    );
+    await browser.scripting.registerContentScripts([
+      {
+        id: "check-and-border",
+        matches,
+        js: ["content_scripts/check-and-border.js"],
+        runAt: "document_end",
+        allFrames: false,
+        type: "module",
+      },
+    ]);
+  } catch (error) {
+    logError(error);
+  }
+}
+
 export const _forTesting = {
   updateActiveTab,
   updateTab,
@@ -230,6 +259,7 @@ export const _forTesting = {
   checkRunRedirect,
   isAutomaticDetectionEnabled,
   redirectTo,
+  registerContentScript,
   handleUpdatedWindow,
   handleUpdatedTabUrl,
   handleActivatedTab,

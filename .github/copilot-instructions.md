@@ -37,6 +37,7 @@
 Runs as a background script. Uses ES6 modules (`import`/`export`).
 
 - **Tab state tracking**: Maintains a `tabState` Map keyed by tab ID, storing `{ url, appearanceKey }` per tab. Used to deduplicate updates (`wasAlreadyProcessed`) and to restore the correct icon when switching tabs (`refreshTabIcon`).
+- **Content script registration**: Registers the content script as an ES module via `browser.scripting.registerContentScripts()` at startup (Firefox does not support `"type": "module"` in the manifest's `content_scripts` entry).
 - **Event listeners**: Listens to `browser.windows.onFocusChanged`, `browser.tabs.onUpdated` (fires on `changeInfo.status === "complete"`), `browser.tabs.onActivated`, and `browser.tabs.onRemoved` (cleanup).
 - **Message listener**: Receives messages from the content script with `{ detectionState, referers, locationUrl }`. Based on this it determines icon appearance and triggers redirection if the current tab URL matches any referer source.
 - **Icon appearance**: Uses a `TAB_APPEARANCE` lookup object mapping keys (`unsupported`, `specialFound`, `found`, `none`) to `{ title, icon }` pairs. The `appearanceKeyFromDetection` function maps a detection state + protocol support to the correct key.
@@ -201,7 +202,7 @@ For test files matching **/*.test.js:
 
 ## Code Conventions
 
-- **Module System**: All scripts now use ES6 modules (`import`/`export`). The background script and content script are loaded as modules via the manifest's `type: "module"` configuration.
+- **Module System**: All scripts now use ES6 modules (`import`/`export`). The background script is loaded as a module via the manifest's `"type": "module"` configuration. The content script is registered as a module programmatically via `browser.scripting.registerContentScripts()` in the background script.
 - **Shared Constants**: URL type constants are defined in `src/popup/url.js` and can be imported by any popup module. Protocol support logic is in `src/supported-protocols.js`.
 - **Testing Private Code**: Use `require()` + rewire's `__get__()` / `__set__()` to test unexported functions
 - **HTML Fixtures**: Test files load HTML via `runFakeDom("src/popup/popup.html")` from JSDOM
@@ -225,9 +226,9 @@ For test files matching **/*.test.js:
 ## Browser Extension Details
 
 - **Manifest V3** (`src/manifest.json`)
-- **Permissions**: `activeTab`, `storage`, `tabs`
+- **Permissions**: `activeTab`, `scripting`, `storage`, `tabs`
 - **Host permissions**: `https://*/*`, `http://*/*`, `file:///*`
-- **Content script injection**: Runs at `document_end` on `https://*/*`, `http://*/*`, `file:///*` (top frame only, `all_frames: false`). Loaded as an ES module.
+- **Content script injection**: Registered programmatically via `browser.scripting.registerContentScripts()` as an ES module. Runs at `document_end` on `https://*/*`, `http://*/*`, `file:///*` (top frame only, `allFrames: false`). The manifest's `content_scripts` entry provides a fallback without `"type": "module"` for browsers that support it natively.
 - **Icon States**: Gray (unsupported protocol), Green (no iframes/frames), Orange (iframes/frames found), Purple (special notify sources matched)
 - **Browser API**: Uses `browser.*` namespace with a polyfill (`src/browser-polyfill.js`) that maps `chrome` to `browser` for Chromium compatibility
 - **Compatibility**: Works on Firefox (native `browser.*` API) and Chromium-based browsers (Chrome, Edge, etc.) via the polyfill
