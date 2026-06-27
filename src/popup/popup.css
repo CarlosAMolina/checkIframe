@@ -14,7 +14,6 @@
   --COLOR-SURFACE: #f8fafa;
   --COLOR-BORDER: #e2e8f0;
   --COLOR-TEXT: #1e293b;
-  --COLOR-TEXT-SECONDARY: #64748b;
   --SHADOW-SM: 0 1px 2px rgba(0, 0, 0, 0.05);
   --SHADOW-MD: 0 2px 6px rgba(0, 0, 0, 0.08);
   --TRANSITION: 150ms ease;
@@ -131,7 +130,7 @@ input[type="image"]:active {
 .switchConfig p {
   display: flex;
   align-items: center;
-  color: var(--COLOR-TEXT-SECONDARY);
+  color: var(--COLOR-TEXT);
   font-size: 12.5px;
 }
 
@@ -233,7 +232,7 @@ fieldset {
 fieldset legend {
   font-size: 12px;
   font-weight: 500;
-  color: var(--COLOR-TEXT-SECONDARY);
+  color: var(--COLOR-TEXT);
   padding: 0 4px;
 }
 
@@ -325,7 +324,7 @@ fieldset input[type="radio"] {
 }
 
 #error-content p {
-  color: var(--COLOR-TEXT-SECONDARY);
+  color: var(--COLOR-TEXT);
   font-style: italic;
   text-align: center;
   padding: 8px 0;
