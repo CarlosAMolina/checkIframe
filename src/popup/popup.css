@@ -1,29 +1,29 @@
 :root {
   --BUTTON-HEIGHT: 34px;
-  --FLEX-PADDING: 8px;
-  --FONT-SIZE: 13.5px;
-  --MARGIN: 12px;
-  --SPACE-BETWEEN-SECTIONS: 12px;
-  --SQUARE-BUTTON-WIDTH: 32px;
-  --POPUP-WIDTH: 320px;
-  --RADIUS: 8px;
-  --RADIUS-SM: 6px;
-  --COLOR-ACCENT: #3b82f6;
-  --COLOR-ACCENT-LIGHT: #1e3a5f;
   --COLOR-ACCENT-HOVER: #2563eb;
+  --COLOR-ACCENT-LIGHT: #1e3a5f;
+  --COLOR-ACCENT: #3b82f6;
   --COLOR-BG: #1e1e2e;
-  --COLOR-SURFACE: #2a2a3c;
-  --COLOR-PANEL: #16161f;
   --COLOR-BORDER: #3f3f5a;
-  --COLOR-TEXT: #e2e2e8;
-  --COLOR-LINK: #60a5fa;
   --COLOR-BUTTON-ON: #3b82f6;
-  --SHADOW-SM: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --SHADOW-MD: 0 2px 6px rgba(0, 0, 0, 0.4);
-  --TRANSITION: 150ms ease;
+  --COLOR-LINK: #60a5fa;
+  --COLOR-PANEL: #16161f;
+  --COLOR-SURFACE: #2a2a3c;
+  --COLOR-TEXT: #e2e2e8;
+  --FLEX-PADDING: 8px;
   --FONT-FAMILY:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
+  --FONT-SIZE: 13.5px;
+  --MARGIN: 12px;
+  --POPUP-WIDTH: 320px;
+  --RADIUS-SM: 6px;
+  --RADIUS: 8px;
+  --SHADOW-MD: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --SHADOW-SM: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --SPACE-BETWEEN-SECTIONS: 12px;
+  --SQUARE-BUTTON-WIDTH: 32px;
+  --TRANSITION: 150ms ease;
 }
 
 body {
