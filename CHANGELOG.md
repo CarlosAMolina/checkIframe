@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Chrome/Chromium compatibility. The extension now works on both Firefox and Chrome-based browsers (Chrome 120+).
 
 ### Changed
+- Modernize popup UI.
 - Log management is centralized in a single file and can be enabled or disabled by changing a constant flag.
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.

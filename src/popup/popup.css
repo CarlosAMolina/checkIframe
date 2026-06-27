@@ -1,29 +1,65 @@
 :root {
-  --BUTTON-HEIGHT: 30px;
-  --FLEX-PADDING: 5px;
-  --FONT-SIZE: 15px;
-  --MARGIN: 10px;
-  --SPACE-BETWEEN-SECTIONS: 10px;
-  --SQUARE-BUTTON-WIDTH: 30px;
+  --BUTTON-HEIGHT: 34px;
+  --FLEX-PADDING: 8px;
+  --FONT-SIZE: 13.5px;
+  --MARGIN: 12px;
+  --SPACE-BETWEEN-SECTIONS: 12px;
+  --SQUARE-BUTTON-WIDTH: 32px;
+  --RADIUS: 8px;
+  --RADIUS-SM: 6px;
+  --COLOR-ACCENT: #0d9488;
+  --COLOR-ACCENT-LIGHT: #ccfbf1;
+  --COLOR-ACCENT-HOVER: #0f766e;
+  --COLOR-BG: #ffffff;
+  --COLOR-SURFACE: #f8fafa;
+  --COLOR-BORDER: #e2e8f0;
+  --COLOR-TEXT: #1e293b;
+  --COLOR-TEXT-SECONDARY: #64748b;
+  --SHADOW-SM: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --SHADOW-MD: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --TRANSITION: 150ms ease;
+  --FONT-FAMILY:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
 }
 
 body {
-  background-color: white;
+  background-color: var(--COLOR-BG);
+  font-family: var(--FONT-FAMILY);
   font-size: var(--FONT-SIZE);
+  color: var(--COLOR-TEXT);
+  line-height: 1.5;
   overflow-x: hidden; /* no x-axis scroll */
-  min-width: 310px;
+  min-width: 320px;
   margin: 0;
 }
 
 #popup-content {
-  width: 95%;
+  width: 92%;
   margin: var(--MARGIN) auto;
+  padding-bottom: 4px;
 }
 
 /* https://stackoverflow.com/questions/271067/how-can-i-make-a-textarea-100-width-without-overflowing-when-padding-is-present */
 textarea {
   box-sizing: border-box;
   width: 100%;
+  font-family: var(--FONT-FAMILY);
+  font-size: var(--FONT-SIZE);
+  padding: 8px 10px;
+  border: 1px solid var(--COLOR-BORDER);
+  border-radius: var(--RADIUS-SM);
+  background: var(--COLOR-BG);
+  color: var(--COLOR-TEXT);
+  transition:
+    border-color var(--TRANSITION),
+    box-shadow var(--TRANSITION);
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--COLOR-ACCENT);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
 }
 
 p {
@@ -32,36 +68,55 @@ p {
 
 button,
 input[type="image"] {
-  background-color: #e5f2f2;
-  border-bottom-color: #979797;
-  border-left-color: #e8e8e8;
-  border-right-color: #979797;
-  border-style: solid;
-  border-top-color: #e8e8e8;
-  border-width: 2px;
+  background-color: var(--COLOR-SURFACE);
+  border: 1px solid var(--COLOR-BORDER);
+  border-radius: var(--RADIUS-SM);
   cursor: pointer;
   height: var(--BUTTON-HEIGHT);
-  padding: 4px;
+  padding: 6px 12px;
   text-align: center;
   width: 100%;
+  font-family: var(--FONT-FAMILY);
+  font-size: var(--FONT-SIZE);
+  font-weight: 500;
+  color: var(--COLOR-TEXT);
+  transition:
+    background-color var(--TRANSITION),
+    border-color var(--TRANSITION),
+    box-shadow var(--TRANSITION);
 }
 
 button:hover,
 input[type="image"]:hover {
-  background-color: #cff2f2;
+  background-color: var(--COLOR-ACCENT-LIGHT);
+  border-color: var(--COLOR-ACCENT);
 }
 
-/* https://www.scriptol.com/html5/button-on-off.php */
+button:active,
+input[type="image"]:active {
+  background-color: #b2f5ea;
+  box-shadow: var(--SHADOW-SM);
+}
+
 .switchConfig button {
-  width: var(--SQUARE-BUTTON-WIDTH);
-  height: var(--BUTTON-HEIGHT);
-  background: lightgray;
-  padding: 1px 2px 3px 3px;
+  width: 42px;
+  min-width: 42px;
+  height: 24px;
+  border-radius: 12px;
+  padding: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: 1px solid var(--COLOR-BORDER);
+  transition:
+    background var(--TRANSITION),
+    border-color var(--TRANSITION);
 }
 
 .onOffButton div {
-  color: gray;
-  font-size: 12px;
+  color: inherit;
+  font-size: 10px;
 }
 
 .sourceConfig,
@@ -69,17 +124,22 @@ input[type="image"]:hover {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  align-items: center;
 }
 
 .sourceConfig p,
 .switchConfig p {
   display: flex;
   align-items: center;
+  color: var(--COLOR-TEXT-SECONDARY);
+  font-size: 12.5px;
 }
 
 /* flex-shrink: to respect width https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
 .sourceConfig button {
   display: flex;
+  align-items: center;
+  justify-content: center;
   height: var(--BUTTON-HEIGHT);
   width: var(--SQUARE-BUTTON-WIDTH);
   flex-shrink: 0;
@@ -87,6 +147,20 @@ input[type="image"]:hover {
 
 .sourceConfig input {
   width: 100%;
+  font-family: var(--FONT-FAMILY);
+  font-size: var(--FONT-SIZE);
+  padding: 6px 10px;
+  border: 1px solid var(--COLOR-BORDER);
+  border-radius: var(--RADIUS-SM);
+  transition:
+    border-color var(--TRANSITION),
+    box-shadow var(--TRANSITION);
+}
+
+.sourceConfig input:focus {
+  outline: none;
+  border-color: var(--COLOR-ACCENT);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
 }
 
 #infoScroll,
@@ -120,7 +194,9 @@ input[type="image"]:hover {
 }
 
 .backgroundGray {
-  background: rgb(240, 240, 240);
+  background: var(--COLOR-SURFACE);
+  border: 1px solid var(--COLOR-BORDER);
+  border-radius: var(--RADIUS);
 }
 
 #infoScroll,
@@ -129,19 +205,51 @@ input[type="image"]:hover {
   padding: var(--MARGIN);
 }
 
-/* https://stackoverflow.com/questions/10309408/how-to-add-vertical-spacing-between-block-elements-but-not-top-and-bottom */
 #infoTags li + li,
 p + p {
   margin-top: var(--MARGIN);
 }
+
 #infoTags ol {
   margin-bottom: 0px;
 }
 
-/* Horizontal scrollbar for long paragraphs */
 #infoTags,
 #menuConfig {
   overflow: auto;
+}
+
+fieldset {
+  border: 1px solid var(--COLOR-BORDER);
+  border-radius: var(--RADIUS-SM);
+  padding: 10px 12px;
+}
+
+fieldset legend {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--COLOR-TEXT-SECONDARY);
+  padding: 0 4px;
+}
+
+fieldset div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+fieldset label {
+  font-size: 12.5px;
+  color: var(--COLOR-TEXT);
+  cursor: pointer;
+}
+
+fieldset input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--COLOR-ACCENT);
+  cursor: pointer;
 }
 
 .detections {
@@ -163,6 +271,12 @@ p + p {
   overflow-wrap: break-word;
   word-break: break-all;
   min-width: 0;
+  color: var(--COLOR-ACCENT);
+  text-decoration: none;
+}
+
+.detections a:hover {
+  text-decoration: underline;
 }
 
 /* flex-shrink: to respect width if the UR~ is too long https://stackoverflow.com/questions/21406397/width-ignored-on-flexbox-items */
@@ -184,17 +298,26 @@ p + p {
 .tooltiptext {
   visibility: hidden;
   width: 130px;
-  background-color: black;
+  background-color: var(--COLOR-TEXT);
   color: #fff;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: var(--RADIUS-SM);
+  padding: 8px 10px;
+  font-size: 12px;
   position: absolute;
-  top: var(--BUTTON-HEIGHT); /* Position above the button */
-  margin-left: 30px; /* Center the tooltip */
-  transition: opacity 0.3s;
+  top: var(--BUTTON-HEIGHT);
+  margin-left: 30px;
+  box-shadow: var(--SHADOW-MD);
+  transition: opacity 0.2s ease;
 }
 
 .tooltip.show .tooltiptext {
   visibility: visible;
-  opacity: 0.8;
+  opacity: 0.95;
+}
+
+#error-content p {
+  color: var(--COLOR-TEXT-SECONDARY);
+  font-style: italic;
+  text-align: center;
+  padding: 8px 0;
 }

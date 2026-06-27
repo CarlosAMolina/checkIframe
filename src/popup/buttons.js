@@ -237,14 +237,14 @@ class ButtonOnOff extends Button {
     log("Setting style", style);
     const styles = {
       on: {
-        background: "green",
-        color: "lightgray",
+        background: "#0d9488",
+        color: "#ffffff",
         textContent: "on",
         checked: true,
       },
       off: {
-        background: "gray",
-        color: "lightgray",
+        background: "#e2e8f0",
+        color: "#64748b",
         textContent: "off",
         checked: false,
       },
