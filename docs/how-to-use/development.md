@@ -41,6 +41,12 @@ npm run web-ext
 3. Enable "Developer mode".
 4. Click "Load unpacked" and select the `dist/chrome/` folder.
 
+## Debug logging
+
+The extension has internal debug logs that can be enabled by setting the `debug` variable to `true` in `src/logger.js`. These logs appear in the extension's own debug console (accessible via `about:debugging` in Firefox or `chrome://extensions` in Chrome), not in the web page console.
+
+This is different from the `Show logs in the console` toggle in the popup, which controls whether the content script logs iframe detection activity to the inspected web page's console.
+
 ## Documentation links
 
 [Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

@@ -422,11 +422,14 @@ describe("buttons", () => {
       expect(() => getButton().click()).toThrow("Not implemented");
     });
     it("_logButtonName should log expected message", function () {
+      const loggerModule = require("../../src/logger.js");
+      loggerModule._forTesting.setDebug(true);
       console.log = jest.fn();
       getButton()._logButtonName();
       expect(console.log).toHaveBeenCalledWith(
         "Clicked button ID Html: idTest",
       );
+      loggerModule._forTesting.setDebug(false);
     });
     function getButton() {
       const ButtonBase = buttonsModule._forTesting.Button;
