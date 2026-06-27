@@ -67,9 +67,8 @@ p {
   margin: 0;
 }
 
-button,
-input[type="image"] {
-  background-color: var(--COLOR-SURFACE);
+button {
+  background: var(--COLOR-SURFACE);
   border: 1px solid var(--COLOR-BORDER);
   border-radius: var(--RADIUS-SM);
   cursor: pointer;
@@ -87,14 +86,12 @@ input[type="image"] {
     box-shadow var(--TRANSITION);
 }
 
-button:hover,
-input[type="image"]:hover {
+button:hover {
   background-color: var(--COLOR-ACCENT-LIGHT);
   border-color: var(--COLOR-ACCENT);
 }
 
-button:active,
-input[type="image"]:active {
+button:active {
   background-color: var(--COLOR-ACCENT-HOVER);
   box-shadow: var(--SHADOW-SM);
 }
@@ -185,15 +182,24 @@ input[type="image"]:active {
   margin-top: var(--SPACE-BETWEEN-SECTIONS);
 }
 
+.oneLineButtons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.oneLineButtons button img {
+  height: 100%;
+  width: 100%;
+  filter: invert(0.8);
+}
+
 .oneLineButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: var(--FLEX-PADDING);
-}
-
-.oneLineButtons input[type="image"] {
-  filter: invert(0.8);
 }
 
 .hidden {
