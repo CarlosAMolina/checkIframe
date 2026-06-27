@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.1.0] - TODO
 ### Added
 - Configuration option to disable automatic iframe detection. Blue icon indicates automatic detection is off, distinguishing from gray (unsupported page).
+- Chrome/Chromium compatibility. The extension now works on both Firefox and Chrome-based browsers (Chrome 120+).
 
 ### Changed
 - Log management is centralized in a single file and can be enabled or disabled by changing a constant flag.
@@ -107,4 +108,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.3.1] - 2018-01-26
 ### Added
 - Feature check HTML tags frame and iframe.
-

@@ -11,6 +11,7 @@ export default [
       globals: {
         // Browser API
         browser: "writable",
+        chrome: "readonly",
         navigator: "readonly",
         setTimeout: "readonly",
         URL: "readonly",

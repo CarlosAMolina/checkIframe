@@ -1,3 +1,5 @@
+import "../browser-polyfill.js";
+
 import { logError } from "../logger.js";
 import { sendMessage } from "./message-mediator.js";
 import { Message } from "./model.js";

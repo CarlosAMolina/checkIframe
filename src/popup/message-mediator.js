@@ -1,3 +1,5 @@
+import "../browser-polyfill.js";
+
 import { logError } from "../logger.js";
 import { isProtocolSupported } from "../supported-protocols.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";

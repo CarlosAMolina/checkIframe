@@ -1,3 +1,5 @@
+import "../browser-polyfill.js";
+
 import { log } from "../logger.js";
 import { logError } from "../logger.js";
 import { HTML_ID_ERROR_CONTENT } from "./dom.js";

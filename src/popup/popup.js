@@ -1,3 +1,5 @@
+import "../browser-polyfill.js";
+
 import { logError } from "../logger.js";
 import { initializePopupButtons } from "./buttons.js";
 import { setNewElementsMaxWidth } from "./dom.js";

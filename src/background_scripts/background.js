@@ -1,3 +1,5 @@
+import "../browser-polyfill.js";
+
 import { log } from "../logger.js";
 import { logError } from "../logger.js";
 import { isProtocolSupported } from "../supported-protocols.js";

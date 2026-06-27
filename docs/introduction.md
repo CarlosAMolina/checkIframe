@@ -2,15 +2,15 @@
 
 ## Introduction
 
-Thank you for using this add-on!
+Thank you for using this extension!
 
-This is a Firefox add-on to work with iframe and frame tags:
+This is a browser extension (compatible with Firefox and Chrome/Chromium) to work with iframe and frame tags:
 
-- Indicate if the current web page uses iframe and frame tags by changing the colour of the add-on icon.
+- Indicate if the current web page uses iframe and frame tags by changing the colour of the extension icon.
 - Scroll the window to the elements with tags and highlight them with a red border.
-- Redirection. A list of sites where the addon will apply a redirection automatically to the first iframe/frame source can be configured.
+- Redirection. A list of sites where the extension will apply a redirection automatically to the first iframe/frame source can be configured.
 
-Click on the add-on icon to work with a pop-up window that gives you details and allows you to configure the add-on.
+Click on the extension icon to work with a pop-up window that gives you details and allows you to configure the extension.
 
 ### Add-on notifications
 
