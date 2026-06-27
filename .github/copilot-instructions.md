@@ -13,12 +13,14 @@
 
 ## Project Architecture
 
-**checkIframe** is a Firefox WebExtension (Manifest V3) that detects iframe/frame elements on web pages, lets the user scroll through and highlight them, and optionally auto-redirects to the first iframe source on configured sites.
+**checkIframe** is a browser extension (Manifest V3) compatible with Firefox and Chromium-based browsers (Chrome, Edge, etc.) that detects iframe/frame elements on web pages, lets the user scroll through and highlight them, and optionally auto-redirects to the first iframe source on configured sites.
 
 ### Directory Structure
 
 - **src/manifest.json** - WebExtension manifest (Manifest V3)
 - **src/logger.js** - Shared logging utilities; exports `log()` and `logError()` used throughout the codebase
+- **src/supported-protocols.js** - Exports `isProtocolSupported(url)` used by background script to check URL protocols
+- **src/browser-polyfill.js** - Polyfill that assigns `chrome` to `globalThis.browser` when `browser` is undefined (for cross-browser compat)
 - **src/background_scripts/** - Background script (`background.js`) handling browser API events, tab state, icon appearance, and redirection
 - **src/popup/** - Popup UI (HTML/CSS/JS modules) shown when the user clicks the add-on icon
 - **src/content_scripts/** - Content script (`check-and-border.js`) injected into web pages to detect, highlight, and scroll to iframes/frames
@@ -32,23 +34,22 @@
 
 #### 1. Background Script (`src/background_scripts/background.js`)
 
-Runs as a persistent background page. Uses global `const`/`function` declarations (not ES modules, not CommonJS).
+Runs as a background script. Uses ES6 modules (`import`/`export`).
 
 - **Tab state tracking**: Maintains a `tabState` Map keyed by tab ID, storing `{ url, appearanceKey }` per tab. Used to deduplicate updates (`wasAlreadyProcessed`) and to restore the correct icon when switching tabs (`refreshTabIcon`).
 - **Event listeners**: Listens to `browser.windows.onFocusChanged`, `browser.tabs.onUpdated` (fires on `changeInfo.status === "complete"`), `browser.tabs.onActivated`, and `browser.tabs.onRemoved` (cleanup).
 - **Message listener**: Receives messages from the content script with `{ detectionState, referers, locationUrl }`. Based on this it determines icon appearance and triggers redirection if the current tab URL matches any referer source.
-- **Icon appearance**: Uses a `TAB_APPEARANCE` lookup object mapping keys (`unsupported`, `specialFound`, `found`, `none`) to `{ title, icon }` pairs. The `appearanceKeyFromDetection` function maps a `DetectionState` enum + protocol support to the correct key.
+- **Icon appearance**: Uses a `TAB_APPEARANCE` lookup object mapping keys (`unsupported`, `specialFound`, `found`, `none`) to `{ title, icon }` pairs. The `appearanceKeyFromDetection` function maps a detection state + protocol support to the correct key.
 - **Redirection**: If `checkRunRedirect` finds the tab URL contains any referer source (case-insensitive) and a `locationUrl` was provided, it redirects the tab using `browser.tabs.update`.
-- **Protocol support**: Only `https:`, `http:`, and `file:` protocols are supported. Unsupported protocols get the gray icon.
-- **DetectionState enum**: `{ NONE: 0, FOUND: 1, SPECIAL_FOUND: 2 }` — duplicated in both background.js and content script.
+- **Protocol support**: Delegates to `src/supported-protocols.js` (`isProtocolSupported()`). Only `https:`, `http:`, and `file:` protocols are supported. Unsupported protocols get the gray icon.
 
 #### 2. Content Script (`src/content_scripts/check-and-border.js`)
 
 Uses ES6 modules (`import`/`export`). Injected into every web page matching `https://*/*`, `http://*/*`, `file:///*`.
-Uses an IIFE with a `window.hasRun` guard to prevent double-initialization. Imports `logError` from `../logger.js` for error logging.
+Uses an IIFE with a `window.hasRun` guard to prevent double-initialization. Imports `log` and `logError` from `../logger.js` for logging.
 
 **State**: Maintains a local `state` object:
-- `blacklistedSources`, `notifySources`, `refererSources` — arrays of user-configured URL fragments loaded from `browser.storage.local` on init
+- `blacklistedSources`, `notifySources` — arrays of user-configured URL fragments loaded from `browser.storage.local` on init
 - `highlightAllAutomatically` — boolean, persisted in storage
 - `showLogs` — boolean, persisted in storage
 - `indexToHighlight` — integer for cycling through elements with the scroll button
@@ -76,42 +77,37 @@ Uses **ES6 modules** (`import`/`export`). Entry point: `popup.html` loads `popup
 
 - **popup.js** — Main entry point. Calls `initializePopup()` which sets max-width, initializes buttons, loads stored URLs from storage and sends them to the content script. Sets up the textarea `keyup` listener for Enter-key URL submission.
 
-- **buttons.js** — Contains all button classes (~770 lines, the largest file):
-  - `Button` (abstract base) — provides `click()` and `_logButtonName()`, requires `_idHtml` getter
-  - `DynamicButton` (abstract base) — for buttons created dynamically in the DOM (provides `static createDom()`)
-  - `OnOffButton extends Button` — toggle buttons with on/off visual states (green/gray), persisted to storage. Provides `initializePopup()`, `setStyleOn()`/`setStyleOff()`, `isOn` getter, `getIsStoredOn()`
+- **buttons.js** — Contains all button classes (~526 lines, the largest file):
+  - `Button` (abstract base) — provides `click()` and `_logButtonName()`, requires subclass implementation
+  - `ButtonOnOff extends Button` — toggle buttons with on/off visual states (green/gray), persisted to storage. Provides `initializePopup()`, `setStyleOn()`/`setStyleOff()`, `isOn` getter, `getIsStoredOn()`
   - Concrete `Button` subclasses: `ButtonRecheck`, `ButtonScroll`, `ButtonShowConfig`, `ButtonShowSources`, `ButtonClean`, `ButtonAddUrl`, `ButtonClearAll`
-  - Concrete `OnOffButton` subclasses: `ButtonShowLogs`, `ButtonHighlightAllAutomatically`, `ButtonAlwaysShowSources`
-  - Concrete `DynamicButton` subclasses: `ButtonDelete`, `ButtonUpdate`, `ButtonCancel`
-  - `UrlsOfTypeButton extends Button` — base for URL type radio buttons; subclasses: `ButtonUrlsBlacklist`, `ButtonUrlsNotify`, `ButtonUrlsReferer`
-  - `initializePopupButtons()` — maps HTML element IDs to button class constructors, attaches click listeners, and calls `initializePopup()` on the three OnOffButtons
-  - `saveUrls()` — exported function to save URLs to storage, update in-memory state, and render entries
-  - `showStoredInfo()` — renders a stored URL entry with delete/edit/cancel/update buttons
+  - Concrete `ButtonOnOff` subclasses: `ButtonShowLogs`, `ButtonHighlightAllAutomatically`, `ButtonAlwaysShowSources`, `ButtonAutomaticDetection`
+  - `ButtonUrlType extends Button` — base for URL type radio buttons; subclasses: `ButtonUrlsBlacklist`, `ButtonUrlsNotify`, `ButtonUrlsReferer`
+  - `initializePopupButtons()` — maps HTML element IDs to button class constructors, attaches click listeners, and calls `initializePopup()` on the four OnOffButtons
 
 - **ui.js** — DOM manipulation for displaying detected sources: `showSources()` renders HTML into `.sources-container`, `setupSourcesCopyButtonListeners()` adds copy-to-clipboard behavior with tooltip feedback. Exports `infoContainer` (the `.info-container` element) and `getUrlsInInputBox()`.
 
-- **dom.js** — Generic DOM helpers: `hide()`, `unhide()`, `isHidden()`, `toggleHide()`, `removeChildren()`, `setNewElementsMaxWidth()`, `updateElementsWhenIncompatibleWebPage()`.
+- **dom.js** — Generic DOM helpers: `hide()`, `unhide()`, `isHidden()`, `toggleHide()`, `removeChildren()`, `setNewElementsMaxWidth()`, `updateElementsWhenIncompatibleWebPage()`. Also exports HTML ID constants (`HTML_ID_INFO_SCROLL`, `HTML_ID_INFO_TAGS`, `HTML_ID_MENU_CONFIG`, `HTML_ID_ERROR_CONTENT`).
 
 - **model.js** — Data models:
   - `Message(info, values)` — factory function creating `{ info, values? }` message objects
-  - `UrlsOfType` — class with `type` and `values` properties
 
 - **message-mediator.js** — `sendMessage(message)` queries the active tab and calls `browser.tabs.sendMessage()`. On error, calls `updateElementsWhenIncompatibleWebPage()`.
 
-- **repository.js** — `BrowserRepository` class wrapping `browser.storage.local` with `get()`, `getAll()`, `save()`, `delete()`, and `isStored()` methods.
+- **stored-url-entries.js** — URL storage CRUD and DOM rendering:
+  - `showStoredUrlsType(urlType)` — loads stored URLs from storage and renders them
+  - `saveUrls(infoContainer, urlsInput, urlType)` — saves new URLs to storage and renders entries
+  - `notifyContentScriptOfUrlChange()` — reads all URL arrays from storage and sends to content script
+  - Dynamic button classes: `ButtonDelete`, `ButtonUpdate`, `ButtonCancel` — for inline edit/delete of stored URL entries
+  - `showStoredInfo()` — renders a stored URL entry with delete/edit/cancel/update buttons
 
 - **url.js** — URL type management:
   - Defines `URL_TYPE_BLACKLIST`, `URL_TYPE_NOTIFY`, `URL_TYPE_REFERER`
-  - `getStoredUrls(browser)` — reads all storage, groups entries by URL type prefix, returns `UrlsOfType[]`
-  - `addUrl()` / `deleteUrl()` — modify in-memory URL arrays
   - `getUrlTypeActive()` — reads which radio button is checked in the popup
-  - Module-level `var urls` — mutable in-memory state (legacy pattern)
 
-- **tags-html.js** — HTML generation: `getTagsDom()` builds an HTML element showing frame/iframe counts, blacklisted status, and a numbered list of source URLs with copy buttons.
+- **tags-html.js** — HTML generation: `getTagsDom()` builds a DOM fragment showing frame/iframe counts, blacklisted status, and a numbered list of source URLs with copy buttons.
 
-- **logger.js** — `logError(error)` — logs to `console.error`.
-
-- **popup.css** — Styles for the popup UI. Uses CSS custom properties for dimensions. Key classes: `.hidden`, `.backgroundGray`, `.oneLineButtons`, `.switchConfig`, `.sourceConfig`, `.detections`, `.tooltip`.
+- **popup.css** — Styles for the popup UI. Uses CSS custom properties for dimensions. Key classes: `.hidden`, `.backgroundGray`, `.oneLineButtons`, `.switchConfig`, `.sourceConfig`, `.detections`, `.tooltip`. Long URLs in `.detections a` are wrapped with `overflow-wrap: break-word` and `word-break: break-all`.
 
 ### Message Flow
 
@@ -137,7 +133,7 @@ Background Script ──→ Content Script
 
 All persistent data uses `browser.storage.local`:
 
-- **URL entries**: `{type}_{value}` format (e.g., `blacklist_ads.example.com`, `notify_tracking`, `referer_mysite.com`). The key prefix determines the URL type.
+- **URL entries**: Stored as arrays by type key (e.g., `blacklist: ["ads.example.com", ...]`, `notify: ["tracking", ...]`, `referer: ["mysite.com", ...]`).
 - **Settings (booleans)**: `idShowLogs`, `idHighlightAllAutomatically`, `idTagsInfoAlwaysVisible`
 
 ## Testing Patterns
@@ -160,6 +156,7 @@ Tests use **Jest** with **JSDOM** for DOM simulation and `babel-plugin-rewire` f
 test/
 ├── fake.js                          # Shared test utilities and browser mock
 ├── builder.js                       # HTML builder for test assertions
+├── setup.js                         # Jest global setup
 ├── background_scripts/
 │   └── background.test.js           # Background script tests
 ├── content_scripts/
@@ -168,7 +165,6 @@ test/
     ├── buttons.test.js              # Button classes tests
     ├── dom.test.js                  # DOM utility tests
     ├── message-mediator.test.js     # Message sending tests
-    ├── model.test.js                # Data model tests
     ├── popup.test.js                # Popup initialization tests
     ├── tags-html.test.js            # HTML generation tests
     ├── ui.test.js                   # UI display tests
@@ -206,11 +202,9 @@ For test files matching **/*.test.js:
 ## Code Conventions
 
 - **Module System**: All scripts now use ES6 modules (`import`/`export`). The background script and content script are loaded as modules via the manifest's `type: "module"` configuration.
-- **Shared Constants**: URL type constants were defined in `src/popup/url.js` and can be imported by any module.
+- **Shared Constants**: URL type constants are defined in `src/popup/url.js` and can be imported by any popup module. Protocol support logic is in `src/supported-protocols.js`.
 - **Testing Private Code**: Use `require()` + rewire's `__get__()` / `__set__()` to test unexported functions
 - **HTML Fixtures**: Test files load HTML via `runFakeDom("src/popup/popup.html")` from JSDOM
-- **Legacy Code**: `url.js` still uses `var urls` (module-level mutable state); new code should use `let`/`const`
-- **TODO Comments**: Scattered across files (e.g., `background.js`, `url.js`, `buttons.js`) marking areas for refactoring
 - Imports:
   - Must be at the top of the file.
   - Only import one object per line.
@@ -228,10 +222,12 @@ For test files matching **/*.test.js:
 - **Babel**: `babel-plugin-rewire` (via `babel.config.js`) for test access to unexported code; `@babel/plugin-transform-modules-commonjs` (via `.babelrc`) for Jest compatibility with ES modules
 - **Dependency overrides**: `package.json` includes `devDependenciesComments` explaining pinned versions of `brace-expansion` and `node-forge` to fix vulnerabilities in unmaintained transitive dependencies
 
-## Firefox WebExtension Details
+## Browser Extension Details
 
 - **Manifest V3** (`src/manifest.json`)
 - **Permissions**: `activeTab`, `storage`, `tabs`
+- **Host permissions**: `https://*/*`, `http://*/*`, `file:///*`
 - **Content script injection**: Runs at `document_end` on `https://*/*`, `http://*/*`, `file:///*` (top frame only, `all_frames: false`). Loaded as an ES module.
 - **Icon States**: Gray (unsupported protocol), Green (no iframes/frames), Orange (iframes/frames found), Purple (special notify sources matched)
-- **Browser API**: Uses `browser.*` namespace (Firefox WebExtensions API), not `chrome.*`
+- **Browser API**: Uses `browser.*` namespace with a polyfill (`src/browser-polyfill.js`) that maps `chrome` to `browser` for Chromium compatibility
+- **Compatibility**: Works on Firefox (native `browser.*` API) and Chromium-based browsers (Chrome, Edge, etc.) via the polyfill
