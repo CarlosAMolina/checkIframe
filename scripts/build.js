@@ -26,6 +26,9 @@ function buildChrome() {
     service_worker: backgroundScript,
     type: "module",
   };
+  manifest.content_scripts[0].js = ["content_scripts/check-and-border.js"];
+  manifest.content_scripts[0].type = "module";
+  delete manifest.web_accessible_resources;
   delete manifest.browser_specific_settings;
   writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 }
