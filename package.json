@@ -13,6 +13,7 @@
     "prettier:fix": "npm run prettier -- --write",
     "test": "jest ./test --silent",
     "testfilter": "jest ./test -t 'ButtonClearAll'",
+    "check-version": "node scripts/check-version.js",
     "web-ext": "npm run build && node_modules/web-ext/bin/web-ext.js run",
     "prepare": "husky"
   },

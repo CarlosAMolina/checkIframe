@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+npm run check-version
 npm run prettier
 npm run lint
 npm test
