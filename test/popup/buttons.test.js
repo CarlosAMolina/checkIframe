@@ -267,6 +267,78 @@ describeOnOffButton({
   messageInfo: "buttonHighlightAllAutomatically",
 });
 
+describe("ButtonHighlightAllAutomatically - hide/show behavior", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    buttonsModule = require("../../src/popup/buttons.js");
+    domModule = require("../../src/popup/dom.js");
+  });
+  describe("click", () => {
+    it("should hide scroll and clean buttons when turned on", async () => {
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+      await button.click();
+      expect(domModule.isHidden("buttonScroll")).toBe(true);
+      expect(domModule.isHidden("buttonClean")).toBe(true);
+    });
+    it("should unhide scroll and clean buttons when turned off", async () => {
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      document.getElementById(button._idHtml).checked = true;
+      domModule.hide("buttonScroll");
+      domModule.hide("buttonClean");
+      expect(domModule.isHidden("buttonScroll")).toBe(true);
+      expect(domModule.isHidden("buttonClean")).toBe(true);
+      await button.click();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+    });
+  });
+  describe("initializePopup", () => {
+    it("should hide scroll and clean buttons when stored state is ON", async () => {
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idHighlightAllAutomatically: true }),
+      );
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+      await button.initializePopup();
+      expect(domModule.isHidden("buttonScroll")).toBe(true);
+      expect(domModule.isHidden("buttonClean")).toBe(true);
+    });
+    it("should keep scroll and clean buttons visible when stored state is OFF", async () => {
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idHighlightAllAutomatically: false }),
+      );
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+      await button.initializePopup();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+    });
+    it("should keep scroll and clean buttons visible when never configured (default OFF)", async () => {
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+      await button.initializePopup();
+      expect(domModule.isHidden("buttonScroll")).toBe(false);
+      expect(domModule.isHidden("buttonClean")).toBe(false);
+    });
+  });
+});
+
 describeOnOffButton({
   className: "ButtonAutomaticDetection",
   expectedIdHtml: "buttonAutomaticDetection",
