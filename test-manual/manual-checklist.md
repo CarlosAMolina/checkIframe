@@ -105,7 +105,7 @@ Scenario: The `Always show tags info` modifies the popup correctly
   AND this works after closing and reopening the extension
 
 
-Feature: `Automatic highlighting` works as expected 
+Feature: `Automatic highlighting` works as expected
 
 Scenario: The `Automatic highlighting` modifies the popup correctly
   Given the extension is open
@@ -133,7 +133,7 @@ Scenario: The `Show logs in the console` does not show logs in the browser windo
 
 Feature: Storage is persisted
 
-Background: Repeat each scenario multiple times, replacing CONFIGURED_OPTION with: 
+Background: Repeat each scenario multiple times, replacing CONFIGURED_OPTION with:
 
 - Sources to omit (exact match)
 - Sources to notify when are detected
@@ -199,3 +199,15 @@ Feature: `Sites where first source opens automatically` works as expected
     Given a web page where the first iframe source is on the same domain, and that iframe source contains another iframe source also on the same domain (you can see how to simulate this in the [redirection-loop](redirection-loop/README.md) folder). The domain is configured in the `Sites where first source opens automatically` option
     When the user visits the web page
     Then the extension does not perform automatic redirection
+
+Feature logs in Develop Tools are activated or deactivated
+
+Scenario: no logs are shown
+  Given the developer tools > console tab is open and the debug variable in src/logger.js is configured as false
+  When the extension icon is clicked
+  Then the developer tools does not show logs
+
+Scenario: logs are shown
+  Given the developer tools > console tab is open and the debug variable in src/logger.js is configured as true
+  When the extension icon is clicked
+  Then the developer tools shows logs
