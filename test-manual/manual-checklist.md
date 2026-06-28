@@ -96,7 +96,7 @@ Scenario: The on/off buttons are stored as off
   When the user closes the extension and opens a new browser tab
   Then the clicked CONFIGURED_OPTION remains off
 
-Feature: `Always show tags info` works as expected
+Feature: `Always show tags info` button works as expected
 
 Scenario: The `Always show tags info` modifies the popup correctly
   Given the extension is open
@@ -104,7 +104,7 @@ Scenario: The `Always show tags info` modifies the popup correctly
   Then the `Show tags info` button disappears and its content is shown
   AND this works after closing and reopening the extension
 
-Feature: `Automatic detection` works as expected
+Feature: `Automatic detection` button works as expected
 
 Scenario: Automatic detection modifies the extension icon in new tab/window if the page can be analyzed
   Given the automatic detection option is off
@@ -126,7 +126,7 @@ Scenario: Automatic detection modifies the extension icon in current tab if the 
   When the user deactivates the automatic detection option and reloads the page
   Then the extension icon changes to blue
 
-Feature: `Automatic highlighting` works as expected
+Feature: `Automatic highlighting` button works as expected
 
 Scenario: The `Automatic highlighting` modifies the popup correctly
   Given the extension is open
@@ -140,7 +140,7 @@ Scenario: The `Automatic highlighting` highlights all iframes
   Then all iframes are bordered
   AND this works after closing and reopening the extension
 
-Feature: `Show logs in the console` works as expected
+Feature: `Show logs in the console` button works as expected
 
 Scenario: The `Show logs in the console` shows logs in the browser window if the button is on
   Given the user visits a web page
