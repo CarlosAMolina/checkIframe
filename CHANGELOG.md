@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [3.0.0] - TODO
+## [2.1.0] - TODO
 
 ### Added
 - Add option to disable automatic iframe detection. A blue icon indicates automatic detection is off, distinguishing it from gray, which indicates an unsupported page.
