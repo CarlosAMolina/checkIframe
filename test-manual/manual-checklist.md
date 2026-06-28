@@ -126,6 +126,16 @@ Scenario: Automatic detection modifies the extension icon in current tab if the 
   When the user deactivates the automatic detection option and reloads the page
   Then the extension icon changes to blue
 
+Scenario: Automatic detection acts like recheck when activated on pages that can be analyzed
+  Given the automatic detection option is off in a page that can be analyzed
+  When the user activates the automatic detection option
+  Then the same actions as when clicking the recheck button are triggered: analyze the page and update the icon and info with the results
+
+Scenario: Automatic detection does recheck when activated on pages that cannot be analyzed
+  Given the automatic detection option is off in a page that cannot be analyzed
+  When the user activates the automatic detection option
+  Then the recheck actions are not triggered (this can be asserted by reviewing the logs)
+
 Feature: `Automatic highlighting` button works as expected
 
 Scenario: The `Automatic highlighting` modifies the popup correctly
