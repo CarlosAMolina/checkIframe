@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Tutorial: https://extensionworkshop.com/documentation/develop/developing-extensions-for-firefox-for-android/
 SERIAL=$(~/Software/adb/platform-tools-latest-linux/platform-tools/adb get-serialno)
 echo "$SERIAL"
