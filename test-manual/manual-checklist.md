@@ -104,6 +104,27 @@ Scenario: The `Always show tags info` modifies the popup correctly
   Then the `Show tags info` button disappears and its content is shown
   AND this works after closing and reopening the extension
 
+Feature: `Automatic detection` works as expected
+
+Scenario: Automatic detection modifies the extension icon in new tab/window if the page can be analyzed
+  Given the automatic detection option is off
+  When the user changes tab or window that can be analyzed
+  Then the extension icon must be blue in the new tab/window
+
+Scenario: Automatic detection does not modify the extension icon in new tab/window if the page cannot be analyzed
+  Given the automatic detection option is off
+  When the user changes tab or window that cannot be analyzed
+  Then the extension icon must be grey, not blue
+
+Scenario: Automatic detection does not modifies the extension icon in current tab
+  Given the automatic detection option is `on` in a page with or without iframes (the extension icon is orange or green)
+  When the user deactivates the automatic detection option
+  Then the extension icon does not change to blue, it maintains its previous color
+
+Scenario: Automatic detection modifies the extension icon in current tab if the user reloads the page
+  Given the automatic detection option is `on` in a page with iframes (the extension icon is orange)
+  When the user deactivates the automatic detection option and reloads the page
+  Then the extension icon changes to blue
 
 Feature: `Automatic highlighting` works as expected
 
