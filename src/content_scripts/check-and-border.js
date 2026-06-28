@@ -99,13 +99,14 @@ async function handleProtocolOk() {
   }
 }
 
-function handleButtonRecheck() {
+async function handleButtonRecheck() {
+  await initializeState();
   const { elements, analysis } = analyzePageAndSend();
   highlightAllIfRequired(
     getNonBlacklistedElements(elements),
     state.highlightAllAutomatically,
   );
-  return Promise.resolve(analysis.sourcesSummary);
+  return analysis.sourcesSummary;
 }
 
 function handleButtonScroll() {

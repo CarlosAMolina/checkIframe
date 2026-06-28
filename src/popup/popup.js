@@ -5,7 +5,6 @@ import { initializePopupButtons } from "./buttons.js";
 import { updateElementsWhenIncompatibleWebPage } from "./dom.js";
 import { sendMessage } from "./message-mediator.js";
 import { Message } from "./model.js";
-import { notifyContentScriptOfUrlChange } from "./stored-url-entries.js";
 import { saveUrls } from "./stored-url-entries.js";
 import { getUrlsInInputBox } from "./ui.js";
 import { infoContainer } from "./ui.js";
@@ -29,7 +28,6 @@ function popupMain() {
 
 function initializePopup() {
   initializePopupButtons();
-  notifyContentScriptOfUrlChange();
   recheckIfAutomaticDetectionIsOff();
 }
 
