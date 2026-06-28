@@ -33,6 +33,7 @@ body {
   color: var(--COLOR-TEXT);
   line-height: 1.5;
   overflow-x: hidden; /* no x-axis scroll */
+  width: var(--POPUP-WIDTH);
   min-width: var(--POPUP-WIDTH);
   max-width: var(--POPUP-WIDTH);
   margin: 0;
@@ -364,4 +365,11 @@ fieldset input[type="radio"] {
   font-style: italic;
   text-align: center;
   padding: 8px 0;
+}
+
+@media (max-width: 450px) {
+  body {
+    min-width: 100%;
+    max-width: 100%;
+  }
 }

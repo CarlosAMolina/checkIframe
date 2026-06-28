@@ -5,6 +5,7 @@
   "description": "Tests for the project",
   "main": "src/background_scripts/background.js",
   "scripts": {
+    "android": "scripts/debug-android",
     "build": "node scripts/build.js",
     "lint": "npx eslint src test",
     "lint:fix": "npm run lint -- --fix",
