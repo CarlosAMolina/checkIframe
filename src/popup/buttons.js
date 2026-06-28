@@ -194,7 +194,7 @@ class ButtonOnOff extends Button {
     const mustBeOn = await this._getIsStoredOn();
     if (mustBeOn) {
       this._setStyleOn();
-      await this._onTurnOn();
+      await this._onInitializeOn();
     } else {
       this._setStyleOff();
       await this._onInitializeOff();
@@ -259,6 +259,10 @@ class ButtonOnOff extends Button {
 
   async _onInitializeOff() {
     return this._onTurnOff();
+  }
+
+  async _onInitializeOn() {
+    return this._onTurnOn();
   }
 
   async _persistState() {
@@ -382,9 +386,14 @@ class ButtonAutomaticDetection extends ButtonOnOff {
     return stored === undefined ? true : stored;
   }
 
-  async _onTurnOn() {}
+  async _onTurnOn() {
+    await sendMessage(new Message(BUTTON_ID_RECHECK));
+  }
 
   async _onTurnOff() {}
+
+  // Empty, avoids duplicate since background already handles detection on popup open via protocolOk
+  async _onInitializeOn() {}
 
   get _idStorage() {
     return "idAutomaticDetection";

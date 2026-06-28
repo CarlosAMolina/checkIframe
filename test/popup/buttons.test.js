@@ -339,12 +339,94 @@ describe("ButtonHighlightAllAutomatically - hide/show behavior", () => {
   });
 });
 
-describeOnOffButton({
-  className: "ButtonAutomaticDetection",
-  expectedIdHtml: "buttonAutomaticDetection",
-  storageKey: "idAutomaticDetection",
-  sendsMessage: false,
-  defaultOn: true,
+describe("ButtonAutomaticDetection", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
+  it("has correct button ID value", function () {
+    const ButtonAutomaticDetection =
+      buttonsModule._forTesting.ButtonAutomaticDetection;
+    const button = new ButtonAutomaticDetection();
+    expect(button._idHtml).toBe("buttonAutomaticDetection");
+  });
+  describe("click", () => {
+    it("sends buttonRecheck when turned on", async () => {
+      const ButtonAutomaticDetection =
+        buttonsModule._forTesting.ButtonAutomaticDetection;
+      const button = new ButtonAutomaticDetection();
+      await button.click();
+      expect(button._isOn).toBe(true);
+      expect(browser.tabs.sendMessage.mock.calls).toEqual([
+        [1, { info: "buttonRecheck" }],
+      ]);
+      expect(browser.storage.local.set.mock.calls).toEqual([
+        [{ idAutomaticDetection: true }],
+      ]);
+    });
+    it("does not send message when turned off", async () => {
+      const ButtonAutomaticDetection =
+        buttonsModule._forTesting.ButtonAutomaticDetection;
+      const button = new ButtonAutomaticDetection();
+      document.getElementById(button._idHtml).checked = true;
+      await button.click();
+      expect(button._isOn).toBe(false);
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+      expect(browser.storage.local.set.mock.calls).toEqual([
+        [{ idAutomaticDetection: false }],
+      ]);
+    });
+  });
+  describe("initializePopup", () => {
+    it("defaults to on and does not send message", async () => {
+      const ButtonAutomaticDetection =
+        buttonsModule._forTesting.ButtonAutomaticDetection;
+      const button = new ButtonAutomaticDetection();
+      await button.initializePopup();
+      expect(button._isOn).toBe(true);
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+    });
+    it("restores on state from storage without sending message", async () => {
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idAutomaticDetection: true }),
+      );
+      const ButtonAutomaticDetection =
+        buttonsModule._forTesting.ButtonAutomaticDetection;
+      const button = new ButtonAutomaticDetection();
+      await button.initializePopup();
+      expect(button._isOn).toBe(true);
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+    });
+    it("restores off state from storage without sending message", async () => {
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idAutomaticDetection: false }),
+      );
+      const ButtonAutomaticDetection =
+        buttonsModule._forTesting.ButtonAutomaticDetection;
+      const button = new ButtonAutomaticDetection();
+      await button.initializePopup();
+      expect(button._isOn).toBe(false);
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("ButtonAutomaticDetection - icon behavior", () => {
+  beforeEach(() => {
+    fakeModule.runFakeDom("src/popup/popup.html");
+    global.browser = fakeModule.fakeBrowser();
+    buttonsModule = require("../../src/popup/buttons.js");
+  });
+  it("should not change the extension icon when turned off", async () => {
+    const ButtonAutomaticDetection =
+      buttonsModule._forTesting.ButtonAutomaticDetection;
+    const button = new ButtonAutomaticDetection();
+    document.getElementById(button._idHtml).checked = true;
+    await button.click();
+    expect(browser.action.setIcon).not.toHaveBeenCalled();
+    expect(browser.action.setTitle).not.toHaveBeenCalled();
+  });
 });
 
 describe("ButtonAlwaysShowSources", () => {

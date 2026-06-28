@@ -413,6 +413,24 @@ describe("updateTab respects automatic detection setting", () => {
       info: "protocolOk",
     });
   });
+  it("sets grey icon for unsupported protocol even when automatic detection is disabled", async function () {
+    global.browser = fakeModule.fakeBrowser({
+      storageItems: { idAutomaticDetection: false },
+    });
+    await backgroundModule._forTesting.updateTab({
+      id: 3,
+      url: "about:debugging",
+      status: "complete",
+    });
+    expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+      title: "This web page cannot be analyzed",
+      tabId: 3,
+    });
+    expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+      path: "icons/i_gray.png",
+      tabId: 3,
+    });
+  });
 });
 
 describe("handleContentScriptMessage respects automatic detection setting", () => {
