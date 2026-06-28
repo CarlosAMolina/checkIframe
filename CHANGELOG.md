@@ -5,26 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.1.0] - TODO
+## [3.0.0] - TODO
+
 ### Added
-- Configuration option to disable automatic iframe detection. Blue icon indicates automatic detection is off, distinguishing from gray (unsupported page).
-- Chrome/Chromium compatibility. The extension now works on both Firefox and Chrome-based browsers (Chrome 120+).
-- Internal debug logging, disabled by default. Can be enabled manually by changing the `debug` variable in `src/logger.js`.
+- Add option to disable automatic iframe detection. A blue icon indicates automatic detection is off, distinguishing it from gray, which indicates an unsupported page.
+- Add Chrome/Chromium compatibility. The extension now works on Firefox and Chrome-based browsers.
+- Add internal debug logging, disabled by default. It can be enabled manually by changing the `debug` variable in `src/logger.js`.
 
 ### Changed
 - Modernize popup UI.
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.
-- Development. Add sort imports library.
-- Content-script. Convert to ES module and use shared logger.
+- Add import sorting during development.
+- Convert content script to an ES module and use the shared logger.
 
 ### Fixed
-- Fixed automatic detection not working on Firefox for Android. The background script crashed on startup because browser.windows is unsupported on Android, preventing all event listeners from registering.
-- Replace unsafe innerHTML and insertAdjacentHTML usage with safe DOM manipulation when displaying information in the add-on's popup.
-- Fixed an issue where long URLs in the popup's detected sources list overflowed the popup's width.
-- ESLint error `URL` is not defined. Added `URL` to the ESLint globals config.
-- When long URLs are displayed in the popup's detected sources list, they overflowed the popup width.
-- GitHub Copilot instructions. Update manifest version
+- Fix automatic detection on Firefox for Android. The background script crashed on startup because `browser.windows` is unsupported on Android, preventing event listeners from registering.
+- Replace unsafe `innerHTML` and `insertAdjacentHTML` usage with safe DOM manipulation in the popup.
+- Fix long URLs overflowing the popup width.
+- Fix ESLint error: `URL` is not defined.
+- Update GitHub Copilot instructions.
 
 ## [2.0.0] - 20260620
 ### Added

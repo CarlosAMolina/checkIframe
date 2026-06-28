@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Check iframe",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Browser extension that indicates if the current web page uses iframes or frames and allows you to browse through them.",
   "homepage_url": "https://github.com/CarlosAMolina/checkIframe",
   "icons": {
