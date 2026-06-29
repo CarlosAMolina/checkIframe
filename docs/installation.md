@@ -26,6 +26,7 @@ Keep in mind:
 
 - Don't move or delete the `dist/chrome/` folder — Chrome references it from its original location.
 - After making code changes, run `npm run build` again and click the refresh icon on the extension card in `chrome://extensions/` to reload it.
+- If you were in a web site, after reloading/installing the extension, you may need to refresh the page (F5) so the content script gets injected. For unpacked extensions, existing tabs don't automatically get the content script re-injected.
 
 ## Documentation links
 
