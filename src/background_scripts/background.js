@@ -156,18 +156,18 @@ async function updateTab(tab) {
 const TAB_APPEARANCE = {
   unsupported: {
     title: "This web page cannot be analyzed",
-    icon: "icons/i_gray.png",
+    icon: "icons/i_gray_32.png",
   },
   disabled: {
     title: "Automatic detection is off",
-    icon: "icons/i_blue.png",
+    icon: "icons/i_blue_32.png",
   },
   specialFound: {
     title: "Detected special (i)frames to notify",
-    icon: "icons/i_purple.png",
+    icon: "icons/i_purple_32.png",
   },
-  found: { title: "Web page with (i)frames", icon: "icons/i_orange.png" },
-  none: { title: "No (i)frames on the web page", icon: "icons/i_green.png" },
+  found: { title: "Web page with (i)frames", icon: "icons/i_orange_32.png" },
+  none: { title: "No (i)frames on the web page", icon: "icons/i_green_32.png" },
 };
 
 function appearanceKeyFromDetection(detectionState, protocolIsSupported) {
@@ -180,7 +180,10 @@ function appearanceKeyFromDetection(detectionState, protocolIsSupported) {
 function applyTabAppearance(tabId, appearanceKey) {
   const appearance = TAB_APPEARANCE[appearanceKey];
   browser.action.setTitle({ title: appearance.title, tabId });
-  browser.action.setIcon({ path: appearance.icon, tabId });
+  browser.action.setIcon({
+    path: browser.runtime.getURL(appearance.icon),
+    tabId,
+  });
 }
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/windows/onFocusChanged

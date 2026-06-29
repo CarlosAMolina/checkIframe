@@ -53,7 +53,7 @@ describe("Check module import", () => {
       tabId: 1,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_gray.png",
+      path: "moz-extension://fake-id/icons/i_gray_32.png",
       tabId: 1,
     });
   });
@@ -80,7 +80,7 @@ describe("applyTabAppearance", () => {
       tabId: 1,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_green.png",
+      path: "moz-extension://fake-id/icons/i_green_32.png",
       tabId: 1,
     });
   });
@@ -91,7 +91,7 @@ describe("applyTabAppearance", () => {
       tabId: 1,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_orange.png",
+      path: "moz-extension://fake-id/icons/i_orange_32.png",
       tabId: 1,
     });
   });
@@ -102,7 +102,7 @@ describe("applyTabAppearance", () => {
       tabId: 1,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_purple.png",
+      path: "moz-extension://fake-id/icons/i_purple_32.png",
       tabId: 1,
     });
   });
@@ -113,7 +113,7 @@ describe("applyTabAppearance", () => {
       tabId: 1,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_gray.png",
+      path: "moz-extension://fake-id/icons/i_gray_32.png",
       tabId: 1,
     });
   });
@@ -124,7 +124,7 @@ describe("applyTabAppearance", () => {
       tabId: 1,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_blue.png",
+      path: "moz-extension://fake-id/icons/i_blue_32.png",
       tabId: 1,
     });
   });
@@ -396,7 +396,7 @@ describe("updateTab respects automatic detection setting", () => {
       tabId: 3,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_blue.png",
+      path: "moz-extension://fake-id/icons/i_blue_32.png",
       tabId: 3,
     });
   });
@@ -427,7 +427,7 @@ describe("updateTab respects automatic detection setting", () => {
       tabId: 3,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_gray.png",
+      path: "moz-extension://fake-id/icons/i_gray_32.png",
       tabId: 3,
     });
   });
@@ -466,7 +466,7 @@ describe("handleContentScriptMessage respects automatic detection setting", () =
       tabId: 7,
     });
     expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-      path: "icons/i_blue.png",
+      path: "moz-extension://fake-id/icons/i_blue_32.png",
       tabId: 7,
     });
   });

@@ -23,6 +23,7 @@ export function fakeBrowser(config) {
         addListener: jest.fn(),
       },
       sendMessage: jest.fn(() => Promise.resolve({})),
+      getURL: jest.fn((path) => `moz-extension://fake-id/${path}`),
     },
     storage: {
       local: {
