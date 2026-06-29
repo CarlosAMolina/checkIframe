@@ -28,6 +28,7 @@ The meaning of the icon's colours is:
 
 - [Introduction](#introduction)
 - [Permissions](permissions/permissions.html)
+- [Installation](#installation.html)
 - How to use the add-on
   - Configuration
     - [Automatic detection](how-to-use/configuration/automatic-detection.html)

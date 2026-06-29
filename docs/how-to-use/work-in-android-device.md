@@ -18,6 +18,8 @@ When you are on a web page:
 1. Open the Firefox's menu (three dots symbol) and select `Extensions`.
 2. You will see the `CheckIframe` extension, click it to interact with its user interface.
 
+It's important to be on a web page; otherwise, the add-on's popup won't be displayed. If you're on the Firefox welcome page rather than a web page, only the configuration options provided by Android will be shown.
+
 ## Limitations
 
 Some features do not work in the Android version of the add-on, for example, the colour of the add-on icon does not change.

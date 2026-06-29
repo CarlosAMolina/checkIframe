@@ -36,10 +36,7 @@ npm run web-ext
 
 ### Chrome / Chromium
 
-1. Run `npm run build`.
-2. Open `chrome://extensions/`.
-3. Enable "Developer mode".
-4. Click "Load unpacked" and select the `dist/chrome/` folder.
+See [Installation](../installation.html) for instructions on loading the extension in Chrome.
 
 ## Debug logging
 
