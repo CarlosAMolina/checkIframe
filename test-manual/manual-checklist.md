@@ -137,7 +137,7 @@ Scenario: Automatic detection acts like recheck when activated on pages that can
   When the user activates the automatic detection option
   Then the same actions as when clicking the recheck button are triggered: analyze the page and update the icon and info with the results
 
-Scenario: Automatic detection does recheck when activated on pages that cannot be analyzed
+Scenario: Automatic detection does not recheck when activated on pages that cannot be analyzed
   Given the automatic detection option is off in a page that cannot be analyzed
   When the user activates the automatic detection option
   Then the recheck actions are not triggered (this can be asserted by reviewing the logs)
