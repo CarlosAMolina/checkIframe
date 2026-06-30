@@ -53,6 +53,12 @@ Scenario: The button does not scroll to the iframes if all are blacklisted
   When the user clicks the `Scroll to element` button
   Then the extension does not scroll to any element
 
+Scenario: The scroll-applied border is preserved when opening the popup
+  Given the user visits a web page that contains iframes
+  And the user uses the `Scroll to element` button to highlight an iframe
+  When the user closes and reopens the extension popup (clicks the add-on icon)
+  Then the scroll-applied border is still visible on the iframe
+
 Feature: `Clean border` button
 
 Scenario: The button drops the border
@@ -149,6 +155,11 @@ Scenario: The `Automatic highlighting` highlights all iframes
   When the user clicks the `Automatic highlighting` button
   Then all iframes are bordered
   AND this works after closing and reopening the extension
+
+Scenario: The scroll-applied borders by the `Automatic highlight` button are preserved when opening the popup
+  Given the user visits a web page that contains iframes and are bordered by the `Automatic highlight` button
+  When the user closes and reopens the extension popup (clicks the add-on icon)
+  Then the scroll-applied borders are still visible on the iframe
 
 Feature: `Show logs in the console` button works as expected
 

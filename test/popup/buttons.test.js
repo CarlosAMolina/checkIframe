@@ -12,6 +12,8 @@ const TAB_ID = 1;
 function describeOnOffButton(config) {
   const { className, expectedIdHtml, storageKey, messageInfo } = config;
   const sendsMessage = config.sendsMessage !== false;
+  const sendsMessageOnInit =
+    config.sendsMessageOnInit !== false && sendsMessage;
   const defaultOn = config.defaultOn === true;
   describe(`Check ${className}`, () => {
     beforeEach(() => {
@@ -77,7 +79,7 @@ function describeOnOffButton(config) {
         expect(button._isOn).toBe(defaultOn);
         expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
         expect(browser.storage.local.set).not.toHaveBeenCalled();
-        if (sendsMessage) {
+        if (sendsMessageOnInit) {
           expect(browser.tabs.sendMessage.mock.calls).toEqual([
             [1, { info: messageInfo, values: defaultOn }],
           ]);
@@ -99,7 +101,7 @@ function describeOnOffButton(config) {
         expect(button._isOn).toBe(true);
         expect(browser.storage.local.get).toHaveBeenCalledTimes(1);
         expect(browser.storage.local.set).not.toHaveBeenCalled();
-        if (sendsMessage) {
+        if (sendsMessageOnInit) {
           expect(browser.tabs.sendMessage.mock.calls).toEqual([
             [1, { info: messageInfo, values: true }],
           ]);
@@ -116,7 +118,7 @@ function describeOnOffButton(config) {
         expect(button._isOn).toBe(false);
         await button.initializePopup();
         expect(button._isOn).toBe(false);
-        if (sendsMessage) {
+        if (sendsMessageOnInit) {
           expect(browser.tabs.sendMessage.mock.calls).toEqual([
             [1, { info: messageInfo, values: false }],
           ]);
@@ -265,6 +267,7 @@ describeOnOffButton({
   expectedIdHtml: "buttonHighlightAllAutomatically",
   storageKey: "idHighlightAllAutomatically",
   messageInfo: "buttonHighlightAllAutomatically",
+  sendsMessageOnInit: false,
 });
 
 describe("ButtonHighlightAllAutomatically - hide/show behavior", () => {
@@ -335,6 +338,28 @@ describe("ButtonHighlightAllAutomatically - hide/show behavior", () => {
       await button.initializePopup();
       expect(domModule.isHidden("buttonScroll")).toBe(false);
       expect(domModule.isHidden("buttonClean")).toBe(false);
+    });
+    // Scroll-applied borders must not disappear when opening the popup.
+    it("should not send message to content script when initializing as OFF", async () => {
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idHighlightAllAutomatically: false }),
+      );
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      await button.initializePopup();
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
+    });
+    // Scroll-applied borders must not disappear when opening the popup.
+    it("should not send message to content script when initializing as ON", async () => {
+      browser.storage.local.get = jest.fn(() =>
+        Promise.resolve({ idHighlightAllAutomatically: true }),
+      );
+      const ButtonHighlightAllAutomatically =
+        buttonsModule._forTesting.ButtonHighlightAllAutomatically;
+      const button = new ButtonHighlightAllAutomatically();
+      await button.initializePopup();
+      expect(browser.tabs.sendMessage).not.toHaveBeenCalled();
     });
   });
 });

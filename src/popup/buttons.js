@@ -366,6 +366,14 @@ class ButtonHighlightAllAutomatically extends ButtonOnOff {
     await sendMessage(new Message(this._idHtml, false));
   }
 
+  async _onInitializeOn() {
+    this._hideElementsForHighlightAllAutomatically();
+  }
+
+  async _onInitializeOff() {
+    this._unhideElementsForHighlightAllAutomatically();
+  }
+
   _hideElementsForHighlightAllAutomatically() {
     hide(BUTTON_ID_CLEAN);
     hide(BUTTON_ID_SCROLL);
