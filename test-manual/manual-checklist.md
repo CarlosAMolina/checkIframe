@@ -216,7 +216,7 @@ Feature: `Sources to omit (exact match)` works as expected
 Scenario: Configure sources to omit detects configured sites
   Given the user visits a web page that contains iframes
   When some sources are configured as blacklisted
-  Then the extension does not scrolls to them
+  Then the URLs don't appear in the show info box and the extension does not scroll to them
 
 Scenario: If all iframes are blacklisted the extension shows detections
   Given the user visits a web page that contains iframes

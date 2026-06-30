@@ -4,7 +4,8 @@ module.exports = {
         startUrl: [
             "about:debugging#/runtime/this-firefox",
             "https://html.com/tags/iframe/",
-            "https://duckduckgo.com/"
+            "https://duckduckgo.com/",
+            "test-manual/all-types-of-iframes/index.html"
         ],
         devtools: true
     }
