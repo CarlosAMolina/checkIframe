@@ -1,3 +1,5 @@
 # TODO
 
-Firefox Android: does not open the popup when clicking the addon. Add to the changelog
+Quit TODO in docs
+
+Update docs Android, update the comment that says if it works or not
