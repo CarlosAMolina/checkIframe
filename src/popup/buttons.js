@@ -102,7 +102,7 @@ class ButtonRecheck extends Button {
       sendMessage(new Message(this._idHtml))
         // Manage content-script response.
         .then((response) => {
-          if (mustShowSources) {
+          if (mustShowSources && !response.unsupported) {
             unhide(HTML_ID_INFO_TAGS);
             showSources(response);
           }
@@ -124,7 +124,10 @@ class ButtonScroll extends Button {
     return sendMessage(new Message(this._idHtml))
       .then((response) => {
         // Manage content-script response.
-        if (response === undefined) {
+        if (response && response.unsupported) {
+          return;
+        }
+        if (!response) {
           throw new Error(`Incorrect response: ${JSON.stringify(response)}`);
         }
         setScrollInfo(
@@ -178,9 +181,10 @@ class ButtonShowSources extends Button {
     const message = new Message(this._idHtml);
     return sendMessage(message)
       .then((response) => {
-        if (response) {
-          showSources(response);
+        if (response.unsupported) {
+          return;
         }
+        showSources(response);
       })
       .catch(setShowSourcesError);
   }

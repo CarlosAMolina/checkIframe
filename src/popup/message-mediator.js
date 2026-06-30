@@ -11,7 +11,7 @@ export function sendMessage(message) {
       const activeTab = tabs[0];
       if (!isProtocolSupported(activeTab.url)) {
         updateElementsWhenIncompatibleWebPage();
-        return Promise.resolve();
+        return Promise.resolve({ unsupported: true });
       }
       return browser.tabs.sendMessage(activeTab.id, message);
     })

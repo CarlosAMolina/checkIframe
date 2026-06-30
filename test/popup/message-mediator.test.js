@@ -29,7 +29,8 @@ describe("message-mediator", () => {
     );
     global.browser.tabs.sendMessage = jest.fn(() => Promise.resolve({}));
     const message = new modelModule.Message("urls", {});
-    await messageMediatorModule.sendMessage(message);
+    const result = await messageMediatorModule.sendMessage(message);
     expect(global.browser.tabs.sendMessage).not.toHaveBeenCalled();
+    expect(result).toEqual({ unsupported: true });
   });
 });
