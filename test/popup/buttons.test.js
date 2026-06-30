@@ -819,6 +819,17 @@ describe("buttons", () => {
         const lastCall = browser.tabs.sendMessage.mock.lastCall;
         expect(lastCall).toEqual([TAB_ID, { info: "buttonShowSources" }]);
       }
+      // Error that happened when clicking the add-on icon in unsupported pages.
+      it("should not show error when page has unsupported protocol", async () => {
+        browser = fakeModule.fakeBrowser();
+        browser.tabs.query = jest.fn(() =>
+          Promise.resolve([{ id: TAB_ID, url: "about:newtab" }]),
+        );
+        await initializeButton("ButtonShowSources").click();
+        expect(document.getElementById("infoTags").textContent).not.toBe(
+          "Internal error. The action could not be executed",
+        );
+      });
     });
   });
   describe("ButtonUrlsNotify", () => {

@@ -178,7 +178,9 @@ class ButtonShowSources extends Button {
     const message = new Message(this._idHtml);
     return sendMessage(message)
       .then((response) => {
-        showSources(response);
+        if (response) {
+          showSources(response);
+        }
       })
       .catch(setShowSourcesError);
   }
