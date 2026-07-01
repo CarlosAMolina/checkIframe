@@ -27,4 +27,5 @@ You can see the redirection logs:
 ```
 firefox about:debugging#/runtime/this-firefox
 # Select `Inspect` the addon and see the logs in the `Console` tab.
+# Expected log: Omitting redirection to avoid infinitive loops
 ```

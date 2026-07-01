@@ -28,6 +28,7 @@ Scenario: Automatic detection to notify when changing tab and/or window if confi
   When the user updates the configuration in one tab to notify `youtube.com` and switches to the other tab and/or another window
   Then the extension icon changes to the notify detection state automatically
 
+
 Feature: Recheck button
 
 Scenario: Recheck button rechecks the page
@@ -39,6 +40,7 @@ Scenario: Recheck button reloads results
   Given the user visits a web page with iframes and opens the extension `Show tags info` box
   When the user adds one iframe to the `Sources to omit` configuration and clicks the recheck button
   Then the text in the `Show tags info` box is updated showing that an iframe is blacklisted
+
 
 Feature: `Scroll to element` button
 
@@ -59,12 +61,14 @@ Scenario: The scroll-applied border is preserved when opening the popup
   When the user closes and reopens the extension popup (clicks the add-on icon)
   Then the scroll-applied border is still visible on the iframe
 
+
 Feature: `Clean border` button
 
 Scenario: The button drops the border
   Given an iframe is bordered
   When the user clicks the `Clean border` button
   Then the border is dropped
+
 
 Feature: `Show tags info` button
 
@@ -102,6 +106,7 @@ Scenario: The on/off buttons are stored as off
   When the user closes the extension and opens a new browser tab
   Then the clicked CONFIGURED_OPTION remains off
 
+
 Feature: `Always show tags info` button works as expected
 
 Scenario: The `Always show tags info` modifies the popup correctly
@@ -109,6 +114,7 @@ Scenario: The `Always show tags info` modifies the popup correctly
   When the user clicks the `Always show tags info` button
   Then the `Show tags info` button disappears and its content is shown
   AND this works after closing and reopening the extension
+
 
 Feature: `Automatic detection` button works as expected
 
@@ -126,6 +132,7 @@ Scenario: Automatic detection does not modifies the extension icon in current ta
   Given the automatic detection option is `on` in a page with or without iframes (the extension icon is orange or green)
   When the user deactivates the automatic detection option
   Then the extension icon does not change to blue, it maintains its previous color
+  Note. OK in Firefox. KO in Chrome
 
 Scenario: Automatic detection modifies the extension icon in current tab if the user reloads the page
   Given the automatic detection option is `on` in a page with iframes (the extension icon is orange)
@@ -142,6 +149,7 @@ Scenario: Automatic detection does not recheck when activated on pages that cann
   When the user activates the automatic detection option
   Then the recheck actions are not triggered (this can be asserted by reviewing the logs)
 
+
 Feature: `Automatic highlighting` button works as expected
 
 Scenario: The `Automatic highlighting` modifies the popup correctly
@@ -150,16 +158,19 @@ Scenario: The `Automatic highlighting` modifies the popup correctly
   Then the `Scroll to element` and `Clean border` buttons disappear
   AND this works after closing and reopening the extension
 
-Scenario: The `Automatic highlighting` highlights all iframes
+Scenario: The `Automatic highlighting` highlights all non blacklisted iframes
   Given the user visits a web page that contains iframes
   When the user clicks the `Automatic highlighting` button
-  Then all iframes are bordered
+  Then all non blacklisted iframes are bordered
   AND this works after closing and reopening the extension
+  Note. If an URL is removed from the blacklisted list while bordered, to border it again you can use the recheck button or reload the web page.
+  Note. If an URL is blacklisted while bordered, to stop bordering, the recheck button does not work, the web page must be reloaded.
 
 Scenario: The scroll-applied borders by the `Automatic highlight` button are preserved when opening the popup
   Given the user visits a web page that contains iframes and are bordered by the `Automatic highlight` button
   When the user closes and reopens the extension popup (clicks the add-on icon)
   Then the scroll-applied borders are still visible on the iframe
+
 
 Feature: `Show logs in the console` button works as expected
 
@@ -172,6 +183,7 @@ Scenario: The `Show logs in the console` does not show logs in the browser windo
   Given the user visits a web page
   When the user clicks the `Show logs in the console` button to set it off and opens the console logs
   Then the logs are not shown
+
 
 Feature: Storage is persisted
 
@@ -211,6 +223,7 @@ Scenario: The trash button deletes a configured value
   When the user clicks the trash button and opens a new browser tab
   Then the selected value of the CONFIGURED_OPTION has been deleted
 
+
 Feature: `Sources to omit (exact match)` works as expected
 
 Scenario: Configure sources to omit detects configured sites
@@ -218,17 +231,19 @@ Scenario: Configure sources to omit detects configured sites
   When some sources are configured as blacklisted
   Then the URLs don't appear in the show info box and the extension does not scroll to them
 
-Scenario: If all iframes are blacklisted the extension shows detections
+Scenario: If all iframes are blacklisted the extension icon shows detections
   Given the user visits a web page that contains iframes
   When all sources are configured as blacklisted
   Then the extension icon color and title show that there are detections, but the `Show tags info` box shows that all are blacklisted
+
 
 Feature: `Sources to notify when are detected` works as expected
 
 Scenario: Configure sources to notify detects configured sites
   Given the user visits a web page that contains iframes
   When some sources are configured to be notified
-  Then the extension changes the icon and title
+  Then the extension changes the icon and title. This is done despite the URL is blacklisted.
+
 
 Feature: `Sites where first source opens automatically` works as expected
 
