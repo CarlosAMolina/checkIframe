@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Update development dependencies.
 - Add import sorting during development.
 - Convert content script to an ES module and use the shared logger.
+- Change extension icon.
 
 ### Fixed
 - Fix automatic detection on Firefox for Android. The background script crashed on startup because `browser.windows` is unsupported on Android, preventing event listeners from registering.
