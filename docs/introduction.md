@@ -24,6 +24,12 @@ The meaning of the icon's colours is:
 - Orange icon: tag detected.
 - Purple icon: tag detected and at least one source matches any term in the configured user's list of special sources to notify.
 
+### How the extension detects iframes
+
+The extension does not parse HTML, it uses the DOM API to query the browser's live DOM tree for <iframe> and <frame> elements.
+
+This means it works on the fully rendered page, rather than doing static HTML text parsing.
+
 ## Table of contents
 
 - [Introduction](#introduction)
@@ -43,5 +49,6 @@ The meaning of the icon's colours is:
   - [Clean border](how-to-use/clean-border.html)
   - [Show tags info](how-to-use/show-tags-info.html)
   - [Work in Android device](how-to-use/work-in-android-device.html)
+  - [Frequently Asked Questions](#faq.html)
 - [Development](how-to-use/development.html)
 - [Resources](resources/resources.html)
