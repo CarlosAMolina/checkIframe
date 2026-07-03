@@ -1,18 +1,20 @@
 # Permissions
 
-This section describes the permissions used by the extension.
+## Web browser settings
 
-## activeTab and tabs
+### Enable extension permissions
+
+To ensure that the extension has all the permissions it needs to function, for example, in Firefox, go to `about:addons` and, on the `Permissions and Data` tab, enable `Access your data on all websites`; this is necessary to analyze the HTML code of web pages.
+
+## Permissions used by the extension.
+
+### activeTab and tabs
 
 A background script will listen for tab, window and URL events and update the extension icon.
 
-## Storage
+### Storage
 
 Used to save the extension configuration.
-
-## file:// URLs (Chrome only)
-
-In Chrome, access to `file://` URLs must be manually enabled by the user in the extension's settings page (`chrome://extensions` → Details → "Allow access to file URLs").
 
 ## Documentation links
 
