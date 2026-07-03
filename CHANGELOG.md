@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add internal debug logging, disabled by default. It can be enabled manually by changing the `debug` variable in `src/logger.js`.
 
 ### Changed
+- Extension icon.
 - Modernize popup UI.
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.
