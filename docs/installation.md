@@ -6,6 +6,8 @@ Install the extension from the official Mozilla Add-ons website:
 
 <https://addons.mozilla.org/es/firefox/addon/check-iframe/>
 
+If the extension isn't working due to permissions, see the [permissions section](https://cmoli.es/projects/check-iframe/permissions/permissions.html) to learn how to configure them.
+
 ## Firefox for Android
 
 See [Work in Android device](popup-options/work-in-android-device.html) for installation and usage instructions.
