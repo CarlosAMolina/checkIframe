@@ -25,7 +25,7 @@ Hover over the icon to see a description of the result. The meaning of each colo
 
 You can install the extension at:
 
-<https://addons.mozilla.org/es/firefox/addon/check-iframe/>
+<https://addons.mozilla.org/firefox/addon/check-iframe/>
 
 It's available for Firefox and Firefox for Android.
 
