@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The user can specify a list of sites where the add-on will apply a redirection automatically to the first iframe/frame source.
+The user can specify a list of sites where the extension will apply a redirection automatically to the first iframe/frame source.
 
 If the current tab URL contains any term in the list, it will be redirected to the first iframe/frame URL of the page.
 
@@ -39,4 +39,4 @@ The steps to add a term are:
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

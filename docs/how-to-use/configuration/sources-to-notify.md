@@ -2,11 +2,11 @@
 
 ## Introduction
 
-With this option you can create and modify a list with terms to search in the sources of the elements and notify with the add-on icon using a different colour.
+With this option you can create and modify a list with terms to search in the sources of the elements and notify with the extension icon using a different colour.
 
 All URLs that contain the specified terms will be notified.
 
-Example. Saving the term `youtube`, the add-on will notify the source `https://www.youtube.com/embed/owsfdh4gxyc`.
+Example. Saving the term `youtube`, the extension will notify the source `https://www.youtube.com/embed/owsfdh4gxyc`.
 
 ## Configuration
 
@@ -31,4 +31,4 @@ The steps to add a term are:
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

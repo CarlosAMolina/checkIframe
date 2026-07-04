@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This option allows you to see the add-on logs in the web browser console.
+This option allows you to see the extension logs in the web browser console.
 
 ## Configuration
 
@@ -14,4 +14,4 @@ The steps to activate the logs are:
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

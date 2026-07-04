@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Instead of clicking a button to highlight each detected (i)frame, you can configure the add-on to highlight detections automatically.
+Instead of clicking a button to highlight each detected (i)frame, you can configure the extension to highlight detections automatically.
 
 ## Configuration
 
@@ -13,4 +13,4 @@ Required steps:
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

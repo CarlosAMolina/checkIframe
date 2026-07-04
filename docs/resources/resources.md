@@ -12,7 +12,7 @@ In this section you can check the sources related to this project.
 
 ## Project's references
 
-Some projects have been used as a reference to develop this add-on:
+Some projects have been used as a reference to develop this extension:
 
 - <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_first_WebExtension>
 - <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Your_second_WebExtension>
@@ -26,4 +26,4 @@ Modified icons: <https://github.com/CarlosAMolina/checkIframe-icons>.
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

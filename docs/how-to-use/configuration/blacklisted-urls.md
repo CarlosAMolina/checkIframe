@@ -4,7 +4,7 @@
 
 This option creates and modifies a blacklist of sources that should not be listed in the message shown when the `Show tags info` button is clicked, these sources won't be highlighted either.
 
-Despite being blacklisted, these sources will still be taken into account when changing the add-on's icon color to indicate that something has been detected.
+Despite being blacklisted, these sources will still be taken into account when changing the color of the extension icon to indicate that something has been detected.
 
 ## Configuration
 
@@ -31,4 +31,4 @@ The steps to add a new blacklisted source are:
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

@@ -6,9 +6,9 @@ Sometimes this is necessary when, after adding a new setting, the page has not b
 
 ## Steps
 
-1. Open the main menu of the add-on by clicking the add-on icon.
-2. Click the `Recheck` button in the main menu of the add-on.
+1. Open the main menu of the extension by clicking the extension icon.
+2. Click the `Recheck` button in the main menu of the extension.
 
 ## Documentation links
 
-[Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
+[Extension documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).
