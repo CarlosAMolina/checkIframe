@@ -8,7 +8,7 @@ If you want to avoid automatic detection, you can disable this option. When it's
 
 ## Icon colours
 
-When automatic detection is disabled, the extension icon on new pages turns **blue** to indicate that the page has not been scanned yet. Once you click the extension icon, the scan runs automatically and the icon updates to reflect the result.
+When automatic detection is disabled, the extension icon on new pages turns blue to indicate that the page has not been scanned yet. Once you click the extension icon, the scan runs automatically and the icon updates to reflect the result.
 
 ## Configuration
 
@@ -19,8 +19,8 @@ Required steps:
 
 ## Behaviour when disabled
 
-- Navigating to a new page or switching tabs will **not** trigger a scan.
-- On new pages the icon turns **blue** to indicate the page has not been analysed.
+- Navigating to a new page or switching tabs will not trigger a scan.
+- On new pages the icon turns blue to indicate the page has not been analysed.
 - When you click the extension icon, a scan runs automatically and the icon updates.
 
 ## Documentation links
