@@ -2,12 +2,12 @@
 
 ## Introduction
 
-Since version 1.5.0, this add-on can be installed on Firefox for Android.
+This add-on can be installed on Firefox for Android.
 
 ## Installation
 
 1. On your Android device, open the Firefox menu (three dots symbol) and select `Extensions`.
-2. Select `Extensions Manager`. If you do not have any extensions installed yet, it is not necessary, go to the next step.
+2. Select `Extensions Manager`. If you do not have any extensions installed yet, it is not necessary.
 3. You will see a screen with a list of extensions available to install. Scroll down and click on `Find more extensions`.
 4. Search for `check iframe` and select `Install`.
 
@@ -19,12 +19,6 @@ When you are on a web page:
 2. You will see the `CheckIframe` extension, click it to interact with its user interface.
 
 It's important to be on a web page; otherwise, the add-on's popup won't be displayed. If you're on the Firefox welcome page rather than a web page, only the configuration options provided by Android will be shown.
-
-## Limitations
-
-Some features do not work in the Android version of the add-on, for example, the colour of the add-on icon does not change.
-
-Other limitations are indicated in the specific section of this documentation.
 
 ## Documentation links
 

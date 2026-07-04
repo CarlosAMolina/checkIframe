@@ -12,7 +12,7 @@ This is a browser extension (compatible with Firefox and Chrome/Chromium) to wor
 
 Click on the extension icon to work with a pop-up window that gives you details and allows you to configure the extension.
 
-### Add-on notifications
+### Extension notifications
 
 Hover your mouse over the icon to see a description of the result.
 
@@ -26,29 +26,30 @@ The meaning of the icon's colours is:
 
 ### How the extension detects iframes
 
-The extension does not parse HTML, it uses the DOM API to query the browser's live DOM tree for <iframe> and <frame> elements.
+The extension does not parse HTML, it uses the DOM API to query the browser's live DOM tree for `<iframe>` and `<frame>` elements.
 
 This means it works on the fully rendered page, rather than doing static HTML text parsing.
 
 ## Table of contents
 
 - [Introduction](#introduction)
+- [Installation](installation.html)
 - [Permissions](permissions/permissions.html)
-- [Installation](#installation.html)
-- How to use the add-on
-  - Configuration
-    - [Automatic detection](how-to-use/configuration/automatic-detection.html)
+- Extension popup options:
+  - Actions:
+    - [Recheck tags](how-to-use/recheck.html)
+    - [Scroll](how-to-use/scroll.html)
+    - [Clean border](how-to-use/clean-border.html)
+    - [Show tags info](how-to-use/show-tags-info.html)
+  - Configuration:
     - [Always show tags info](how-to-use/configuration/always-show-tags-info.html)
+    - [Automatic detection](how-to-use/configuration/automatic-detection.html)
     - [Automatic highlighting](how-to-use/configuration/automatic-highlighting.html)
-    - [Logs](how-to-use/configuration/logs.html)
     - [Blacklisted URLs](how-to-use/configuration/blacklisted-urls.html)
-    - [Special sources to notify](how-to-use/configuration/sources-to-notify.html)
+    - [Logs](how-to-use/configuration/logs.html)
     - [Redirection](how-to-use/configuration/redirection.html)
-  - [Recheck tags](how-to-use/recheck.html)
-  - [Scroll](how-to-use/scroll.html)
-  - [Clean border](how-to-use/clean-border.html)
-  - [Show tags info](how-to-use/show-tags-info.html)
-  - [Work in Android device](how-to-use/work-in-android-device.html)
-  - [Frequently Asked Questions](#faq.html)
+    - [Special sources to notify](how-to-use/configuration/sources-to-notify.html)
+- [Work in Android device](how-to-use/work-in-android-device.html)
+- [Frequently Asked Questions](faq.html)
 - [Development](how-to-use/development.html)
 - [Resources](resources/resources.html)

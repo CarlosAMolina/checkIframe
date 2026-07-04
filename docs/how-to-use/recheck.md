@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is sometimes necessary when a new setting has been added and the page has not been automatically re-checked, or when the extension’s information has not been automatically updated.
+Sometimes this is necessary when, after adding a new setting, the page has not been automatically re-checked and the extension information has not been automatically updated.
 
 ## Steps
 

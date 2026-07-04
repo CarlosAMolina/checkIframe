@@ -27,17 +27,14 @@ You can install the extension at:
 
 <https://addons.mozilla.org/es/firefox/addon/check-iframe/>
 
+It's available for Firefox and Firefox for Android.
+
 ### Chrome / Chromium
 
-1. Run `npm run build` to generate the `dist/chrome/` folder.
-2. Open `chrome://extensions/` in Chrome.
-3. Enable "Developer mode".
-4. Click "Load unpacked" and select the `dist/chrome/` folder.
+This extension is not published in the Chrome Web Store. To install it, read the instructions [in this section](https://cmoli.es/projects/check-iframe/installation.html).
 
 ## Documentation
 
 Please read the docs to learn how to configure and use the extension:
 
 <https://cmoli.es/projects/check-iframe/introduction.html>
-
-The documentation source files are in the `docs` folder. A separate project converts them into the previous website.

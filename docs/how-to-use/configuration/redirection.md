@@ -37,10 +37,6 @@ The steps to add a term are:
 
     You can edit them by clicking over each saved term and modify the values.
 
-## Android devices
-
-The redirection works in Firefox for desktop but not for Android devices.
-
 ## Documentation links
 
 [Add-on documentation home page](https://cmoli.es/projects/check-iframe/introduction.html).

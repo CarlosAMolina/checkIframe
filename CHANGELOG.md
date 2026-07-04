@@ -5,21 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.1.0] - TODO
+## [2.1.0] - 20260704
 
 ### Added
 - Add option to disable automatic iframe detection. A blue icon indicates automatic detection is off, distinguishing it from gray, which indicates an unsupported page.
-- Add Chrome/Chromium compatibility. The extension now works on Firefox and Chrome-based browsers.
-- Add internal debug logging, disabled by default. It can be enabled manually by changing the `debug` variable in `src/logger.js`.
+- Add Chrome/Chromium compatibility.
+- By default the internal debug logging is disabled. It can be enabled manually by changing the `debug` variable in `src/logger.js`.
 
 ### Changed
-- Extension icon.
+- Change extension icon.
 - Modernize popup UI.
 - Replace `babel-plugin-rewire` with explicit `_forTesting` exports, removing the abandoned dependency.
 - Update development dependencies.
 - Add import sorting during development.
 - Convert content script to an ES module and use the shared logger.
-- Change extension icon.
 
 ### Fixed
 - Fix automatic detection on Firefox for Android. The background script crashed on startup because `browser.windows` is unsupported on Android, preventing event listeners from registering.

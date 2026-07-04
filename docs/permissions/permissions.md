@@ -4,7 +4,7 @@
 
 ### Enable extension permissions
 
-To ensure that the extension has all the permissions it needs to function, for example, in Firefox, go to `about:addons` and, on the `Permissions and Data` tab, enable `Access your data on all websites`; this is necessary to analyze the HTML code of web pages.
+To ensure that the extension has all the permissions it needs to function, for example, in Firefox, go to `about:addons`, click the extension and, on the `Permissions and Data` tab, enable `Access your data on all websites`; this is necessary to analyze the DOM elements of web pages.
 
 The `Access your data on all websites` permission is required because the extension uses broad host permissions (`https://*/*`, `http://*/*`, `file:///*`) to automatically insert the content script into every page, so you don't have to click the extension icon to detect iframe tags.
 

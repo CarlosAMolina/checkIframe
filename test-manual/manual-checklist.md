@@ -194,9 +194,14 @@ Background: Repeat each scenario multiple times, replacing CONFIGURED_OPTION wit
 - Sites where first source opens automatically
 
 Scenario: The CONFIGURED_OPTION are persisted after closing the extension
-  Given the user adds some cases to the CONFIGURED_OPTION configuration
+  Given the user adds one case to the CONFIGURED_OPTION configuration
   When the user clicks the Add button, closes the extension and opens a new browser tab
   Then the configured CONFIGURED_OPTION appears in the configuration section
+
+Scenario: The CONFIGURED_OPTION are persisted after closing the extension if multiple cases were added
+  Given the user adds multiple cases, one per line, to the CONFIGURED_OPTION configuration
+  When the user clicks the Add button, closes the extension and opens a new browser tab
+  Then all the configured CONFIGURED_OPTION appear in the configuration section
 
 Scenario: The storage persists the data correctly categorized
   Given the user adds some cases to the sources to omit and sites that redirect configuration
