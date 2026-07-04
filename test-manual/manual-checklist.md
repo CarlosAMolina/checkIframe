@@ -174,8 +174,8 @@ Scenario: The scroll-applied borders by the `Automatic highlight` button are pre
 
 Feature: `Show logs in the console` button works as expected
 
-Scenario: The `Show logs in the console` shows logs in the browser window if the button is on
-  Given the user visits a web page
+Scenario: The `Show logs in the console` option displays the logs in the browser window if the button is enabled, regardless of the debug log settings.
+  Given the user visits a web page and the `src/logger.js` `debug` variable is false.
   When the user clicks the `Show logs in the console` button to set it on and opens the console logs
   Then the logs are shown
 

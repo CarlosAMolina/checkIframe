@@ -1,6 +1,5 @@
 import "../browser-polyfill.js";
 
-import { log } from "../logger.js";
 import { logError } from "../logger.js";
 
 const HIGHLIGHT_CLASS = "check-iframe-detector-highlight";
@@ -306,7 +305,7 @@ function isBlacklistedSource(source) {
 
 function logDetections(elements) {
   if (state.showLogs) {
-    log("checkIframe) check-and-border) tags info: ", elements);
+    console.log("checkIframe) check-and-border) tags info: ", elements);
   }
 }
 
