@@ -8,7 +8,7 @@ Install the extension from the official Mozilla Add-ons website:
 
 ## Firefox for Android
 
-See [Work in Android device](how-to-use/work-in-android-device.html) for installation and usage instructions.
+See [Work in Android device](popup-options/work-in-android-device.html) for installation and usage instructions.
 
 ## Chrome / Chromium
 
